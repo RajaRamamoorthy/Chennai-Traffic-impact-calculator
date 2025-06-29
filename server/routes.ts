@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { ImpactCalculator } from "./services/impact-calculator";
+import { impactCalculator } from "./services/impact-calculator";
 import { RoutingService } from "./services/routing-service";
 import { insertCalculationSchema, insertFeedbackSchema } from "@shared/schema";
 import { z } from "zod";

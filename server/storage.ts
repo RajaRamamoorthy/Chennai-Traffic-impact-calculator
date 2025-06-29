@@ -132,9 +132,15 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getRouteCongestionByArea(lat: number, lng: number, radiusKm: number): Promise<RouteCongestion[]> {
-    // Use PostgreSQL's earth distance calculation
+    // Use Haversine formula for distance calculation
+    // Convert radius from km to degrees (approximate)
+    const degreeRadius = radiusKm / 111; // Roughly 111 km per degree at equator
+    
     return await db.select().from(routeCongestion).where(
-      sql`earth_distance(ll_to_earth(${lat}, ${lng}), ll_to_earth(${routeCongestion.lat}, ${routeCongestion.lng})) < ${radiusKm * 1000}`
+      sql`(
+        (CAST(${routeCongestion.lat} AS DECIMAL) - ${lat})^2 + 
+        (CAST(${routeCongestion.lng} AS DECIMAL) - ${lng})^2
+      ) < ${degreeRadius * degreeRadius}`
     );
   }
 
