@@ -128,77 +128,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get session ID from headers or generate one
       const sessionId = req.headers['x-session-id'] as string || `session_${Date.now()}_${Math.random()}`;
 
-      // Get vehicle type if specified
-      let vehicleType;
-      if (calculationInput.vehicleTypeId) {
-        vehicleType = await storage.getVehicleType(calculationInput.vehicleTypeId);
-      }
-
-      // Get congestion data for route
-      const [originLocation, destinationLocation] = await Promise.all([
-        RoutingService.geocodeAddress(calculationInput.origin),
-        RoutingService.geocodeAddress(calculationInput.destination)
-      ]);
-
-      let originCongestion = [];
-      let destinationCongestion = [];
-
-      if (originLocation) {
-        originCongestion = await storage.getRouteCongestionByArea(
-          originLocation.lat, 
-          originLocation.lng, 
-          5 // 5km radius
-        );
-      }
-
-      if (destinationLocation) {
-        destinationCongestion = await storage.getRouteCongestionByArea(
-          destinationLocation.lat, 
-          destinationLocation.lng, 
-          5 // 5km radius
-        );
-      }
-
       // Calculate impact
-      const result = ImpactCalculator.calculateImpact({
+      const result = await impactCalculator.calculate({
         transportMode: calculationInput.transportMode,
         vehicleTypeId: calculationInput.vehicleTypeId,
         occupancy: calculationInput.occupancy,
         distanceKm: calculationInput.distanceKm,
         timing: calculationInput.timing,
         frequency: calculationInput.frequency,
-        originCongestion,
-        destinationCongestion,
-        vehicleType
-      });
-
-      // Save calculation to database
-      const savedCalculation = await storage.createCalculation({
         sessionId,
-        transportMode: calculationInput.transportMode,
-        vehicleTypeId: calculationInput.vehicleTypeId,
-        occupancy: calculationInput.occupancy,
         origin: calculationInput.origin,
-        destination: calculationInput.destination,
-        originLat: originLocation?.lat.toString(),
-        originLng: originLocation?.lng.toString(),
-        destinationLat: destinationLocation?.lat.toString(),
-        destinationLng: destinationLocation?.lng.toString(),
-        distanceKm: calculationInput.distanceKm.toString(),
-        timing: calculationInput.timing,
-        frequency: calculationInput.frequency,
-        impactScore: result.score,
-        breakdown: result.breakdown,
-        monthlyEmissions: result.monthlyEmissions.toString(),
-        monthlyCost: result.monthlyCost.toString(),
-        monthlyTimeHours: result.monthlyTimeHours.toString(),
-        alternatives: result.alternatives,
+        destination: calculationInput.destination
       });
 
-      res.json({
-        ...result,
-        calculationId: savedCalculation.id
-      });
+      res.json(result);
 
     } catch (error) {
       console.error("Calculation error:", error);
