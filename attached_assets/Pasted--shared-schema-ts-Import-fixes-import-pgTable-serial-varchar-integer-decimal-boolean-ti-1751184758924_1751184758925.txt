@@ -1,0 +1,241 @@
+// shared/schema.ts - Import fixes
+import { pgTable, serial, varchar, integer, decimal, boolean, timestamp, text } from 'drizzle-orm/pg-core';
+
+// Make sure to export the users table that's referenced in other files
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  sessionId: varchar('session_id', { length: 255 }).notNull().unique(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// ================================================================
+// server/db.ts - Complete the file
+// ================================================================
+import { Pool, neonConfig } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-serverless';
+import ws from "ws";
+import * as schema from "@shared/schema";
+
+neonConfig.webSocketConstructor = ws;
+
+if (!process.env.DATABASE_URL) {
+  throw new Error(
+    "DATABASE_URL must be set. Did you forget to provision a database?",
+  );
+}
+
+export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+export const db = drizzle(pool, { schema });
+
+// ================================================================
+// server/index.ts - Import fixes
+// ================================================================
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
+import { db } from './db.js';
+import { vehicleTypes, calculations, feedback, users } from '@shared/schema';
+import { eq } from 'drizzle-orm';
+import { impactCalculator } from './services/impact-calculator.js';
+import { routingService } from './services/routing-service.js';
+
+// ================================================================
+// client/src/lib/api.ts - Fix API client
+// ================================================================
+// Update the API client to properly handle the backend structure
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+async function apiRequest(
+  method: string,
+  url: string,
+  data?: unknown,
+  options?: { headers?: Record<string, string> }
+): Promise<Response> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  };
+
+  const response = await fetch(`${API_BASE_URL}${url}`, {
+    method,
+    headers,
+    body: data ? JSON.stringify(data) : undefined,
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`${response.status}: ${errorText}`);
+  }
+
+  return response;
+}
+
+export { apiRequest };
+
+// ================================================================
+// client/src/lib/queryClient.ts - Fix query client
+// ================================================================
+import { QueryClient, QueryFunction } from "@tanstack/react-query";
+
+async function throwIfResNotOk(res: Response) {
+  if (!res.ok) {
+    const text = (await res.text()) || res.statusText;
+    throw new Error(`${res.status}: ${text}`);
+  }
+}
+
+export async function apiRequest(
+  method: string,
+  url: string,
+  data?: unknown,
+  options?: { headers?: Record<string, string> }
+): Promise<Response> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...options?.headers
+  };
+
+  const res = await fetch(url, {
+    method,
+    headers,
+    body: data ? JSON.stringify(data) : undefined,
+    credentials: "include",
+  });
+
+  await throwIfResNotOk(res);
+  return res;
+}
+
+// ================================================================
+// vite.config.ts - Add environment variable
+// ================================================================
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+
+export default defineConfig({
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    ...(process.env.NODE_ENV !== "production" &&
+    process.env.REPL_ID !== undefined
+      ? [
+          await import("@replit/vite-plugin-cartographer").then((m) =>
+            m.cartographer(),
+          ),
+        ]
+      : []),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+    },
+  },
+  root: path.resolve(import.meta.dirname, "client"),
+  build: {
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true,
+  },
+  server: {
+    fs: {
+      strict: true,
+      deny: ["**/.*"],
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true
+      }
+    }
+  },
+  define: {
+    __API_URL__: JSON.stringify(process.env.VITE_API_URL || 'http://localhost:5000')
+  }
+});
+
+// ================================================================
+// Create tsconfig.server.json
+// ================================================================
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "noEmit": false,
+    "module": "ESNext",
+    "target": "ES2022",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": false
+  },
+  "include": [
+    "server/**/*", 
+    "shared/**/*"
+  ],
+  "exclude": [
+    "client/**/*", 
+    "node_modules",
+    "dist"
+  ]
+}
+
+// ================================================================
+// Update client/src/components/calculator/route-step.tsx 
+// ================================================================
+// Fix the RouteStep component to properly handle API calls
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowLeft, Calculator, MapPin, Flag, Clock, Calendar } from "lucide-react";
+import { apiRequest } from "@/lib/queryClient"; // Use the fixed import
+import { useToast } from "@/hooks/use-toast";
+
+// ================================================================
+// Update client/src/components/calculator/transportation-step.tsx
+// ================================================================
+// Fix the TransportationStep component imports
+import React, { useState, useEffect } from 'react';
+import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowRight, Car, Bike, Bus, Train, Car as Taxi, User } from "lucide-react";
+import { VehicleType } from "@/types/calculator";
+
+// ================================================================
+// Environment Variables for Client (.env)
+// ================================================================
+# Add to client/.env file
+VITE_API_URL=http://localhost:5000
+
+# For production
+VITE_API_URL=https://your-production-domain.com
+
+// ================================================================
+// Quick Fix Script
+// ================================================================
+// Run this to quickly install missing dependencies:
+
+// npm install @googlemaps/google-maps-services-js
+// npm install compression cors helmet express-rate-limit  
+// npm install --save-dev @types/compression @types/cors tsx
+
+// Create missing TypeScript config:
+// cat > tsconfig.server.json << 'EOF'
+// {
+//   "extends": "./tsconfig.json", 
+//   "compilerOptions": {
+//     "outDir": "./dist",
+//     "noEmit": false
+//   },
+//   "include": ["server/**/*", "shared/**/*"],
+//   "exclude": ["client/**/*"]
+// }
+// EOF

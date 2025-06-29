@@ -1,0 +1,81 @@
+// shared/schema.ts - Complete database schema
+import { pgTable, serial, varchar, integer, decimal, boolean, timestamp, text, real } from 'drizzle-orm/pg-core';
+
+export const users = pgTable('users', {
+  id: serial('id').primaryKey(),
+  sessionId: varchar('session_id', { length: 255 }).notNull().unique(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const vehicleTypes = pgTable('vehicle_types', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 255 }).notNull(),
+  category: varchar('category', { length: 100 }).notNull(), // car, bike, bus, metro, auto, walking
+  emissionFactor: decimal('emission_factor', { precision: 10, scale: 4 }).notNull(), // kg CO2/km
+  fuelCostPerKm: decimal('fuel_cost_per_km', { precision: 10, scale: 2 }).notNull(), // ₹/km
+  avgSpeedKmh: integer('avg_speed_kmh').notNull(),
+  baseImpactScore: integer('base_impact_score').notNull(), // 1-100
+  maxOccupancy: integer('max_occupancy').default(1),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const routeCongestion = pgTable('route_congestion', {
+  id: serial('id').primaryKey(),
+  areaName: varchar('area_name', { length: 255 }).notNull(),
+  lat: decimal('lat', { precision: 10, scale: 8 }).notNull(),
+  lng: decimal('lng', { precision: 11, scale: 8 }).notNull(),
+  congestionFactor: decimal('congestion_factor', { precision: 4, scale: 2 }).notNull(), // 1.0 = normal, 2.0 = double time
+  peakHourMultiplier: decimal('peak_hour_multiplier', { precision: 4, scale: 2 }).notNull(),
+  isHighTrafficZone: boolean('is_high_traffic_zone').default(false),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const calculations = pgTable('calculations', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').references(() => users.id),
+  transportMode: varchar('transport_mode', { length: 100 }).notNull(),
+  vehicleTypeId: integer('vehicle_type_id').references(() => vehicleTypes.id),
+  occupancy: integer('occupancy').default(1),
+  origin: varchar('origin', { length: 500 }).notNull(),
+  destination: varchar('destination', { length: 500 }).notNull(),
+  distanceKm: decimal('distance_km', { precision: 10, scale: 2 }).notNull(),
+  timing: varchar('timing', { length: 50 }).notNull(),
+  frequency: varchar('frequency', { length: 50 }).notNull(),
+  impactScore: integer('impact_score').notNull(),
+  monthlyEmissions: decimal('monthly_emissions', { precision: 10, scale: 2 }).notNull(), // kg CO2
+  monthlyCost: decimal('monthly_cost', { precision: 10, scale: 2 }).notNull(), // ₹
+  monthlyTimeHours: decimal('monthly_time_hours', { precision: 10, scale: 2 }).notNull(),
+  breakdown: text('breakdown').notNull(), // JSON string with calculation breakdown
+  alternatives: text('alternatives').notNull(), // JSON string with alternatives
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const feedback = pgTable('feedback', {
+  id: serial('id').primaryKey(),
+  calculationId: integer('calculation_id').references(() => calculations.id),
+  rating: integer('rating'), // 1-5
+  helpful: boolean('helpful'),
+  comments: text('comments'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+export const routeCache = pgTable('route_cache', {
+  id: serial('id').primaryKey(),
+  routeHash: varchar('route_hash', { length: 64 }).notNull().unique(),
+  origin: varchar('origin', { length: 500 }).notNull(),
+  destination: varchar('destination', { length: 500 }).notNull(),
+  distanceKm: decimal('distance_km', { precision: 10, scale: 2 }).notNull(),
+  durationMinutes: integer('duration_minutes').notNull(),
+  polyline: text('polyline'),
+  congestionFactor: decimal('congestion_factor', { precision: 4, scale: 2 }).notNull(),
+  dataSource: varchar('data_source', { length: 50 }).notNull(), // 'google' or 'osm'
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
+// Seed data types
+export type VehicleType = typeof vehicleTypes.$inferSelect;
+export type Calculation = typeof calculations.$inferSelect;
+export type User = typeof users.$inferSelect;
+export type Feedback = typeof feedback.$inferSelect;
+export type RouteCongestion = typeof routeCongestion.$inferSelect;

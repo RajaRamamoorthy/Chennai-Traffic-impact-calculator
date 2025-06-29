@@ -1,0 +1,273 @@
+// server/services/routing-service.ts
+import { Client } from '@googlemaps/google-maps-services-js';
+import { db } from '../db';
+import { routeCache } from '@shared/schema';
+import { eq } from 'drizzle-orm';
+import crypto from 'crypto';
+
+export interface LocationInfo {
+  formattedAddress: string;
+  lat: number;
+  lng: number;
+  placeId: string;
+}
+
+export interface RouteInfo {
+  distanceKm: number;
+  durationMinutes: number;
+  polyline: string;
+  bounds: {
+    northeast: { lat: number; lng: number };
+    southwest: { lat: number; lng: number };
+  };
+}
+
+class RoutingService {
+  private client: Client;
+  private apiKey: string;
+
+  constructor() {
+    this.apiKey = process.env.GOOGLE_MAPS_API_KEY!;
+    
+    if (!this.apiKey) {
+      throw new Error('GOOGLE_MAPS_API_KEY environment variable is required');
+    }
+    
+    this.client = new Client({});
+  }
+
+  async getPlaceAutocomplete(input: string): Promise<any[]> {
+    try {
+      const response = await this.client.placeAutocomplete({
+        params: {
+          input,
+          key: this.apiKey,
+          components: ['country:in'], // Restrict to India
+          location: '13.0827,80.2707', // Chennai coordinates
+          radius: 50000, // 50km radius around Chennai
+          language: 'en',
+          types: 'establishment|geocode'
+        }
+      });
+
+      return response.data.predictions.map(prediction => ({
+        description: prediction.description,
+        placeId: prediction.place_id,
+        structured_formatting: prediction.structured_formatting
+      }));
+    } catch (error) {
+      console.error('Google Places Autocomplete error:', error);
+      
+      // Fallback to some Chennai locations if API fails
+      return this.getChennaiLocationFallback(input);
+    }
+  }
+
+  async geocodeAddress(address: string): Promise<LocationInfo> {
+    try {
+      const response = await this.client.geocode({
+        params: {
+          address: `${address}, Chennai, Tamil Nadu, India`,
+          key: this.apiKey,
+          language: 'en'
+        }
+      });
+
+      if (response.data.results.length === 0) {
+        throw new Error('Location not found');
+      }
+
+      const result = response.data.results[0];
+      const location = result.geometry.location;
+
+      return {
+        formattedAddress: result.formatted_address,
+        lat: location.lat,
+        lng: location.lng,
+        placeId: result.place_id
+      };
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      throw new Error('Failed to geocode address');
+    }
+  }
+
+  async getRouteInfo(origin: string, destination: string): Promise<RouteInfo> {
+    const routeHash = this.generateRouteHash(origin, destination);
+    
+    // Check cache first
+    const cached = await this.getCachedRoute(routeHash);
+    if (cached) {
+      return cached;
+    }
+
+    try {
+      const response = await this.client.directions({
+        params: {
+          origin,
+          destination,
+          key: this.apiKey,
+          mode: 'driving',
+          units: 'metric',
+          language: 'en',
+          departure_time: 'now', // For real-time traffic
+          traffic_model: 'best_guess'
+        }
+      });
+
+      if (response.data.routes.length === 0) {
+        throw new Error('No route found between the specified locations');
+      }
+
+      const route = response.data.routes[0];
+      const leg = route.legs[0];
+      
+      const routeInfo: RouteInfo = {
+        distanceKm: Math.round(leg.distance.value / 1000 * 100) / 100, // Convert to km with 2 decimal places
+        durationMinutes: Math.round(leg.duration.value / 60),
+        polyline: route.overview_polyline.points,
+        bounds: {
+          northeast: {
+            lat: route.bounds.northeast.lat,
+            lng: route.bounds.northeast.lng
+          },
+          southwest: {
+            lat: route.bounds.southwest.lat,
+            lng: route.bounds.southwest.lng
+          }
+        }
+      };
+
+      // Cache the result
+      await this.cacheRoute(routeHash, origin, destination, routeInfo);
+      
+      return routeInfo;
+    } catch (error) {
+      console.error('Google Directions error:', error);
+      
+      // Fallback to estimated distance
+      return this.getEstimatedRoute(origin, destination);
+    }
+  }
+
+  private async getCachedRoute(routeHash: string): Promise<RouteInfo | null> {
+    try {
+      const cached = await db
+        .select()
+        .from(routeCache)
+        .where(eq(routeCache.routeHash, routeHash))
+        .limit(1);
+
+      if (cached.length === 0) {
+        return null;
+      }
+
+      const route = cached[0];
+      
+      // Check if cache is still valid (24 hours)
+      const now = new Date();
+      const expiresAt = new Date(route.expiresAt);
+      
+      if (now > expiresAt) {
+        return null;
+      }
+
+      return {
+        distanceKm: parseFloat(route.distanceKm),
+        durationMinutes: route.durationMinutes,
+        polyline: route.polyline || '',
+        bounds: {
+          northeast: { lat: 13.2, lng: 80.3 }, // Default Chennai bounds
+          southwest: { lat: 12.8, lng: 80.1 }
+        }
+      };
+    } catch (error) {
+      console.error('Error retrieving cached route:', error);
+      return null;
+    }
+  }
+
+  private async cacheRoute(
+    routeHash: string, 
+    origin: string, 
+    destination: string, 
+    routeInfo: RouteInfo
+  ): Promise<void> {
+    try {
+      const expiresAt = new Date();
+      expiresAt.setHours(expiresAt.getHours() + 24); // Cache for 24 hours
+
+      // Calculate congestion factor (simplified)
+      const congestionFactor = this.calculateCongestionFactor(routeInfo.durationMinutes, routeInfo.distanceKm);
+
+      await db.insert(routeCache).values({
+        routeHash,
+        origin,
+        destination,
+        distanceKm: routeInfo.distanceKm.toString(),
+        durationMinutes: routeInfo.durationMinutes,
+        polyline: routeInfo.polyline,
+        congestionFactor: congestionFactor.toString(),
+        dataSource: 'google',
+        expiresAt: expiresAt.toISOString()
+      }).onConflictDoUpdate({
+        target: routeCache.routeHash,
+        set: {
+          distanceKm: routeInfo.distanceKm.toString(),
+          durationMinutes: routeInfo.durationMinutes,
+          polyline: routeInfo.polyline,
+          congestionFactor: congestionFactor.toString(),
+          expiresAt: expiresAt.toISOString()
+        }
+      });
+    } catch (error) {
+      console.error('Error caching route:', error);
+      // Don't throw - caching failure shouldn't break the main flow
+    }
+  }
+
+  private generateRouteHash(origin: string, destination: string): string {
+    const routeString = `${origin.toLowerCase()}:${destination.toLowerCase()}`;
+    return crypto.createHash('sha256').update(routeString).digest('hex');
+  }
+
+  private calculateCongestionFactor(durationMinutes: number, distanceKm: number): number {
+    // Expected time at 30 kmh (average Chennai speed)
+    const expectedMinutes = (distanceKm / 30) * 60;
+    return Math.round((durationMinutes / expectedMinutes) * 100) / 100;
+  }
+
+  private getChennaiLocationFallback(input: string): any[] {
+    const commonLocations = [
+      { description: 'T. Nagar, Chennai, Tamil Nadu, India', placeId: 'tnagar_fallback' },
+      { description: 'Anna Nagar, Chennai, Tamil Nadu, India', placeId: 'annanagar_fallback' },
+      { description: 'Adyar, Chennai, Tamil Nadu, India', placeId: 'adyar_fallback' },
+      { description: 'Velachery, Chennai, Tamil Nadu, India', placeId: 'velachery_fallback' },
+      { description: 'OMR IT Corridor, Chennai, Tamil Nadu, India', placeId: 'omr_fallback' },
+      { description: 'Chennai Central Railway Station, Chennai, Tamil Nadu, India', placeId: 'central_fallback' },
+      { description: 'Chennai Airport, Chennai, Tamil Nadu, India', placeId: 'airport_fallback' }
+    ];
+
+    return commonLocations.filter(location => 
+      location.description.toLowerCase().includes(input.toLowerCase())
+    );
+  }
+
+  private getEstimatedRoute(origin: string, destination: string): RouteInfo {
+    // Very basic fallback - estimate 10km distance
+    // In a real implementation, you might use offline routing or OSM data
+    console.warn('Using estimated route data - Google Maps API unavailable');
+    
+    return {
+      distanceKm: 10,
+      durationMinutes: 30,
+      polyline: '',
+      bounds: {
+        northeast: { lat: 13.2, lng: 80.3 },
+        southwest: { lat: 12.8, lng: 80.1 }
+      }
+    };
+  }
+}
+
+export const routingService = new RoutingService();

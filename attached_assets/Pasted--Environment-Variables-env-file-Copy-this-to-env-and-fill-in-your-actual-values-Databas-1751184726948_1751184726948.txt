@@ -1,0 +1,105 @@
+# Environment Variables (.env file)
+# Copy this to .env and fill in your actual values
+
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/chennai_traffic_calculator"
+
+# Google Maps API
+GOOGLE_MAPS_API_KEY="your_google_maps_api_key_here"
+
+# Environment
+NODE_ENV="development"
+PORT=5000
+
+# Frontend URL (for CORS)
+FRONTEND_URL="http://localhost:3000"
+
+# Session Secret (generate a random string)
+SESSION_SECRET="your_super_secret_session_key_here"
+
+# API Rate Limiting
+RATE_LIMIT_WINDOW_MS=900000  # 15 minutes
+RATE_LIMIT_MAX_REQUESTS=100
+
+# Redis (optional - for caching)
+REDIS_URL="redis://localhost:6379"
+
+# Analytics (optional)
+GOOGLE_ANALYTICS_ID="GA_MEASUREMENT_ID"
+
+# ==============================================================
+# SETUP INSTRUCTIONS
+# ==============================================================
+
+# 1. Install dependencies
+npm install @googlemaps/google-maps-services-js
+npm install --save-dev @types/googlemaps
+
+# 2. Create database and run migrations
+npm run db:push
+
+# 3. Seed the database with initial data
+npm run seed
+
+# 4. Start development servers
+npm run dev        # Backend
+npm run dev:client # Frontend (in separate terminal)
+
+# ==============================================================
+# GOOGLE MAPS API SETUP
+# ==============================================================
+
+# 1. Go to Google Cloud Console (https://console.cloud.google.com/)
+# 2. Create a new project or select existing project
+# 3. Enable the following APIs:
+#    - Maps JavaScript API
+#    - Places API  
+#    - Directions API
+#    - Geocoding API
+# 4. Create credentials (API Key)
+# 5. Restrict the API key:
+#    - Application restrictions: HTTP referrers
+#    - Add your domain: localhost:3000, localhost:5173
+#    - API restrictions: Select the APIs listed above
+# 6. Copy the API key to GOOGLE_MAPS_API_KEY in .env
+
+# ==============================================================
+# DATABASE SETUP (Neon)
+# ==============================================================
+
+# 1. Go to https://neon.tech and create account
+# 2. Create a new project
+# 3. Copy the connection string to DATABASE_URL
+# 4. The format should be:
+#    postgresql://username:password@host/database?sslmode=require
+
+# ==============================================================
+# DEVELOPMENT WORKFLOW
+# ==============================================================
+
+# Terminal 1: Backend
+npm run dev
+
+# Terminal 2: Frontend  
+npm run dev:client
+
+# The app will be available at:
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+
+# ==============================================================
+# PRODUCTION DEPLOYMENT
+# ==============================================================
+
+# Build the application
+npm run build
+
+# Start production server
+npm start
+
+# Environment variables needed in production:
+# - DATABASE_URL (Neon production database)
+# - GOOGLE_MAPS_API_KEY (production API key)
+# - NODE_ENV=production
+# - SESSION_SECRET (secure random string)
+# - FRONTEND_URL (your production domain)

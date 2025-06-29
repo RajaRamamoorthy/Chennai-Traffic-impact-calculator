@@ -1,0 +1,239 @@
+// server/index.ts - Main server file
+import express, { Request, Response } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import rateLimit from 'express-rate-limit';
+import { db } from './db';
+import { vehicleTypes, calculations, feedback } from '@shared/schema';
+import { eq } from 'drizzle-orm';
+import { impactCalculator } from './services/impact-calculator';
+import { routingService } from './services/routing-service';
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(helmet());
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://your-domain.com'] 
+    : ['http://localhost:3000', 'http://localhost:5173'],
+  credentials: true
+}));
+app.use(compression());
+app.use(express.json({ limit: '10mb' }));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: { error: 'Too many requests, please try again later' }
+});
+app.use('/api', limiter);
+
+// Health check
+app.get('/api/health', (req: Request, res: Response) => {
+  res.json({ 
+    status: 'healthy', 
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
+});
+
+// Get vehicle types
+app.get('/api/vehicle-types', async (req: Request, res: Response) => {
+  try {
+    const category = req.query.category as string;
+    
+    let query = db.select().from(vehicleTypes);
+    if (category) {
+      query = query.where(eq(vehicleTypes.category, category));
+    }
+    
+    const vehicles = await query;
+    res.json(vehicles);
+  } catch (error) {
+    console.error('Error fetching vehicle types:', error);
+    res.status(500).json({ error: 'Failed to fetch vehicle types' });
+  }
+});
+
+// Place autocomplete using Google Maps
+app.get('/api/places/autocomplete', async (req: Request, res: Response) => {
+  try {
+    const input = req.query.input as string;
+    
+    if (!input || input.length < 3) {
+      return res.json([]);
+    }
+
+    const suggestions = await routingService.getPlaceAutocomplete(input);
+    res.json(suggestions);
+  } catch (error) {
+    console.error('Error in place autocomplete:', error);
+    res.status(500).json({ error: 'Failed to get place suggestions' });
+  }
+});
+
+// Geocode address
+app.post('/api/geocode', async (req: Request, res: Response) => {
+  try {
+    const { address } = req.body;
+    
+    if (!address) {
+      return res.status(400).json({ error: 'Address is required' });
+    }
+
+    const location = await routingService.geocodeAddress(address);
+    res.json(location);
+  } catch (error) {
+    console.error('Error geocoding address:', error);
+    res.status(500).json({ error: 'Failed to geocode address' });
+  }
+});
+
+// Get route information
+app.post('/api/route-info', async (req: Request, res: Response) => {
+  try {
+    const { origin, destination } = req.body;
+    
+    if (!origin || !destination) {
+      return res.status(400).json({ error: 'Origin and destination are required' });
+    }
+
+    const routeInfo = await routingService.getRouteInfo(origin, destination);
+    res.json(routeInfo);
+  } catch (error) {
+    console.error('Error getting route info:', error);
+    res.status(500).json({ error: 'Failed to get route information' });
+  }
+});
+
+// Calculate traffic impact
+app.post('/api/calculate-impact', async (req: Request, res: Response) => {
+  try {
+    const sessionId = req.headers['x-session-id'] as string;
+    
+    if (!sessionId) {
+      return res.status(400).json({ error: 'Session ID is required' });
+    }
+
+    const {
+      transportMode,
+      vehicleTypeId,
+      occupancy,
+      origin,
+      destination,
+      distanceKm,
+      timing,
+      frequency
+    } = req.body;
+
+    // Validate required fields
+    if (!transportMode || !origin || !destination || !distanceKm || !timing || !frequency) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // Validate personal vehicle requirements
+    if ((transportMode === 'car' || transportMode === 'bike') && !vehicleTypeId) {
+      return res.status(400).json({ error: 'Vehicle type is required for personal vehicles' });
+    }
+
+    const calculationInput = {
+      transportMode,
+      vehicleTypeId,
+      occupancy: occupancy || 1,
+      origin,
+      destination,
+      distanceKm: parseFloat(distanceKm),
+      timing,
+      frequency,
+      sessionId
+    };
+
+    const result = await impactCalculator.calculate(calculationInput);
+    
+    res.json(result);
+  } catch (error) {
+    console.error('Error calculating impact:', error);
+    res.status(500).json({ 
+      error: error instanceof Error ? error.message : 'Failed to calculate impact' 
+    });
+  }
+});
+
+// Submit feedback
+app.post('/api/feedback', async (req: Request, res: Response) => {
+  try {
+    const { calculationId, rating, helpful, comments } = req.body;
+    
+    if (!calculationId) {
+      return res.status(400).json({ error: 'Calculation ID is required' });
+    }
+
+    await db.insert(feedback).values({
+      calculationId,
+      rating,
+      helpful,
+      comments
+    });
+
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error submitting feedback:', error);
+    res.status(500).json({ error: 'Failed to submit feedback' });
+  }
+});
+
+// Get user calculations
+app.get('/api/calculations', async (req: Request, res: Response) => {
+  try {
+    const sessionId = req.headers['x-session-id'] as string;
+    
+    if (!sessionId) {
+      return res.status(400).json({ error: 'Session ID is required' });
+    }
+
+    const userCalculations = await db
+      .select({
+        id: calculations.id,
+        origin: calculations.origin,
+        destination: calculations.destination,
+        impactScore: calculations.impactScore,
+        transportMode: calculations.transportMode,
+        createdAt: calculations.createdAt
+      })
+      .from(calculations)
+      .innerJoin(users, eq(calculations.userId, users.id))
+      .where(eq(users.sessionId, sessionId))
+      .orderBy(calculations.createdAt);
+
+    res.json(userCalculations);
+  } catch (error) {
+    console.error('Error fetching user calculations:', error);
+    res.status(500).json({ error: 'Failed to fetch calculations' });
+  }
+});
+
+// Error handling middleware
+app.use((error: Error, req: Request, res: Response, next: any) => {
+  console.error('Unhandled error:', error);
+  res.status(500).json({ 
+    error: process.env.NODE_ENV === 'production' 
+      ? 'Internal server error' 
+      : error.message 
+  });
+});
+
+// 404 handler
+app.use('*', (req: Request, res: Response) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+});
+
+export default app;
