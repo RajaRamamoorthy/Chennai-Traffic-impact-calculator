@@ -89,7 +89,6 @@ export default function Calculator() {
   const handleRestart = () => {
     setCurrentStep(1);
     setResults(null);
-    clearSaved();
     reset();
     toast({
       title: "Calculator reset",

@@ -81,7 +81,13 @@ export function TransportationStep({
   useEffect(() => {
     const selectedTransport = transportModes.find(mode => mode.id === selectedMode);
     setShowVehicleDetails(selectedTransport?.requiresVehicleDetails || false);
-  }, [selectedMode]);
+    
+    // Reset vehicle type and occupancy for sustainable transport
+    if (selectedTransport && !selectedTransport.requiresVehicleDetails) {
+      onVehicleTypeSelect(undefined);
+      onOccupancyChange(1);
+    }
+  }, [selectedMode, onVehicleTypeSelect, onOccupancyChange]);
 
   const canContinue = selectedMode && (!showVehicleDetails || vehicleTypeId);
 

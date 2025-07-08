@@ -2,9 +2,9 @@ import { db } from './db';
 import { vehicleTypes, routeCongestion } from '@shared/schema';
 
 const seedVehicleTypes = [
-  // Cars
+  // Cars - Body Styles
   {
-    name: 'Maruti Swift (Petrol)',
+    name: 'Hatchback',
     category: 'car',
     emissionFactor: '0.142', // kg CO2/km
     fuelCostPerKm: '6.50',   // ₹/km
@@ -12,7 +12,7 @@ const seedVehicleTypes = [
     baseImpactScore: 45
   },
   {
-    name: 'Hyundai i20 (Petrol)',
+    name: 'Compact Sedan',
     category: 'car',
     emissionFactor: '0.148',
     fuelCostPerKm: '7.20',
@@ -20,7 +20,7 @@ const seedVehicleTypes = [
     baseImpactScore: 47
   },
   {
-    name: 'Honda City (Petrol)',
+    name: 'Sedan',
     category: 'car',
     emissionFactor: '0.155',
     fuelCostPerKm: '8.50',
@@ -28,7 +28,15 @@ const seedVehicleTypes = [
     baseImpactScore: 50
   },
   {
-    name: 'Toyota Innova (Diesel)',
+    name: 'Sedan (Above 5m)',
+    category: 'car',
+    emissionFactor: '0.165',
+    fuelCostPerKm: '9.80',
+    avgSpeedKmh: 30,
+    baseImpactScore: 58
+  },
+  {
+    name: 'SUV',
     category: 'car',
     emissionFactor: '0.168',
     fuelCostPerKm: '9.20',
@@ -36,7 +44,23 @@ const seedVehicleTypes = [
     baseImpactScore: 55
   },
   {
-    name: 'Tata Nexon EV',
+    name: 'MUV',
+    category: 'car',
+    emissionFactor: '0.172',
+    fuelCostPerKm: '9.50',
+    avgSpeedKmh: 28,
+    baseImpactScore: 57
+  },
+  {
+    name: 'Luxury SUV',
+    category: 'car',
+    emissionFactor: '0.185',
+    fuelCostPerKm: '12.00',
+    avgSpeedKmh: 32,
+    baseImpactScore: 65
+  },
+  {
+    name: 'Electric Car',
     category: 'car',
     emissionFactor: '0.045', // Lower due to electric
     fuelCostPerKm: '2.80',   // Lower operating cost
@@ -44,9 +68,9 @@ const seedVehicleTypes = [
     baseImpactScore: 25
   },
   
-  // Two-wheelers
+  // Two-wheelers - Engine Categories
   {
-    name: 'Honda Activa (Petrol)',
+    name: 'Scooter',
     category: 'bike',
     emissionFactor: '0.062',
     fuelCostPerKm: '2.10',
@@ -54,7 +78,7 @@ const seedVehicleTypes = [
     baseImpactScore: 25
   },
   {
-    name: 'Bajaj Pulsar 150 (Petrol)',
+    name: 'Less than 350cc',
     category: 'bike',
     emissionFactor: '0.055',
     fuelCostPerKm: '2.30',
@@ -62,7 +86,15 @@ const seedVehicleTypes = [
     baseImpactScore: 22
   },
   {
-    name: 'Ather 450X (Electric)',
+    name: 'More than 350cc',
+    category: 'bike',
+    emissionFactor: '0.065',
+    fuelCostPerKm: '2.80',
+    avgSpeedKmh: 40,
+    baseImpactScore: 28
+  },
+  {
+    name: 'Electric Two-wheeler',
     category: 'bike',
     emissionFactor: '0.018',
     fuelCostPerKm: '0.80',
