@@ -84,7 +84,15 @@ The application uses PostgreSQL with the following main tables:
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+- July 8, 2025: Fixed seed script foreign key constraint issues - now properly clears database in correct order (feedback → calculations → vehicle types → route congestion)
+- July 8, 2025: Resolved frontend infinite loop in TransportationStep component by optimizing useEffect dependencies  
+- July 8, 2025: Successfully tested complete application flow with all features working
+- July 8, 2025: Database reseeded with 17 vehicle types and 8 Chennai traffic areas
+- July 8, 2025: Full API testing confirms calculator working with realistic Chennai traffic scenarios
+
 ## Changelog
 
-Changelog:
-- June 29, 2025. Initial setup
+- June 29, 2025: Initial setup
+- July 8, 2025: Complete Chennai Traffic Impact Calculator implementation with Google Maps integration and realistic local data

@@ -1,6 +1,6 @@
 
 import { db } from './db';
-import { vehicleTypes, routeCongestion } from '@shared/schema';
+import { vehicleTypes, routeCongestion, calculations, feedback } from '@shared/schema';
 
 const seedVehicleTypes = [
   // Cars - Body Styles
@@ -230,11 +230,11 @@ async function seedDatabase() {
   try {
     console.log('🌱 Starting database seeding...');
     
-    // Clear existing data
-    console.log('🧹 Clearing existing vehicle types...');
+    // Clear existing data in correct order due to foreign key constraints
+    console.log('🧹 Clearing existing data...');
+    await db.delete(feedback);
+    await db.delete(calculations);
     await db.delete(vehicleTypes);
-    
-    console.log('🧹 Clearing existing route congestion data...');
     await db.delete(routeCongestion);
 
     // Seed vehicle types

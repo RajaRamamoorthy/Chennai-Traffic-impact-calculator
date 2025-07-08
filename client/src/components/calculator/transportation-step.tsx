@@ -87,7 +87,7 @@ export function TransportationStep({
       onVehicleTypeSelect(undefined);
       onOccupancyChange(1);
     }
-  }, [selectedMode, onVehicleTypeSelect, onOccupancyChange]);
+  }, [selectedMode]); // Remove the callback functions from dependencies to prevent infinite loop
 
   const canContinue = selectedMode && (!showVehicleDetails || vehicleTypeId);
 
