@@ -15,17 +15,23 @@ export function useFormPersist(
       const saved = localStorage.getItem(key);
       if (saved) {
         const data = JSON.parse(saved);
+        let restoredFields = 0;
+        
         Object.entries(data).forEach(([field, value]) => {
-          if (!exclude.includes(field)) {
+          if (!exclude.includes(field) && value && value !== '') {
             setValue(field, value);
+            restoredFields++;
           }
         });
         
-        toast({
-          title: "Form data restored",
-          description: "Your previous progress has been restored.",
-          duration: 3000,
-        });
+        // Only show toast if we actually restored meaningful data
+        if (restoredFields > 0) {
+          toast({
+            title: "Form data restored",
+            description: "Your previous progress has been restored.",
+            duration: 3000,
+          });
+        }
       }
     } catch (error) {
       console.error('Error loading saved form data:', error);
