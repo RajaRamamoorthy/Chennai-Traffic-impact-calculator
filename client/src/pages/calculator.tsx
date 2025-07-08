@@ -7,7 +7,7 @@ import { RouteStep } from "@/components/calculator/route-step";
 import { ResultsStep } from "@/components/calculator/results-step";
 import { Card } from "@/components/ui/card";
 import { calculatorFormSchema, type CalculatorFormData } from "@/lib/validation";
-import { useFormPersist } from "@/hooks/use-form-persist";
+
 import { api } from "@/lib/api";
 import { CalculationResult } from "@/types/calculator";
 import { useToast } from "@/hooks/use-toast";
@@ -32,12 +32,7 @@ export default function Calculator() {
     },
   });
 
-  const { clearSaved } = useFormPersist(
-    'chennai-traffic-calculator',
-    form.watch,
-    form.setValue,
-    ['vehicleTypeId'] // Exclude this from auto-save as it's dependent on transport mode
-  );
+  
 
   const { watch, setValue, handleSubmit, reset } = form;
   const formData = watch();
