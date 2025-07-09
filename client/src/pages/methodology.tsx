@@ -96,8 +96,9 @@ export default function Methodology() {
                   bonus = max(0, 20 - (occupancy * 5))
                 </div>
                 <p className="text-slate-600 mt-4">
-                  Higher occupancy reduces individual impact, encouraging carpooling 
-                  and shared transportation in Chennai.
+                  For cars/bikes: Higher occupancy reduces individual impact. 
+                  For sustainable transport (metro, bus, auto, walking): Fixed bonus of 5 points.
+                  The bonus is subtracted from the final score (lower score = better impact).
                 </p>
               </CardContent>
             </Card>
@@ -118,6 +119,9 @@ export default function Methodology() {
                 <div className="bg-primary text-white p-6 rounded-lg font-mono text-lg">
                   Final Score = vehicleImpact + routeCongestion + timingPenalty - occupancyBonus
                 </div>
+                <p className="text-sm text-slate-600 mt-2">
+                  Note: Occupancy bonus is subtracted, so higher occupancy gives lower (better) scores
+                </p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

@@ -107,7 +107,7 @@ export default function HowItWorks() {
                 </li>
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                  Occupancy and carpooling benefits
+                  Occupancy and carpooling benefits (dynamic for cars/bikes, fixed for public transport)
                 </li>
               </ul>
             </div>
