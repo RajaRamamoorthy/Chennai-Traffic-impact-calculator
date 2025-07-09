@@ -1,5 +1,6 @@
+import React from "react";
 import { Route, Switch, Router } from "wouter";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { HelmetProvider } from "react-helmet-async";
 import { queryClient } from "@/lib/queryClient";
 import { LanguageProvider } from "@/contexts/language-context";

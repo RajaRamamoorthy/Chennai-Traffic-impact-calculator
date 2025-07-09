@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -83,9 +83,6 @@ export function TransportationStep({
     queryKey: [`/api/vehicle-types?category=${selectedMode}`],
     enabled: !!selectedMode && (selectedMode === 'car' || selectedMode === 'bike'),
   });
-
-  // Debug logging
-  console.log('Query state:', { selectedMode, vehicleTypes, isLoading: vehicleTypesLoading, error });
 
   useEffect(() => {
     const selectedTransport = transportModes.find(mode => mode.id === selectedMode);
