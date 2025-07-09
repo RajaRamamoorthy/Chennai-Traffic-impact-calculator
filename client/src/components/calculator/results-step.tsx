@@ -146,7 +146,9 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Occupancy Factor</span>
-                <span className="font-medium">{results.breakdown.occupancyBonus} pts</span>
+                <span className="font-medium">
+                  {results.breakdown.occupancyBonus > 0 ? `-${results.breakdown.occupancyBonus}` : '0'} pts
+                </span>
               </div>
             </div>
           </CardContent>
