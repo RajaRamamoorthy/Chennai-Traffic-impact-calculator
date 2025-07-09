@@ -54,11 +54,14 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       if (scoreCardRef.current) {
         try {
           const canvas = await html2canvas(scoreCardRef.current, {
-            backgroundColor: null,
-            scale: 2,
+            backgroundColor: '#ffffff',
+            scale: 1,
             logging: false,
-            windowWidth: scoreCardRef.current.scrollWidth,
-            windowHeight: scoreCardRef.current.scrollHeight
+            width: 1200,
+            height: scoreCardRef.current.scrollHeight,
+            useCORS: true,
+            allowTaint: true,
+            foreignObjectRendering: true
           });
           
           // Convert canvas to blob
@@ -146,8 +149,161 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
   return (
     <div className="p-8">
-      {/* Screenshot capture wrapper */}
-      <div ref={scoreCardRef}>
+      {/* Hidden fixed-width screenshot container */}
+      <div 
+        ref={scoreCardRef}
+        className="fixed -top-[9999px] left-0 w-[1200px] bg-white p-8 z-[-1]"
+        style={{ width: '1200px', minHeight: 'auto' }}
+      >
+        {/* Website URL header for screenshot */}
+        <div className="text-center mb-6 py-4 bg-gradient-to-r from-green-50 to-blue-50 border-b-2 border-green-200">
+          <div className="text-xl font-bold text-green-700">ChennaiTrafficCalc.in</div>
+          <div className="text-sm text-slate-600">Calculate Your Chennai Traffic Impact</div>
+        </div>
+        
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
+          <p className="text-slate-600">Based on your commute pattern in Chennai</p>
+        </div>
+
+        {/* Impact Score Display */}
+        <div className={`mb-8 p-8 text-center rounded-lg border-2 ${getScoreColor(results.score)}`}>
+          <div className="mb-4">
+            <div className="text-6xl font-bold mb-2">{results.score}</div>
+            <div className="text-lg mb-2">{getScoreLabel(results.score)}</div>
+            <div className="text-sm text-slate-600 mb-4 max-w-md mx-auto">
+              {results.score >= 70 ? (
+                <span className="text-red-700 font-medium">
+                  Your commute significantly contributes to Chennai's traffic congestion and pollution. 
+                  Consider the alternatives below to reduce your impact.
+                </span>
+              ) : results.score >= 40 ? (
+                <span className="text-yellow-700 font-medium">
+                  Your commute has a moderate impact on Chennai's traffic. 
+                  Small changes could make a meaningful difference.
+                </span>
+              ) : (
+                <span className="text-green-700 font-medium">
+                  Great job! Your transportation choices help keep Chennai's roads cleaner and less congested. 
+                  You're making a positive difference.
+                </span>
+              )}
+            </div>
+            <div className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getConfidenceBadge(results.confidence.level)}`}>
+              Confidence {results.confidence.level}: {results.confidence.description}
+            </div>
+          </div>
+        </div>
+
+        {/* Impact Breakdown and Metrics */}
+        <div className="grid grid-cols-2 gap-6 mb-8">
+          {/* Breakdown */}
+          <div className="p-6 bg-white rounded-lg border border-slate-200">
+            <h3 className="font-semibold text-slate-900 mb-4">Impact Breakdown</h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">Vehicle Emissions</span>
+                <span className="font-medium">{results.breakdown.vehicleImpact} pts</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">Route Congestion</span>
+                <span className="font-medium">{results.breakdown.routeCongestion} pts</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">Peak Hour Travel</span>
+                <span className="font-medium">{results.breakdown.timingPenalty} pts</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">Occupancy Factor</span>
+                <span className="font-medium">
+                  {results.breakdown.occupancyBonus > 0 ? `-${results.breakdown.occupancyBonus}` : '0'} pts
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Monthly Impact */}
+          <div className="p-6 bg-white rounded-lg border border-slate-200">
+            <h3 className="font-semibold text-slate-900 mb-4">Monthly Impact</h3>
+            <div className="space-y-4">
+              <div className="text-center p-4 bg-red-50 rounded-lg">
+                <div className="text-2xl font-bold text-red-600">₹{results.monthlyCost}</div>
+                <div className="text-sm text-slate-600">Fuel & maintenance cost</div>
+              </div>
+              <div className="text-center p-4 bg-orange-50 rounded-lg">
+                <div className="text-2xl font-bold text-orange-600">{results.monthlyEmissions}kg</div>
+                <div className="text-sm text-slate-600">CO₂ emissions</div>
+              </div>
+              <div className="text-center p-4 bg-yellow-50 rounded-lg">
+                <div className="text-2xl font-bold text-yellow-600">{results.monthlyTimeHours} hrs</div>
+                <div className="text-sm text-slate-600">Time in traffic</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Alternatives Section */}
+        {results.alternatives.length > 0 && (
+          <div className="mb-8 p-6 bg-white rounded-lg border border-green-200">
+            <h3 className="text-xl font-semibold text-slate-900 mb-4">
+              <Lightbulb className="inline w-5 h-5 text-green-500 mr-2" />
+              Better Alternatives
+            </h3>
+            
+            <div className="space-y-4">
+              {results.alternatives.map((alternative, index) => {
+                const getIcon = (type: string) => {
+                  switch (type) {
+                    case 'metro': return '🚇';
+                    case 'carpool': return <Users className="w-6 h-6" />;
+                    case 'timing': return <Clock className="w-6 h-6" />;
+                    default: return '🚌';
+                  }
+                };
+
+                const getIconColor = (type: string) => {
+                  switch (type) {
+                    case 'metro': return 'text-green-500';
+                    case 'carpool': return 'text-blue-500';
+                    case 'timing': return 'text-yellow-500';
+                    default: return 'text-gray-500';
+                  }
+                };
+
+                return (
+                  <div key={index} className="p-4 bg-white rounded-lg border border-green-200">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center">
+                        <div className={`mr-4 ${getIconColor(alternative.type)}`}>
+                          {typeof getIcon(alternative.type) === 'string' ? (
+                            <div className="text-2xl">{getIcon(alternative.type)}</div>
+                          ) : (
+                            getIcon(alternative.type)
+                          )}
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-slate-900">{alternative.title}</h4>
+                          <p className="text-sm text-slate-600">
+                            Reduce impact by {alternative.impactReduction}% • Save ₹{alternative.costSavings}/month
+                          </p>
+                          <p className="text-xs text-green-600 mt-1">{alternative.timeDelta} travel time</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-2xl font-bold text-green-600">{alternative.newScore}</div>
+                        <div className="text-xs text-slate-500">New Score</div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Visible responsive content */}
+      <div>
         {/* Website URL header for screenshot */}
         <div className="text-center mb-6 py-4 bg-gradient-to-r from-green-50 to-blue-50 border-b-2 border-green-200">
           <div className="text-xl font-bold text-green-700">ChennaiTrafficCalc.in</div>
