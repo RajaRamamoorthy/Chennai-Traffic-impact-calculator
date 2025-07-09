@@ -1,0 +1,65 @@
+[vite] connecting...
+[vite] connected.
+useQuery is not defined
+at TransportationStep (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/calculator/transportation-step.tsx:84:73)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:11548:26)
+at mountIndeterminateComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:14926:21)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:15914:22)
+at HTMLUnknownElement.callCallback2 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:3674:22)
+at Object.invokeGuardedCallbackDev (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:3699:24)
+at invokeGuardedCallback (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:3733:39)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:19765:15)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:19137:13)
+useQuery is not defined
+at TransportationStep (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/calculator/transportation-step.tsx:84:73)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:11548:26)
+at mountIndeterminateComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:14926:21)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:15914:22)
+at HTMLUnknownElement.callCallback2 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:3674:22)
+at Object.invokeGuardedCallbackDev (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:3699:24)
+at invokeGuardedCallback (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:3733:39)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:19765:15)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=18dd1ee9:19137:13)
+The above error occurred in the <TransportationStep> component:
+
+    at TransportationStep (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/calculator/transportation-step.tsx:71:3)
+    at div
+    at _c (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at div
+    at Calculator (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/calculator.tsx:33:41)
+    at Route (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=18dd1ee9:280:16)
+    at Switch (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=18dd1ee9:336:17)
+    at main
+    at div
+    at Router (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=18dd1ee9:235:17)
+    at LanguageProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/contexts/language-context.tsx:21:36)
+    at QueryClientProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=18dd1ee9:2933:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+at TransportationStep (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/calculator/transportation-step.tsx:71:3)
+at div
+at _c (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/ui/card.tsx:20:11)
+at div
+at div
+at Calculator (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/calculator.tsx:33:41)
+at Route (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=18dd1ee9:280:16)
+at Switch (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=18dd1ee9:336:17)
+at main
+at div
+at Router (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=18dd1ee9:235:17)
+at LanguageProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/contexts/language-context.tsx:21:36)
+at QueryClientProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=18dd1ee9:2933:3)
+at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+at t.value (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
