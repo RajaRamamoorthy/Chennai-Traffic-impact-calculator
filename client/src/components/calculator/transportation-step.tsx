@@ -6,6 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowRight, Car, Bike, Bus, Train, Car as Taxi, User } from "lucide-react";
 import { api } from "@/lib/api";
 import { VehicleType } from "@/types/calculator";
+import { useLanguage } from "@/contexts/language-context";
+import { useTranslation } from "@/lib/i18n";
 
 interface TransportationStepProps {
   selectedMode: string;
@@ -17,47 +19,47 @@ interface TransportationStepProps {
   onNext: () => void;
 }
 
-const transportModes = [
+const getTransportModes = (t: any) => [
   {
     id: 'car',
-    name: 'Car',
+    name: t.transportation.modes.car.name,
     icon: Car,
-    description: 'Private vehicle',
+    description: t.transportation.modes.car.description,
     requiresVehicleDetails: true
   },
   {
     id: 'bike',
-    name: 'Bike',
+    name: t.transportation.modes.bike.name,
     icon: Bike,
-    description: 'Two-wheeler',
+    description: t.transportation.modes.bike.description,
     requiresVehicleDetails: true
   },
   {
     id: 'bus',
-    name: 'Bus',
+    name: t.transportation.modes.bus.name,
     icon: Bus,
-    description: 'Public transport',
+    description: t.transportation.modes.bus.description,
     requiresVehicleDetails: false
   },
   {
     id: 'metro',
-    name: 'Metro',
+    name: t.transportation.modes.metro.name,
     icon: Train,
-    description: 'Chennai Metro',
+    description: t.transportation.modes.metro.description,
     requiresVehicleDetails: false
   },
   {
     id: 'auto',
-    name: 'Auto',
+    name: t.transportation.modes.auto.name,
     icon: Taxi,
-    description: 'Auto-rickshaw',
+    description: t.transportation.modes.auto.description,
     requiresVehicleDetails: false
   },
   {
     id: 'walking',
-    name: 'Walking',
+    name: t.transportation.modes.walking.name,
     icon: User,
-    description: 'On foot',
+    description: t.transportation.modes.walking.description,
     requiresVehicleDetails: false
   }
 ];
@@ -72,24 +74,70 @@ export function TransportationStep({
   onNext
 }: TransportationStepProps) {
   const [showVehicleDetails, setShowVehicleDetails] = useState(false);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+  const transportModes = getTransportModes(t);
 
-  const { data: vehicleTypes } = useQuery<VehicleType[]>({
-    queryKey: ['/api/vehicle-types', selectedMode],
+  const { data: vehicleTypes, isLoading: vehicleTypesLoading, error } = useQuery<VehicleType[]>({
+    queryKey: [`/api/vehicle-types?category=${selectedMode}`],
     enabled: !!selectedMode && (selectedMode === 'car' || selectedMode === 'bike'),
   });
+
+  // Debug logging
+  console.log('Query state:', { selectedMode, vehicleTypes, isLoading: vehicleTypesLoading, error });
 
   useEffect(() => {
     const selectedTransport = transportModes.find(mode => mode.id === selectedMode);
     setShowVehicleDetails(selectedTransport?.requiresVehicleDetails || false);
-  }, [selectedMode]);
+    
+    // Reset vehicle type and occupancy for sustainable transport
+    if (selectedTransport && !selectedTransport.requiresVehicleDetails) {
+      onVehicleTypeSelect(undefined);
+      onOccupancyChange(1);
+    }
+    
+    // Reset occupancy if current value exceeds limits for selected mode
+    if (selectedMode === 'bike' && occupancy > 3) {
+      onOccupancyChange(1);
+    }
+  }, [selectedMode]); // Remove the callback functions from dependencies to prevent infinite loop
+
+  // Get occupancy options based on selected mode
+  const getOccupancyOptions = (mode: string) => {
+    switch(mode) {
+      case 'bike':
+        return [
+          { value: 1, label: t.transportation.occupancyOptions.justMe },
+          { value: 2, label: t.transportation.occupancyOptions.people(2) },
+          { value: 3, label: t.transportation.occupancyOptions.people(3) }
+        ];
+      case 'car':
+        return [
+          { value: 1, label: t.transportation.occupancyOptions.justMe },
+          { value: 2, label: t.transportation.occupancyOptions.people(2) },
+          { value: 3, label: t.transportation.occupancyOptions.people(3) },
+          { value: 4, label: t.transportation.occupancyOptions.people(4) },
+          { value: 5, label: t.transportation.occupancyOptions.people(5) },
+          { value: 6, label: t.transportation.occupancyOptions.people(6) },
+          { value: 7, label: t.transportation.occupancyOptions.people(7) }
+        ];
+      default:
+        return [
+          { value: 1, label: t.transportation.occupancyOptions.justMe },
+          { value: 2, label: t.transportation.occupancyOptions.people(2) },
+          { value: 3, label: t.transportation.occupancyOptions.people(3) },
+          { value: 4, label: t.transportation.occupancyOptions.fourPlus }
+        ];
+    }
+  };
 
   const canContinue = selectedMode && (!showVehicleDetails || vehicleTypeId);
 
   return (
     <div className="p-8">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-3">How do you usually commute?</h2>
-        <p className="text-slate-600">Select your primary mode of transportation in Chennai</p>
+        <h2 className="text-2xl font-bold text-slate-900 mb-3">{t.transportation.title}</h2>
+        <p className="text-slate-600">{t.transportation.subtitle}</p>
       </div>
 
       {/* Transportation Options Grid */}
@@ -124,44 +172,52 @@ export function TransportationStep({
       {showVehicleDetails && (
         <Card className="mb-8">
           <CardContent className="p-6">
-            <h3 className="font-medium text-slate-900 mb-4">Vehicle Details</h3>
+            <h3 className="font-medium text-slate-900 mb-4">{t.transportation.vehicleDetails}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Vehicle Type
+                  {t.transportation.vehicleType}
                 </label>
                 <Select 
                   value={vehicleTypeId?.toString()} 
                   onValueChange={(value) => onVehicleTypeSelect(parseInt(value))}
+                  disabled={vehicleTypesLoading}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select vehicle type" />
+                    <SelectValue placeholder={vehicleTypesLoading ? t.transportation.loading : t.transportation.selectVehicleType} />
                   </SelectTrigger>
                   <SelectContent>
-                    {vehicleTypes?.map((type) => (
-                      <SelectItem key={type.id} value={type.id.toString()}>
-                        {type.name}
+                    {vehicleTypes && vehicleTypes.length > 0 ? (
+                      vehicleTypes.map((type) => (
+                        <SelectItem key={type.id} value={type.id.toString()}>
+                          {type.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="no-options" disabled>
+                        {t.transportation.noVehicleTypes}
                       </SelectItem>
-                    ))}
+                    )}
                   </SelectContent>
                 </Select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">
-                  Occupancy
+                  {t.transportation.occupancy}
                 </label>
                 <Select 
                   value={occupancy.toString()} 
                   onValueChange={(value) => onOccupancyChange(parseInt(value))}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="How many people?" />
+                    <SelectValue placeholder={t.transportation.occupancyPlaceholder} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">1 person (just me)</SelectItem>
-                    <SelectItem value="2">2 people</SelectItem>
-                    <SelectItem value="3">3 people</SelectItem>
-                    <SelectItem value="4">4+ people</SelectItem>
+                    {getOccupancyOptions(selectedMode).map((option) => (
+                      <SelectItem key={option.value} value={option.value.toString()}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -177,7 +233,7 @@ export function TransportationStep({
           disabled={!canContinue}
           className="px-8 py-3"
         >
-          Continue
+          {t.transportation.continue}
           <ArrowRight className="ml-2 w-4 h-4" />
         </Button>
       </div>

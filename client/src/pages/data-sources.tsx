@@ -1,205 +1,247 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Database, Map, Zap, TreePine } from "lucide-react";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { ExternalLink, Database, MapPin, Users, Clock } from "lucide-react";
 
 export default function DataSources() {
-  const dataSources = [
-    {
-      icon: <Map className="h-6 w-6" />,
-      title: "Google Maps Platform",
-      category: "Geographic & Traffic Data",
-      description: "Real-time traffic information, route optimization, geocoding, and place data for Chennai metropolitan area.",
-      apis: ["Directions API", "Geocoding API", "Places API", "Distance Matrix API"],
-      updateFrequency: "Real-time",
-      reliability: "High",
-      url: "https://developers.google.com/maps"
-    },
-    {
-      icon: <Database className="h-6 w-6" />,
-      title: "Vehicle Emission Database",
-      category: "Environmental Data",
-      description: "Comprehensive database of vehicle emission factors, fuel efficiency ratings, and environmental impact metrics.",
-      apis: ["Emission Factors", "Fuel Consumption", "Vehicle Classifications"],
-      updateFrequency: "Quarterly",
-      reliability: "High",
-      url: "#"
-    },
-    {
-      icon: <Zap className="h-6 w-6" />,
-      title: "Chennai Traffic Police",
-      category: "Local Traffic Data",
-      description: "Traffic congestion patterns, peak hour data, and local transportation infrastructure information.",
-      apis: ["Congestion Data", "Traffic Patterns", "Road Classifications"],
-      updateFrequency: "Monthly",
-      reliability: "Medium",
-      url: "#"
-    },
-    {
-      icon: <TreePine className="h-6 w-6" />,
-      title: "Environmental Protection Agency",
-      category: "Environmental Standards",
-      description: "Standard methodologies for emission calculations, air quality metrics, and environmental impact assessment.",
-      apis: ["Emission Standards", "Calculation Methods", "Air Quality Indices"],
-      updateFrequency: "Annually",
-      reliability: "High",
-      url: "https://www.epa.gov"
-    }
-  ];
-
-  const technicalSpecs = [
-    {
-      title: "Data Processing",
-      details: [
-        "Real-time API integration with 99.9% uptime",
-        "Automated data validation and error handling",
-        "Caching layer for improved performance",
-        "Regular data synchronization every 15 minutes"
-      ]
-    },
-    {
-      title: "Quality Assurance",
-      details: [
-        "Multi-source data cross-validation",
-        "Statistical outlier detection and correction",
-        "Historical trend analysis for accuracy",
-        "Expert review of calculation methodologies"
-      ]
-    },
-    {
-      title: "Privacy & Security",
-      details: [
-        "No personal location data stored permanently",
-        "Encrypted data transmission (TLS 1.3)",
-        "GDPR compliant data handling",
-        "Anonymous usage analytics only"
-      ]
-    }
-  ];
-
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Data Sources
-        </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-          Our calculations are powered by reliable, authoritative data sources to ensure accurate 
-          and up-to-date traffic impact assessments for Chennai.
-        </p>
-      </div>
-
-      <div className="space-y-6 mb-12">
-        {dataSources.map((source, index) => (
-          <Card key={index} className="p-6">
-            <CardHeader className="pb-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-start gap-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-100 text-blue-600">
-                    {source.icon}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-3 mb-2">
-                      <CardTitle className="text-xl">{source.title}</CardTitle>
-                      {source.url !== "#" && (
-                        <a 
-                          href={source.url} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800"
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                        </a>
-                      )}
-                    </div>
-                    <Badge variant="outline" className="mb-3">
-                      {source.category}
-                    </Badge>
-                    <CardDescription className="text-base">
-                      {source.description}
-                    </CardDescription>
-                  </div>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="ml-16 space-y-4">
-                <div>
-                  <h4 className="font-semibold mb-2">Data Types:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {source.apis.map((api, apiIndex) => (
-                      <Badge key={apiIndex} variant="secondary" className="text-xs">
-                        {api}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <span className="font-medium text-gray-600">Update Frequency:</span>
-                    <span className="ml-2">{source.updateFrequency}</span>
-                  </div>
-                  <div>
-                    <span className="font-medium text-gray-600">Reliability:</span>
-                    <Badge 
-                      variant={source.reliability === "High" ? "default" : "secondary"}
-                      className="ml-2"
-                    >
-                      {source.reliability}
-                    </Badge>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        {technicalSpecs.map((spec, index) => (
-          <Card key={index}>
-            <CardHeader>
-              <CardTitle className="text-lg">{spec.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-2">
-                {spec.details.map((detail, detailIndex) => (
-                  <li key={detailIndex} className="flex items-start gap-2 text-sm">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0" />
-                    <span className="text-gray-700">{detail}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-yellow-800 mb-3">
-          Data Limitations
-        </h2>
-        <div className="space-y-2 text-yellow-700">
-          <p>
-            <strong>Real-time Accuracy:</strong> Traffic conditions change rapidly; calculations reflect data at the time of request.
-          </p>
-          <p>
-            <strong>Local Variations:</strong> Micro-level traffic patterns may not be captured in broader datasets.
-          </p>
-          <p>
-            <strong>Seasonal Changes:</strong> Some data sources may not reflect seasonal traffic variations or special events.
-          </p>
-          <p>
-            <strong>Data Availability:</strong> Some local Chennai-specific data may have limited availability or update frequency.
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      {/* Hero Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+            Data Sources
+          </h1>
+          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
+            Our calculations are based on reliable, up-to-date data sources 
+            specific to Chennai's transportation infrastructure and traffic patterns.
           </p>
         </div>
-      </div>
+      </section>
 
-      <div className="mt-8 text-center text-gray-600">
-        <p className="text-sm">
-          Data sources are regularly reviewed and updated to maintain accuracy and relevance. 
-          Last updated: {new Date().toLocaleDateString()}
-        </p>
-      </div>
+      {/* Primary Data Sources */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
+            Primary Data Sources
+          </h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card>
+              <CardContent className="p-8">
+                <MapPin className="w-12 h-12 text-primary mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Google Maps Platform
+                </h3>
+                <p className="text-slate-600 mb-4">
+                  Real-time routing, distance calculation, and traffic data for Chennai routes.
+                </p>
+                <ul className="space-y-2 text-slate-600 mb-4">
+                  <li>• Geocoding API for address validation</li>
+                  <li>• Directions API for route optimization</li>
+                  <li>• Real-time traffic conditions</li>
+                  <li>• Distance Matrix calculations</li>
+                </ul>
+                <a 
+                  href="https://developers.google.com/maps" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-primary hover:underline"
+                >
+                  Learn more <ExternalLink className="ml-1 w-4 h-4" />
+                </a>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-8">
+                <Database className="w-12 h-12 text-green-500 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Vehicle Emission Standards
+                </h3>
+                <p className="text-slate-600 mb-4">
+                  Official emission factors from government and automotive industry sources.
+                </p>
+                <ul className="space-y-2 text-slate-600 mb-4">
+                  <li>• Bureau of Energy Efficiency (BEE) data</li>
+                  <li>• Society of Indian Automobile Manufacturers (SIAM)</li>
+                  <li>• Central Pollution Control Board (CPCB)</li>
+                  <li>• Automotive Research Association of India (ARAI)</li>
+                </ul>
+                <a 
+                  href="https://beeindia.gov.in/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-primary hover:underline"
+                >
+                  Visit BEE <ExternalLink className="ml-1 w-4 h-4" />
+                </a>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Chennai-Specific Data */}
+      <section className="py-16 px-4 bg-slate-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
+            Chennai-Specific Data
+          </h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <Card>
+              <CardContent className="p-8">
+                <Users className="w-12 h-12 text-orange-500 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Public Transportation
+                </h3>
+                <p className="text-slate-600 mb-4">
+                  Official data from Chennai's public transport authorities.
+                </p>
+                <ul className="space-y-2 text-slate-600 mb-4">
+                  <li>• Chennai Metro Rail Limited (CMRL)</li>
+                  <li>• Metropolitan Transport Corporation (MTC)</li>
+                  <li>• Route schedules and capacity data</li>
+                  <li>• Fare structures and accessibility</li>
+                </ul>
+                <div className="flex space-x-4">
+                  <a 
+                    href="https://chennaimetrorail.org" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-primary hover:underline text-sm"
+                  >
+                    CMRL <ExternalLink className="ml-1 w-3 h-3" />
+                  </a>
+                  <a 
+                    href="https://mtcbus.tn.gov.in" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-primary hover:underline text-sm"
+                  >
+                    MTC <ExternalLink className="ml-1 w-3 h-3" />
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-8">
+                <Clock className="w-12 h-12 text-purple-500 mb-4" />
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Traffic Pattern Analysis
+                </h3>
+                <p className="text-slate-600 mb-4">
+                  Congestion data based on Chennai traffic studies and real-time observations.
+                </p>
+                <ul className="space-y-2 text-slate-600 mb-4">
+                  <li>• Peak hour traffic multipliers by area</li>
+                  <li>• Major corridor congestion patterns</li>
+                  <li>• Seasonal and weather impact factors</li>
+                  <li>• Historical traffic growth trends</li>
+                </ul>
+                <p className="text-sm text-slate-500">
+                  Data collected from traffic monitoring systems and public studies
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Vehicle Database */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
+            Vehicle Database
+          </h2>
+          
+          <Card>
+            <CardContent className="p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-4">Car Categories</h3>
+                  <ul className="space-y-2 text-slate-600">
+                    <li>• Hatchback (0.142 kg CO₂/km)</li>
+                    <li>• Compact Sedan (0.148 kg CO₂/km)</li>
+                    <li>• Sedan (0.155 kg CO₂/km)</li>
+                    <li>• SUV (0.168 kg CO₂/km)</li>
+                    <li>• Luxury SUV (0.185 kg CO₂/km)</li>
+                    <li>• Electric Car (0.045 kg CO₂/km)</li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-4">Two-Wheeler Categories</h3>
+                  <ul className="space-y-2 text-slate-600">
+                    <li>• Scooter (0.062 kg CO₂/km)</li>
+                    <li>• Bike &lt;350cc (0.055 kg CO₂/km)</li>
+                    <li>• Bike &gt;350cc (0.065 kg CO₂/km)</li>
+                    <li>• Electric Two-wheeler (0.018 kg CO₂/km)</li>
+                  </ul>
+                </div>
+              </div>
+              
+              <div className="mt-8 p-4 bg-slate-100 rounded-lg">
+                <h4 className="font-semibold text-slate-900 mb-2">Data Update Frequency</h4>
+                <p className="text-slate-600">
+                  Vehicle emission factors are updated quarterly based on new model releases 
+                  and changes in fuel efficiency standards. Traffic patterns are updated 
+                  monthly using real-time data aggregation.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Data Accuracy */}
+      <section className="py-16 px-4 bg-slate-50">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
+            Data Accuracy & Limitations
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-3 text-green-600">
+                  What We Do Well
+                </h3>
+                <ul className="space-y-2 text-slate-600">
+                  <li>✓ Real-time route calculations</li>
+                  <li>✓ Accurate vehicle emission data</li>
+                  <li>✓ Chennai-specific traffic patterns</li>
+                  <li>✓ Multiple transport mode analysis</li>
+                  <li>✓ Regular data updates</li>
+                </ul>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-3 text-orange-600">
+                  Current Limitations
+                </h3>
+                <ul className="space-y-2 text-slate-600">
+                  <li>• Weather impact estimations</li>
+                  <li>• Individual driving behavior variations</li>
+                  <li>• Construction and temporary road closures</li>
+                  <li>• Festival and event traffic spikes</li>
+                  <li>• Real-time public transport delays</li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="mt-8 text-center">
+            <p className="text-slate-600">
+              We continuously work to improve our data accuracy and welcome feedback 
+              to enhance our calculations for Chennai commuters.
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

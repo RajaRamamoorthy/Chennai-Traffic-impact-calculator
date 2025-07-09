@@ -1,0 +1,48 @@
+Title: Add modal contact form with Zoho e-mail delivery
+Context:
+– Project uses Next .js 14, App Router, Tailwind, Supabase, Upstash.
+– Domain: chennaitrafficcalc.in
+– Role e-mail: contact@chennaitrafficcalc.in (Zoho Mail SMTP).
+– Already have .env file with other keys.
+– Want a floating “Feedback” button bottom-right on every page. Clicking opens a Tailwind modal containing a short form:
+• Full Name (required)
+• Email Address (required, basic regex)
+• Message (textarea, 500 char max)
+– On Submit:
+• Validate with Zod on client and server.
+• POST to a secure Next API route /api/contact.
+• API route uses nodemailer with Zoho SMTP (smtp.zoho.in, port 465, SSL).
+• Env vars needed: SMTP_USER, SMTP_PASS.
+• Store a copy in Supabase table feedbacks (columns id UUID, name, email, message, created_at).
+• Return JSON { success: true } on 200; else 422 for validation errors, 500 for SMTP errors.
+– Show success toast (“Thanks for your feedback!”) or error toast.
+– Button + modal must not affect Core Web Vitals (lazy-load React component and styles).
+– Add simple honeypot field (display:none) for bots, no CAPTCHA yet.
+– Protect API route with the existing rate-limit middleware (10 req/min/IP).
+Deliverables:
+
+New React component FeedbackModal.tsx in /components with Tailwind styling.
+
+Update to AppProvider or layout.tsx to inject the floating button globally (lazy-import component).
+
+lib/email.ts helper that wraps nodemailer transport.
+
+app/api/contact/route.ts (POST only) with server-side Zod validation, Supabase insert, email send.
+
+Migration SQL or Supabase UI instructions for the feedbacks table.
+
+Add .env.example lines:
+
+ini
+Copy
+Edit
+SMTP_USER=contact@chennaitrafficcalc.in
+SMTP_PASS=your_zoho_app_password
+README snippet explaining how to generate a Zoho “App Password” and test the form locally with npm run dev.
+Constraints:
+– Keep all new dependencies minimal (nodemailer, react-hot-toast already installed).
+– Use Tailwind utility classes only (no external UI kit).
+– Code must pass npm run lint and npm run type-check.
+– Do not expose SMTP creds in client bundle.
+– Ensure the modal is accessible (focus trap, ESC to close, aria labels).
+– Write concise comments in code blocks; no extra narration.

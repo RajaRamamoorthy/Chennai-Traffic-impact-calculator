@@ -54,13 +54,10 @@ export const feedback = pgTable("feedback", {
   rating: integer("rating"), // 1-5
   helpful: boolean("helpful"),
   comments: text("comments"),
-  name: text("name"),
-  email: text("email"),
-  message: text("message"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// Contact form submissions
+// Contact submissions
 export const contactSubmissions = pgTable("contact_submissions", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -68,7 +65,7 @@ export const contactSubmissions = pgTable("contact_submissions", {
   message: text("message").notNull(),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
-  status: text("status").default("pending"),
+  status: text("status").default("pending").notNull(), // pending, sent, failed
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -144,6 +141,7 @@ export const insertRouteCongestionSchema = createInsertSchema(routeCongestion).o
 
 export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({
   id: true,
+  status: true,
   createdAt: true,
 });
 

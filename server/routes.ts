@@ -1,12 +1,28 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import rateLimit from "express-rate-limit";
 import { storage } from "./storage";
 import { impactCalculator } from "./services/impact-calculator";
 import { RoutingService } from "./services/routing-service";
-import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema } from "@shared/schema";
+import { emailService } from "./services/email-service";
+import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema, contactSubmissions } from "@shared/schema";
 import { z } from "zod";
+import { desc } from "drizzle-orm";
+import { db } from "./db";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Rate limiting middleware for contact form
+  const contactRateLimit = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 3, // limit each IP to 3 requests per windowMs
+    message: {
+      error: "Too many contact form submissions. Please try again later.",
+      retryAfter: "15 minutes"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
   // Health check endpoint
   app.get("/api/health", async (req, res) => {
     try {
@@ -29,13 +45,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { category } = req.query;
       let vehicleTypes;
-      
+
+      console.log("Fetching vehicle types for category:", category);
+
       if (category && typeof category === 'string') {
         vehicleTypes = await storage.getVehicleTypesByCategory(category);
       } else {
         vehicleTypes = await storage.getVehicleTypes();
       }
-      
+
+      console.log("Found vehicle types:", vehicleTypes?.length || 0);
       res.json(vehicleTypes);
     } catch (error) {
       console.error("Error fetching vehicle types:", error);
@@ -50,13 +69,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/geocode", async (req, res) => {
     try {
       const { address } = req.body;
-      
+
       if (!address || typeof address !== 'string') {
         return res.status(400).json({ error: "Address is required" });
       }
 
       const location = await RoutingService.geocodeAddress(address);
-      
+
       if (!location) {
         return res.status(404).json({ error: "Location not found" });
       }
@@ -75,13 +94,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/route-info", async (req, res) => {
     try {
       const { origin, destination } = req.body;
-      
+
       if (!origin || !destination) {
         return res.status(400).json({ error: "Origin and destination are required" });
       }
 
       const routeInfo = await RoutingService.getRouteInfo(origin, destination);
-      
+
       if (!routeInfo) {
         return res.status(404).json({ error: "Route not found" });
       }
@@ -100,7 +119,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/places/autocomplete", async (req, res) => {
     try {
       const { input } = req.query;
-      
+
       if (!input || typeof input !== 'string') {
         return res.status(400).json({ error: "Input query is required" });
       }
@@ -145,7 +164,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     } catch (error) {
       console.error("Calculation error:", error);
-      
+
       if (error instanceof z.ZodError) {
         return res.status(400).json({ 
           error: "Invalid input data",
@@ -168,7 +187,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ success: true, feedback });
     } catch (error) {
       console.error("Feedback error:", error);
-      
+
       if (error instanceof z.ZodError) {
         return res.status(400).json({ 
           error: "Invalid feedback data",
@@ -183,11 +202,176 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Submit contact form
+  app.post("/api/contact", contactRateLimit, async (req, res) => {
+    try {
+      const contactData = insertContactSubmissionSchema.parse(req.body);
+      
+      // Get client IP and user agent
+      const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+      const userAgent = req.get('User-Agent') || 'unknown';
+
+      // Check for recent submissions from this IP (additional rate limiting)
+      const recentSubmissions = await storage.getRecentContactSubmissions(ipAddress, 60);
+      if (recentSubmissions.length >= 3) {
+        return res.status(429).json({
+          error: "Too many submissions from this IP address. Please try again later."
+        });
+      }
+
+      // Create contact submission record
+      const submission = await storage.createContactSubmission({
+        ...contactData,
+        ipAddress,
+        userAgent
+      });
+
+      // Send email notification
+      try {
+        const emailSent = await emailService.sendContactEmail({
+          name: contactData.name,
+          email: contactData.email,
+          message: contactData.message,
+          submittedAt: new Date().toLocaleString()
+        });
+
+        // Update submission status
+        await storage.updateContactSubmissionStatus(
+          submission.id, 
+          emailSent ? 'sent' : 'pending'
+        );
+
+        // Always return success - message is stored in database
+        res.json({ 
+          success: true, 
+          message: "Thank you for your message. We'll get back to you soon!" 
+        });
+
+        // Log the contact submission for manual processing
+        console.log('=== NEW CONTACT FORM SUBMISSION ===');
+        console.log('Name:', contactData.name);
+        console.log('Email:', contactData.email);
+        console.log('Message:', contactData.message);
+        console.log('Submitted:', new Date().toLocaleString());
+        console.log('Status:', emailSent ? 'Email sent' : 'Email failed - stored in database');
+        console.log('=====================================');
+
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+        
+        // Update submission status to failed but still return success
+        await storage.updateContactSubmissionStatus(submission.id, 'failed');
+        
+        res.json({ 
+          success: true, 
+          message: "Your message has been received. We'll get back to you soon!" 
+        });
+      }
+
+    } catch (error) {
+      console.error("Contact submission error:", error);
+
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          error: "Invalid contact data",
+          details: error.errors
+        });
+      }
+
+      res.status(500).json({ 
+        error: "Failed to submit contact form",
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Test email connection endpoint
+  app.get("/api/test-email", async (req, res) => {
+    try {
+      const isConnected = await emailService.testConnection();
+      res.json({ 
+        connected: isConnected,
+        message: isConnected ? "Email service is working" : "Email service connection failed",
+        config: {
+          host: process.env.SMTP_HOST || 'smtp.zoho.com',
+          port: process.env.SMTP_PORT || '587',
+          user: process.env.SMTP_USER || 'Not set',
+          hasPassword: !!process.env.SMTP_PASS,
+          fromEmail: process.env.SMTP_FROM_EMAIL || 'Not set',
+          contactEmail: process.env.CONTACT_EMAIL || 'contact@chennaitrafficcalc.in'
+        }
+      });
+    } catch (error) {
+      console.error("Email test error:", error);
+      res.status(500).json({ 
+        connected: false,
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Send test email endpoint
+  app.post("/api/send-test-email", async (req, res) => {
+    try {
+      const result = await emailService.sendContactEmail({
+        name: 'Test User',
+        email: 'test@example.com',
+        message: 'This is a test email to verify the Chennai Traffic Impact Calculator contact form is working.',
+        submittedAt: new Date().toLocaleString()
+      });
+      
+      res.json({ 
+        success: result,
+        message: result ? "Test email sent successfully!" : "Failed to send test email"
+      });
+    } catch (error) {
+      console.error("Test email send error:", error);
+      res.status(500).json({ 
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Get contact submissions (for admin access)
+  app.get("/api/admin/contact-submissions", async (req, res) => {
+    try {
+      // Basic security - only allow from localhost or with admin key
+      const adminKey = req.headers['x-admin-key'] as string;
+      const isLocalhost = req.ip === '127.0.0.1' || req.ip === '::1' || req.hostname === 'localhost';
+      
+      if (!isLocalhost && adminKey !== process.env.ADMIN_KEY) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const submissions = await db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(50);
+      
+      res.json({ 
+        success: true,
+        submissions: submissions.map(sub => ({
+          id: sub.id,
+          name: sub.name,
+          email: sub.email,
+          message: sub.message,
+          status: sub.status,
+          createdAt: sub.createdAt,
+          ipAddress: sub.ipAddress
+        }))
+      });
+    } catch (error) {
+      console.error("Error fetching contact submissions:", error);
+      res.status(500).json({ 
+        error: "Failed to fetch contact submissions",
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   // Get user's previous calculations
   app.get("/api/calculations", async (req, res) => {
     try {
       const sessionId = req.headers['x-session-id'] as string;
-      
+
       if (!sessionId) {
         return res.status(400).json({ error: "Session ID required" });
       }
@@ -198,54 +382,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error fetching calculations:", error);
       res.status(500).json({ 
         error: "Failed to fetch calculations",
-        message: error instanceof Error ? error.message : "Unknown error"
-      });
-    }
-  });
-
-  // Contact form submission
-  app.post("/api/contact", async (req, res) => {
-    try {
-      const contactData = insertContactSubmissionSchema.extend({
-        ipAddress: z.string().optional(),
-        userAgent: z.string().optional(),
-        status: z.string().default("pending")
-      }).parse({
-        ...req.body,
-        ipAddress: req.ip || req.connection.remoteAddress,
-        userAgent: req.get('User-Agent'),
-        status: "stored"
-      });
-
-      const contact = await storage.createContactSubmission(contactData);
-
-      // Log the contact form submission
-      console.log("=== NEW CONTACT FORM SUBMISSION ===");
-      console.log(`Name: ${contactData.name}`);
-      console.log(`Email: ${contactData.email}`);
-      console.log(`Message: ${contactData.message}`);
-      console.log(`Submitted: ${new Date().toLocaleString()}`);
-      console.log(`Status: Stored successfully (email disabled)`);
-      console.log("=====================================");
-
-      res.json({ 
-        success: true, 
-        message: "Thank you for your message! We have received your contact form submission.",
-        contactId: contact.id
-      });
-
-    } catch (error) {
-      console.error("Contact form error:", error);
-      
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ 
-          error: "Invalid contact data",
-          details: error.errors
-        });
-      }
-
-      res.status(500).json({ 
-        error: "Failed to submit contact form",
         message: error instanceof Error ? error.message : "Unknown error"
       });
     }

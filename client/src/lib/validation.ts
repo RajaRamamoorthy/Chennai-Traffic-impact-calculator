@@ -13,13 +13,10 @@ export const calculatorFormSchema = z.object({
 export type CalculatorFormData = z.infer<typeof calculatorFormSchema>;
 
 export const feedbackSchema = z.object({
-  calculationId: z.number().optional(),
-  rating: z.number().min(1).max(5).default(5),
+  calculationId: z.number(),
+  rating: z.number().min(1).max(5).optional(),
   helpful: z.boolean().optional(),
   comments: z.string().optional(),
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Please enter a valid email"),
-  message: z.string().min(1, "Message is required"),
 });
 
 export type FeedbackData = z.infer<typeof feedbackSchema>;
