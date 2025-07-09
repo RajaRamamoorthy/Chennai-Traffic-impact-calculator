@@ -55,24 +55,32 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         try {
           // Temporarily make the hidden container visible for screenshot
           const originalStyle = scoreCardRef.current.style.cssText;
+          const originalClassName = scoreCardRef.current.className;
+          
+          // Position the container in a way that it's rendered but off-screen to the right
           scoreCardRef.current.style.cssText = `
             position: fixed;
             top: 0;
-            left: 0;
+            left: 100vw;
             width: 1200px;
             background: white;
             padding: 32px;
             z-index: 9999;
             visibility: visible;
             opacity: 1;
+            transform: none;
           `;
+          scoreCardRef.current.className = '';
           
-          // Allow a brief moment for rendering
-          await new Promise(resolve => setTimeout(resolve, 100));
+          // Force a reflow to ensure the element is properly rendered
+          scoreCardRef.current.offsetHeight;
+          
+          // Allow time for rendering
+          await new Promise(resolve => setTimeout(resolve, 200));
           
           const canvas = await html2canvas(scoreCardRef.current, {
             backgroundColor: '#ffffff',
-            scale: 2,
+            scale: 3,
             logging: false,
             width: 1200,
             height: scoreCardRef.current.scrollHeight,
@@ -83,6 +91,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           
           // Restore original styling
           scoreCardRef.current.style.cssText = originalStyle;
+          scoreCardRef.current.className = originalClassName;
           
           // Convert canvas to blob
           canvas.toBlob(async (blob) => {
