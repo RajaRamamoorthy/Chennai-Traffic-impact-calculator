@@ -99,7 +99,25 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         <CardContent className="p-8 text-center">
           <div className="mb-4">
             <div className="text-6xl font-bold mb-2">{results.score}</div>
-            <div className="text-lg mb-4">{getScoreLabel(results.score)}</div>
+            <div className="text-lg mb-2">{getScoreLabel(results.score)}</div>
+            <div className="text-sm text-slate-600 mb-4 max-w-md mx-auto">
+              {results.score >= 70 ? (
+                <span className="text-red-700 font-medium">
+                  Your commute significantly contributes to Chennai's traffic congestion and pollution. 
+                  Consider the alternatives below to reduce your impact.
+                </span>
+              ) : results.score >= 40 ? (
+                <span className="text-yellow-700 font-medium">
+                  Your commute has a moderate impact on Chennai's traffic. 
+                  Small changes could make a meaningful difference.
+                </span>
+              ) : (
+                <span className="text-green-700 font-medium">
+                  Great job! Your transportation choices help keep Chennai's roads cleaner and less congested. 
+                  You're making a positive difference.
+                </span>
+              )}
+            </div>
             <Badge className={getConfidenceBadge(results.confidence.level)}>
               Confidence {results.confidence.level}: {results.confidence.description}
             </Badge>
