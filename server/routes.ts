@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { impactCalculator } from "./services/impact-calculator";
 import { RoutingService } from "./services/routing-service";
-import { insertCalculationSchema, insertFeedbackSchema } from "@shared/schema";
+import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -198,6 +198,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error fetching calculations:", error);
       res.status(500).json({ 
         error: "Failed to fetch calculations",
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Contact form submission
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const contactData = insertContactSubmissionSchema.extend({
+        ipAddress: z.string().optional(),
+        userAgent: z.string().optional(),
+        status: z.string().default("pending")
+      }).parse({
+        ...req.body,
+        ipAddress: req.ip || req.connection.remoteAddress,
+        userAgent: req.get('User-Agent'),
+        status: "stored"
+      });
+
+      const contact = await storage.createContactSubmission(contactData);
+
+      // Log the contact form submission
+      console.log("=== NEW CONTACT FORM SUBMISSION ===");
+      console.log(`Name: ${contactData.name}`);
+      console.log(`Email: ${contactData.email}`);
+      console.log(`Message: ${contactData.message}`);
+      console.log(`Submitted: ${new Date().toLocaleString()}`);
+      console.log(`Status: Stored successfully (email disabled)`);
+      console.log("=====================================");
+
+      res.json({ 
+        success: true, 
+        message: "Thank you for your message! We have received your contact form submission.",
+        contactId: contact.id
+      });
+
+    } catch (error) {
+      console.error("Contact form error:", error);
+      
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          error: "Invalid contact data",
+          details: error.errors
+        });
+      }
+
+      res.status(500).json({ 
+        error: "Failed to submit contact form",
         message: error instanceof Error ? error.message : "Unknown error"
       });
     }

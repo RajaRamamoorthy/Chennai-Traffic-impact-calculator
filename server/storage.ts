@@ -4,6 +4,7 @@ import {
   vehicleTypes, 
   feedback, 
   routeCongestion,
+  contactSubmissions,
   type User, 
   type InsertUser,
   type Calculation,
@@ -13,7 +14,9 @@ import {
   type Feedback,
   type InsertFeedback,
   type RouteCongestion,
-  type InsertRouteCongestion
+  type InsertRouteCongestion,
+  type ContactSubmission,
+  type InsertContactSubmission
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, sql } from "drizzle-orm";
@@ -47,6 +50,10 @@ export interface IStorage {
 
   // Analytics
   getCalculationStats(): Promise<{totalCalculations: number, avgImpactScore: number}>;
+
+  // Contact Submissions
+  createContactSubmission(contact: InsertContactSubmission): Promise<ContactSubmission>;
+  getContactSubmissions(): Promise<ContactSubmission[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -165,6 +172,16 @@ export class DatabaseStorage implements IStorage {
       totalCalculations: stats.totalCalculations || 0,
       avgImpactScore: Math.round(stats.avgImpactScore || 0),
     };
+  }
+
+  // Contact Submissions
+  async createContactSubmission(insertContact: InsertContactSubmission): Promise<ContactSubmission> {
+    const [contact] = await db.insert(contactSubmissions).values(insertContact).returning();
+    return contact;
+  }
+
+  async getContactSubmissions(): Promise<ContactSubmission[]> {
+    return await db.select().from(contactSubmissions).orderBy(sql`${contactSubmissions.createdAt} DESC`);
   }
 }
 

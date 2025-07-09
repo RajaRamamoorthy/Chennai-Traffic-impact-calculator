@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Globe, Info } from "lucide-react";
+import { useLanguage } from "@/contexts/language-context";
 
 export function Header() {
-  const [language, setLanguage] = useState<'en' | 'ta'>('en');
+  const { language, setLanguage, t } = useLanguage();
 
   const toggleLanguage = () => {
-    setLanguage(prev => prev === 'en' ? 'ta' : 'en');
+    setLanguage(language === 'en' ? 'ta' : 'en');
   };
 
   return (
@@ -29,14 +30,16 @@ export function Header() {
               <Globe className="w-4 h-4 mr-1" />
               {language === 'en' ? 'தமிழ்' : 'English'}
             </Button>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="text-slate-600 hover:text-slate-900"
-            >
-              <Info className="w-4 h-4 mr-1" />
-              About
-            </Button>
+            <Link href="/how-it-works">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="text-slate-600 hover:text-slate-900"
+              >
+                <Info className="w-4 h-4 mr-1" />
+                {t('nav.about')}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

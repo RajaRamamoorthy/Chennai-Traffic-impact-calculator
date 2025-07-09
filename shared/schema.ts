@@ -54,6 +54,21 @@ export const feedback = pgTable("feedback", {
   rating: integer("rating"), // 1-5
   helpful: boolean("helpful"),
   comments: text("comments"),
+  name: text("name"),
+  email: text("email"),
+  message: text("message"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Contact form submissions
+export const contactSubmissions = pgTable("contact_submissions", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  message: text("message").notNull(),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  status: text("status").default("pending"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -127,6 +142,11 @@ export const insertRouteCongestionSchema = createInsertSchema(routeCongestion).o
   id: true,
 });
 
+export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -142,3 +162,6 @@ export type VehicleType = typeof vehicleTypes.$inferSelect;
 
 export type InsertRouteCongestion = z.infer<typeof insertRouteCongestionSchema>;
 export type RouteCongestion = typeof routeCongestion.$inferSelect;
+
+export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
+export type ContactSubmission = typeof contactSubmissions.$inferSelect;
