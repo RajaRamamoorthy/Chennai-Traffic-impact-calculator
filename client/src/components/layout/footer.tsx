@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="bg-white border-t border-slate-200 mt-16">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
+          <div id="about-section">
             <h3 className="font-semibold text-slate-900 mb-4">About</h3>
             <ul className="space-y-2 text-sm text-slate-600">
               <li><Link href="/how-it-works" className="hover:text-slate-900">How it works</Link></li>

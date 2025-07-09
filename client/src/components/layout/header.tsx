@@ -43,6 +43,17 @@ export function Header() {
               variant="ghost" 
               size="sm"
               className="text-slate-600 hover:text-slate-900"
+              onClick={() => {
+                const aboutSection = document.querySelector('#about-section');
+                if (aboutSection) {
+                  aboutSection.scrollIntoView({ behavior: 'smooth' });
+                  // Add highlight effect
+                  aboutSection.classList.add('bg-blue-50', 'transition-colors', 'duration-1000');
+                  setTimeout(() => {
+                    aboutSection.classList.remove('bg-blue-50');
+                  }, 2000);
+                }
+              }}
             >
               <Info className="w-4 h-4 mr-1" />
               {t.header.about}
