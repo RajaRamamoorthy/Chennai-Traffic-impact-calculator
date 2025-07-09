@@ -274,6 +274,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Test email connection endpoint
+  app.get("/api/test-email", async (req, res) => {
+    try {
+      const isConnected = await emailService.testConnection();
+      res.json({ 
+        connected: isConnected,
+        message: isConnected ? "Email service is working" : "Email service connection failed"
+      });
+    } catch (error) {
+      console.error("Email test error:", error);
+      res.status(500).json({ 
+        connected: false,
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   // Get user's previous calculations
   app.get("/api/calculations", async (req, res) => {
     try {

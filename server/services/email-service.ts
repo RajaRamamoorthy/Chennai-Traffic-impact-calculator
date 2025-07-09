@@ -62,9 +62,13 @@ class EmailService {
     }
 
     try {
+      // Test connection first
+      await this.transporter.verify();
+      console.log('SMTP connection verified successfully');
+      
       const mailOptions = {
         from: process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER,
-        to: process.env.CONTACT_EMAIL || process.env.SMTP_USER,
+        to: process.env.CONTACT_EMAIL || 'contact@chennaitrafficcalc.in',
         subject: `New Contact Form Submission - Chennai Traffic Calculator`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -110,14 +114,18 @@ class EmailService {
 
   async testConnection(): Promise<boolean> {
     if (!this.transporter) {
+      console.log('No transporter configured');
       return false;
     }
 
     try {
+      console.log('Testing SMTP connection...');
       await this.transporter.verify();
+      console.log('SMTP connection test: SUCCESS');
       return true;
     } catch (error) {
-      console.error('Email service connection test failed:', error);
+      console.error('SMTP connection test: FAILED');
+      console.error('Error details:', error);
       return false;
     }
   }
