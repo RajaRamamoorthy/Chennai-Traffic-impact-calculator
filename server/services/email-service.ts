@@ -26,10 +26,14 @@ class EmailService {
   }
 
   private initializeTransporter() {
+    const port = parseInt(process.env.SMTP_PORT || '587');
+    // Port 465 typically requires secure connection
+    const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+    
     const emailConfig: EmailConfig = {
       host: process.env.SMTP_HOST || 'smtp.zoho.com',
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
+      port: port,
+      secure: secure,
       auth: {
         user: process.env.SMTP_USER || '',
         pass: process.env.SMTP_PASS || '',
@@ -38,7 +42,14 @@ class EmailService {
 
     // Only create transporter if credentials are provided
     if (emailConfig.auth.user && emailConfig.auth.pass) {
-      this.transporter = nodemailer.createTransporter(emailConfig);
+      console.log('Initializing email service with:');
+      console.log('- SMTP Host:', emailConfig.host);
+      console.log('- SMTP Port:', emailConfig.port);
+      console.log('- SMTP Secure:', emailConfig.secure);
+      console.log('- SMTP User:', emailConfig.auth.user);
+      console.log('- Contact Email:', process.env.CONTACT_EMAIL || 'contact@chennaitrafficcalc.in');
+      
+      this.transporter = nodemailer.createTransport(emailConfig);
     } else {
       console.warn('Email service not configured - missing SMTP credentials');
     }
