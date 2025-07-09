@@ -148,6 +148,12 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
     <div className="p-8">
       {/* Screenshot capture wrapper */}
       <div ref={scoreCardRef}>
+        {/* Website URL header for screenshot */}
+        <div className="text-center mb-6 py-4 bg-gradient-to-r from-green-50 to-blue-50 border-b-2 border-green-200">
+          <div className="text-xl font-bold text-green-700">ChennaiTrafficCalc.in</div>
+          <div className="text-sm text-slate-600">Calculate Your Chennai Traffic Impact</div>
+        </div>
+        
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
           <p className="text-slate-600">Based on your commute pattern in Chennai</p>
