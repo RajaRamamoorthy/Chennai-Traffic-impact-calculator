@@ -64,16 +64,14 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
               if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
                   title: 'My Chennai Traffic Impact Score',
-                  text: shareText,
-                  url: shareUrl,
+                  text: `${shareText}\n\nCalculate yours at: ${shareUrl}`,
                   files: [file]
                 });
               } else if (navigator.share) {
                 // Share without image if file sharing not supported
                 await navigator.share({
                   title: 'My Chennai Traffic Impact Score',
-                  text: shareText,
-                  url: shareUrl
+                  text: `${shareText}\n\nCalculate yours at: ${shareUrl}`
                 });
               } else {
                 // Fallback to copying to clipboard
@@ -93,12 +91,11 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           if (navigator.share) {
             await navigator.share({
               title: 'My Chennai Traffic Impact Score',
-              text: shareText,
-              url: shareUrl
+              text: `${shareText}\n\nCalculate yours at: ${shareUrl}`
             });
           } else {
             await navigator.clipboard.writeText(
-              `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${shareUrl}`
+              `${shareText}\n\nCalculate yours at: ${shareUrl}`
             );
             toast({
               title: "Link copied!",
@@ -141,13 +138,15 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
   return (
     <div className="p-8">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
-        <p className="text-slate-600">Based on your commute pattern in Chennai</p>
-      </div>
+      {/* Screenshot capture wrapper */}
+      <div ref={scoreCardRef}>
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
+          <p className="text-slate-600">Based on your commute pattern in Chennai</p>
+        </div>
 
-      {/* Impact Score Display */}
-      <Card ref={scoreCardRef} className={`mb-8 ${getScoreColor(results.score)}`}>
+        {/* Impact Score Display */}
+        <Card className={`mb-8 ${getScoreColor(results.score)}`}>
         <CardContent className="p-8 text-center">
           <div className="mb-4">
             <div className="text-6xl font-bold mb-2">{results.score}</div>
@@ -228,68 +227,69 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
       </div>
 
-      {/* Alternatives Section */}
-      {results.alternatives.length > 0 && (
-        <Card className="mb-8 border-green-200">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold text-slate-900 mb-4">
-              <Lightbulb className="inline w-5 h-5 text-green-500 mr-2" />
-              Better Alternatives
-            </h3>
-            
-            <div className="space-y-4">
-              {results.alternatives.map((alternative, index) => {
-                const getIcon = (type: string) => {
-                  switch (type) {
-                    case 'metro': return '🚇';
-                    case 'carpool': return <Users className="w-6 h-6" />;
-                    case 'timing': return <Clock className="w-6 h-6" />;
-                    default: return '🚌';
-                  }
-                };
+        {/* Alternatives Section */}
+        {results.alternatives.length > 0 && (
+          <Card className="mb-8 border-green-200">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                <Lightbulb className="inline w-5 h-5 text-green-500 mr-2" />
+                Better Alternatives
+              </h3>
+              
+              <div className="space-y-4">
+                {results.alternatives.map((alternative, index) => {
+                  const getIcon = (type: string) => {
+                    switch (type) {
+                      case 'metro': return '🚇';
+                      case 'carpool': return <Users className="w-6 h-6" />;
+                      case 'timing': return <Clock className="w-6 h-6" />;
+                      default: return '🚌';
+                    }
+                  };
 
-                const getIconColor = (type: string) => {
-                  switch (type) {
-                    case 'metro': return 'text-green-500';
-                    case 'carpool': return 'text-blue-500';
-                    case 'timing': return 'text-yellow-500';
-                    default: return 'text-gray-500';
-                  }
-                };
+                  const getIconColor = (type: string) => {
+                    switch (type) {
+                      case 'metro': return 'text-green-500';
+                      case 'carpool': return 'text-blue-500';
+                      case 'timing': return 'text-yellow-500';
+                      default: return 'text-gray-500';
+                    }
+                  };
 
-                return (
-                  <Card key={index} className="border-green-200">
-                    <CardContent className="p-4">
-                      <div className="flex items-start justify-between">
-                        <div className="flex items-center">
-                          <div className={`mr-4 ${getIconColor(alternative.type)}`}>
-                            {typeof getIcon(alternative.type) === 'string' ? (
-                              <div className="text-2xl">{getIcon(alternative.type)}</div>
-                            ) : (
-                              getIcon(alternative.type)
-                            )}
+                  return (
+                    <Card key={index} className="border-green-200">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-center">
+                            <div className={`mr-4 ${getIconColor(alternative.type)}`}>
+                              {typeof getIcon(alternative.type) === 'string' ? (
+                                <div className="text-2xl">{getIcon(alternative.type)}</div>
+                              ) : (
+                                getIcon(alternative.type)
+                              )}
+                            </div>
+                            <div>
+                              <h4 className="font-medium text-slate-900">{alternative.title}</h4>
+                              <p className="text-sm text-slate-600">
+                                Reduce impact by {alternative.impactReduction}% • Save ₹{alternative.costSavings}/month
+                              </p>
+                              <p className="text-xs text-green-600 mt-1">{alternative.timeDelta} travel time</p>
+                            </div>
                           </div>
-                          <div>
-                            <h4 className="font-medium text-slate-900">{alternative.title}</h4>
-                            <p className="text-sm text-slate-600">
-                              Reduce impact by {alternative.impactReduction}% • Save ₹{alternative.costSavings}/month
-                            </p>
-                            <p className="text-xs text-green-600 mt-1">{alternative.timeDelta} travel time</p>
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-green-600">{alternative.newScore}</div>
+                            <div className="text-xs text-slate-500">New Score</div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-green-600">{alternative.newScore}</div>
-                          <div className="text-xs text-slate-500">New Score</div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>{/* End of screenshot capture wrapper */}
 
       {/* Feedback Section */}
       {!feedbackSubmitted && results.calculationId && (
