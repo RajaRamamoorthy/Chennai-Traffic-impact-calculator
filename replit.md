@@ -86,6 +86,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 9, 2025: Fixed contact/feedback form flow with comprehensive error handling and database storage
+- July 9, 2025: Resolved Express rate limiting X-Forwarded-For header issue by configuring trust proxy
+- July 9, 2025: Fixed nodemailer import/export issues (createTransport vs createTransporter)
+- July 9, 2025: Added email service debugging with fallback configurations for Zoho SMTP
+- July 9, 2025: Contact form submissions are stored in database even when email delivery fails
+- July 9, 2025: Added admin endpoint for accessing contact submissions at /api/admin/contact-submissions
 - July 8, 2025: Fixed seed script foreign key constraint issues - now properly clears database in correct order (feedback → calculations → vehicle types → route congestion)
 - July 8, 2025: Resolved frontend infinite loop in TransportationStep component by optimizing useEffect dependencies  
 - July 8, 2025: Successfully tested complete application flow with all features working

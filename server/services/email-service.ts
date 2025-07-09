@@ -27,29 +27,61 @@ class EmailService {
 
   private initializeTransporter() {
     const port = parseInt(process.env.SMTP_PORT || '587');
-    // Port 465 typically requires secure connection
-    const secure = process.env.SMTP_SECURE === 'true' || port === 465;
+    const host = process.env.SMTP_HOST || 'smtp.zoho.com';
     
-    const emailConfig: EmailConfig = {
-      host: process.env.SMTP_HOST || 'smtp.zoho.com',
-      port: port,
-      secure: secure,
-      auth: {
-        user: process.env.SMTP_USER || '',
-        pass: process.env.SMTP_PASS || '',
+    // Try multiple configurations for better compatibility
+    const configs = [
+      // Primary configuration from environment
+      {
+        name: 'Primary Config',
+        host: host,
+        port: port,
+        secure: port === 465,
+        auth: {
+          user: process.env.SMTP_USER || '',
+          pass: process.env.SMTP_PASS || '',
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
       },
-    };
+      // Fallback for Zoho with port 587
+      {
+        name: 'Zoho Port 587',
+        host: 'smtp.zoho.com',
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth: {
+          user: process.env.SMTP_USER || '',
+          pass: process.env.SMTP_PASS || '',
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      },
+      // Gmail fallback (if user wants to switch)
+      {
+        name: 'Gmail Fallback',
+        service: 'gmail',
+        auth: {
+          user: process.env.SMTP_USER || '',
+          pass: process.env.SMTP_PASS || '',
+        }
+      }
+    ];
 
     // Only create transporter if credentials are provided
-    if (emailConfig.auth.user && emailConfig.auth.pass) {
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
       console.log('Initializing email service with:');
-      console.log('- SMTP Host:', emailConfig.host);
-      console.log('- SMTP Port:', emailConfig.port);
-      console.log('- SMTP Secure:', emailConfig.secure);
-      console.log('- SMTP User:', emailConfig.auth.user);
+      console.log('- SMTP Host:', host);
+      console.log('- SMTP Port:', port);
+      console.log('- SMTP User:', process.env.SMTP_USER);
       console.log('- Contact Email:', process.env.CONTACT_EMAIL || 'contact@chennaitrafficcalc.in');
+      console.log('- From Email:', process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER);
       
-      this.transporter = nodemailer.createTransport(emailConfig);
+      // Use the first configuration for now
+      this.transporter = nodemailer.createTransport(configs[0]);
     } else {
       console.warn('Email service not configured - missing SMTP credentials');
     }
@@ -57,15 +89,11 @@ class EmailService {
 
   async sendContactEmail(contactData: ContactEmail): Promise<boolean> {
     if (!this.transporter) {
-      console.error('Email service not configured');
+      console.error('Email service not configured - storing message in database only');
       return false;
     }
 
     try {
-      // Test connection first
-      await this.transporter.verify();
-      console.log('SMTP connection verified successfully');
-      
       const mailOptions = {
         from: process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER,
         to: process.env.CONTACT_EMAIL || 'contact@chennaitrafficcalc.in',
@@ -126,6 +154,35 @@ class EmailService {
     } catch (error) {
       console.error('SMTP connection test: FAILED');
       console.error('Error details:', error);
+      
+      // Try alternative port configuration if 465 fails
+      if (process.env.SMTP_PORT === '465') {
+        console.log('Trying port 587 as fallback...');
+        try {
+          const altConfig = {
+            host: process.env.SMTP_HOST || 'smtp.zoho.com',
+            port: 587,
+            secure: false,
+            requireTLS: true,
+            auth: {
+              user: process.env.SMTP_USER || '',
+              pass: process.env.SMTP_PASS || '',
+            },
+            tls: {
+              rejectUnauthorized: false
+            }
+          };
+          
+          const altTransporter = nodemailer.createTransport(altConfig);
+          await altTransporter.verify();
+          console.log('Alternative port 587: SUCCESS');
+          this.transporter = altTransporter; // Use the working configuration
+          return true;
+        } catch (altError) {
+          console.error('Port 587 also failed:', altError);
+        }
+      }
+      
       return false;
     }
   }

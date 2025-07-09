@@ -5,8 +5,10 @@ import { storage } from "./storage";
 import { impactCalculator } from "./services/impact-calculator";
 import { RoutingService } from "./services/routing-service";
 import { emailService } from "./services/email-service";
-import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema } from "@shared/schema";
+import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema, contactSubmissions } from "@shared/schema";
 import { z } from "zod";
+import { desc } from "drizzle-orm";
+import { db } from "./db";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Rate limiting middleware for contact form
@@ -236,21 +238,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Update submission status
         await storage.updateContactSubmissionStatus(
           submission.id, 
-          emailSent ? 'sent' : 'failed'
+          emailSent ? 'sent' : 'pending'
         );
 
+        // Always return success - message is stored in database
         res.json({ 
           success: true, 
           message: "Thank you for your message. We'll get back to you soon!" 
         });
 
+        // Log the contact submission for manual processing
+        console.log('=== NEW CONTACT FORM SUBMISSION ===');
+        console.log('Name:', contactData.name);
+        console.log('Email:', contactData.email);
+        console.log('Message:', contactData.message);
+        console.log('Submitted:', new Date().toLocaleString());
+        console.log('Status:', emailSent ? 'Email sent' : 'Email failed - stored in database');
+        console.log('=====================================');
+
       } catch (emailError) {
         console.error("Email sending failed:", emailError);
         
-        // Update submission status to failed
+        // Update submission status to failed but still return success
         await storage.updateContactSubmissionStatus(submission.id, 'failed');
         
-        // Still return success to user (we have their message stored)
         res.json({ 
           success: true, 
           message: "Your message has been received. We'll get back to you soon!" 
@@ -280,13 +291,78 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const isConnected = await emailService.testConnection();
       res.json({ 
         connected: isConnected,
-        message: isConnected ? "Email service is working" : "Email service connection failed"
+        message: isConnected ? "Email service is working" : "Email service connection failed",
+        config: {
+          host: process.env.SMTP_HOST || 'smtp.zoho.com',
+          port: process.env.SMTP_PORT || '587',
+          user: process.env.SMTP_USER || 'Not set',
+          hasPassword: !!process.env.SMTP_PASS,
+          fromEmail: process.env.SMTP_FROM_EMAIL || 'Not set',
+          contactEmail: process.env.CONTACT_EMAIL || 'contact@chennaitrafficcalc.in'
+        }
       });
     } catch (error) {
       console.error("Email test error:", error);
       res.status(500).json({ 
         connected: false,
         error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Send test email endpoint
+  app.post("/api/send-test-email", async (req, res) => {
+    try {
+      const result = await emailService.sendContactEmail({
+        name: 'Test User',
+        email: 'test@example.com',
+        message: 'This is a test email to verify the Chennai Traffic Impact Calculator contact form is working.',
+        submittedAt: new Date().toLocaleString()
+      });
+      
+      res.json({ 
+        success: result,
+        message: result ? "Test email sent successfully!" : "Failed to send test email"
+      });
+    } catch (error) {
+      console.error("Test email send error:", error);
+      res.status(500).json({ 
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Get contact submissions (for admin access)
+  app.get("/api/admin/contact-submissions", async (req, res) => {
+    try {
+      // Basic security - only allow from localhost or with admin key
+      const adminKey = req.headers['x-admin-key'] as string;
+      const isLocalhost = req.ip === '127.0.0.1' || req.ip === '::1' || req.hostname === 'localhost';
+      
+      if (!isLocalhost && adminKey !== process.env.ADMIN_KEY) {
+        return res.status(403).json({ error: "Access denied" });
+      }
+
+      const submissions = await db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(50);
+      
+      res.json({ 
+        success: true,
+        submissions: submissions.map(sub => ({
+          id: sub.id,
+          name: sub.name,
+          email: sub.email,
+          message: sub.message,
+          status: sub.status,
+          createdAt: sub.createdAt,
+          ipAddress: sub.ipAddress
+        }))
+      });
+    } catch (error) {
+      console.error("Error fetching contact submissions:", error);
+      res.status(500).json({ 
+        error: "Failed to fetch contact submissions",
+        message: error instanceof Error ? error.message : "Unknown error"
       });
     }
   });
