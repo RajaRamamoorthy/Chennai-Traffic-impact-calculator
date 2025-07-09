@@ -75,6 +75,10 @@ export function TransportationStep({
 
   const { data: vehicleTypes } = useQuery<VehicleType[]>({
     queryKey: ['/api/vehicle-types', selectedMode],
+    queryFn: async () => {
+      const response = await api(`/api/vehicle-types?category=${selectedMode}`);
+      return response.json();
+    },
     enabled: !!selectedMode && (selectedMode === 'car' || selectedMode === 'bike'),
   });
 

@@ -29,13 +29,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { category } = req.query;
       let vehicleTypes;
-      
+
       if (category && typeof category === 'string') {
         vehicleTypes = await storage.getVehicleTypesByCategory(category);
       } else {
         vehicleTypes = await storage.getVehicleTypes();
       }
-      
+
       res.json(vehicleTypes);
     } catch (error) {
       console.error("Error fetching vehicle types:", error);
@@ -50,13 +50,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/geocode", async (req, res) => {
     try {
       const { address } = req.body;
-      
+
       if (!address || typeof address !== 'string') {
         return res.status(400).json({ error: "Address is required" });
       }
 
       const location = await RoutingService.geocodeAddress(address);
-      
+
       if (!location) {
         return res.status(404).json({ error: "Location not found" });
       }
@@ -75,13 +75,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/route-info", async (req, res) => {
     try {
       const { origin, destination } = req.body;
-      
+
       if (!origin || !destination) {
         return res.status(400).json({ error: "Origin and destination are required" });
       }
 
       const routeInfo = await RoutingService.getRouteInfo(origin, destination);
-      
+
       if (!routeInfo) {
         return res.status(404).json({ error: "Route not found" });
       }
@@ -100,7 +100,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/places/autocomplete", async (req, res) => {
     try {
       const { input } = req.query;
-      
+
       if (!input || typeof input !== 'string') {
         return res.status(400).json({ error: "Input query is required" });
       }
@@ -145,7 +145,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
     } catch (error) {
       console.error("Calculation error:", error);
-      
+
       if (error instanceof z.ZodError) {
         return res.status(400).json({ 
           error: "Invalid input data",
@@ -168,7 +168,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ success: true, feedback });
     } catch (error) {
       console.error("Feedback error:", error);
-      
+
       if (error instanceof z.ZodError) {
         return res.status(400).json({ 
           error: "Invalid feedback data",
@@ -187,7 +187,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/calculations", async (req, res) => {
     try {
       const sessionId = req.headers['x-session-id'] as string;
-      
+
       if (!sessionId) {
         return res.status(400).json({ error: "Session ID required" });
       }
