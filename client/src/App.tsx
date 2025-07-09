@@ -1,16 +1,16 @@
-import { Route, Switch } from "wouter";
+import { Route, Switch, Router } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/lib/queryClient";
 import { LanguageProvider } from "@/contexts/language-context";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/toaster";
-import { Home } from "@/pages/home";
-import { Calculator } from "@/pages/calculator";
-import { HowItWorks } from "@/pages/how-it-works";
-import { Methodology } from "@/pages/methodology";
-import { DataSources } from "@/pages/data-sources";
-import { NotFound } from "@/pages/not-found";
+import Home from "@/pages/home";
+import Calculator from "@/pages/calculator";
+import HowItWorks from "@/pages/how-it-works";
+import Methodology from "@/pages/methodology";
+import DataSources from "@/pages/data-sources";
+import NotFound from "@/pages/not-found";
 
 function App() {
   return (

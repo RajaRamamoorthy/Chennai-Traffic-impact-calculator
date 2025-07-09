@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Globe, Info, Home } from "lucide-react";
-import { useLanguage } from './LanguageContext'; // Assuming you have a LanguageContext
-import { useTranslation } from './TranslationContext'; // Assuming you have a TranslationContext
+import { useLanguage } from "@/contexts/language-context";
+import { useTranslation } from "@/lib/i18n";
 
 export function Header() {
   const { language, toggleLanguage } = useLanguage();
