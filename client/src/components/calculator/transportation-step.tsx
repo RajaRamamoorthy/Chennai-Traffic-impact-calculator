@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,6 +7,7 @@ import { api } from "@/lib/api";
 import { VehicleType } from "@/types/calculator";
 import { useLanguage } from "@/contexts/language-context";
 import { useTranslation } from "@/lib/i18n";
+import { analytics } from "@/lib/analytics";
 
 interface TransportationStepProps {
   selectedMode: string;
@@ -89,13 +89,13 @@ export function TransportationStep({
   useEffect(() => {
     const selectedTransport = transportModes.find(mode => mode.id === selectedMode);
     setShowVehicleDetails(selectedTransport?.requiresVehicleDetails || false);
-    
+
     // Reset vehicle type and occupancy for sustainable transport
     if (selectedTransport && !selectedTransport.requiresVehicleDetails) {
       onVehicleTypeSelect(undefined);
       onOccupancyChange(1);
     }
-    
+
     // Reset occupancy if current value exceeds limits for selected mode
     if (selectedMode === 'bike' && occupancy > 3) {
       onOccupancyChange(1);
@@ -133,6 +133,24 @@ export function TransportationStep({
 
   const canContinue = selectedMode && (!showVehicleDetails || vehicleTypeId);
 
+  const handleModeSelect = (modeId: string) => {
+    onModeSelect(modeId);
+    const selectedModeData = transportModes.find(mode => mode.id === modeId);
+    if (selectedModeData) {
+      analytics.trackTransportModeSelection(selectedModeData.name);
+    }
+  };
+
+  const handleVehicleTypeSelect = (vehicleTypeId: number) => {
+    onVehicleTypeSelect(vehicleTypeId);
+    if (vehicleTypes) {
+      const selectedVehicleType = vehicleTypes.find(type => type.id === vehicleTypeId);
+      if (selectedVehicleType) {
+        analytics.trackVehicleTypeSelection(selectedVehicleType.name, selectedVehicleType.category);
+      }
+    }
+  };
+
   return (
     <div className="p-8">
       <div className="text-center mb-8">
@@ -145,11 +163,11 @@ export function TransportationStep({
         {transportModes.map((mode) => {
           const IconComponent = mode.icon;
           const isSelected = selectedMode === mode.id;
-          
+
           return (
             <button
               key={mode.id}
-              onClick={() => onModeSelect(mode.id)}
+              onClick={() => handleModeSelect(mode.id)}
               className={`p-6 border-2 rounded-xl transition-all duration-200 group ${
                 isSelected
                   ? 'border-primary bg-primary/5'
@@ -180,7 +198,7 @@ export function TransportationStep({
                 </label>
                 <Select 
                   value={vehicleTypeId?.toString()} 
-                  onValueChange={(value) => onVehicleTypeSelect(parseInt(value))}
+                  onValueChange={(value) => handleVehicleTypeSelect(parseInt(value))}
                   disabled={vehicleTypesLoading}
                 >
                   <SelectTrigger>

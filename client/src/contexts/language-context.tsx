@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { analytics } from '@/lib/analytics';
 
 type Language = 'en' | 'ta';
 
@@ -13,12 +14,19 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
 
+  const handleSetLanguage = (newLang: Language) => {
+    analytics.trackLanguageChange(language, newLang);
+    setLanguage(newLang);
+  };
+
   const toggleLanguage = () => {
-    setLanguage(prev => prev === 'en' ? 'ta' : 'en');
+    const newLang = language === 'en' ? 'ta' : 'en';
+    analytics.trackLanguageChange(language, newLang);
+    setLanguage(newLang);
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, toggleLanguage }}>
       {children}
     </LanguageContext.Provider>
   );

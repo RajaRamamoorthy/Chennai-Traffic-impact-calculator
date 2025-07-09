@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/lib/api";
 import { X, Send } from "lucide-react";
+import { analytics } from "@/lib/analytics";
 
 const feedbackSchema = z.object({
   name: z.string().min(1, "Name is required").max(100, "Name too long"),
@@ -65,7 +66,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
     } catch (error: any) {
       const errorMessage = error?.message || "Please try again later.";
       const isRateLimit = errorMessage.includes("Too many") || error?.status === 429;
-      
+
       toast({
         title: isRateLimit ? "Rate limit exceeded" : "Failed to send message",
         description: isRateLimit ? "Please wait before sending another message." : errorMessage,

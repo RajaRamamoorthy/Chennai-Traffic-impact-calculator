@@ -6,6 +6,9 @@
     <title>Chennai Traffic Impact Calculator - Calculate Your Commute Impact</title>
     <meta name="description" content="Calculate how your commute affects Chennai traffic. Get personalized suggestions for better alternatives and reduce your environmental impact." />
     
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://replit.com; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://maps.googleapis.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self';">
+    
     <!-- Open Graph tags -->
     <meta property="og:title" content="Chennai Traffic Impact Calculator" />
     <meta property="og:description" content="Understand how your daily commute affects Chennai's traffic and discover better alternatives to save time, money, and reduce environmental impact." />
@@ -19,6 +22,18 @@
     
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚦</text></svg>" />
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8S4RJMVGST"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8S4RJMVGST', {
+        page_title: document.title,
+        page_location: window.location.href
+      });
+    </script>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
