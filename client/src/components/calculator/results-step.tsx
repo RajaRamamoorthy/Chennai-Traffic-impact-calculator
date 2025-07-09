@@ -15,6 +15,7 @@ interface ResultsStepProps {
 
 export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
+  const [isSharing, setIsSharing] = useState(false);
   const { toast } = useToast();
   const scoreCardRef = useRef<HTMLDivElement>(null);
 
@@ -40,6 +41,11 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   };
 
   const handleShare = async () => {
+    // Prevent multiple simultaneous share operations
+    if (isSharing) return;
+    
+    setIsSharing(true);
+    
     try {
       const shareUrl = 'https://chennaitrafficcalc.in?utm_source=share';
       const shareText = `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`;
@@ -111,6 +117,8 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         description: "Unable to share results. Please try again.",
         variant: "destructive"
       });
+    } finally {
+      setIsSharing(false);
     }
   };
 
@@ -318,9 +326,18 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-        <Button onClick={handleShare} className="px-8 py-3">
-          <Share className="mr-2 w-4 h-4" />
-          Share Results
+        <Button onClick={handleShare} disabled={isSharing} className="px-8 py-3">
+          {isSharing ? (
+            <>
+              <div className="mr-2 w-4 h-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+              Sharing...
+            </>
+          ) : (
+            <>
+              <Share className="mr-2 w-4 h-4" />
+              Share Results
+            </>
+          )}
         </Button>
         <Button variant="outline" onClick={onRestart} className="px-8 py-3">
           <RotateCcw className="mr-2 w-4 h-4" />
