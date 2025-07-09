@@ -44,7 +44,7 @@ export const api = {
   },
 
   // Submit feedback
-  submitFeedback: async (feedback: { calculationId: number; rating?: number; helpful?: boolean; comments?: string }) => {
+  submitFeedback: async (feedback: { calculationId?: number; rating?: number; helpful?: boolean; comments?: string }) => {
     const res = await apiRequest("POST", "/api/feedback", feedback);
     return res.json();
   },

@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/contexts/language-context";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { Toaster } from "@/components/ui/toaster";
+import { FeedbackButton } from "@/components/ui/feedback-button";
 import Home from "@/pages/home";
 import Calculator from "@/pages/calculator";
 import HowItWorks from "@/pages/how-it-works";
@@ -30,6 +31,7 @@ function App() {
               </Switch>
             </main>
             <Footer />
+            <FeedbackButton />
             <Toaster />
           </div>
         </Router>
