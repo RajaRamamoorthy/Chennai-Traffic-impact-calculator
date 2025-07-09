@@ -4,19 +4,18 @@ import {
   vehicleTypes, 
   feedback, 
   routeCongestion,
-  type User, 
-  type InsertUser,
-  type Calculation,
-  type InsertCalculation,
-  type VehicleType,
-  type InsertVehicleType,
-  type Feedback,
+  contactSubmissions,
+  type InsertUser, 
+  type InsertCalculation, 
   type InsertFeedback,
-  type RouteCongestion,
-  type InsertRouteCongestion
+  type InsertContactSubmission,
+  type Calculation,
+  type VehicleType,
+  type ContactSubmission
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, sql } from "drizzle-orm";
+import { gte } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -47,6 +46,11 @@ export interface IStorage {
 
   // Analytics
   getCalculationStats(): Promise<{totalCalculations: number, avgImpactScore: number}>;
+
+  // Contact Submissions
+  createContactSubmission(data: InsertContactSubmission): Promise<ContactSubmission>;
+  updateContactSubmissionStatus(id: number, status: string): Promise<void>;
+  getRecentContactSubmissions(ipAddress: string, timeWindowMinutes?: number): Promise<ContactSubmission[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -135,7 +139,7 @@ export class DatabaseStorage implements IStorage {
     // Use Haversine formula for distance calculation
     // Convert radius from km to degrees (approximate)
     const degreeRadius = radiusKm / 111; // Roughly 111 km per degree at equator
-    
+
     return await db.select().from(routeCongestion).where(
       sql`(
         (CAST(${routeCongestion.lat} AS DECIMAL) - ${lat})^2 + 
@@ -160,11 +164,55 @@ export class DatabaseStorage implements IStorage {
         avgImpactScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
       })
       .from(calculations);
-    
+
     return {
       totalCalculations: stats.totalCalculations || 0,
       avgImpactScore: Math.round(stats.avgImpactScore || 0),
     };
+  }
+
+  async createContactSubmission(data: InsertContactSubmission): Promise<ContactSubmission> {
+    try {
+      const [submission] = await db
+        .insert(contactSubmissions)
+        .values(data)
+        .returning();
+      return submission;
+    } catch (error) {
+      console.error("Error creating contact submission:", error);
+      throw error;
+    }
+  }
+
+  async updateContactSubmissionStatus(id: number, status: string): Promise<void> {
+    try {
+      await db
+        .update(contactSubmissions)
+        .set({ status })
+        .where(eq(contactSubmissions.id, id));
+    } catch (error) {
+      console.error("Error updating contact submission status:", error);
+      throw error;
+    }
+  }
+
+  async getRecentContactSubmissions(ipAddress: string, timeWindowMinutes: number = 60): Promise<ContactSubmission[]> {
+    try {
+      const timeThreshold = new Date(Date.now() - (timeWindowMinutes * 60 * 1000));
+
+      return await db
+        .select()
+        .from(contactSubmissions)
+        .where(
+          and(
+            eq(contactSubmissions.ipAddress, ipAddress),
+            gte(contactSubmissions.createdAt, timeThreshold)
+          )
+        );
+    } catch (error) {
+      console.error("Error getting recent contact submissions:", error);
+      throw error;
+    }
   }
 }
 

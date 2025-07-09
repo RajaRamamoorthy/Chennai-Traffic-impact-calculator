@@ -57,16 +57,19 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
       });
 
       toast({
-        title: "Thanks for your feedback!",
+        title: "Thanks for your message!",
         description: "We'll get back to you soon.",
       });
 
       onOpenChange(false);
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
+      const errorMessage = error?.message || "Please try again later.";
+      const isRateLimit = errorMessage.includes("Too many") || error?.status === 429;
+      
       toast({
-        title: "Failed to send feedback",
-        description: "Please try again later.",
+        title: isRateLimit ? "Rate limit exceeded" : "Failed to send message",
+        description: isRateLimit ? "Please wait before sending another message." : errorMessage,
         variant: "destructive"
       });
     } finally {

@@ -1,6 +1,5 @@
-
-import { db } from './db';
-import { vehicleTypes, routeCongestion, calculations, feedback } from '@shared/schema';
+import { db } from "./db";
+import { vehicleTypes, routeCongestion, contactSubmissions, calculations, feedback } from "@shared/schema";
 
 const seedVehicleTypes = [
   // Cars - Body Styles
@@ -68,7 +67,7 @@ const seedVehicleTypes = [
     avgSpeedKmh: 25,
     baseImpactScore: 25
   },
-  
+
   // Two-wheelers - Engine Categories
   {
     name: 'Scooter',
@@ -229,13 +228,14 @@ const seedRouteCongestion = [
 async function seedDatabase() {
   try {
     console.log('🌱 Starting database seeding...');
-    
+
     // Clear existing data in correct order due to foreign key constraints
     console.log('🧹 Clearing existing data...');
     await db.delete(feedback);
     await db.delete(calculations);
     await db.delete(vehicleTypes);
     await db.delete(routeCongestion);
+    await db.delete(contactSubmissions);
 
     // Seed vehicle types
     console.log('🚗 Seeding vehicle types...');
@@ -252,15 +252,9 @@ async function seedDatabase() {
     console.log(`✅ Inserted ${seedRouteCongestion.length} congestion areas`);
 
     console.log('🎉 Database seeding completed successfully!');
-    
-    // Display summary
-    console.log('\n📊 Seeded Data Summary:');
-    console.log(`   Cars: ${seedVehicleTypes.filter(v => v.category === 'car').length}`);
-    console.log(`   Bikes: ${seedVehicleTypes.filter(v => v.category === 'bike').length}`);
-    console.log(`   Public Transport: ${seedVehicleTypes.filter(v => ['metro', 'bus', 'auto'].includes(v.category)).length}`);
-    console.log(`   Active Transport: ${seedVehicleTypes.filter(v => v.category === 'walking').length}`);
-    console.log(`   Traffic Areas: ${seedRouteCongestion.length}`);
-    
+
+    // Contact submissions table will be created automatically by Drizzle
+    console.log("📧 Contact submissions table ready");
   } catch (error) {
     console.error('❌ Error seeding database:', error);
     throw error;

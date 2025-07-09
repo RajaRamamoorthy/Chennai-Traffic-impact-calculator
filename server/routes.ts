@@ -1,12 +1,26 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import rateLimit from "express-rate-limit";
 import { storage } from "./storage";
 import { impactCalculator } from "./services/impact-calculator";
 import { RoutingService } from "./services/routing-service";
-import { insertCalculationSchema, insertFeedbackSchema } from "@shared/schema";
+import { emailService } from "./services/email-service";
+import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Rate limiting middleware for contact form
+  const contactRateLimit = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 3, // limit each IP to 3 requests per windowMs
+    message: {
+      error: "Too many contact form submissions. Please try again later.",
+      retryAfter: "15 minutes"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
   // Health check endpoint
   app.get("/api/health", async (req, res) => {
     try {
@@ -181,6 +195,80 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       res.status(500).json({ 
         error: "Failed to submit feedback",
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
+  // Submit contact form
+  app.post("/api/contact", contactRateLimit, async (req, res) => {
+    try {
+      const contactData = insertContactSubmissionSchema.parse(req.body);
+      
+      // Get client IP and user agent
+      const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+      const userAgent = req.get('User-Agent') || 'unknown';
+
+      // Check for recent submissions from this IP (additional rate limiting)
+      const recentSubmissions = await storage.getRecentContactSubmissions(ipAddress, 60);
+      if (recentSubmissions.length >= 3) {
+        return res.status(429).json({
+          error: "Too many submissions from this IP address. Please try again later."
+        });
+      }
+
+      // Create contact submission record
+      const submission = await storage.createContactSubmission({
+        ...contactData,
+        ipAddress,
+        userAgent
+      });
+
+      // Send email notification
+      try {
+        const emailSent = await emailService.sendContactEmail({
+          name: contactData.name,
+          email: contactData.email,
+          message: contactData.message,
+          submittedAt: new Date().toLocaleString()
+        });
+
+        // Update submission status
+        await storage.updateContactSubmissionStatus(
+          submission.id, 
+          emailSent ? 'sent' : 'failed'
+        );
+
+        res.json({ 
+          success: true, 
+          message: "Thank you for your message. We'll get back to you soon!" 
+        });
+
+      } catch (emailError) {
+        console.error("Email sending failed:", emailError);
+        
+        // Update submission status to failed
+        await storage.updateContactSubmissionStatus(submission.id, 'failed');
+        
+        // Still return success to user (we have their message stored)
+        res.json({ 
+          success: true, 
+          message: "Your message has been received. We'll get back to you soon!" 
+        });
+      }
+
+    } catch (error) {
+      console.error("Contact submission error:", error);
+
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ 
+          error: "Invalid contact data",
+          details: error.errors
+        });
+      }
+
+      res.status(500).json({ 
+        error: "Failed to submit contact form",
         message: error instanceof Error ? error.message : "Unknown error"
       });
     }
