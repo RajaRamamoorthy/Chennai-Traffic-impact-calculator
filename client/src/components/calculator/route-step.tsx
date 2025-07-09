@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { MapPin, ArrowLeft, Calculator, Clock } from "lucide-react";
+import { LocationAutocomplete } from "@/components/ui/location-autocomplete";
 import { useLanguage } from "@/contexts/language-context";
 import { useTranslation } from "@/lib/i18n";
 import { analytics } from "@/lib/analytics";
@@ -52,12 +52,10 @@ export function RouteStep({
 
   const handleOriginChange = (value: string) => {
     onOriginChange(value);
-    analytics.trackLocationSelect(value, 'origin');
   };
 
   const handleDestinationChange = (value: string) => {
     onDestinationChange(value);
-    analytics.trackLocationSelect(value, 'destination');
   };
 
   const handleTimingChange = (value: string) => {
@@ -102,22 +100,24 @@ export function RouteStep({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="origin">{t.route.from}</Label>
-            <Input
+            <LocationAutocomplete
               id="origin"
               value={origin}
-              onChange={(e) => handleOriginChange(e.target.value)}
+              onChange={handleOriginChange}
               placeholder={t.route.fromPlaceholder}
               className="w-full"
+              locationType="origin"
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="destination">{t.route.to}</Label>
-            <Input
+            <LocationAutocomplete
               id="destination"
               value={destination}
-              onChange={(e) => handleDestinationChange(e.target.value)}
+              onChange={handleDestinationChange}
               placeholder={t.route.toPlaceholder}
               className="w-full"
+              locationType="destination"
             />
           </div>
         </div>
