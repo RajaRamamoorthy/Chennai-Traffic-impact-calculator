@@ -44,7 +44,18 @@ export const api = {
   },
 
   // Submit feedback
-  submitFeedback: async (feedback: { calculationId: number; rating?: number; helpful?: boolean; comments?: string }) => {
+  submitFeedback: async (feedback: { calculationId?: number; rating?: number; helpful?: boolean; comments?: string; name?: string; email?: string; message?: string }) => {
+    // If it's a contact form submission (has name, email, message), use contact endpoint
+    if (feedback.name && feedback.email && feedback.message) {
+      const res = await apiRequest("POST", "/api/contact", {
+        name: feedback.name,
+        email: feedback.email,
+        message: feedback.message
+      });
+      return res.json();
+    }
+    
+    // Otherwise use the regular feedback endpoint
     const res = await apiRequest("POST", "/api/feedback", feedback);
     return res.json();
   },

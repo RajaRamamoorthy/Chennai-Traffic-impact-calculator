@@ -1,0 +1,41 @@
+[vite] connecting...
+[vite] connected.
+TooltipProvider is not defined
+at App (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/App.tsx?v=TGW-GeaK2NNiyMbssjMXK:69:207)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:11548:26)
+at mountIndeterminateComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:14926:21)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:15914:22)
+at HTMLUnknownElement.callCallback2 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:3674:22)
+at Object.invokeGuardedCallbackDev (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:3699:24)
+at invokeGuardedCallback (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:3733:39)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19765:15)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19137:13)
+TooltipProvider is not defined
+at App (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/App.tsx?v=TGW-GeaK2NNiyMbssjMXK:69:207)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:11548:26)
+at mountIndeterminateComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:14926:21)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:15914:22)
+at HTMLUnknownElement.callCallback2 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:3674:22)
+at Object.invokeGuardedCallbackDev (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:3699:24)
+at invokeGuardedCallback (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:3733:39)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19765:15)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19137:13)
+The above error occurred in the <App> component:
+
+    at App (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/App.tsx?v=TGW-GeaK2NNiyMbssjMXK:69:207)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+TooltipProvider is not defined
+at App (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/App.tsx?v=TGW-GeaK2NNiyMbssjMXK:69:207)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:11548:26)
+at mountIndeterminateComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:14926:21)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:15914:22)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19753:22)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19137:13)
+at renderRootSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:19116:15)
+at recoverFromConcurrentError (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:18736:28)
+at performConcurrentWorkOnRoot (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-WERSD76P.js?v=482b51ec:18684:30)
