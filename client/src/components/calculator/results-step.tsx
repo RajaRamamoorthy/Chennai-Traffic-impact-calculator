@@ -53,9 +53,26 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       // Capture screenshot of the score card
       if (scoreCardRef.current) {
         try {
+          // Temporarily make the hidden container visible for screenshot
+          const originalStyle = scoreCardRef.current.style.cssText;
+          scoreCardRef.current.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 1200px;
+            background: white;
+            padding: 32px;
+            z-index: 9999;
+            visibility: visible;
+            opacity: 1;
+          `;
+          
+          // Allow a brief moment for rendering
+          await new Promise(resolve => setTimeout(resolve, 100));
+          
           const canvas = await html2canvas(scoreCardRef.current, {
             backgroundColor: '#ffffff',
-            scale: 1,
+            scale: 2,
             logging: false,
             width: 1200,
             height: scoreCardRef.current.scrollHeight,
@@ -63,6 +80,9 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             allowTaint: true,
             foreignObjectRendering: true
           });
+          
+          // Restore original styling
+          scoreCardRef.current.style.cssText = originalStyle;
           
           // Convert canvas to blob
           canvas.toBlob(async (blob) => {
@@ -152,8 +172,8 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       {/* Hidden fixed-width screenshot container */}
       <div 
         ref={scoreCardRef}
-        className="fixed -top-[9999px] left-0 w-[1200px] bg-white p-8 z-[-1]"
-        style={{ width: '1200px', minHeight: 'auto' }}
+        className="fixed top-0 left-0 w-[1200px] bg-white p-8 z-[-1] opacity-0 pointer-events-none"
+        style={{ width: '1200px', minHeight: 'auto', visibility: 'hidden' }}
       >
         {/* Website URL header for screenshot */}
         <div className="text-center mb-6 py-4 bg-gradient-to-r from-green-50 to-blue-50 border-b-2 border-green-200">
