@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Globe, Info } from "lucide-react";
+import { Globe, Info, Home } from "lucide-react";
 
 export function Header() {
   const [language, setLanguage] = useState<'en' | 'ta'>('en');
@@ -18,6 +19,16 @@ export function Header() {
             <h1 className="text-xl font-semibold text-slate-900">
               Chennai Traffic Impact Calculator
             </h1>
+            <Link href="/">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="ml-4 text-slate-600 hover:text-slate-900"
+                title="Go to Home"
+              >
+                <Home className="w-4 h-4" />
+              </Button>
+            </Link>
           </div>
           <div className="flex items-center space-x-4">
             <Button 
