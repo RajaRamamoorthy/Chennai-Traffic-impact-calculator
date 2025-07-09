@@ -14,19 +14,9 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold text-slate-900 mb-4">Resources</h3>
-            <ul className="space-y-2 text-sm text-slate-600">
-              <li><a href="https://chennaimetrorail.org" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900">Chennai Metro</a></li>
-              <li><a href="https://mtcbus.tn.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-slate-900">MTC Bus routes</a></li>
-              <li><Link href="/carpooling-tips" className="hover:text-slate-900">Carpooling tips</Link></li>
-            </ul>
-          </div>
-          <div>
             <h3 className="font-semibold text-slate-900 mb-4">Support</h3>
             <ul className="space-y-2 text-sm text-slate-600">
-              <li><Link href="/faq" className="hover:text-slate-900">FAQ</Link></li>
-              <li><Link href="/contact" className="hover:text-slate-900">Contact</Link></li>
-              <li><Link href="/feedback" className="hover:text-slate-900">Feedback</Link></li>
+              <li><Link href="/contact" className="hover:text-slate-900">Contact/Feedback</Link></li>
             </ul>
           </div>
           <div>
