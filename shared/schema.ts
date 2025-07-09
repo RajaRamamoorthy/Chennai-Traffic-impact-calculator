@@ -57,7 +57,7 @@ export const feedback = pgTable("feedback", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-// Contact form submissions
+// Contact submissions
 export const contactSubmissions = pgTable("contact_submissions", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
@@ -141,6 +141,7 @@ export const insertRouteCongestionSchema = createInsertSchema(routeCongestion).o
 
 export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({
   id: true,
+  status: true,
   createdAt: true,
 });
 

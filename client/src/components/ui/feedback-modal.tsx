@@ -124,11 +124,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                 <FormItem>
                   <FormLabel>Email Address *</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="email" 
-                      placeholder="your@email.com" 
-                      {...field} 
-                    />
+                    <Input type="email" placeholder="your.email@example.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -142,30 +138,39 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                 <FormItem>
                   <FormLabel>Message *</FormLabel>
                   <FormControl>
-                    <Textarea 
-                      placeholder="Tell us what you think..."
-                      className="min-h-[120px] resize-none"
-                      {...field} 
+                    <Textarea
+                      placeholder="Your message or feedback..."
+                      className="min-h-[100px] resize-none"
+                      maxLength={500}
+                      {...field}
                     />
                   </FormControl>
+                  <div className="text-xs text-slate-500 text-right">
+                    {field.value?.length || 0}/500
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="flex gap-3 justify-end">
+            <div className="flex justify-end gap-3 pt-4">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
                 disabled={isSubmitting}
               >
-                <X className="h-4 w-4 mr-1" />
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                <Send className="h-4 w-4 mr-1" />
-                {isSubmitting ? "Sending..." : "Send Message"}
+                {isSubmitting ? (
+                  "Sending..."
+                ) : (
+                  <>
+                    <Send className="h-4 w-4 mr-2" />
+                    Send Message
+                  </>
+                )}
               </Button>
             </div>
           </form>

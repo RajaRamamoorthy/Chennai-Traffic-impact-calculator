@@ -206,7 +206,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/contact", contactRateLimit, async (req, res) => {
     try {
       const contactData = insertContactSubmissionSchema.parse(req.body);
-
+      
       // Get client IP and user agent
       const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
       const userAgent = req.get('User-Agent') || 'unknown';
@@ -258,10 +258,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       } catch (emailError) {
         console.error("Email sending failed:", emailError);
-
+        
         // Update submission status to failed but still return success
         await storage.updateContactSubmissionStatus(submission.id, 'failed');
-
+        
         res.json({ 
           success: true, 
           message: "Your message has been received. We'll get back to you soon!" 
@@ -319,7 +319,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: 'This is a test email to verify the Chennai Traffic Impact Calculator contact form is working.',
         submittedAt: new Date().toLocaleString()
       });
-
+      
       res.json({ 
         success: result,
         message: result ? "Test email sent successfully!" : "Failed to send test email"
@@ -339,13 +339,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Basic security - only allow from localhost or with admin key
       const adminKey = req.headers['x-admin-key'] as string;
       const isLocalhost = req.ip === '127.0.0.1' || req.ip === '::1' || req.hostname === 'localhost';
-
+      
       if (!isLocalhost && adminKey !== process.env.ADMIN_KEY) {
         return res.status(403).json({ error: "Access denied" });
       }
 
       const submissions = await db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(50);
-
+      
       res.json({ 
         success: true,
         submissions: submissions.map(sub => ({

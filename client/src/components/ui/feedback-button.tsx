@@ -1,27 +1,23 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { MessageSquare } from "lucide-react";
-import { FeedbackModal } from "./feedback-modal";
+import { MessageCircle } from "lucide-react";
+import { FeedbackModal } from "@/components/ui/feedback-modal";
 
 export function FeedbackButton() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <>
       <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 z-50 shadow-lg"
+        onClick={() => setModalOpen(true)}
+        className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+        size="icon"
+        aria-label="Send feedback"
       >
-        <MessageSquare className="h-4 w-4 mr-2" />
-        Feedback
+        <MessageCircle className="h-6 w-6" />
       </Button>
-      <FeedbackModal 
-        isOpen={isOpen} 
-        onClose={() => setIsOpen(false)} 
-      />
+      
+      <FeedbackModal open={modalOpen} onOpenChange={setModalOpen} />
     </>
   );
 }
