@@ -22,22 +22,51 @@ class EmailService {
   private transporter: nodemailer.Transporter | null = null;
 
   constructor() {
-    this.initializeTransporter();
+    this.initializeTransporter().catch(console.error);
   }
 
-  private initializeTransporter() {
+  private async initializeTransporter() {
     const port = parseInt(process.env.SMTP_PORT || '587');
     const host = process.env.SMTP_HOST || 'smtp.zoho.com';
     
     // Try multiple configurations for better compatibility
     const configs = [
-      // Try port 587 first for Zoho (often more reliable)
+      // Zoho with explicit authentication method
       {
-        name: 'Zoho 587 STARTTLS',
+        name: 'Zoho PLAIN Auth 587',
         host: 'smtp.zoho.com',
         port: 587,
         secure: false,
-        requireTLS: true,
+        auth: {
+          user: process.env.SMTP_USER || '',
+          pass: process.env.SMTP_PASS || '',
+          type: 'login'
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      },
+      // Zoho with different auth method
+      {
+        name: 'Zoho LOGIN Auth 465',
+        host: 'smtp.zoho.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user: process.env.SMTP_USER || '',
+          pass: process.env.SMTP_PASS || '',
+          method: 'LOGIN'
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      },
+      // Try different Zoho server
+      {
+        name: 'Zoho Alt Server',
+        host: 'smtp.zoho.in',
+        port: 587,
+        secure: false,
         auth: {
           user: process.env.SMTP_USER || '',
           pass: process.env.SMTP_PASS || '',
@@ -92,11 +121,28 @@ class EmailService {
       console.log('- SMTP Host:', host);
       console.log('- SMTP Port:', port);
       console.log('- SMTP User:', process.env.SMTP_USER);
+      console.log('- SMTP Pass Length:', process.env.SMTP_PASS?.length || 0);
       console.log('- Contact Email:', process.env.CONTACT_EMAIL || 'contact@chennaitrafficcalc.in');
       console.log('- From Email:', process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER);
       
-      // Use the first configuration for now
-      this.transporter = nodemailer.createTransport(configs[0]);
+      // Try each configuration until one works
+      for (const config of configs) {
+        try {
+          this.transporter = nodemailer.createTransport(config);
+          const verified = await this.transporter.verify();
+          if (verified) {
+            console.log(`✅ SMTP connection successful with: ${config.name}`);
+            break;
+          }
+        } catch (error) {
+          console.log(`❌ ${config.name} failed:`, error.message);
+          this.transporter = null;
+        }
+      }
+      
+      if (!this.transporter) {
+        console.log('⚠️ All SMTP configurations failed. Emails will not be sent.');
+      }
     } else {
       console.warn('Email service not configured - missing SMTP credentials');
     }
