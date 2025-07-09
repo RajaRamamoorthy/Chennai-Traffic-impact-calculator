@@ -1,86 +1,116 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { z } from "zod";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { feedbackSchema, type FeedbackData } from "@/lib/validation";
-import { apiRequest } from "@/lib/queryClient";
+import { api } from "@/lib/api";
+import { X, Send } from "lucide-react";
+
+const feedbackSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name too long"),
+  email: z.string().email("Invalid email address"),
+  message: z.string().min(10, "Message must be at least 10 characters").max(500, "Message too long"),
+  honeypot: z.string().optional()
+});
+
+type FeedbackForm = z.infer<typeof feedbackSchema>;
 
 interface FeedbackModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  calculationId?: number;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-export function FeedbackModal({ isOpen, onClose, calculationId }: FeedbackModalProps) {
+export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const queryClient = useQueryClient();
 
-  const form = useForm<FeedbackData>({
+  const form = useForm<FeedbackForm>({
     resolver: zodResolver(feedbackSchema),
     defaultValues: {
       name: "",
       email: "",
       message: "",
-      comments: "",
-      calculationId: calculationId,
-      rating: 5,
-      helpful: undefined,
-    },
+      honeypot: ""
+    }
   });
 
-  const submitFeedback = useMutation({
-    mutationFn: (data: FeedbackData) => 
-      apiRequest('/api/feedback', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      }),
-    onSuccess: () => {
-      toast({
-        title: "Thank you!",
-        description: "Your feedback has been submitted successfully.",
-      });
+  const onSubmit = async (data: FeedbackForm) => {
+    // Bot detection - if honeypot field is filled, ignore silently
+    if (data.honeypot) {
+      onOpenChange(false);
       form.reset();
-      onClose();
-      queryClient.invalidateQueries({ queryKey: ['/api/feedback'] });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: "Failed to submit feedback. Please try again.",
-        variant: "destructive",
-      });
-      console.error('Feedback submission error:', error);
-    },
-  });
+      return;
+    }
 
-  const onSubmit = (data: FeedbackData) => {
-    submitFeedback.mutate(data);
+    setIsSubmitting(true);
+    try {
+      await api.submitFeedback({
+        name: data.name,
+        email: data.email,
+        message: data.message
+      });
+
+      toast({
+        title: "Thanks for your message!",
+        description: "We'll get back to you soon.",
+      });
+
+      onOpenChange(false);
+      form.reset();
+    } catch (error: any) {
+      const errorMessage = error?.message || "Please try again later.";
+      const isRateLimit = errorMessage.includes("Too many") || error?.status === 429;
+      
+      toast({
+        title: isRateLimit ? "Rate limit exceeded" : "Failed to send message",
+        description: isRateLimit ? "Please wait before sending another message." : errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Send Feedback</DialogTitle>
+          <DialogTitle>Send us your feedback</DialogTitle>
+          <DialogDescription>
+            We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+          </DialogDescription>
         </DialogHeader>
-        
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Honeypot field - hidden from users */}
+            <div style={{ display: 'none' }}>
+              <FormField
+                control={form.control}
+                name="honeypot"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input {...field} tabIndex={-1} autoComplete="off" />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Full Name *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} />
+                    <Input placeholder="Your full name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -92,28 +122,12 @@ export function FeedbackModal({ isOpen, onClose, calculationId }: FeedbackModalP
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input type="email" placeholder="your.email@example.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="rating"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Rating (1-5)</FormLabel>
+                  <FormLabel>Email Address *</FormLabel>
                   <FormControl>
                     <Input 
-                      type="number" 
-                      min="1" 
-                      max="5" 
-                      {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                      type="email" 
+                      placeholder="your@email.com" 
+                      {...field} 
                     />
                   </FormControl>
                   <FormMessage />
@@ -126,11 +140,11 @@ export function FeedbackModal({ isOpen, onClose, calculationId }: FeedbackModalP
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Message</FormLabel>
+                  <FormLabel>Message *</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Your feedback or suggestions..."
-                      className="min-h-[100px]"
+                      placeholder="Tell us what you think..."
+                      className="min-h-[120px] resize-none"
                       {...field} 
                     />
                   </FormControl>
@@ -139,30 +153,19 @@ export function FeedbackModal({ isOpen, onClose, calculationId }: FeedbackModalP
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="comments"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Additional Comments (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Any additional comments about the calculation..."
-                      className="min-h-[80px]"
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <div className="flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={onClose}>
+            <div className="flex gap-3 justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onOpenChange(false)}
+                disabled={isSubmitting}
+              >
+                <X className="h-4 w-4 mr-1" />
                 Cancel
               </Button>
-              <Button type="submit" disabled={submitFeedback.isPending}>
-                {submitFeedback.isPending ? "Submitting..." : "Submit"}
+              <Button type="submit" disabled={isSubmitting}>
+                <Send className="h-4 w-4 mr-1" />
+                {isSubmitting ? "Sending..." : "Send Message"}
               </Button>
             </div>
           </form>
