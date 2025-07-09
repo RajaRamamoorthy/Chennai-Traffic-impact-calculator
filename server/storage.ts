@@ -51,6 +51,7 @@ export interface IStorage {
   createContactSubmission(data: InsertContactSubmission): Promise<ContactSubmission>;
   updateContactSubmissionStatus(id: number, status: string): Promise<void>;
   getRecentContactSubmissions(ipAddress: string, timeWindowMinutes?: number): Promise<ContactSubmission[]>;
+  getContactSubmissions(): Promise<ContactSubmission[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -213,6 +214,10 @@ export class DatabaseStorage implements IStorage {
       console.error("Error getting recent contact submissions:", error);
       throw error;
     }
+  }
+
+  async getContactSubmissions(): Promise<ContactSubmission[]> {
+    return await db.select().from(contactSubmissions).orderBy(sql`${contactSubmissions.createdAt} DESC`);
   }
 }
 
