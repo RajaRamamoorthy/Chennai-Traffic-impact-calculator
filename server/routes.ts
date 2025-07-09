@@ -387,6 +387,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Sitemap generation endpoint
+  app.get("/sitemap.xml", (req, res) => {
+    const baseUrl = "https://chennaitrafficcalc.in";
+    const lastModified = new Date().toISOString().split('T')[0];
+    
+    const urls = [
+      { path: "/", priority: "1.0", changefreq: "weekly" },
+      { path: "/calculator", priority: "0.9", changefreq: "weekly" },
+      { path: "/how-it-works", priority: "0.7", changefreq: "monthly" },
+      { path: "/methodology", priority: "0.7", changefreq: "monthly" },
+      { path: "/data-sources", priority: "0.6", changefreq: "monthly" }
+    ];
+    
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+${urls.map(url => `  <url>
+    <loc>${baseUrl}${url.path}</loc>
+    <lastmod>${lastModified}</lastmod>
+    <changefreq>${url.changefreq}</changefreq>
+    <priority>${url.priority}</priority>
+  </url>`).join('\n')}
+</urlset>`;
+    
+    res.header("Content-Type", "application/xml");
+    res.send(sitemap);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

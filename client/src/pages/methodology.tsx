@@ -1,9 +1,32 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Calculator, Database, MapPin, Zap } from "lucide-react";
+import { SEO } from "@/components/seo";
 
 export default function Methodology() {
+  const methodologySchema = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Chennai Traffic Impact Calculator Methodology",
+    "description": "Scientific methodology behind calculating traffic impact scores in Chennai",
+    "author": {
+      "@type": "Organization",
+      "name": "Chennai Traffic Impact Calculator"
+    },
+    "datePublished": "2025-01-09",
+    "dateModified": "2025-01-09",
+    "keywords": "traffic impact methodology, emission calculation, congestion formula, Chennai traffic science"
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <>
+      <SEO
+        title="Methodology"
+        description="Understand the scientific methodology behind our Chennai traffic impact calculations. Learn about emission factors, congestion formulas, and scoring algorithms."
+        keywords="Chennai traffic methodology, traffic impact formula, emission calculation method, congestion scoring algorithm, transport impact science"
+        canonical="https://chennaitrafficcalc.in/methodology"
+        structuredData={methodologySchema}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -222,5 +245,6 @@ export default function Methodology() {
         </div>
       </section>
     </div>
+    </>
   );
 }

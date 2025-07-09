@@ -1,0 +1,15 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="50" fill="#10b981"/>
+  <g transform="translate(156, 80)">
+    <rect x="0" y="0" width="200" height="300" rx="25" fill="#f3f4f6"/>
+    <circle cx="100" cy="75" r="50" fill="#dc2626"/>
+    <circle cx="100" cy="150" r="50" fill="#f59e0b"/>
+    <circle cx="100" cy="225" r="50" fill="#10b981"/>
+  </g>
+  <text x="256" y="430" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" fill="#f3f4f6">
+    Chennai Traffic
+  </text>
+  <text x="256" y="470" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" fill="#f3f4f6">
+    Impact Calculator
+  </text>
+</svg>

@@ -80,12 +80,45 @@ The application uses PostgreSQL with the following main tables:
 - `DATABASE_URL`: PostgreSQL connection string
 - `GOOGLE_MAPS_API_KEY`: For geocoding and maps functionality
 
+## SEO Architecture
+
+### Technical SEO Implementation
+- **Dynamic Sitemap**: Server-side endpoint at `/sitemap.xml` generates up-to-date sitemap with proper priorities and change frequencies
+- **Meta Tag Management**: React Helmet Async provides dynamic meta tags for each page
+- **OpenGraph Integration**: Custom SVG image (1200x630) and complete OpenGraph tags for social media sharing
+- **Twitter Cards**: Summary large image cards configured for Twitter/X platform
+- **Canonical URLs**: Proper canonical tags to avoid duplicate content issues
+
+### Progressive Web App (PWA)
+- **Web Manifest**: Complete manifest.json with app metadata and icons
+- **App Icons**: SVG icons in 192x192 and 512x512 sizes for various device requirements
+- **Theme Colors**: Consistent branding with #10b981 (green) theme color
+- **Installable**: Users can install the app on mobile and desktop devices
+
+### Structured Data
+- **WebApplication Schema**: Describes the calculator as a free utility application
+- **FAQPage Schema**: Common questions and answers for better search visibility
+- **JSON-LD Format**: Search engine friendly structured data implementation
+
+### SEO Files
+- `/robots.txt`: Allows all crawlers with sitemap reference
+- `/sitemap.xml`: Dynamic XML sitemap generated on each request
+- `/manifest.json`: PWA manifest for app installation
+- `/og-image.svg`: OpenGraph image for social sharing
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 9, 2025: Implemented comprehensive SEO strategy with sitemap, meta tags, OpenGraph, and PWA support
+- July 9, 2025: Created dynamic sitemap generator endpoint at /sitemap.xml with proper XML formatting
+- July 9, 2025: Added OpenGraph image (og-image.svg) for enhanced social media sharing
+- July 9, 2025: Implemented PWA manifest with icons (192x192 and 512x512 SVG) for installable web app
+- July 9, 2025: Added JSON-LD structured data for WebApplication and FAQPage schemas
+- July 9, 2025: Enhanced index.html with comprehensive meta tags, canonical URL, and theme colors
+- July 9, 2025: React Helmet integration maintained for dynamic meta tag management on all pages
 - January 9, 2025: Successfully resolved all git merge conflicts across 12 files after pulling 37 remote commits
 - January 9, 2025: Fixed conflicts in App.tsx by keeping remote version with Router wrapper component structure
 - January 9, 2025: Resolved language-context.tsx conflicts by using simpler implementation with toggleLanguage method

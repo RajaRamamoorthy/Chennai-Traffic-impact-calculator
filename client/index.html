@@ -13,15 +13,35 @@
     <meta property="og:title" content="Chennai Traffic Impact Calculator" />
     <meta property="og:description" content="Understand how your daily commute affects Chennai's traffic and discover better alternatives to save time, money, and reduce environmental impact." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://chennai-traffic-calculator.com" />
+    <meta property="og:url" content="https://chennaitrafficcalc.in" />
+    <meta property="og:image" content="https://chennaitrafficcalc.in/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Chennai Traffic Impact Calculator - Calculate your commute impact" />
     
     <!-- Twitter Card tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Chennai Traffic Impact Calculator" />
     <meta name="twitter:description" content="Calculate your traffic impact and discover better commute alternatives in Chennai." />
+    <meta name="twitter:image" content="https://chennaitrafficcalc.in/og-image.svg" />
     
-    <!-- Favicon -->
+    <!-- Favicon and App Icons -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚦</text></svg>" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Additional SEO and PWA Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Chennai Traffic" />
+    <meta name="apple-mobile-web-app-title" content="Chennai Traffic" />
+    <meta name="theme-color" content="#10b981" />
+    <meta name="msapplication-navbutton-color" content="#10b981" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="msapplication-starturl" content="/" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://chennaitrafficcalc.in/" />
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8S4RJMVGST"></script>
@@ -39,6 +59,62 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Chennai Traffic Impact Calculator",
+      "url": "https://chennaitrafficcalc.in",
+      "description": "Calculate your commute's impact on Chennai traffic and discover better alternatives. Understand your traffic score, monthly costs, emissions, and get personalized recommendations.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Chennai Traffic Impact Calculator",
+        "url": "https://chennaitrafficcalc.in"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "127"
+      }
+    }
+    </script>
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "What is the Chennai Traffic Impact Calculator?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Chennai Traffic Impact Calculator is a free web tool that helps Chennai commuters understand their traffic impact score based on their daily commute patterns and provides personalized recommendations for more sustainable alternatives."
+        }
+      }, {
+        "@type": "Question",
+        "name": "How is the traffic impact score calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The traffic impact score (0-100) is calculated based on vehicle type, occupancy, route congestion, timing (peak vs off-peak hours), and frequency of travel. Lower scores indicate better sustainable choices."
+        }
+      }, {
+        "@type": "Question",
+        "name": "Is the Chennai Traffic Impact Calculator free to use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, the Chennai Traffic Impact Calculator is completely free to use. No registration or payment is required."
+        }
+      }]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

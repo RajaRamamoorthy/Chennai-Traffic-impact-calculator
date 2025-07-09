@@ -1,9 +1,31 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { ExternalLink, Database, MapPin, Users, Clock } from "lucide-react";
+import { SEO } from "@/components/seo";
 
 export default function DataSources() {
+  const dataSourcesSchema = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    "name": "Chennai Traffic Impact Calculator Data Sources",
+    "description": "Comprehensive data sources used for calculating traffic impact in Chennai",
+    "creator": {
+      "@type": "Organization",
+      "name": "Chennai Traffic Impact Calculator"
+    },
+    "datePublished": "2025-01-09",
+    "keywords": "Chennai traffic data, emission database, Google Maps API, traffic authority data"
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <>
+      <SEO
+        title="Data Sources"
+        description="Learn about the reliable data sources powering our Chennai traffic impact calculations. Google Maps, emission databases, and local traffic authority data."
+        keywords="Chennai traffic data sources, Google Maps traffic API, vehicle emission database, Chennai traffic authority data, transport data Chennai"
+        canonical="https://chennaitrafficcalc.in/data-sources"
+        structuredData={dataSourcesSchema}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -159,5 +181,6 @@ export default function DataSources() {
         </div>
       </section>
     </div>
+    </>
   );
 }

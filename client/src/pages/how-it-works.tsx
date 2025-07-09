@@ -2,10 +2,43 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Calculator, TrendingDown, ArrowRight } from "lucide-react";
+import { SEO } from "@/components/seo";
 
 export default function HowItWorks() {
+  const howItWorksSchema = {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Calculate Your Traffic Impact in Chennai",
+    "description": "A simple 3-step process to understand your commute's impact on Chennai traffic",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Enter Your Route",
+        "text": "Tell us your starting point and destination in Chennai"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Select Transportation",
+        "text": "Choose your mode of transport, vehicle type, occupancy, and travel frequency"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Get Your Impact Score",
+        "text": "Receive a detailed analysis showing your traffic impact score and suggestions"
+      }
+    ]
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <>
+      <SEO
+        title="How It Works"
+        description="Learn how the Chennai Traffic Impact Calculator works. Simple 3-step process to calculate your commute's impact on traffic congestion and environment."
+        keywords="how Chennai traffic calculator works, traffic impact calculation process, commute analysis steps, Chennai transport calculator guide"
+        canonical="https://chennaitrafficcalc.in/how-it-works"
+        structuredData={howItWorksSchema}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -163,5 +196,6 @@ export default function HowItWorks() {
         </div>
       </section>
     </div>
+    </>
   );
 }

@@ -7,6 +7,7 @@ import { RouteStep } from "@/components/calculator/route-step";
 import { ResultsStep } from "@/components/calculator/results-step";
 import { Card } from "@/components/ui/card";
 import { calculatorFormSchema, type CalculatorFormData } from "@/lib/validation";
+import { SEO } from "@/components/seo";
 
 import { api } from "@/lib/api";
 import { CalculationResult } from "@/types/calculator";
@@ -113,8 +114,36 @@ export default function Calculator() {
   };
   
 
+  const calculatorSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Chennai Traffic Impact Calculator",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "featureList": [
+      "Real-time traffic impact calculation",
+      "Multiple transport mode comparison",
+      "Environmental impact analysis",
+      "Cost savings estimation",
+      "Alternative route suggestions"
+    ]
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <>
+      <SEO
+        title="Traffic Impact Calculator"
+        description="Calculate your daily commute's impact on Chennai traffic. Compare transport modes, find sustainable alternatives, and reduce your environmental footprint."
+        keywords="Chennai traffic calculator, commute impact calculator, transport mode comparison, carbon footprint calculator Chennai, traffic congestion calculator"
+        canonical="https://chennaitrafficcalc.in/calculator"
+        structuredData={calculatorSchema}
+      />
+      <div className="min-h-screen bg-slate-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <StepIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
 
@@ -166,5 +195,6 @@ export default function Calculator() {
         </div>
       </div>
     </div>
+    </>
   );
 }

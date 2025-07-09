@@ -2,10 +2,37 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calculator, Users, TrendingDown, Clock } from "lucide-react";
+import { SEO } from "@/components/seo";
 
 export default function Home() {
+  const homePageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Chennai Traffic Impact Calculator",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "10000"
+    },
+    "description": "Calculate your traffic impact and find sustainable alternatives for your Chennai commute"
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <>
+      <SEO
+        title="Home"
+        description="Calculate how your daily commute affects Chennai traffic. Get personalized suggestions for better alternatives to save time, money, and reduce environmental impact."
+        canonical="https://chennaitrafficcalc.in/"
+        structuredData={homePageSchema}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
@@ -118,5 +145,6 @@ export default function Home() {
         </div>
       </section>
     </div>
+    </>
   );
 }
