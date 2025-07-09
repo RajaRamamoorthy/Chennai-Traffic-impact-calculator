@@ -73,14 +73,13 @@ export function TransportationStep({
 }: TransportationStepProps) {
   const [showVehicleDetails, setShowVehicleDetails] = useState(false);
 
-  const { data: vehicleTypes, isLoading: vehicleTypesLoading } = useQuery<VehicleType[]>({
-    queryKey: ['/api/vehicle-types', selectedMode],
-    queryFn: async () => {
-      const response = await api(`/api/vehicle-types?category=${selectedMode}`);
-      return response.json();
-    },
+  const { data: vehicleTypes, isLoading: vehicleTypesLoading, error } = useQuery<VehicleType[]>({
+    queryKey: [`/api/vehicle-types?category=${selectedMode}`],
     enabled: !!selectedMode && (selectedMode === 'car' || selectedMode === 'bike'),
   });
+
+  // Debug logging
+  console.log('Query state:', { selectedMode, vehicleTypes, isLoading: vehicleTypesLoading, error });
 
   useEffect(() => {
     const selectedTransport = transportModes.find(mode => mode.id === selectedMode);
