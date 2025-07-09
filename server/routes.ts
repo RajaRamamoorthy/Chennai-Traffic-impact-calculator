@@ -30,12 +30,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { category } = req.query;
       let vehicleTypes;
 
+      console.log("Fetching vehicle types for category:", category);
+
       if (category && typeof category === 'string') {
         vehicleTypes = await storage.getVehicleTypesByCategory(category);
       } else {
         vehicleTypes = await storage.getVehicleTypes();
       }
 
+      console.log("Found vehicle types:", vehicleTypes?.length || 0);
       res.json(vehicleTypes);
     } catch (error) {
       console.error("Error fetching vehicle types:", error);

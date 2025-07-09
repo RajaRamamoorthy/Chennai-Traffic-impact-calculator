@@ -73,7 +73,7 @@ export function TransportationStep({
 }: TransportationStepProps) {
   const [showVehicleDetails, setShowVehicleDetails] = useState(false);
 
-  const { data: vehicleTypes } = useQuery<VehicleType[]>({
+  const { data: vehicleTypes, isLoading: vehicleTypesLoading } = useQuery<VehicleType[]>({
     queryKey: ['/api/vehicle-types', selectedMode],
     queryFn: async () => {
       const response = await api(`/api/vehicle-types?category=${selectedMode}`);
@@ -143,16 +143,23 @@ export function TransportationStep({
                 <Select 
                   value={vehicleTypeId?.toString()} 
                   onValueChange={(value) => onVehicleTypeSelect(parseInt(value))}
+                  disabled={vehicleTypesLoading}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select vehicle type" />
+                    <SelectValue placeholder={vehicleTypesLoading ? "Loading..." : "Select vehicle type"} />
                   </SelectTrigger>
                   <SelectContent>
-                    {vehicleTypes?.map((type) => (
-                      <SelectItem key={type.id} value={type.id.toString()}>
-                        {type.name}
+                    {vehicleTypes && vehicleTypes.length > 0 ? (
+                      vehicleTypes.map((type) => (
+                        <SelectItem key={type.id} value={type.id.toString()}>
+                          {type.name}
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <SelectItem value="no-options" disabled>
+                        No vehicle types available
                       </SelectItem>
-                    ))}
+                    )}
                   </SelectContent>
                 </Select>
               </div>
