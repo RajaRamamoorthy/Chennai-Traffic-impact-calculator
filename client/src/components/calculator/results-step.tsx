@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +6,7 @@ import { Share, RotateCcw, Lightbulb, Users, Clock, DollarSign } from "lucide-re
 import { CalculationResult } from "@/types/calculator";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import html2canvas from "html2canvas";
 
 interface ResultsStepProps {
   results: CalculationResult;
@@ -15,6 +16,7 @@ interface ResultsStepProps {
 export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
   const { toast } = useToast();
+  const scoreCardRef = useRef<HTMLDivElement>(null);
 
   const getScoreColor = (score: number) => {
     if (score <= 30) return "text-green-600 bg-green-50";
@@ -39,21 +41,71 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
   const handleShare = async () => {
     try {
-      if (navigator.share) {
-        await navigator.share({
-          title: 'My Chennai Traffic Impact Score',
-          text: `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`,
-          url: window.location.href
-        });
-      } else {
-        // Fallback to copying to clipboard
-        await navigator.clipboard.writeText(
-          `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${window.location.href}`
-        );
-        toast({
-          title: "Link copied!",
-          description: "Share link has been copied to your clipboard.",
-        });
+      const shareUrl = 'https://chennaitrafficcalc.in?utm_source=share';
+      const shareText = `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`;
+      
+      // Capture screenshot of the score card
+      if (scoreCardRef.current) {
+        try {
+          const canvas = await html2canvas(scoreCardRef.current, {
+            backgroundColor: null,
+            scale: 2,
+            logging: false,
+            windowWidth: scoreCardRef.current.scrollWidth,
+            windowHeight: scoreCardRef.current.scrollHeight
+          });
+          
+          // Convert canvas to blob
+          canvas.toBlob(async (blob) => {
+            if (blob) {
+              const file = new File([blob], 'traffic-score.png', { type: 'image/png' });
+              
+              // Check if Web Share API supports file sharing
+              if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                  title: 'My Chennai Traffic Impact Score',
+                  text: shareText,
+                  url: shareUrl,
+                  files: [file]
+                });
+              } else if (navigator.share) {
+                // Share without image if file sharing not supported
+                await navigator.share({
+                  title: 'My Chennai Traffic Impact Score',
+                  text: shareText,
+                  url: shareUrl
+                });
+              } else {
+                // Fallback to copying to clipboard
+                await navigator.clipboard.writeText(
+                  `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${shareUrl}`
+                );
+                toast({
+                  title: "Link copied!",
+                  description: "Share link has been copied to your clipboard.",
+                });
+              }
+            }
+          }, 'image/png');
+        } catch (screenshotError) {
+          console.error('Screenshot failed:', screenshotError);
+          // Continue with text-only share
+          if (navigator.share) {
+            await navigator.share({
+              title: 'My Chennai Traffic Impact Score',
+              text: shareText,
+              url: shareUrl
+            });
+          } else {
+            await navigator.clipboard.writeText(
+              `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${shareUrl}`
+            );
+            toast({
+              title: "Link copied!",
+              description: "Share link has been copied to your clipboard.",
+            });
+          }
+        }
       }
     } catch (error) {
       console.error('Share failed:', error);
@@ -95,7 +147,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       </div>
 
       {/* Impact Score Display */}
-      <Card className={`mb-8 ${getScoreColor(results.score)}`}>
+      <Card ref={scoreCardRef} className={`mb-8 ${getScoreColor(results.score)}`}>
         <CardContent className="p-8 text-center">
           <div className="mb-4">
             <div className="text-6xl font-bold mb-2">{results.score}</div>
