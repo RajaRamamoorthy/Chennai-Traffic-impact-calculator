@@ -91,7 +91,41 @@ export function TransportationStep({
       onVehicleTypeSelect(undefined);
       onOccupancyChange(1);
     }
+    
+    // Reset occupancy if current value exceeds limits for selected mode
+    if (selectedMode === 'bike' && occupancy > 3) {
+      onOccupancyChange(1);
+    }
   }, [selectedMode]); // Remove the callback functions from dependencies to prevent infinite loop
+
+  // Get occupancy options based on selected mode
+  const getOccupancyOptions = (mode: string) => {
+    switch(mode) {
+      case 'bike':
+        return [
+          { value: 1, label: '1 person (just me)' },
+          { value: 2, label: '2 people' },
+          { value: 3, label: '3 people' }
+        ];
+      case 'car':
+        return [
+          { value: 1, label: '1 person (just me)' },
+          { value: 2, label: '2 people' },
+          { value: 3, label: '3 people' },
+          { value: 4, label: '4 people' },
+          { value: 5, label: '5 people' },
+          { value: 6, label: '6 people' },
+          { value: 7, label: '7 people' }
+        ];
+      default:
+        return [
+          { value: 1, label: '1 person (just me)' },
+          { value: 2, label: '2 people' },
+          { value: 3, label: '3 people' },
+          { value: 4, label: '4+ people' }
+        ];
+    }
+  };
 
   const canContinue = selectedMode && (!showVehicleDetails || vehicleTypeId);
 
@@ -175,10 +209,11 @@ export function TransportationStep({
                     <SelectValue placeholder="How many people?" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="1">1 person (just me)</SelectItem>
-                    <SelectItem value="2">2 people</SelectItem>
-                    <SelectItem value="3">3 people</SelectItem>
-                    <SelectItem value="4">4+ people</SelectItem>
+                    {getOccupancyOptions(selectedMode).map((option) => (
+                      <SelectItem key={option.value} value={option.value.toString()}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
