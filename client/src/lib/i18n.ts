@@ -165,7 +165,7 @@ export const translations: Record<'en' | 'ta', Translations> = {
   },
   ta: {
     header: {
-      title: "சென்னை போக்குவரத்து தாக்க கணிப்பான்",
+      title: "சென்னை டிராபிக் கால்குலேட்டர்",
       about: "பற்றி",
       home: "முகப்புக்கு செல்லவும்"
     },
