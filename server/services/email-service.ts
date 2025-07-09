@@ -155,31 +155,56 @@ class EmailService {
       console.error('SMTP connection test: FAILED');
       console.error('Error details:', error);
       
-      // Try alternative port configuration if 465 fails
-      if (process.env.SMTP_PORT === '465') {
-        console.log('Trying port 587 as fallback...');
+      // Try alternative configurations
+      console.log('Trying alternative SMTP configurations...');
+      
+      const alternativeConfigs = [
+        // Zoho with port 587
+        {
+          name: 'Zoho Port 587',
+          host: 'smtp.zoho.com',
+          port: 587,
+          secure: false,
+          requireTLS: true,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+          tls: { rejectUnauthorized: false }
+        },
+        // Gmail configuration (if user wants to switch)
+        {
+          name: 'Gmail SMTP',
+          service: 'gmail',
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          }
+        },
+        // Generic SMTP with different settings
+        {
+          name: 'Generic SMTP',
+          host: process.env.SMTP_HOST || 'smtp.zoho.com',
+          port: 25,
+          secure: false,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
+          },
+          tls: { rejectUnauthorized: false }
+        }
+      ];
+
+      for (const config of alternativeConfigs) {
         try {
-          const altConfig = {
-            host: process.env.SMTP_HOST || 'smtp.zoho.com',
-            port: 587,
-            secure: false,
-            requireTLS: true,
-            auth: {
-              user: process.env.SMTP_USER || '',
-              pass: process.env.SMTP_PASS || '',
-            },
-            tls: {
-              rejectUnauthorized: false
-            }
-          };
-          
-          const altTransporter = nodemailer.createTransport(altConfig);
+          console.log(`Trying ${config.name}...`);
+          const altTransporter = nodemailer.createTransport(config);
           await altTransporter.verify();
-          console.log('Alternative port 587: SUCCESS');
-          this.transporter = altTransporter; // Use the working configuration
+          console.log(`${config.name}: SUCCESS`);
+          this.transporter = altTransporter;
           return true;
         } catch (altError) {
-          console.error('Port 587 also failed:', altError);
+          console.error(`${config.name} failed:`, altError.message);
         }
       }
       
