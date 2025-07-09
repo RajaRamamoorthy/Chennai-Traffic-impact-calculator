@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Share, Download, RotateCcw, Lightbulb, Users, Clock, DollarSign } from "lucide-react";
+import { Share, RotateCcw, Lightbulb, Users, Clock, DollarSign } from "lucide-react";
 import { CalculationResult } from "@/types/calculator";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
@@ -269,10 +269,6 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         <Button onClick={handleShare} className="px-8 py-3">
           <Share className="mr-2 w-4 h-4" />
           Share Results
-        </Button>
-        <Button variant="outline" className="px-8 py-3">
-          <Download className="mr-2 w-4 h-4" />
-          Download Report
         </Button>
         <Button variant="outline" onClick={onRestart} className="px-8 py-3">
           <RotateCcw className="mr-2 w-4 h-4" />
