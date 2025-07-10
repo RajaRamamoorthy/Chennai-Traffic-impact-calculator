@@ -14,10 +14,8 @@ interface RouteStepProps {
   onOriginChange: (origin: string) => void;
   destination: string;
   onDestinationChange: (destination: string) => void;
-  timing: string;
-  onTimingChange: (timing: string) => void;
-  frequency: string;
-  onFrequencyChange: (frequency: string) => void;
+  travelPattern: string;
+  onTravelPatternChange: (pattern: string) => void;
   onNext: () => void;
   onPrev: () => void;
   isLoading: boolean;
@@ -28,10 +26,8 @@ export function RouteStep({
   onOriginChange,
   destination,
   onDestinationChange,
-  timing,
-  onTimingChange,
-  frequency,
-  onFrequencyChange,
+  travelPattern,
+  onTravelPatternChange,
   onNext,
   onPrev,
   isLoading,
@@ -58,31 +54,51 @@ export function RouteStep({
     onDestinationChange(value);
   };
 
-  const handleTimingChange = (value: string) => {
-    onTimingChange(value);
-    analytics.trackCalculationStart({ timing: value });
+  const handleTravelPatternChange = (value: string) => {
+    onTravelPatternChange(value);
+    analytics.trackCalculationStart({ travelPattern: value });
   };
 
-  const handleFrequencyChange = (value: string) => {
-    onFrequencyChange(value);
-    analytics.trackCalculationStart({ frequency: value });
-  };
-
-  const timingOptions = [
-    { value: "morning-peak", label: "Morning Peak (7-10 AM)" },
-    { value: "evening-peak", label: "Evening Peak (5-8 PM)" },
-    { value: "off-peak", label: "Off-Peak Hours" },
-    { value: "night", label: "Night (10 PM - 6 AM)" },
+  const travelPatternOptions = [
+    { 
+      value: "daily-commute", 
+      label: "Daily Work Commute", 
+      description: "Both peak hours - morning & evening",
+      icon: "🚗" 
+    },
+    { 
+      value: "weekday-commute", 
+      label: "Weekday Commute Only", 
+      description: "Peak hours, 5 days/week",
+      icon: "📅" 
+    },
+    { 
+      value: "weekend-commute", 
+      label: "Weekend Commute", 
+      description: "Weekend peak hours",
+      icon: "🛣️" 
+    },
+    { 
+      value: "frequent-trips", 
+      label: "Frequent Trips", 
+      description: "3-4 times/week, flexible timing",
+      icon: "🔄" 
+    },
+    { 
+      value: "occasional-trips", 
+      label: "Occasional Trips", 
+      description: "1-2 times/week, mostly off-peak",
+      icon: "📍" 
+    },
+    { 
+      value: "rare-trips", 
+      label: "Rare Trips", 
+      description: "Few times/month, any time",
+      icon: "⏰" 
+    },
   ];
 
-  const frequencyOptions = [
-    { value: "daily", label: t.route.frequencyOptions.daily },
-    { value: "weekdays", label: t.route.frequencyOptions.weekdays },
-    { value: "weekends", label: t.route.frequencyOptions.weekends },
-    { value: "occasional", label: t.route.frequencyOptions.occasional },
-  ];
-
-  const isFormValid = origin && destination && timing && frequency;
+  const isFormValid = origin && destination && travelPattern;
 
   return (
     <Card className="w-full">
@@ -197,34 +213,29 @@ export function RouteStep({
           </div>
         </div>
 
-        {/* Timing Selection */}
-        <div className="space-y-3">
-          <Label className="text-sm font-medium">Travel Time</Label>
-          <RadioGroup value={timing} onValueChange={handleTimingChange}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {timingOptions.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <RadioGroupItem value={option.value} id={option.value} />
-                  <Label htmlFor={option.value} className="text-sm">
-                    {option.label}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </RadioGroup>
-        </div>
-
-        {/* Frequency Selection */}
-        <div className="space-y-3">
-          <Label className="text-sm font-medium">{t.route.frequency}</Label>
-          <RadioGroup value={frequency} onValueChange={handleFrequencyChange}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {frequencyOptions.map((option) => (
-                <div key={option.value} className="flex items-center space-x-2">
-                  <RadioGroupItem value={option.value} id={option.value} />
-                  <Label htmlFor={option.value} className="text-sm">
-                    {option.label}
-                  </Label>
+        {/* Travel Pattern Selection */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2">
+            <Clock className="w-5 h-5 text-primary" />
+            <Label className="text-lg font-semibold">How do you typically use this route?</Label>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Choose the pattern that best describes your travel habits for more accurate impact calculation.
+          </p>
+          <RadioGroup value={travelPattern} onValueChange={handleTravelPatternChange}>
+            <div className="grid grid-cols-1 gap-3">
+              {travelPatternOptions.map((option) => (
+                <div key={option.value} className="flex items-start space-x-3">
+                  <RadioGroupItem value={option.value} id={option.value} className="mt-1" />
+                  <div className="flex-1 min-w-0">
+                    <Label htmlFor={option.value} className="flex items-center gap-2 text-sm font-medium cursor-pointer">
+                      <span className="text-lg">{option.icon}</span>
+                      {option.label}
+                    </Label>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {option.description}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>

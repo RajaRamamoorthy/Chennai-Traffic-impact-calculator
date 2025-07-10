@@ -210,16 +210,17 @@ export default function Methodology() {
               <CardContent className="p-8">
                 <Zap className="w-12 h-12 text-purple-500 mb-4" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Time-Based Penalties
+                  Travel Pattern Penalties
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Peak hour travel receives additional impact penalties:
+                  Different travel patterns receive varying impact penalties:
                 </p>
                 <ul className="space-y-2 text-slate-600">
-                  <li>• Morning Peak (7-10 AM): +25 points</li>
-                  <li>• Evening Peak (5-8 PM): +30 points</li>
-                  <li>• Off-Peak Hours: 0 points</li>
-                  <li>• Night Hours (10 PM-6 AM): -10 points</li>
+                  <li>• Daily Commute (both peaks): +35 points</li>
+                  <li>• Weekday Commute: +25 points</li>
+                  <li>• Weekend Commute: +10 points</li>
+                  <li>• Frequent Trips: +10 points</li>
+                  <li>• Occasional/Rare Trips: +10 points</li>
                 </ul>
               </CardContent>
             </Card>

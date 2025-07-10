@@ -24,7 +24,7 @@ export default function HowItWorks() {
       {
         "@type": "HowToStep",
         "name": "Select Transportation",
-        "text": "Choose your mode of transport, vehicle type, occupancy, and travel frequency"
+        "text": "Choose your mode of transport, vehicle type, occupancy, and travel pattern"
       },
       {
         "@type": "HowToStep",
@@ -111,7 +111,7 @@ export default function HowItWorks() {
                 <p className="text-slate-600">
                   Choose from 6 transport modes, then select your specific vehicle type from 
                   21 categories including popular models like Swift, Activa, Creta, and more. 
-                  Add occupancy and frequency details for accurate impact calculation.
+                  Select your travel pattern (daily commute, occasional trips, etc.) for accurate impact calculation.
                 </p>
               </CardContent>
             </Card>

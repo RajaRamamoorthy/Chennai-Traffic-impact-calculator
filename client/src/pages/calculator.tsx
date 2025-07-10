@@ -51,8 +51,7 @@ export default function Calculator() {
       occupancy: 1,
       origin: "",
       destination: "",
-      timing: "",
-      frequency: "",
+      travelPattern: "",
     },
   });
 
@@ -195,10 +194,8 @@ export default function Calculator() {
                 onOriginChange={(origin) => setValue('origin', origin)}
                 destination={formData.destination}
                 onDestinationChange={(destination) => setValue('destination', destination)}
-                timing={formData.timing}
-                onTimingChange={(timing) => setValue('timing', timing)}
-                frequency={formData.frequency}
-                onFrequencyChange={(frequency) => setValue('frequency', frequency)}
+                travelPattern={formData.travelPattern}
+                onTravelPatternChange={(travelPattern) => setValue('travelPattern', travelPattern)}
                 onNext={() => handleSubmit(onSubmit)()}
                 onPrev={prevStep}
                 isLoading={isLoading}

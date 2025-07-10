@@ -6,8 +6,7 @@ export const calculatorFormSchema = z.object({
   occupancy: z.number().min(1).max(10).default(1),
   origin: z.string().min(1, "Please enter your starting location"),
   destination: z.string().min(1, "Please enter your destination"),
-  timing: z.string().min(1, "Please select your travel timing"),
-  frequency: z.string().min(1, "Please select how often you travel"),
+  travelPattern: z.string().min(1, "Please select your travel pattern"),
 });
 
 export type CalculatorFormData = z.infer<typeof calculatorFormSchema>;

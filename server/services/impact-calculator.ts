@@ -7,8 +7,7 @@ export interface CalculationInput {
   vehicleTypeId?: number;
   occupancy?: number;
   distanceKm: number;
-  timing: string;
-  frequency: string;
+  travelPattern: string;
   sessionId: string;
   origin: string;
   destination: string;
@@ -50,6 +49,9 @@ export interface Alternative {
 export class ImpactCalculator {
   async calculate(input: CalculationInput): Promise<CalculationResult> {
     try {
+      // Convert travel pattern to timing and frequency
+      const { timing, frequency } = this.parseTravelPattern(input.travelPattern);
+      
       // Handle sustainable transport modes
       if (input.transportMode !== 'car' && input.transportMode !== 'bike') {
         return await this.calculateSustainableTransport(input);
@@ -63,8 +65,8 @@ export class ImpactCalculator {
         vehicle,
         input.distanceKm,
         input.occupancy || 1,
-        input.timing,
-        input.frequency
+        timing,
+        frequency
       );
 
       // Generate final score (0-100)
@@ -75,7 +77,7 @@ export class ImpactCalculator {
         vehicle,
         input.distanceKm,
         input.occupancy || 1,
-        input.frequency
+        frequency
       );
 
       // Generate alternatives
@@ -110,6 +112,8 @@ export class ImpactCalculator {
   }
 
   private async calculateSustainableTransport(input: CalculationInput): Promise<CalculationResult> {
+    const { timing, frequency } = this.parseTravelPattern(input.travelPattern);
+    
     const baseScores = {
       metro: 15,
       bus: 20,
@@ -127,10 +131,11 @@ export class ImpactCalculator {
       occupancyBonus: 5
     };
 
+    const monthlyTrips = this.getMonthlyTrips(frequency);
     const monthlyMetrics = {
-      emissions: input.transportMode === 'walking' ? 0 : Math.round(input.distanceKm * 0.05 * 22), // kg CO2
+      emissions: input.transportMode === 'walking' ? 0 : Math.round(input.distanceKm * 0.05 * monthlyTrips), // kg CO2
       cost: this.getPublicTransportCost(input.transportMode, input.distanceKm),
-      timeHours: Math.round((input.distanceKm / 20) * 22 * 2) // Assume 20 kmh average speed
+      timeHours: Math.round((input.distanceKm / 20) * monthlyTrips * 2) // Assume 20 kmh average speed
     };
 
     const alternatives = this.generateSustainableAlternatives(input);
@@ -250,8 +255,9 @@ export class ImpactCalculator {
       });
     }
 
-    // Off-peak timing
-    if (this.isInPeakHours(input.timing)) {
+    // Off-peak timing - parse travel pattern to get timing
+    const { timing } = this.parseTravelPattern(input.travelPattern);
+    if (this.isInPeakHours(timing)) {
       alternatives.push({
         type: 'timing',
         title: 'Off-Peak Travel',
@@ -317,18 +323,21 @@ export class ImpactCalculator {
   }
 
   private getTimingPenalty(timing: string): number {
+    if (timing === 'both-peaks') return 35; // Higher penalty for daily commute (both peaks)
     if (timing === 'morning-peak' || timing === 'evening-peak') return 25;
     if (timing === 'off-peak') return 10;
     return 5; // night
   }
 
   private isInPeakHours(timing: string): boolean {
-    return timing === 'morning-peak' || timing === 'evening-peak';
+    return timing === 'morning-peak' || timing === 'evening-peak' || timing === 'both-peaks';
   }
 
   private getFrequencyMultiplier(frequency: string): number {
     const multipliers = {
       'daily': 1.0,
+      'weekdays': 0.9,
+      'weekends': 0.7,
       'frequent': 0.8,
       'occasional': 0.5,
       'rare': 0.3
@@ -339,11 +348,26 @@ export class ImpactCalculator {
   private getMonthlyTrips(frequency: string): number {
     const trips = {
       'daily': 22, // Working days
+      'weekdays': 22, // Working days only
+      'weekends': 8, // Weekend days
       'frequent': 16,
       'occasional': 8,
       'rare': 4
     };
     return trips[frequency as keyof typeof trips] || 22;
+  }
+
+  private parseTravelPattern(travelPattern: string): { timing: string; frequency: string } {
+    const patterns = {
+      'daily-commute': { timing: 'both-peaks', frequency: 'daily' }, // Both peak hours
+      'weekday-commute': { timing: 'morning-peak', frequency: 'weekdays' },
+      'weekend-commute': { timing: 'off-peak', frequency: 'weekends' },
+      'frequent-trips': { timing: 'off-peak', frequency: 'frequent' },
+      'occasional-trips': { timing: 'off-peak', frequency: 'occasional' },
+      'rare-trips': { timing: 'off-peak', frequency: 'rare' }
+    };
+
+    return patterns[travelPattern as keyof typeof patterns] || { timing: 'off-peak', frequency: 'occasional' };
   }
 
   private getPublicTransportCost(transportMode: string, distanceKm: number): number {

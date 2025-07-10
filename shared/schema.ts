@@ -36,8 +36,7 @@ export const calculations = pgTable("calculations", {
   destinationLat: decimal("destination_lat", { precision: 10, scale: 8 }),
   destinationLng: decimal("destination_lng", { precision: 11, scale: 8 }),
   distanceKm: decimal("distance_km", { precision: 10, scale: 2 }),
-  timing: text("timing").notNull(), // morning-peak, evening-peak, off-peak, night
-  frequency: text("frequency").notNull(), // daily, frequent, occasional, rare
+  travelPattern: text("travel_pattern").notNull(), // daily-commute, weekday-commute, weekend-commute, frequent-trips, occasional-trips, rare-trips
   impactScore: integer("impact_score").notNull(),
   breakdown: jsonb("breakdown").notNull(), // detailed score breakdown
   monthlyEmissions: decimal("monthly_emissions", { precision: 10, scale: 2 }),
