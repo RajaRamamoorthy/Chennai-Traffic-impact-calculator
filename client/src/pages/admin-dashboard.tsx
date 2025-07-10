@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { SEO } from "@/components/seo";
+import { analytics } from "@/lib/analytics";
 import { 
   BarChart3, 
   Users, 
@@ -86,6 +87,9 @@ export function AdminDashboard() {
       setAdminKey(storedKey);
       setIsAuthenticated(true);
     }
+    
+    // Track admin dashboard page view (private)
+    analytics.trackPageView('admin_dashboard', 'Admin Dashboard');
   }, []);
 
   const createAuthenticatedQuery = (endpoint: string, label: string) => {

@@ -1,6 +1,7 @@
 import { HeartHandshake } from "lucide-react";
 import { useEffect, useState } from "react";
 import { apiRequest } from "@/lib/queryClient";
+import { analytics } from "@/lib/analytics";
 
 declare global {
   interface Window {
@@ -69,6 +70,9 @@ export function DonationButton() {
       return;
     }
 
+    // Track donation start
+    analytics.trackDonationStart(numericAmount);
+
     // Create payment options
     const options = {
       key: razorpayKey,
@@ -88,14 +92,24 @@ export function DonationButton() {
         .then(res => res.json())
         .then(data => {
           if (data.success) {
+            // Track successful donation
+            analytics.trackDonationSuccess({
+              amount: numericAmount,
+              currency: 'INR',
+              payment_method: 'razorpay',
+              donation_source: 'footer'
+            });
+            
             // Payment verified - redirect to thank you page
             window.location.href = '/thank-you';
           } else {
+            analytics.trackDonationFailure(numericAmount, 'verification_failed');
             alert('Payment verification failed. Please contact support.');
           }
         })
         .catch(err => {
           console.error('Payment verification failed:', err);
+          analytics.trackDonationFailure(numericAmount, 'verification_error');
           alert('Payment verification failed. Please contact support.');
         });
       },
@@ -109,6 +123,7 @@ export function DonationButton() {
       modal: {
         ondismiss: function() {
           console.log('Payment modal closed');
+          analytics.trackDonationFailure(numericAmount, 'user_cancelled');
           setShowAmountInput(false);
           setAmount('');
         }
@@ -125,6 +140,7 @@ export function DonationButton() {
   };
 
   const handleButtonClick = () => {
+    analytics.trackDonationButtonClick(undefined, 'footer');
     if (!showAmountInput) {
       setShowAmountInput(true);
     }

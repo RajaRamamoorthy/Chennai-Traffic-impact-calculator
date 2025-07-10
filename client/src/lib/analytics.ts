@@ -38,6 +38,13 @@ export interface ContactEventParams {
   form_source?: string;
 }
 
+export interface DonationEventParams {
+  amount: number;
+  currency: string;
+  payment_method: string;
+  donation_source?: string;
+}
+
 export interface NavigationEventParams {
   page_name: string;
   from_page?: string;
@@ -155,6 +162,65 @@ class AnalyticsService {
     });
   }
 
+  // Donation and conversion events
+  trackDonationStart(amount: number, currency: string = 'INR') {
+    this.track('begin_checkout', {
+      event_category: 'ecommerce',
+      currency: currency,
+      value: amount,
+      items: [{
+        item_id: 'donation',
+        item_name: 'Website Donation',
+        item_category: 'donation',
+        quantity: 1,
+        price: amount
+      }]
+    });
+  }
+
+  trackDonationSuccess(params: DonationEventParams) {
+    this.track('purchase', {
+      event_category: 'ecommerce',
+      transaction_id: Date.now().toString(),
+      value: params.amount,
+      currency: params.currency,
+      payment_type: params.payment_method,
+      items: [{
+        item_id: 'donation',
+        item_name: 'Website Donation',
+        item_category: 'donation',
+        quantity: 1,
+        price: params.amount
+      }]
+    });
+    
+    // Also track as conversion
+    this.track('conversion', {
+      event_category: 'conversion',
+      conversion_type: 'donation',
+      value: params.amount,
+      currency: params.currency
+    });
+  }
+
+  trackDonationFailure(amount: number, errorReason?: string) {
+    this.track('donation_failed', {
+      event_category: 'ecommerce',
+      value: amount,
+      currency: 'INR',
+      error_reason: errorReason || 'unknown'
+    });
+  }
+
+  trackDonationButtonClick(amount?: number, source?: string) {
+    this.track('donation_button_click', {
+      event_category: 'engagement',
+      amount: amount,
+      source: source || 'footer',
+      currency: 'INR'
+    });
+  }
+
   trackResultsShare(shareMethod: string, impactScore: number) {
     this.track('share', {
       event_category: 'engagement',
@@ -213,7 +279,7 @@ class AnalyticsService {
   }
 
   // Custom conversion events
-  trackConversion(conversionType: 'calculation_completion' | 'contact_form' | 'feedback') {
+  trackConversion(conversionType: 'calculation_completion' | 'contact_form' | 'feedback' | 'donation') {
     this.track('conversion', {
       event_category: 'conversion',
       conversion_type: conversionType,

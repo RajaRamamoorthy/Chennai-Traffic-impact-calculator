@@ -4,10 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Heart, Calculator, ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
+import { analytics } from "@/lib/analytics";
 
 export default function ThankYou() {
   useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Track page view and check if this is from a donation
+    analytics.trackPageView('thank_you', 'Thank You');
+    
+    // Check if this is a donation thank you (from referrer or URL params)
+    const referrer = document.referrer;
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromDonation = referrer.includes('razorpay') || urlParams.get('from') === 'donation';
+    
+    if (fromDonation) {
+      // This indicates a successful donation flow completion
+      analytics.trackConversion('donation');
+    }
   }, []);
   return (
     <>
