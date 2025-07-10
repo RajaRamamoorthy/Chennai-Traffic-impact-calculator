@@ -333,7 +333,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get Razorpay config for frontend
+  // Get Razorpay config for frontend (only public key)
   app.get("/api/razorpay-config", (req, res) => {
     const razorpayKeyId = process.env.RAZORPAY_KEY_ID;
     
@@ -342,6 +342,154 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     
     res.json({ keyId: razorpayKeyId });
+  });
+
+  // Get Razorpay payment button config for frontend
+  app.get("/api/razorpay-button-config", (req, res) => {
+    const paymentButtonId = process.env.RAZORPAY_PAYMENT_BUTTON_ID;
+    
+    if (!paymentButtonId) {
+      return res.status(500).json({ error: "Payment button configuration missing" });
+    }
+    
+    res.json({ paymentButtonId });
+  });
+
+  // Verify payment signature
+  app.post("/api/verify-payment", async (req, res) => {
+    try {
+      const { razorpay_payment_id, razorpay_order_id, razorpay_signature, amount } = req.body;
+      
+      if (!razorpay_payment_id || !amount) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Missing required payment verification data" 
+        });
+      }
+
+      // Validate payment amount (security check)
+      if (typeof amount !== 'number' || amount < 100 || amount > 10000000) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Invalid payment amount" 
+        });
+      }
+
+      // Validate payment ID format (Razorpay IDs are alphanumeric)
+      if (!/^pay_[A-Za-z0-9]+$/.test(razorpay_payment_id)) {
+        return res.status(400).json({ 
+          success: false, 
+          error: "Invalid payment ID format" 
+        });
+      }
+
+      const razorpaySecret = process.env.RAZORPAY_KEY_SECRET;
+      if (!razorpaySecret) {
+        console.error("Razorpay secret key not configured");
+        return res.status(500).json({ 
+          success: false, 
+          error: "Payment verification not configured" 
+        });
+      }
+
+      // Check if donation already exists
+      const existingDonation = await storage.getDonation(razorpay_payment_id);
+      if (existingDonation) {
+        return res.json({ 
+          success: true, 
+          message: "Payment already verified",
+          paymentId: razorpay_payment_id
+        });
+      }
+
+      // For custom donations, signature might not be present
+      // We'll verify the payment directly with Razorpay API if needed
+      if (razorpay_signature && razorpay_order_id) {
+        // Create verification signature for order-based payments
+        const crypto = require('crypto');
+        const body = razorpay_order_id + "|" + razorpay_payment_id;
+        const expectedSignature = crypto
+          .createHmac('sha256', razorpaySecret)
+          .update(body.toString())
+          .digest('hex');
+
+        const isAuthentic = expectedSignature === razorpay_signature;
+        
+        if (!isAuthentic) {
+          console.error('Payment signature verification failed');
+          console.error('Expected:', expectedSignature);
+          console.error('Received:', razorpay_signature);
+          
+          return res.status(400).json({ 
+            success: false, 
+            error: "Payment verification failed" 
+          });
+        }
+      }
+
+      // Store donation in database
+      const donationData = {
+        paymentId: razorpay_payment_id,
+        orderId: razorpay_order_id || null,
+        amount: amount,
+        currency: 'INR',
+        status: 'verified',
+        ipAddress: req.ip,
+        userAgent: req.get('User-Agent') || null
+      };
+
+      await storage.createDonation(donationData);
+
+      // Log successful donation for audit trail
+      console.log('=== DONATION RECEIVED ===');
+      console.log('Payment ID:', razorpay_payment_id);
+      console.log('Order ID:', razorpay_order_id);
+      console.log('Amount:', amount / 100, 'INR');
+      console.log('Timestamp:', new Date().toISOString());
+      console.log('IP Address:', req.ip);
+      console.log('User Agent:', req.get('User-Agent'));
+      console.log('========================');
+      
+      res.json({ 
+        success: true, 
+        message: "Payment verified successfully",
+        paymentId: razorpay_payment_id
+      });
+    } catch (error) {
+      console.error("Payment verification error:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Payment verification failed" 
+      });
+    }
+  });
+
+  // Get donation statistics (admin only)
+  app.get("/api/admin/donations", async (req, res) => {
+    try {
+      // Basic security check - you could implement proper admin authentication
+      const adminKey = req.headers['x-admin-key'];
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const stats = await storage.getDonationStats();
+      const donations = await storage.getDonations();
+      
+      res.json({
+        stats,
+        donations: donations.map(d => ({
+          id: d.id,
+          amount: d.amount,
+          currency: d.currency,
+          status: d.status,
+          createdAt: d.createdAt
+        }))
+      });
+    } catch (error) {
+      console.error("Donation stats error:", error);
+      res.status(500).json({ error: "Failed to get donation stats" });
+    }
   });
 
   // Get contact submissions (for admin access)

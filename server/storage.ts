@@ -5,17 +5,24 @@ import {
   feedback, 
   routeCongestion,
   contactSubmissions,
+  donations,
   type InsertUser, 
   type InsertCalculation, 
   type InsertFeedback,
   type InsertContactSubmission,
+  type InsertDonation,
   type Calculation,
   type VehicleType,
-  type ContactSubmission
+  type ContactSubmission,
+  type Donation,
+  type User,
+  type Feedback,
+  type RouteCongestion,
+  type InsertVehicleType,
+  type InsertRouteCongestion
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, sql } from "drizzle-orm";
-import { gte } from "drizzle-orm";
+import { eq, and, sql, gte, count, sum } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -52,6 +59,12 @@ export interface IStorage {
   updateContactSubmissionStatus(id: number, status: string): Promise<void>;
   getRecentContactSubmissions(ipAddress: string, timeWindowMinutes?: number): Promise<ContactSubmission[]>;
   getContactSubmissions(): Promise<ContactSubmission[]>;
+
+  // Donations
+  createDonation(data: InsertDonation): Promise<Donation>;
+  getDonation(paymentId: string): Promise<Donation | undefined>;
+  getDonations(): Promise<Donation[]>;
+  getDonationStats(): Promise<{totalDonations: number, totalAmount: number}>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -218,6 +231,35 @@ export class DatabaseStorage implements IStorage {
 
   async getContactSubmissions(): Promise<ContactSubmission[]> {
     return await db.select().from(contactSubmissions).orderBy(sql`${contactSubmissions.createdAt} DESC`);
+  }
+
+  async createDonation(data: InsertDonation): Promise<Donation> {
+    const [donation] = await db.insert(donations).values(data).returning();
+    return donation;
+  }
+
+  async getDonation(paymentId: string): Promise<Donation | undefined> {
+    const [donation] = await db.select().from(donations).where(eq(donations.paymentId, paymentId));
+    return donation;
+  }
+
+  async getDonations(): Promise<Donation[]> {
+    return await db.select().from(donations).orderBy(sql`${donations.createdAt} DESC`);
+  }
+
+  async getDonationStats(): Promise<{totalDonations: number, totalAmount: number}> {
+    const [stats] = await db
+      .select({
+        totalDonations: sql<number>`count(*)`.as('total'),
+        totalAmount: sql<number>`sum(${donations.amount})`.as('total_amount')
+      })
+      .from(donations)
+      .where(eq(donations.status, 'verified'));
+    
+    return {
+      totalDonations: stats.totalDonations || 0,
+      totalAmount: Number(stats.totalAmount) || 0
+    };
   }
 }
 

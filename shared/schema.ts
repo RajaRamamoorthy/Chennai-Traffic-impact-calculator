@@ -81,6 +81,22 @@ export const routeCongestion = pgTable("route_congestion", {
   nightMultiplier: decimal("night_multiplier", { precision: 4, scale: 2 }).default("0.8"),
 });
 
+// Donation records
+export const donations = pgTable("donations", {
+  id: serial("id").primaryKey(),
+  paymentId: text("payment_id").notNull().unique(),
+  orderId: text("order_id"),
+  amount: integer("amount").notNull(), // in paise
+  currency: text("currency").notNull().default("INR"),
+  status: text("status").notNull().default("verified"),
+  donorEmail: text("donor_email"),
+  donorName: text("donor_name"),
+  ipAddress: text("ip_address"),
+  userAgent: text("user_agent"),
+  createdAt: timestamp("created_at").defaultNow(),
+  verifiedAt: timestamp("verified_at").defaultNow()
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   calculations: many(calculations),
@@ -145,6 +161,12 @@ export const insertContactSubmissionSchema = createInsertSchema(contactSubmissio
   createdAt: true,
 });
 
+export const insertDonationSchema = createInsertSchema(donations).omit({
+  id: true,
+  createdAt: true,
+  verifiedAt: true,
+});
+
 // Types
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -163,3 +185,6 @@ export type RouteCongestion = typeof routeCongestion.$inferSelect;
 
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+
+export type InsertDonation = z.infer<typeof insertDonationSchema>;
+export type Donation = typeof donations.$inferSelect;

@@ -63,6 +63,12 @@ export function DonationButton() {
       return;
     }
 
+    // Validate maximum donation amount to prevent fraud
+    if (numericAmount > 100000) {
+      alert('Maximum donation amount is ₹1,00,000. Please contact us for larger donations.');
+      return;
+    }
+
     // Create payment options
     const options = {
       key: razorpayKey,
@@ -72,8 +78,26 @@ export function DonationButton() {
       description: 'Support our mission',
       image: '/icon-192.png',
       handler: function (response: any) {
-        // Payment successful - redirect to thank you page
-        window.location.href = '/thank-you';
+        // Verify payment on backend before success
+        apiRequest('POST', '/api/verify-payment', {
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_signature: response.razorpay_signature,
+          amount: Math.round(numericAmount * 100)
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            // Payment verified - redirect to thank you page
+            window.location.href = '/thank-you';
+          } else {
+            alert('Payment verification failed. Please contact support.');
+          }
+        })
+        .catch(err => {
+          console.error('Payment verification failed:', err);
+          alert('Payment verification failed. Please contact support.');
+        });
       },
       prefill: {
         name: '',
@@ -88,6 +112,10 @@ export function DonationButton() {
           setShowAmountInput(false);
           setAmount('');
         }
+      },
+      notes: {
+        source: 'Chennai Traffic Calculator',
+        timestamp: new Date().toISOString()
       }
     };
 
