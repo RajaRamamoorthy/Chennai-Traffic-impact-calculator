@@ -11,15 +11,8 @@ declare global {
 export function DonationButton() {
   const [razorpayKey, setRazorpayKey] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedAmount, setSelectedAmount] = useState(100);
-  const [showAmountSelector, setShowAmountSelector] = useState(false);
-
-  const donationAmounts = [
-    { value: 50, label: '₹50' },
-    { value: 100, label: '₹100' },
-    { value: 500, label: '₹500' },
-    { value: 1000, label: '₹1000' }
-  ];
+  const [amount, setAmount] = useState<string>('');
+  const [showAmountInput, setShowAmountInput] = useState(false);
 
   useEffect(() => {
     // Load Razorpay checkout script
@@ -64,10 +57,16 @@ export function DonationButton() {
       return;
     }
 
+    const numericAmount = parseFloat(amount);
+    if (isNaN(numericAmount) || numericAmount < 1) {
+      alert('Please enter a valid amount (minimum ₹1)');
+      return;
+    }
+
     // Create payment options
     const options = {
       key: razorpayKey,
-      amount: selectedAmount * 100, // Convert to paise
+      amount: Math.round(numericAmount * 100), // Convert to paise
       currency: 'INR',
       name: 'Chennai Traffic Impact Calculator',
       description: 'Support our mission',
@@ -86,7 +85,8 @@ export function DonationButton() {
       modal: {
         ondismiss: function() {
           console.log('Payment modal closed');
-          setShowAmountSelector(false);
+          setShowAmountInput(false);
+          setAmount('');
         }
       }
     };
@@ -97,44 +97,43 @@ export function DonationButton() {
   };
 
   const handleButtonClick = () => {
-    if (!showAmountSelector) {
-      setShowAmountSelector(true);
-    } else {
-      handleDonation();
+    if (!showAmountInput) {
+      setShowAmountInput(true);
     }
   };
 
-  if (showAmountSelector) {
+  if (showAmountInput) {
     return (
       <div className="space-y-3">
-        <div className="text-sm text-slate-600 mb-2">Select donation amount:</div>
-        <div className="flex gap-2 flex-wrap">
-          {donationAmounts.map((amount) => (
-            <button
-              key={amount.value}
-              onClick={() => setSelectedAmount(amount.value)}
-              className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                selectedAmount === amount.value
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              {amount.label}
-            </button>
-          ))}
-        </div>
+        <div className="text-sm text-slate-600 mb-2">Enter donation amount:</div>
         <div className="flex gap-2">
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+            <input
+              type="number"
+              min="1"
+              step="1"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="100"
+              className="pl-8 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              autoFocus
+            />
+          </div>
           <button 
             onClick={handleDonation}
-            disabled={isLoading || !razorpayKey}
-            className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400 rounded-md transition-colors shadow-sm hover:shadow-md"
+            disabled={isLoading || !razorpayKey || !amount}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 disabled:bg-gray-400 rounded-md transition-colors shadow-sm hover:shadow-md"
           >
             <HeartHandshake className="h-4 w-4" />
-            Donate {donationAmounts.find(a => a.value === selectedAmount)?.label}
+            Donate
           </button>
           <button 
-            onClick={() => setShowAmountSelector(false)}
-            className="px-4 py-2.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+            onClick={() => {
+              setShowAmountInput(false);
+              setAmount('');
+            }}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
           >
             Cancel
           </button>
