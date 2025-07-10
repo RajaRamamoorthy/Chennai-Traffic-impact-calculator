@@ -117,17 +117,25 @@ export class RoutingService {
     try {
       const response = await this.client.placeAutocomplete({
         params: {
-          input,
+          input: `${input} Chennai`, // Append Chennai to search query
           key: this.GOOGLE_MAPS_API_KEY,
           components: ['country:in'], // Restrict to India
           location: '13.0827,80.2707', // Chennai coordinates
-          radius: 50000, // 50km radius around Chennai
+          radius: 30000, // Reduced to 30km radius around Chennai
           language: 'en',
           types: 'establishment|geocode' as any
         }
       });
 
-      return response.data.predictions.map(prediction => ({
+      // Filter results to only include Chennai locations
+      const filteredPredictions = response.data.predictions.filter(prediction => {
+        const description = prediction.description.toLowerCase();
+        return description.includes('chennai') || 
+               description.includes('tamil nadu') ||
+               description.includes('madras'); // Historical name
+      });
+
+      return filteredPredictions.map(prediction => ({
         description: prediction.description,
         placeId: prediction.place_id,
         structured_formatting: prediction.structured_formatting
@@ -142,13 +150,34 @@ export class RoutingService {
 
   private static getChennaiLocationFallback(input: string): any[] {
     const commonLocations = [
+      // Major Areas
       { description: 'T. Nagar, Chennai, Tamil Nadu, India', placeId: 'tnagar_fallback' },
       { description: 'Anna Nagar, Chennai, Tamil Nadu, India', placeId: 'annanagar_fallback' },
       { description: 'Adyar, Chennai, Tamil Nadu, India', placeId: 'adyar_fallback' },
       { description: 'Velachery, Chennai, Tamil Nadu, India', placeId: 'velachery_fallback' },
+      { description: 'Tambaram, Chennai, Tamil Nadu, India', placeId: 'tambaram_fallback' },
+      { description: 'Chrompet, Chennai, Tamil Nadu, India', placeId: 'chrompet_fallback' },
+      { description: 'Porur, Chennai, Tamil Nadu, India', placeId: 'porur_fallback' },
+      { description: 'Sholinganallur, Chennai, Tamil Nadu, India', placeId: 'sholinganallur_fallback' },
+      
+      // IT Corridors
       { description: 'OMR IT Corridor, Chennai, Tamil Nadu, India', placeId: 'omr_fallback' },
+      { description: 'Rajiv Gandhi Salai (OMR), Chennai, Tamil Nadu, India', placeId: 'omr_main_fallback' },
+      { description: 'GST Road IT Corridor, Chennai, Tamil Nadu, India', placeId: 'gst_fallback' },
+      
+      // Transport Hubs
       { description: 'Chennai Central Railway Station, Chennai, Tamil Nadu, India', placeId: 'central_fallback' },
-      { description: 'Chennai Airport, Chennai, Tamil Nadu, India', placeId: 'airport_fallback' }
+      { description: 'Chennai Egmore Railway Station, Chennai, Tamil Nadu, India', placeId: 'egmore_fallback' },
+      { description: 'Chennai Airport, Chennai, Tamil Nadu, India', placeId: 'airport_fallback' },
+      { description: 'CMBT Bus Terminus, Chennai, Tamil Nadu, India', placeId: 'cmbt_fallback' },
+      
+      // Popular Localities
+      { description: 'Mylapore, Chennai, Tamil Nadu, India', placeId: 'mylapore_fallback' },
+      { description: 'Nungambakkam, Chennai, Tamil Nadu, India', placeId: 'nungambakkam_fallback' },
+      { description: 'Guindy, Chennai, Tamil Nadu, India', placeId: 'guindy_fallback' },
+      { description: 'Alwarpet, Chennai, Tamil Nadu, India', placeId: 'alwarpet_fallback' },
+      { description: 'Kilpauk, Chennai, Tamil Nadu, India', placeId: 'kilpauk_fallback' },
+      { description: 'Royapettah, Chennai, Tamil Nadu, India', placeId: 'royapettah_fallback' }
     ];
 
     return commonLocations.filter(location => 
