@@ -122,6 +122,13 @@ export function RouteStep({
           </div>
         </div>
 
+        {/* OR Separator */}
+        <div className="flex items-center gap-4 my-6">
+          <div className="flex-1 h-px bg-border"></div>
+          <span className="text-sm text-muted-foreground font-medium px-3">OR</span>
+          <div className="flex-1 h-px bg-border"></div>
+        </div>
+
         {/* Popular Routes Section */}
         <div className="space-y-3">
           <Label className="text-sm font-medium">Popular Commute Routes</Label>
