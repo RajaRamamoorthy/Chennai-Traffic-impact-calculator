@@ -13,7 +13,24 @@ export default function DataSources() {
       "name": "Chennai Traffic Impact Calculator"
     },
     "datePublished": "2025-07-10",
-    "keywords": "Chennai traffic data, emission database, Google Maps API, traffic authority data"
+    "keywords": "Chennai traffic data, emission database, Google Maps API, traffic authority data",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chennaitrafficcalc.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Data Sources",
+          "item": "https://chennaitrafficcalc.in/data-sources"
+        }
+      ]
+    }
   };
 
   return (

@@ -6,9 +6,39 @@ export default function Support() {
   return (
     <>
       <SEO 
-        title="Support & FAQ - Chennai Traffic Impact Calculator"
+        title="Support & FAQ"
         description="Support the Chennai Traffic Impact Calculator with donations. Learn how your contributions help keep the tool free and cover API costs."
-        keywords="donation, support, FAQ, Chennai traffic calculator, free tool"
+        keywords="donation, support, FAQ, Chennai traffic calculator, free tool, Razorpay payment, secure donations"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Where does the donation money go?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Donations cover Google Maps API costs, database hosting, server infrastructure, domain renewal, and development costs to keep the tool free for all users."
+              }
+            },
+            {
+              "@type": "Question", 
+              "name": "Is my payment secure?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, we use Razorpay, India's trusted payment gateway with PCI DSS Level 1 compliance and bank-grade encryption."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much should I donate?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Any amount helps! ₹50 covers ~100 calculations, ₹100 supports ~200 users, ₹500 funds a week, ₹1000 keeps us running for a month."
+              }
+            }
+          ]
+        }}
       />
       
       <div className="container mx-auto px-4 py-8">

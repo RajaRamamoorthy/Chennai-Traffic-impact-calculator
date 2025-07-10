@@ -26,7 +26,24 @@ export default function HowItWorks() {
         "name": "Get Your Impact Score",
         "text": "Receive a detailed analysis showing your traffic impact score and suggestions"
       }
-    ]
+    ],
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chennaitrafficcalc.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "How It Works",
+          "item": "https://chennaitrafficcalc.in/how-it-works"
+        }
+      ]
+    }
   };
 
   return (

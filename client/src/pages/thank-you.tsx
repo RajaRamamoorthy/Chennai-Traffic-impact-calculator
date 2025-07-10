@@ -8,9 +8,32 @@ export default function ThankYou() {
   return (
     <>
       <SEO 
-        title="Thank You - Chennai Traffic Impact Calculator"
+        title="Thank You"
         description="Thank you for supporting the Chennai Traffic Impact Calculator. Your donation helps keep the tool free for everyone."
-        keywords="thank you, donation, support, Chennai traffic calculator"
+        keywords="thank you, donation, support, Chennai traffic calculator, sustainability, green transport"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Thank You - Chennai Traffic Impact Calculator",
+          "description": "Thank you page for supporters of the Chennai Traffic Impact Calculator",
+          "breadcrumb": {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://chennaitrafficcalc.in/"
+              },
+              {
+                "@type": "ListItem", 
+                "position": 2,
+                "name": "Thank You",
+                "item": "https://chennaitrafficcalc.in/thank-you"
+              }
+            ]
+          }
+        }}
       />
       
       <div className="container mx-auto px-4 py-8">

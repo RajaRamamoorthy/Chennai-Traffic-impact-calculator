@@ -14,7 +14,24 @@ export default function Methodology() {
     },
     "datePublished": "2025-01-09",
     "dateModified": "2025-07-10",
-    "keywords": "traffic impact methodology, emission calculation, congestion formula, Chennai traffic science"
+    "keywords": "traffic impact methodology, emission calculation, congestion formula, Chennai traffic science",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chennaitrafficcalc.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Methodology",
+          "item": "https://chennaitrafficcalc.in/methodology"
+        }
+      ]
+    }
   };
 
   return (

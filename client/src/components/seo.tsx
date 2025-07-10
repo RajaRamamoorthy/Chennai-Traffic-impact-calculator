@@ -81,6 +81,36 @@ export function SEO({
     }
   };
 
+  // Web Application structured data
+  const webApplicationSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Chennai Traffic Impact Calculator",
+    "url": defaultMeta.siteUrl,
+    "description": "Free web application to calculate traffic impact and discover sustainable transportation alternatives in Chennai",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "permissions": "free",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "featureList": [
+      "Calculate traffic impact score",
+      "Route optimization suggestions",
+      "Public transport alternatives",
+      "Environmental impact assessment",
+      "Cost comparison analysis",
+      "Real-time Chennai traffic data"
+    ],
+    "author": {
+      "@type": "Organization",
+      "name": "Chennai Traffic Impact Calculator",
+      "url": defaultMeta.siteUrl
+    }
+  };
+
   return (
     <Helmet>
       {/* Basic Meta Tags */}
@@ -133,6 +163,9 @@ export function SEO({
       </script>
       <script type="application/ld+json">
         {JSON.stringify(websiteSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(webApplicationSchema)}
       </script>
       {structuredData && (
         <script type="application/ld+json">

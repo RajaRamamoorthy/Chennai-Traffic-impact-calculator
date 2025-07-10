@@ -408,7 +408,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       { path: "/calculator", priority: "0.9", changefreq: "weekly" },
       { path: "/how-it-works", priority: "0.7", changefreq: "monthly" },
       { path: "/methodology", priority: "0.7", changefreq: "monthly" },
-      { path: "/data-sources", priority: "0.6", changefreq: "monthly" }
+      { path: "/data-sources", priority: "0.6", changefreq: "monthly" },
+      { path: "/support", priority: "0.6", changefreq: "monthly" },
+      { path: "/thank-you", priority: "0.4", changefreq: "yearly" }
     ];
     
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
