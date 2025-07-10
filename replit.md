@@ -112,6 +112,10 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 10, 2025: Added Razorpay donation system with support pages and FAQ integration
+- July 10, 2025: Created /support page with comprehensive donation FAQ covering payment security, fund usage, and contribution impact
+- July 10, 2025: Created /thank-you page for post-donation experience with user impact messaging
+- July 10, 2025: Integrated Razorpay payment button in footer with explanatory text and FAQ link
 - July 10, 2025: Enhanced vehicle type categories with market-relevant classifications and popular model examples
 - July 10, 2025: Updated car categories: Added Compact SUV/Mid-size SUV split, Premium Sedan, and model examples in brackets
 - July 10, 2025: Improved bike categories: Added engine capacity ranges (100-125cc, 150-200cc, 200-350cc, 350cc+) with model examples

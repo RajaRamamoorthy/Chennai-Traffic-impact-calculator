@@ -31,6 +31,27 @@ export function Footer() {
               </li>
             </ul>
           </div>
+          <div></div>
+          <div>
+            <h3 className="font-semibold text-slate-900 mb-4">Donate</h3>
+            <div className="space-y-3">
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Your donation helps pay our map-API bills and keeps the tool free for everyone. 🙏
+              </p>
+              <form>
+                <script 
+                  src="https://checkout.razorpay.com/v1/payment-button.js" 
+                  data-payment_button_id="pl_QrJvlLCM3GeHbV" 
+                  async
+                ></script>
+              </form>
+              <div className="text-xs text-slate-500">
+                <Link href="/support" className="hover:text-slate-700 underline">
+                  Is my payment secure? Where does the money go?
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="border-t border-slate-200 mt-8 pt-8 text-center text-sm text-slate-600">
           <p>&copy; 2025 Chennai Traffic Impact Calculator. Made with ❤️ for Chennai commuters.</p>

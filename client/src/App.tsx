@@ -13,6 +13,8 @@ import Calculator from "@/pages/calculator";
 import HowItWorks from "@/pages/how-it-works";
 import Methodology from "@/pages/methodology";
 import DataSources from "@/pages/data-sources";
+import Support from "@/pages/support";
+import ThankYou from "@/pages/thank-you";
 import NotFound from "@/pages/not-found";
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
                   <Route path="/how-it-works" component={HowItWorks} />
                   <Route path="/methodology" component={Methodology} />
                   <Route path="/data-sources" component={DataSources} />
+                  <Route path="/support" component={Support} />
+                  <Route path="/thank-you" component={ThankYou} />
                   <Route component={NotFound} />
                 </Switch>
               </main>
