@@ -177,18 +177,27 @@ export class ImpactCalculator {
     // Timing penalty for peak hours
     const timingPenalty = this.getTimingPenalty(timing);
     
-    // Occupancy bonus (negative impact for carpooling)
-    const occupancyBonus = occupancy > 1 ? Math.max(0, 20 - (occupancy * 5)) : 0;
+    // Occupancy bonus (always calculate for cars/bikes)
+    const occupancyBonus = Math.max(0, 20 - (occupancy * 5));
     
     // Frequency adjustment
     const frequencyMultiplier = this.getFrequencyMultiplier(frequency);
 
-    return {
+    const breakdown = {
       vehicleImpact: Math.round(vehicleImpact * frequencyMultiplier),
       routeCongestion: Math.round(routeCongestion),
       timingPenalty: Math.round(timingPenalty),
       occupancyBonus: Math.round(occupancyBonus)
     };
+    
+    console.log('Occupancy calculation debug:', {
+      occupancy,
+      occupancyBonusRaw: occupancyBonus,
+      occupancyBonusRounded: Math.round(occupancyBonus),
+      breakdown
+    });
+    
+    return breakdown;
   }
 
   private generateScore(breakdown: any): number {
