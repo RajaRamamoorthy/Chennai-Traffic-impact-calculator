@@ -173,34 +173,33 @@ export class ImpactCalculator {
   }
 
   private calculateBreakdown(vehicle: any, distanceKm: number, occupancy: number, timing: string, frequency: string) {
-    // Vehicle impact (base score adjusted by occupancy)
-    const vehicleImpact = Math.max(5, vehicle.baseImpactScore / Math.max(occupancy, 1));
+    // Base vehicle impact score
+    const vehicleImpact = vehicle.baseImpactScore;
     
-    // Route congestion (simplified - in real implementation, use route analysis)
-    const routeCongestion = this.getRouteCongestionFactor(distanceKm);
+    // Congestion factor (multiplier based on distance)
+    const congestionFactor = this.getCongestionMultiplier(distanceKm);
     
-    // Timing penalty for peak hours
-    const timingPenalty = this.getTimingPenalty(timing);
+    // Timing penalty (multiplier for peak hours)
+    const timingMultiplier = this.getTimingMultiplier(timing);
     
-    // Occupancy bonus - higher occupancy reduces impact score
-    const occupancyBonus = occupancy === 1 ? 0 : 
-                          occupancy === 2 ? 10 : 
-                          occupancy === 3 ? 5 : 0;
-    
-    // Frequency adjustment
+    // Frequency multiplier
     const frequencyMultiplier = this.getFrequencyMultiplier(frequency);
-
+    
+    // Calculate final score using README documented formula
+    const rawScore = (vehicleImpact * congestionFactor * timingMultiplier * frequencyMultiplier) / occupancy;
+    
     const breakdown = {
-      vehicleImpact: Math.round(vehicleImpact), // Don't apply frequency multiplier to base impact
-      routeCongestion: Math.round(routeCongestion),
-      timingPenalty: Math.round(timingPenalty * frequencyMultiplier), // Apply frequency to timing instead
-      occupancyBonus: Math.round(occupancyBonus)
+      vehicleImpact: Math.round(vehicleImpact),
+      congestionFactor: congestionFactor,
+      timingMultiplier: timingMultiplier,
+      frequencyMultiplier: frequencyMultiplier,
+      occupancy: occupancy,
+      rawScore: Math.round(rawScore * 100) / 100 // Show calculation for transparency
     };
     
-    console.log('Occupancy calculation debug:', {
-      occupancy,
-      occupancyBonusRaw: occupancyBonus,
-      occupancyBonusRounded: Math.round(occupancyBonus),
+    console.log('New calculation logic:', {
+      formula: `(${vehicleImpact} * ${congestionFactor} * ${timingMultiplier} * ${frequencyMultiplier}) / ${occupancy}`,
+      result: rawScore,
       breakdown
     });
     
@@ -208,13 +207,11 @@ export class ImpactCalculator {
   }
 
   private generateScore(breakdown: any): number {
-    const rawScore = breakdown.vehicleImpact + 
-                    breakdown.routeCongestion + 
-                    breakdown.timingPenalty - 
-                    breakdown.occupancyBonus;
+    // Use the calculated raw score from the new multiplicative formula
+    const finalScore = breakdown.rawScore;
     
     // Normalize to 0-100 scale
-    return Math.min(Math.max(rawScore, 0), 100);
+    return Math.min(Math.max(Math.round(finalScore), 0), 100);
   }
 
   private calculateMonthlyMetrics(vehicle: any, distanceKm: number, occupancy: number, frequency: string) {
@@ -260,14 +257,15 @@ export class ImpactCalculator {
     // Off-peak timing - parse travel pattern to get timing
     const { timing } = this.parseTravelPattern(input.travelPattern);
     if (this.isInPeakHours(timing)) {
+      const timingReduction = timing === 'both-peaks' ? 44 : 33; // Reduction % from multiplier change
       alternatives.push({
         type: 'timing',
         title: 'Off-Peak Travel',
         description: 'Travel outside peak hours (before 8 AM or after 9 PM)',
-        impactReduction: 25,
+        impactReduction: timingReduction,
         timeDelta: 'Same or faster',
         costSavings: 0,
-        newScore: Math.round(currentScore * 0.75)
+        newScore: Math.round(currentScore / (timing === 'both-peaks' ? 1.8 : 1.5))
       });
     }
 
@@ -317,18 +315,19 @@ export class ImpactCalculator {
     return alternatives;
   }
 
-  private getRouteCongestionFactor(distanceKm: number): number {
-    // Simplified congestion calculation
-    if (distanceKm > 15) return 25; // Long distance = higher congestion
-    if (distanceKm > 8) return 20;
-    return 15;
+  private getCongestionMultiplier(distanceKm: number): number {
+    // Congestion multiplier based on distance (1.0 = no congestion impact)
+    if (distanceKm > 15) return 1.6; // Long distance = high congestion multiplier
+    if (distanceKm > 8) return 1.3; // Medium distance = moderate congestion
+    return 1.0; // Short distance = minimal congestion impact
   }
 
-  private getTimingPenalty(timing: string): number {
-    if (timing === 'both-peaks') return 35; // Higher penalty for daily commute (both peaks)
-    if (timing === 'morning-peak' || timing === 'evening-peak') return 25;
-    if (timing === 'off-peak') return 10;
-    return 5; // night
+  private getTimingMultiplier(timing: string): number {
+    // Timing multiplier for peak hours (1.0 = no timing penalty)
+    if (timing === 'both-peaks') return 1.8; // Daily commute hits both peaks
+    if (timing === 'morning-peak' || timing === 'evening-peak') return 1.5; // Single peak
+    if (timing === 'off-peak') return 1.0; // No penalty
+    return 0.8; // Night travel bonus
   }
 
   private isInPeakHours(timing: string): boolean {
