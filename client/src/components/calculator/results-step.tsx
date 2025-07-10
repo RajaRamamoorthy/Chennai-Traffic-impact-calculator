@@ -69,11 +69,11 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           document.body.appendChild(textArea);
           textArea.focus();
           textArea.select();
-          
+
           if (document.execCommand('copy')) {
             textCopied = true;
           }
-          
+
           document.body.removeChild(textArea);
         }
       } catch (clipboardError) {
@@ -138,7 +138,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             title: 'My Chennai Traffic Impact Score',
             files: [imageFile]
           });
-          
+
           // Show success message
           if (textCopied) {
             toast({
@@ -165,7 +165,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             title: 'My Chennai Traffic Impact Score',
             text: fullShareText
           });
-          
+
           toast({
             title: "Shared successfully!",
             description: "Text shared successfully.",
@@ -367,6 +367,54 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           </CardContent>
         </Card>
       </div>
+
+      {/* Impact Breakdown and Metrics */}
+      <Card className="mb-8">
+        <CardContent className="p-6">
+          <h3 className="font-semibold text-slate-900 mb-4">Impact Breakdown</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-slate-900">+{results.breakdown.vehicleImpact}</div>
+                <div className="text-sm text-slate-600">Vehicle Impact</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-slate-900">+{results.breakdown.routeCongestion}</div>
+                <div className="text-sm text-slate-600">Route Congestion</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl font-bold text-slate-900">+{results.breakdown.timingPenalty}</div>
+                <div className="text-sm text-slate-600">Timing Penalty</div>
+              </div>
+              <div className="text-center">
+                <div className={`text-2xl font-bold ${results.breakdown.occupancyBonus > 0 ? 'text-green-600' : 'text-slate-400'}`}>
+                  {results.breakdown.occupancyBonus > 0 ? `-${results.breakdown.occupancyBonus}` : '0'}
+                </div>
+                <div className="text-sm text-slate-600">
+                  Occupancy Bonus
+                  {results.breakdown.occupancyBonus > 0 && (
+                    <div className="text-xs text-green-600 font-medium mt-1">
+                      Reduces final score
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Occupancy Explanation */}
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="text-sm text-blue-800">
+                <strong>How Occupancy Works:</strong>
+                <ul className="mt-2 ml-4 list-disc space-y-1">
+                  <li><strong>Higher occupancy = Lower final score = Better impact</strong></li>
+                  <li><strong>Lower occupancy = Higher final score = Worse impact</strong></li>
+                  <li>Cars/Bikes: Dynamic bonus based on number of people sharing the ride</li>
+                  <li>Public transport: Fixed bonus since they're already shared transportation</li>
+                  <li>The bonus is <em>subtracted</em> from your total score, making it better</li>
+                </ul>
+              </div>
+            </div>
+        </CardContent>
+      </Card>
 
         {/* Alternatives Section */}
         {results.alternatives.length > 0 && (

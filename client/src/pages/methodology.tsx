@@ -112,15 +112,26 @@ export default function Methodology() {
                   Occupancy Benefits
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Carpooling and shared transport reduce per-person impact:
+                  <strong>Formula for cars/bikes:</strong>
+                </p>
+                <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm mb-4">
+                  bonus = max(0, 20 - (occupancy * 5))
+                </div>
+                <p className="text-slate-600 mb-4">
+                  <strong>Occupancy Impact (for cars/bikes):</strong>
                 </p>
                 <ul className="space-y-2 text-slate-600">
-                  <li>• Solo travel: No bonus</li>
-                  <li>• 2 people: -10 points</li>
-                  <li>• 3 people: -15 points</li>
-                  <li>• 4+ people: -20 points</li>
-                  <li>• Public transport: Automatic occupancy benefits</li>
+                  <li>• 1 person (solo): 0 bonus points</li>
+                  <li>• 2 people: -10 points bonus</li>
+                  <li>• 3 people: -5 points bonus</li>
+                  <li>• 4+ people: 0 bonus points</li>
                 </ul>
+                <p className="text-slate-600 mt-4">
+                  <strong>For public transport:</strong> Fixed -5 points bonus (already shared transport)
+                </p>
+                <p className="text-slate-600 mt-4 text-sm bg-green-50 p-3 rounded border-l-4 border-green-400">
+                  <strong>Remember:</strong> The bonus is <em>subtracted</em> from your final score, so higher occupancy gives you a lower (better) score!
+                </p>
               </CardContent>
             </Card>
           </div>

@@ -93,10 +93,13 @@ export function TransportationStep({
     const shouldShowDetails = selectedTransport?.requiresVehicleDetails || false;
     setShowVehicleDetails(shouldShowDetails);
 
-    // Reset vehicle type and occupancy for sustainable transport
+    // Reset vehicle type and set occupancy to 1 for sustainable transport
     if (selectedTransport && !selectedTransport.requiresVehicleDetails) {
       onVehicleTypeSelect(undefined);
-      onOccupancyChange(1);
+      // Always set occupancy to 1 for sustainable transport
+      if (occupancy !== 1) {
+        onOccupancyChange(1);
+      }
     }
 
     // Reset occupancy if current value exceeds limits for selected mode
@@ -251,6 +254,11 @@ export function TransportationStep({
                     ))}
                   </SelectContent>
                 </Select>
+                {selectedMode && (selectedMode === 'car' || selectedMode === 'bike') && (
+                  <p className="text-xs text-slate-500 mt-1">
+                    💡 Higher occupancy (more people) = Lower impact score = Better for traffic
+                  </p>
+                )}
               </div>
             </div>
           </CardContent>
