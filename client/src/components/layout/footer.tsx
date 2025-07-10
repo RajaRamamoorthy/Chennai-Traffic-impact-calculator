@@ -33,11 +33,11 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <div className="mb-6">
-              <Link href="/about-me" className="text-sm font-bold text-slate-900 hover:text-slate-700">
+            <h3 className="font-semibold text-slate-900 mb-4">
+              <Link href="/about-me" className="hover:text-slate-700">
                 About me
               </Link>
-            </div>
+            </h3>
           </div>
           <div>
             <h3 className="font-semibold text-slate-900 mb-4">Donate</h3>
