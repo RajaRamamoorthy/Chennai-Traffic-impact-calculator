@@ -50,7 +50,7 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 users (id, session_id, created_at)
 vehicle_types (id, name, category, emission_factor, fuel_cost_per_km, avg_speed_kmh, base_impact_score)
 calculations (id, user_id, session_id, transport_mode, vehicle_type_id, occupancy, origin, destination, 
-              distance_km, timing, frequency, impact_score, breakdown, monthly_emissions, monthly_cost, 
+              distance_km, travel_pattern, impact_score, breakdown, monthly_emissions, monthly_cost, 
               monthly_time_hours, alternatives, created_at)
 route_congestion (id, area_name, lat, lng, morning_peak_multiplier, evening_peak_multiplier, 
                   off_peak_multiplier, night_multiplier)
@@ -96,22 +96,34 @@ const congestionMultipliers = {
 };
 ```
 
-#### 3. Timing & Frequency Impact
-- **Peak Hour Penalty**: Higher impact during rush hours
-- **Frequency Multiplier**: Daily commuters have higher monthly impact
-- **Occupancy Bonus**: Carpooling reduces per-person impact
+#### 3. Travel Pattern System
+- **Pattern-Based Selection**: Intuitive travel patterns instead of separate timing/frequency
+- **Available Patterns**:
+  - Daily Work Commute: Both peak hours, daily frequency (×1.35 timing, ×1.0 frequency)
+  - Weekday Commute: Morning peak, weekday frequency (×1.35 timing, ×0.75 frequency)
+  - Weekend Commute: Off-peak hours, weekend frequency (×1.1 timing, ×0.4 frequency)
+  - Frequent Trips: Off-peak, 3-4 times/week (×1.1 timing, ×0.5 frequency)
+  - Occasional Trips: Off-peak, 1-2 times/week (×1.1 timing, ×0.25 frequency)
+  - Rare Trips: Off-peak, few times/month (×1.1 timing, ×0.25 frequency)
+- **Occupancy Bonus**: Carpooling divides total impact by number of people
 
 #### 4. Final Score Calculation
 ```typescript
-finalScore = (
-  vehicleImpact * congestionFactor * timingPenalty * frequencyMultiplier
-) / occupancy;
+// Multiplicative formula for accurate impact assessment
+finalScore = (vehicleImpact × congestionFactor × timingMultiplier × frequencyMultiplier) ÷ occupancy
 
-// Normalized to 0-100 scale where:
-// 0-30: Excellent (sustainable transport)
-// 31-50: Good (efficient vehicles)
-// 51-70: Moderate (standard vehicles)
-// 71-100: Poor (high-impact transport)
+// Where:
+// - vehicleImpact: Base score from vehicle type (0-100)
+// - congestionFactor: 1 + (distanceKm × 0.02)
+// - timingMultiplier: 1.35 for peak hours, 1.1 for off-peak
+// - frequencyMultiplier: 1.0 to 0.25 based on travel pattern
+// - occupancy: Number of people sharing the vehicle
+
+// Score interpretation:
+// 0-30: Excellent (sustainable transport like metro, walking)
+// 31-50: Good (efficient vehicles, carpooling)
+// 51-70: Moderate (standard single-occupancy vehicles)
+// 71-100: Poor (luxury/high-emission vehicles in peak hours)
 ```
 
 ### Alternative Suggestions Engine
@@ -237,8 +249,7 @@ Calculate traffic impact for a journey.
   "occupancy": 1,
   "origin": "T. Nagar, Chennai",
   "destination": "Anna Nagar, Chennai",
-  "timing": "morning-peak",
-  "frequency": "daily"
+  "travelPattern": "daily-commute"
 }
 ```
 

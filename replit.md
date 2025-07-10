@@ -155,6 +155,10 @@ Preferred communication style: Simple, everyday language.
   - Enhanced calculation logic for bidirectional peak travel (daily commute = both peaks)
   - Updated all documentation pages to reflect new pattern-based approach
   - Travel patterns have significant impact: Daily commute = 1.0 multiplier, Occasional = 0.25 multiplier
+- July 10, 2025: **API ENDPOINT FIX** - Fixed travel pattern integration between frontend and backend
+  - Updated API to accept travelPattern field instead of separate timing/frequency
+  - Fixed TypeScript types and validation schemas for proper data flow
+  - Calculator now correctly applies travel pattern multipliers (Daily: 40 points, Occasional: 8 points for 350cc bike)
 - July 10, 2025: **REAL-TIME HOMEPAGE STATS** - Replaced placeholder metrics with live database data
   - Added `/api/stats/homepage` endpoint for real-time statistics
   - Homepage now shows actual calculation count, CO₂ savings, and money saved from user data
