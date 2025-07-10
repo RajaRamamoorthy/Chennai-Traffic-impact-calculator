@@ -322,31 +322,65 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         {/* Breakdown */}
         <Card>
           <CardContent className="p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Impact Breakdown</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">Vehicle Base Impact</span>
-                <span className="font-medium">{results.breakdown.vehicleImpact} pts</span>
+            <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+              How We Calculated Your Score
+            </h3>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                <div>
+                  <span className="text-sm font-medium text-slate-900">Your Vehicle</span>
+                  <p className="text-xs text-slate-600">Base environmental impact</p>
+                </div>
+                <span className="font-bold text-blue-600">{results.breakdown.vehicleImpact} pts</span>
               </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">Route Congestion</span>
-                <span className="font-medium">×{results.breakdown.congestionFactor || 1}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">Peak Hour Travel</span>
-                <span className="font-medium">×{results.breakdown.timingMultiplier || 1}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">Travel Frequency</span>
-                <span className="font-medium">×{results.breakdown.frequencyMultiplier || 1}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">People Sharing</span>
-                <span className="font-medium">÷{results.breakdown.occupancy || 1}</span>
-              </div>
-              <div className="flex justify-between items-center border-t pt-3 mt-3">
-                <span className="text-sm font-semibold text-slate-900">Final Score</span>
-                <span className="font-bold text-lg">{results.score} pts</span>
+              
+              {(results.breakdown.congestionFactor && results.breakdown.congestionFactor !== 1) && (
+                <div className="flex justify-between items-center p-3 bg-orange-50 rounded-lg">
+                  <div>
+                    <span className="text-sm font-medium text-slate-900">Route Distance</span>
+                    <p className="text-xs text-slate-600">Longer routes increase impact</p>
+                  </div>
+                  <span className="font-bold text-orange-600">×{Number(results.breakdown.congestionFactor).toFixed(1)}</span>
+                </div>
+              )}
+              
+              {(results.breakdown.timingMultiplier && results.breakdown.timingMultiplier !== 1) && (
+                <div className="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+                  <div>
+                    <span className="text-sm font-medium text-slate-900">Peak Hours</span>
+                    <p className="text-xs text-slate-600">Rush hour increases congestion</p>
+                  </div>
+                  <span className="font-bold text-red-600">×{Number(results.breakdown.timingMultiplier).toFixed(1)}</span>
+                </div>
+              )}
+              
+              {(results.breakdown.frequencyMultiplier && results.breakdown.frequencyMultiplier !== 1) && (
+                <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-lg">
+                  <div>
+                    <span className="text-sm font-medium text-slate-900">Travel Frequency</span>
+                    <p className="text-xs text-slate-600">How often you make this trip</p>
+                  </div>
+                  <span className="font-bold text-yellow-600">×{Number(results.breakdown.frequencyMultiplier).toFixed(1)}</span>
+                </div>
+              )}
+              
+              {(results.breakdown.occupancy && results.breakdown.occupancy > 1) && (
+                <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                  <div>
+                    <span className="text-sm font-medium text-slate-900">Sharing Ride</span>
+                    <p className="text-xs text-slate-600">{results.breakdown.occupancy} people sharing reduces individual impact</p>
+                  </div>
+                  <span className="font-bold text-green-600">÷{results.breakdown.occupancy}</span>
+                </div>
+              )}
+              
+              <div className="flex justify-between items-center border-t-2 border-slate-200 pt-4 mt-4 p-3 bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg">
+                <div>
+                  <span className="text-base font-bold text-slate-900">Your Impact Score</span>
+                  <p className="text-xs text-slate-600">Out of 100 points</p>
+                </div>
+                <span className="font-bold text-2xl text-slate-900">{results.score}</span>
               </div>
             </div>
           </CardContent>
