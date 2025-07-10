@@ -1,7 +1,7 @@
 import { Link } from "wouter";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FeedbackModal } from "@/components/ui/feedback-modal";
-import { RazorpayDonationButton } from "@/components/ui/razorpay-donation-button";
+import { Helmet } from "react-helmet-async";
 
 export function Footer() {
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
@@ -39,11 +39,14 @@ export function Footer() {
               <p className="text-sm text-slate-600 leading-relaxed">
                 Your donation helps pay our map-API bills and keeps the tool free for everyone. 🙏
               </p>
-              <div 
-                dangerouslySetInnerHTML={{ 
-                  __html: '<form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_QrJvlLCM3GeHbV" async></script></form>' 
-                }}
-              />
+              <a 
+                href="https://pages.razorpay.com/pl_QrJvlLCM3GeHbV/view" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors"
+              >
+                Donate Now
+              </a>
               <div className="text-xs text-slate-500">
                 <Link href="/support" className="hover:text-slate-700 underline">
                   Is my payment secure? Where does the money go?
