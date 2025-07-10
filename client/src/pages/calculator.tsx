@@ -82,11 +82,20 @@ export default function Calculator() {
     setIsLoading(true);
 
     try {
+      // Validate that origin and destination are different
+      if (data.origin.toLowerCase().trim() === data.destination.toLowerCase().trim()) {
+        throw new Error("Origin and destination cannot be the same location. Please select different locations.");
+      }
+
       // Get route information first
       const routeInfo = await api.getRouteInfo(data.origin, data.destination);
 
       if (!routeInfo) {
-        throw new Error("Could not find route between the specified locations");
+        throw new Error("Could not find a valid route between the specified locations. Please check that both locations are valid and try again.");
+      }
+
+      if (routeInfo.distanceKm <= 0) {
+        throw new Error("The calculated distance is too short. Please select locations that are further apart.");
       }
 
       // Calculate impact with route distance
@@ -108,9 +117,10 @@ export default function Calculator() {
 
     } catch (error: any) {
       console.error('Calculation failed:', error);
+      const errorMessage = error.message || "An unexpected error occurred. Please check your locations and try again.";
       toast({
         title: "Calculation failed",
-        description: error.message || "Please check your locations and try again.",
+        description: errorMessage,
         variant: "destructive"
       });
     } finally {

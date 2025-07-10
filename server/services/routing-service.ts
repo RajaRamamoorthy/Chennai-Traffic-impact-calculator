@@ -55,11 +55,13 @@ export class RoutingService {
   }
 
   static async getRouteInfo(origin: string, destination: string): Promise<RouteInfo | null> {
-    if (!this.GOOGLE_MAPS_API_KEY) {
-      throw new Error('Google Maps API key not configured');
-    }
-
     try {
+      // Check if origin and destination are the same
+      if (origin.toLowerCase().trim() === destination.toLowerCase().trim()) {
+        console.log("Origin and destination are the same");
+        return null;
+      }
+
       const response = await this.client.directions({
         params: {
           origin,
@@ -79,9 +81,14 @@ export class RoutingService {
 
       const route = response.data.routes[0];
       const leg = route.legs[0];
-      
+
+      const distanceKm = Math.round(leg.distance.value / 1000 * 100) / 100;
+
+      // Ensure minimum distance of 0.1 km to avoid validation errors
+      const finalDistanceKm = Math.max(distanceKm, 0.1);
+
       return {
-        distanceKm: Math.round(leg.distance.value / 1000 * 100) / 100, // Convert to km with 2 decimal places
+        distanceKm: finalDistanceKm,
         durationMinutes: Math.round(leg.duration.value / 60),
         polyline: route.overview_polyline.points,
         bounds: {
@@ -95,6 +102,7 @@ export class RoutingService {
           }
         }
       };
+
     } catch (error) {
       console.error('Google Directions error:', error);
       throw new Error('Failed to get route information');
@@ -126,7 +134,7 @@ export class RoutingService {
       }));
     } catch (error) {
       console.error('Google Places Autocomplete error:', error);
-      
+
       // Fallback to some Chennai locations if API fails
       return this.getChennaiLocationFallback(input);
     }
