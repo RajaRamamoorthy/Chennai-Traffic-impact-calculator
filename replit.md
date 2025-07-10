@@ -117,6 +117,9 @@ Preferred communication style: Simple, everyday language.
 - July 10, 2025: Improved bike categories: Added engine capacity ranges (100-125cc, 150-200cc, 200-350cc, 350cc+) with model examples
 - July 10, 2025: Database reseeded with 21 improved vehicle types including realistic emission factors and costs
 - July 10, 2025: Vehicle categories now reflect actual Indian market segments popular in Chennai
+- July 10, 2025: Updated all About section pages (data-sources, methodology, how-it-works) with current vehicle database details
+- July 10, 2025: Enhanced data-sources page with comprehensive 21-category vehicle breakdown and emission factors
+- July 10, 2025: Added detailed vehicle classification system to methodology page showing all categories and impact scores
 - July 9, 2025: Implemented comprehensive SEO strategy with sitemap, meta tags, OpenGraph, and PWA support
 - July 9, 2025: Created dynamic sitemap generator endpoint at /sitemap.xml with proper XML formatting
 - July 9, 2025: Added OpenGraph image (og-image.svg) for enhanced social media sharing

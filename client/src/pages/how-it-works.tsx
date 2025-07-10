@@ -87,8 +87,9 @@ export default function HowItWorks() {
                   Select Transportation
                 </h3>
                 <p className="text-slate-600">
-                  Choose your mode of transport, vehicle type, occupancy, and travel 
-                  frequency. Each factor affects your overall traffic impact score.
+                  Choose from 6 transport modes, then select your specific vehicle type from 
+                  21 categories including popular models like Swift, Activa, Creta, and more. 
+                  Add occupancy and frequency details for accurate impact calculation.
                 </p>
               </CardContent>
             </Card>

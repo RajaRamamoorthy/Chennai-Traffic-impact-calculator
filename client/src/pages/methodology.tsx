@@ -13,7 +13,7 @@ export default function Methodology() {
       "name": "Chennai Traffic Impact Calculator"
     },
     "datePublished": "2025-01-09",
-    "dateModified": "2025-01-09",
+    "dateModified": "2025-07-10",
     "keywords": "traffic impact methodology, emission calculation, congestion formula, Chennai traffic science"
   };
 
@@ -41,8 +41,103 @@ export default function Methodology() {
         </div>
       </section>
 
-      {/* Core Components */}
+      {/* Vehicle Categories */}
       <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
+            Vehicle Classification System
+          </h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            <Card>
+              <CardContent className="p-8">
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Car Categories (9 Types)
+                </h3>
+                <div className="space-y-2 text-sm text-slate-600">
+                  <div className="flex justify-between">
+                    <span>Hatchback (Swift, Baleno)</span>
+                    <span className="font-mono">45 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Compact Sedan (Dzire, Amaze)</span>
+                    <span className="font-mono">47 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Sedan (City, Verna)</span>
+                    <span className="font-mono">50 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Compact SUV (Brezza, Venue)</span>
+                    <span className="font-mono">52 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Mid-size SUV (Creta, Seltos)</span>
+                    <span className="font-mono">55 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>MUV/MPV (Ertiga, Innova)</span>
+                    <span className="font-mono">57 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Premium Sedan (Camry, Accord)</span>
+                    <span className="font-mono">58 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Luxury SUV (XUV700, Fortuner)</span>
+                    <span className="font-mono">65 pts</span>
+                  </div>
+                  <div className="flex justify-between text-green-600">
+                    <span>Electric Car (Nexon EV, Tiago EV)</span>
+                    <span className="font-mono">25 pts</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-8">
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Bike Categories (7 Types)
+                </h3>
+                <div className="space-y-2 text-sm text-slate-600">
+                  <div className="flex justify-between">
+                    <span>Scooter 100-125cc (Activa, Jupiter)</span>
+                    <span className="font-mono">25 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Premium Scooter 150cc+ (Aerox 155)</span>
+                    <span className="font-mono">28 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Commuter Bike 100-150cc (Splendor)</span>
+                    <span className="font-mono">22 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Sports Bike 150-200cc (Pulsar 150)</span>
+                    <span className="font-mono">24 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Mid-capacity 200-350cc (Dominar 250)</span>
+                    <span className="font-mono">26 pts</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>High-capacity 350cc+ (Duke 390)</span>
+                    <span className="font-mono">28 pts</span>
+                  </div>
+                  <div className="flex justify-between text-green-600">
+                    <span>Electric Two-wheeler (Ather 450X)</span>
+                    <span className="font-mono">12 pts</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Core Components */}
+      <section className="py-16 px-4 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
             Calculation Components
@@ -62,8 +157,10 @@ export default function Methodology() {
                   vehicleImpact = max(5, baseScore / occupancy)
                 </div>
                 <p className="text-slate-600 mt-4">
-                  Different vehicle types have different base impact scores based on their 
-                  emission factors and efficiency in Chennai traffic conditions.
+                  Our database includes 21 vehicle categories with realistic emission factors. 
+                  Cars range from efficient hatchbacks (45 points) to luxury SUVs (65 points), 
+                  while bikes range from commuter models (22 points) to high-capacity bikes (28 points). 
+                  Electric vehicles receive the lowest scores (12-25 points).
                 </p>
               </CardContent>
             </Card>
@@ -139,7 +236,7 @@ export default function Methodology() {
       </section>
 
       {/* Final Score Calculation */}
-      <section className="py-16 px-4 bg-slate-50">
+      <section className="py-16 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
             Final Score Calculation

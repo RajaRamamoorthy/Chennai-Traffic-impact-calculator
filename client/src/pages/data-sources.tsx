@@ -12,7 +12,7 @@ export default function DataSources() {
       "@type": "Organization",
       "name": "Chennai Traffic Impact Calculator"
     },
-    "datePublished": "2025-01-09",
+    "datePublished": "2025-07-10",
     "keywords": "Chennai traffic data, emission database, Google Maps API, traffic authority data"
   };
 
@@ -80,14 +80,31 @@ export default function DataSources() {
                   Vehicle Emission Database
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Comprehensive emission factors for vehicles commonly used in Chennai.
+                  Comprehensive database with 21 vehicle categories and emission factors for Chennai's most popular vehicles.
                 </p>
-                <ul className="space-y-2 text-slate-600">
-                  <li>• CO2 emission per km by vehicle type</li>
-                  <li>• Fuel efficiency ratings</li>
-                  <li>• Average occupancy data</li>
-                  <li>• Chennai-specific vehicle distribution</li>
-                </ul>
+                <div className="space-y-3">
+                  <div>
+                    <p className="font-medium text-slate-700 mb-2">Car Categories (9 types):</p>
+                    <ul className="space-y-1 text-sm text-slate-600 ml-4">
+                      <li>• Hatchback (Swift, Baleno) - 0.142 kg CO2/km</li>
+                      <li>• Compact Sedan (Dzire, Amaze) - 0.148 kg CO2/km</li>
+                      <li>• Sedan (City, Verna) - 0.155 kg CO2/km</li>
+                      <li>• Compact SUV (Brezza, Venue) - 0.158 kg CO2/km</li>
+                      <li>• Mid-size SUV (Creta, Seltos) - 0.168 kg CO2/km</li>
+                      <li>• Premium Sedan, MUV/MPV, Luxury SUV categories</li>
+                      <li>• Electric Car (Nexon EV, Tiago EV) - 0.045 kg CO2/km</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="font-medium text-slate-700 mb-2">Bike Categories (7 types):</p>
+                    <ul className="space-y-1 text-sm text-slate-600 ml-4">
+                      <li>• Scooter 100-125cc (Activa, Jupiter) - 0.062 kg CO2/km</li>
+                      <li>• Premium Scooter 150cc+ (Aerox 155, NTorq 125)</li>
+                      <li>• Commuter, Sports, Mid-capacity, High-capacity bikes</li>
+                      <li>• Electric Two-wheeler (Ather 450X, TVS iQube) - 0.018 kg CO2/km</li>
+                    </ul>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
@@ -150,7 +167,8 @@ export default function DataSources() {
               <h3 className="font-semibold text-slate-900 mb-2">Periodic Updates</h3>
               <p className="text-slate-600">
                 Vehicle emission factors and local traffic patterns are reviewed and 
-                updated quarterly based on latest research and Chennai traffic authority data.
+                updated quarterly. Our database currently includes 21 vehicle categories 
+                with market-relevant classifications based on Chennai's most popular vehicles.
               </p>
             </div>
             
