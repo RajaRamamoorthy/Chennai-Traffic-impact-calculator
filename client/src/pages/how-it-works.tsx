@@ -3,8 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { MapPin, Calculator, TrendingDown, ArrowRight } from "lucide-react";
 import { SEO } from "@/components/seo";
+import { useEffect } from "react";
 
 export default function HowItWorks() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const howItWorksSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",

@@ -1,8 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Calculator, Database, MapPin, Zap } from "lucide-react";
 import { SEO } from "@/components/seo";
+import { useEffect } from "react";
 
 export default function Methodology() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const methodologySchema = {
     "@context": "https://schema.org",
     "@type": "TechArticle",
