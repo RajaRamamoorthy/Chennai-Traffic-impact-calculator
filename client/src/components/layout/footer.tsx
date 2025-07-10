@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { useState } from "react";
 import { FeedbackModal } from "@/components/ui/feedback-modal";
+import { RazorpayDonationButton } from "@/components/ui/razorpay-donation-button";
 
 export function Footer() {
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
@@ -38,13 +39,7 @@ export function Footer() {
               <p className="text-sm text-slate-600 leading-relaxed">
                 Your donation helps pay our map-API bills and keeps the tool free for everyone. 🙏
               </p>
-              <form>
-                <script 
-                  src="https://checkout.razorpay.com/v1/payment-button.js" 
-                  data-payment_button_id="pl_QrJvlLCM3GeHbV" 
-                  async
-                ></script>
-              </form>
+              <RazorpayDonationButton paymentButtonId="pl_QrJvlLCM3GeHbV" />
               <div className="text-xs text-slate-500">
                 <Link href="/support" className="hover:text-slate-700 underline">
                   Is my payment secure? Where does the money go?
