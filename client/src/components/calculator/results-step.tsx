@@ -52,7 +52,65 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       const shareUrl = 'https://chennaitrafficcalc.in?utm_source=share';
       const shareText = `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`;
 
-      // Try direct share first (must be called immediately in user gesture context)
+      // Generate image from the hidden score card
+      let imageFile: File | null = null;
+      if (scoreCardRef.current) {
+        try {
+          // Temporarily make the element visible for screenshot
+          const element = scoreCardRef.current;
+          element.style.visibility = 'visible';
+          element.style.opacity = '1';
+          element.style.position = 'fixed';
+          element.style.top = '0';
+          element.style.left = '0';
+          element.style.zIndex = '9999';
+
+          // Generate canvas
+          const canvas = await html2canvas(element, {
+            width: 600,
+            height: element.scrollHeight,
+            backgroundColor: '#ffffff',
+            scale: 2, // Higher quality
+            useCORS: true,
+            logging: false
+          });
+
+          // Hide the element again
+          element.style.visibility = 'hidden';
+          element.style.opacity = '0';
+          element.style.zIndex = '-1';
+
+          // Convert canvas to blob
+          const blob = await new Promise<Blob>((resolve) => {
+            canvas.toBlob((blob) => {
+              resolve(blob!);
+            }, 'image/png', 0.9);
+          });
+
+          // Create file from blob
+          imageFile = new File([blob], 'traffic-impact-score.png', { type: 'image/png' });
+        } catch (imageError) {
+          console.error('Image generation failed:', imageError);
+          // Continue to text-only sharing
+        }
+      }
+
+      // Try direct share with image (if supported and image was generated)
+      if (navigator.share && imageFile) {
+        try {
+          await navigator.share({
+            title: 'My Chennai Traffic Impact Score',
+            text: `${shareText}\n\nCalculate yours at: ${shareUrl}`,
+            files: [imageFile]
+          });
+          return; // Successfully shared with image
+        } catch (shareError) {
+          console.error('Image share failed:', shareError);
+          // Continue to text-only sharing below
+        }
+      }
+
+      // Try direct share with text only (must be called immediately in user gesture context)
       if (navigator.share) {
         try {
           await navigator.share({
