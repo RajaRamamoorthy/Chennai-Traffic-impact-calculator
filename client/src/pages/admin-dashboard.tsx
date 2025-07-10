@@ -80,11 +80,13 @@ export function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    if (adminKey) {
+    // Only auto-authenticate if we have a stored admin key
+    const storedKey = localStorage.getItem('admin-key');
+    if (storedKey) {
+      setAdminKey(storedKey);
       setIsAuthenticated(true);
-      localStorage.setItem('admin-key', adminKey);
     }
-  }, [adminKey]);
+  }, []);
 
   const createAuthenticatedQuery = (endpoint: string, label: string) => {
     return useQuery({
@@ -113,8 +115,8 @@ export function AdminDashboard() {
 
   const handleLogin = () => {
     if (adminKey.trim()) {
-      setIsAuthenticated(true);
       localStorage.setItem('admin-key', adminKey);
+      setIsAuthenticated(true);
     }
   };
 
@@ -122,6 +124,12 @@ export function AdminDashboard() {
     setIsAuthenticated(false);
     setAdminKey('');
     localStorage.removeItem('admin-key');
+  };
+
+  const clearCache = () => {
+    localStorage.removeItem('admin-key');
+    setAdminKey('');
+    setIsAuthenticated(false);
   };
 
   const formatCurrency = (amount: number) => {
@@ -158,6 +166,11 @@ export function AdminDashboard() {
               <Lock className="h-4 w-4 mr-2" />
               Access Dashboard
             </Button>
+            {localStorage.getItem('admin-key') && (
+              <Button variant="outline" onClick={clearCache} className="w-full mt-2">
+                Clear Cached Key
+              </Button>
+            )}
           </CardContent>
         </Card>
       </div>
