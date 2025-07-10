@@ -83,6 +83,9 @@ export function TransportationStep({
   const { data: vehicleTypes, isLoading: vehicleTypesLoading, error } = useQuery<VehicleType[]>({
     queryKey: [`/api/vehicle-types?category=${selectedMode}`],
     enabled: !!selectedMode && (selectedMode === 'car' || selectedMode === 'bike'),
+    staleTime: 5 * 60 * 1000, // 5 minutes - data stays fresh
+    cacheTime: 10 * 60 * 1000, // 10 minutes - keep in cache
+    refetchOnWindowFocus: false, // Don't refetch when window regains focus
   });
 
   useEffect(() => {
@@ -108,7 +111,7 @@ export function TransportationStep({
           behavior: 'smooth', 
           block: 'start' 
         });
-      }, 100);
+      }, 50);
     }
   }, [selectedMode]); // Remove the callback functions from dependencies to prevent infinite loop
 
