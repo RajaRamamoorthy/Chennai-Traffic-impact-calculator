@@ -51,8 +51,45 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
     try {
       const shareUrl = 'https://chennaitrafficcalc.in?utm_source=share';
       const shareText = `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`;
+      const fullShareText = `${shareText}\n\nCalculate yours at: ${shareUrl}`;
 
-      // Generate image from the hidden score card
+      // Step 1: Copy text to clipboard first
+      let textCopied = false;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(fullShareText);
+          textCopied = true;
+        } else {
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = fullShareText;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-999999px';
+          textArea.style.top = '-999999px';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          
+          if (document.execCommand('copy')) {
+            textCopied = true;
+          }
+          
+          document.body.removeChild(textArea);
+        }
+      } catch (clipboardError) {
+        console.error('Clipboard copy failed:', clipboardError);
+        // Continue to image sharing even if text copy fails
+      }
+
+      // Show toast that text is copied
+      if (textCopied) {
+        toast({
+          title: "Text copied!",
+          description: "Now sharing image. You can paste the text separately if needed.",
+        });
+      }
+
+      // Step 2: Generate and share image
       let imageFile: File | null = null;
       if (scoreCardRef.current) {
         try {
@@ -91,75 +128,68 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           imageFile = new File([blob], 'traffic-impact-score.png', { type: 'image/png' });
         } catch (imageError) {
           console.error('Image generation failed:', imageError);
-          // Continue to text-only sharing
         }
       }
 
-      // Try direct share with image (if supported and image was generated)
+      // Step 3: Share image (image-only to ensure compatibility)
       if (navigator.share && imageFile) {
         try {
           await navigator.share({
             title: 'My Chennai Traffic Impact Score',
-            text: `${shareText}\n\nCalculate yours at: ${shareUrl}`,
             files: [imageFile]
           });
-          return; // Successfully shared with image
+          
+          // Show success message
+          if (textCopied) {
+            toast({
+              title: "Shared successfully!",
+              description: "Image shared and text copied to clipboard.",
+            });
+          } else {
+            toast({
+              title: "Image shared!",
+              description: "Image shared successfully.",
+            });
+          }
+          return;
         } catch (shareError) {
           console.error('Image share failed:', shareError);
-          // Continue to text-only sharing below
-        }
-      }
-
-      // Try direct share with text only (must be called immediately in user gesture context)
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'My Chennai Traffic Impact Score',
-            text: `${shareText}\n\nCalculate yours at: ${shareUrl}`
-          });
-          return; // Successfully shared
-        } catch (shareError) {
-          console.error('Share failed:', shareError);
           // Continue to fallback methods below
         }
       }
 
-      // Fallback to copying to clipboard
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(
-          `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${shareUrl}`
-        );
+      // Fallback: Try text-only share if image sharing failed
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'My Chennai Traffic Impact Score',
+            text: fullShareText
+          });
+          
+          toast({
+            title: "Shared successfully!",
+            description: "Text shared successfully.",
+          });
+          return;
+        } catch (shareError) {
+          console.error('Text share failed:', shareError);
+        }
+      }
+
+      // Final fallback: Just show that text was copied
+      if (textCopied) {
         toast({
-          title: "Link copied!",
-          description: "Share link has been copied to your clipboard.",
+          title: "Text copied!",
+          description: "Share text has been copied to your clipboard. Image sharing not available.",
         });
       } else {
-        // Final fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${shareUrl}`;
-        textArea.style.position = 'fixed';
-        textArea.style.left = '-999999px';
-        textArea.style.top = '-999999px';
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        
-        try {
-          document.execCommand('copy');
-          toast({
-            title: "Link copied!",
-            description: "Share link has been copied to your clipboard.",
-          });
-        } catch (err) {
-          toast({
-            title: "Share failed",
-            description: "Unable to share results. Please try again.",
-            variant: "destructive"
-          });
-        }
-        
-        document.body.removeChild(textArea);
+        toast({
+          title: "Share failed",
+          description: "Unable to share results. Please try again.",
+          variant: "destructive"
+        });
       }
+
     } catch (error) {
       console.error('Share failed:', error);
       toast({
