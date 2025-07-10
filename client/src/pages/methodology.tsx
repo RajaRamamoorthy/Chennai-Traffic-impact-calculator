@@ -232,19 +232,13 @@ export default function Methodology() {
                   Occupancy Benefits
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  <strong>Formula for cars/bikes:</strong>
-                </p>
-                <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm mb-4">
-                  bonus = max(0, 20 - (occupancy * 5))
-                </div>
-                <p className="text-slate-600 mb-4">
                   <strong>Occupancy Impact (for cars/bikes):</strong>
                 </p>
                 <ul className="space-y-2 text-slate-600">
-                  <li>• 1 person (solo): 0 bonus points</li>
-                  <li>• 2 people: -10 points bonus</li>
-                  <li>• 3 people: -5 points bonus</li>
-                  <li>• 4+ people: 0 bonus points</li>
+                  <li>• 1 person (solo): 0 reduction</li>
+                  <li>• 2 people: -10 points (score reduction)</li>
+                  <li>• 3 people: -5 points (score reduction)</li>
+                  <li>• 4+ people: 0 reduction</li>
                 </ul>
                 <p className="text-slate-600 mt-4">
                   <strong>For public transport:</strong> Fixed -5 points bonus (already shared transport)

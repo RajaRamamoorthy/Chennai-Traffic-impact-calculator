@@ -182,16 +182,18 @@ export class ImpactCalculator {
     // Timing penalty for peak hours
     const timingPenalty = this.getTimingPenalty(timing);
     
-    // Occupancy bonus (always calculate for cars/bikes)
-    const occupancyBonus = Math.max(0, 20 - (occupancy * 5));
+    // Occupancy bonus - higher occupancy reduces impact score
+    const occupancyBonus = occupancy === 1 ? 0 : 
+                          occupancy === 2 ? 10 : 
+                          occupancy === 3 ? 5 : 0;
     
     // Frequency adjustment
     const frequencyMultiplier = this.getFrequencyMultiplier(frequency);
 
     const breakdown = {
-      vehicleImpact: Math.round(vehicleImpact * frequencyMultiplier),
+      vehicleImpact: Math.round(vehicleImpact), // Don't apply frequency multiplier to base impact
       routeCongestion: Math.round(routeCongestion),
-      timingPenalty: Math.round(timingPenalty),
+      timingPenalty: Math.round(timingPenalty * frequencyMultiplier), // Apply frequency to timing instead
       occupancyBonus: Math.round(occupancyBonus)
     };
     

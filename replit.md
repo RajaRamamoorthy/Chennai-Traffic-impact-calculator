@@ -139,6 +139,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 10, 2025: **CRITICAL CALCULATION LOGIC FIX** - Fixed occupancy bonus and vehicle impact calculations
+  - Single occupancy now correctly gets 0 bonus (was incorrectly getting +15)
+  - Vehicle impact now shows full base score (luxury SUV: 65 points, not 33)
+  - Applied frequency multiplier to timing penalty instead of vehicle impact
+  - Updated methodology documentation to reflect correct calculations
+- July 10, 2025: **PATTERN-BASED TRAVEL SELECTION** - Implemented intuitive travel patterns replacing timing/frequency
+  - Added "Daily Work Commute", "Weekday Commute", "Weekend Commute", etc.
+  - Updated database schema from timing/frequency columns to single travelPattern column
+  - Enhanced calculation logic for bidirectional peak travel (daily commute = both peaks)
+  - Updated all documentation pages to reflect new pattern-based approach
 - July 10, 2025: **REAL-TIME HOMEPAGE STATS** - Replaced placeholder metrics with live database data
   - Added `/api/stats/homepage` endpoint for real-time statistics
   - Homepage now shows actual calculation count, CO₂ savings, and money saved from user data
