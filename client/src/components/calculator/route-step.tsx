@@ -122,6 +122,74 @@ export function RouteStep({
           </div>
         </div>
 
+        {/* Popular Routes Section */}
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Popular Commute Routes</Label>
+          <p className="text-xs text-muted-foreground">Click any route to auto-fill your journey</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {[
+              {
+                name: "OMR IT Corridor",
+                from: "Sholinganallur, Chennai, Tamil Nadu, India",
+                to: "Chennai Central Railway Station, Chennai, Tamil Nadu, India",
+                description: "IT professionals commute",
+                icon: "💻"
+              },
+              {
+                name: "GST Road",
+                from: "Chennai Airport, Chennai, Tamil Nadu, India", 
+                to: "T. Nagar, Chennai, Tamil Nadu, India",
+                description: "Airport to city center",
+                icon: "✈️"
+              },
+              {
+                name: "Anna Salai Route",
+                from: "T. Nagar, Chennai, Tamil Nadu, India",
+                to: "Chennai Central Railway Station, Chennai, Tamil Nadu, India", 
+                description: "Shopping district to station",
+                icon: "🛍️"
+              },
+              {
+                name: "Suburban Route",
+                from: "Tambaram, Chennai, Tamil Nadu, India",
+                to: "Chennai Central Railway Station, Chennai, Tamil Nadu, India",
+                description: "Suburb to city center",
+                icon: "🏘️"
+              }
+            ].map((route) => (
+              <button
+                key={route.name}
+                type="button"
+                onClick={() => {
+                  handleOriginChange(route.from);
+                  handleDestinationChange(route.to);
+                  analytics.trackRouteSearch({
+                    origin: route.from,
+                    destination: route.to,
+                    search_method: 'popular_route'
+                  });
+                }}
+                className="flex items-start gap-3 p-3 text-left border rounded-lg hover:bg-accent hover:border-primary transition-colors group"
+              >
+                <span className="text-lg group-hover:scale-110 transition-transform">
+                  {route.icon}
+                </span>
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-sm text-foreground group-hover:text-primary">
+                    {route.name}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {route.description}
+                  </div>
+                  <div className="text-xs text-muted-foreground/80 mt-1 truncate">
+                    {route.from.split(',')[0]} → {route.to.split(',')[0]}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Timing Selection */}
         <div className="space-y-3">
           <Label className="text-sm font-medium">Travel Time</Label>
