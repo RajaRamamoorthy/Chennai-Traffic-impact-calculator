@@ -111,6 +111,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Homepage stats endpoint
+  app.get("/api/stats/homepage", async (req, res) => {
+    try {
+      const stats = await storage.getHomepageStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching homepage stats:", error);
+      res.status(500).json({ 
+        error: "Failed to fetch homepage stats",
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
+  });
+
   // Get vehicle types
   app.get("/api/vehicle-types", async (req, res) => {
     try {

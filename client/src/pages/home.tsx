@@ -3,8 +3,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calculator, Users, TrendingDown, Clock } from "lucide-react";
 import { SEO } from "@/components/seo";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "@/lib/api";
+
+// Simple number formatter for large numbers
+function formatNumber(num: number): string {
+  if (num >= 10000000) return `${(num / 10000000).toFixed(1)}Cr`;
+  if (num >= 100000) return `${(num / 100000).toFixed(1)}L`;
+  if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+  return num.toString();
+}
 
 export default function Home() {
+  // Fetch real homepage stats
+  const { data: stats } = useQuery({
+    queryKey: ['/api/stats/homepage'],
+    queryFn: api.getHomepageStats,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
   const homePageSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -113,15 +130,21 @@ export default function Home() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
-              <div className="text-4xl font-bold text-primary mb-2">10,000+</div>
+              <div className="text-4xl font-bold text-primary mb-2">
+                {stats ? formatNumber(stats.totalCalculations) : "10,000+"}
+              </div>
               <div className="text-slate-600">Calculations completed</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-green-500 mb-2">2.5M kg</div>
+              <div className="text-4xl font-bold text-green-500 mb-2">
+                {stats ? `${formatNumber(stats.totalCO2SavedKg)} kg` : "2.5M kg"}
+              </div>
               <div className="text-slate-600">CO₂ saved annually</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-blue-500 mb-2">₹45L</div>
+              <div className="text-4xl font-bold text-blue-500 mb-2">
+                {stats ? `₹${formatNumber(stats.totalMoneySaved)}` : "₹45L"}
+              </div>
               <div className="text-slate-600">Money saved by users</div>
             </div>
           </div>

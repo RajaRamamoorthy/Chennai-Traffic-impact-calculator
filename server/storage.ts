@@ -53,6 +53,7 @@ export interface IStorage {
 
   // Analytics
   getCalculationStats(): Promise<{totalCalculations: number, avgImpactScore: number}>;
+  getHomepageStats(): Promise<{totalCalculations: number, totalCO2SavedKg: number, totalMoneySaved: number}>;
 
   // Contact Submissions
   createContactSubmission(data: InsertContactSubmission): Promise<ContactSubmission>;
@@ -182,6 +183,22 @@ export class DatabaseStorage implements IStorage {
     return {
       totalCalculations: stats.totalCalculations || 0,
       avgImpactScore: Math.round(stats.avgImpactScore || 0),
+    };
+  }
+
+  async getHomepageStats(): Promise<{totalCalculations: number, totalCO2SavedKg: number, totalMoneySaved: number}> {
+    const [stats] = await db
+      .select({
+        totalCalculations: sql<number>`count(*)`.as('total'),
+        totalMonthlyCO2: sql<number>`sum(CAST(${calculations.monthlyEmissions} AS DECIMAL))`.as('total_co2'),
+        totalMonthlySavings: sql<number>`sum(CAST(${calculations.monthlyCost} AS DECIMAL))`.as('total_savings'),
+      })
+      .from(calculations);
+
+    return {
+      totalCalculations: stats.totalCalculations || 0,
+      totalCO2SavedKg: Math.round((Number(stats.totalMonthlyCO2) || 0) * 12), // Annual from monthly
+      totalMoneySaved: Math.round((Number(stats.totalMonthlySavings) || 0) * 12), // Annual from monthly
     };
   }
 

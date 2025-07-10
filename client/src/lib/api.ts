@@ -43,6 +43,12 @@ export const api = {
     return res.json();
   },
 
+  // Homepage stats
+  getHomepageStats: async (): Promise<{totalCalculations: number, totalCO2SavedKg: number, totalMoneySaved: number}> => {
+    const res = await apiRequest("GET", "/api/stats/homepage");
+    return res.json();
+  },
+
   // Submit feedback
   submitFeedback: async (feedback: { calculationId?: number; rating?: number; helpful?: boolean; comments?: string; name?: string; email?: string; message?: string }) => {
     // If it's a contact form submission (has name, email, message), use contact endpoint
