@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -78,6 +78,7 @@ export function TransportationStep({
   const { language } = useLanguage();
   const t = useTranslation(language);
   const transportModes = getTransportModes(t);
+  const vehicleDetailsRef = useRef<HTMLDivElement>(null);
 
   const { data: vehicleTypes, isLoading: vehicleTypesLoading, error } = useQuery<VehicleType[]>({
     queryKey: [`/api/vehicle-types?category=${selectedMode}`],
@@ -86,7 +87,8 @@ export function TransportationStep({
 
   useEffect(() => {
     const selectedTransport = transportModes.find(mode => mode.id === selectedMode);
-    setShowVehicleDetails(selectedTransport?.requiresVehicleDetails || false);
+    const shouldShowDetails = selectedTransport?.requiresVehicleDetails || false;
+    setShowVehicleDetails(shouldShowDetails);
 
     // Reset vehicle type and occupancy for sustainable transport
     if (selectedTransport && !selectedTransport.requiresVehicleDetails) {
@@ -97,6 +99,16 @@ export function TransportationStep({
     // Reset occupancy if current value exceeds limits for selected mode
     if (selectedMode === 'bike' && occupancy > 3) {
       onOccupancyChange(1);
+    }
+
+    // Scroll to vehicle details when they become visible
+    if (shouldShowDetails && vehicleDetailsRef.current) {
+      setTimeout(() => {
+        vehicleDetailsRef.current?.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }, 100);
     }
   }, [selectedMode]); // Remove the callback functions from dependencies to prevent infinite loop
 
@@ -186,7 +198,7 @@ export function TransportationStep({
 
       {/* Vehicle Details */}
       {showVehicleDetails && (
-        <Card className="mb-8">
+        <Card ref={vehicleDetailsRef} className="mb-8">
           <CardContent className="p-6">
             <h3 className="font-medium text-slate-900 mb-4">{t.transportation.vehicleDetails}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
