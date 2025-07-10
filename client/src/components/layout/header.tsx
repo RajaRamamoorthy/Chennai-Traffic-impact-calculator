@@ -12,32 +12,34 @@ export function Header() {
   return (
     <header className="bg-white shadow-sm border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className="flex items-center">
-            <div className="text-2xl text-primary mr-3">🚦</div>
-            <h1 className="text-xl font-semibold text-slate-900">
+        <div className="flex justify-between items-center h-16 gap-2">
+          <div className="flex items-center min-w-0 flex-1">
+            <div className="text-2xl text-primary mr-2 sm:mr-3 flex-shrink-0">🚦</div>
+            <h1 className="text-lg sm:text-xl font-semibold text-slate-900 truncate">
               {t.header.title}
             </h1>
             <Link href="/">
               <Button 
                 variant="ghost" 
                 size="sm"
-                className="ml-4 text-slate-600 hover:text-slate-900"
+                className="ml-2 sm:ml-4 text-slate-600 hover:text-slate-900 flex-shrink-0"
                 title={t.header.home}
               >
                 <Home className="w-4 h-4" />
               </Button>
             </Link>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
             <Button 
               variant="ghost" 
               size="sm"
               onClick={toggleLanguage}
               className="text-slate-600 hover:text-slate-900"
             >
-              <Globe className="w-4 h-4 mr-1" />
-              {language === 'en' ? 'தமிழ்' : 'English'}
+              <Globe className="w-4 h-4 sm:mr-1" />
+              <span className="hidden sm:inline">
+                {language === 'en' ? 'தமிழ்' : 'English'}
+              </span>
             </Button>
             <Button 
               variant="ghost" 
@@ -55,8 +57,10 @@ export function Header() {
                 }
               }}
             >
-              <Info className="w-4 h-4 mr-1" />
-              {t.header.about}
+              <Info className="w-4 h-4 sm:mr-1" />
+              <span className="hidden sm:inline">
+                {t.header.about}
+              </span>
             </Button>
           </div>
         </div>
