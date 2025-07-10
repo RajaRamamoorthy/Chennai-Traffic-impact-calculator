@@ -333,6 +333,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get Razorpay config for frontend
+  app.get("/api/razorpay-config", (req, res) => {
+    const razorpayKeyId = process.env.RAZORPAY_KEY_ID;
+    
+    if (!razorpayKeyId) {
+      return res.status(500).json({ error: "Razorpay configuration missing" });
+    }
+    
+    res.json({ keyId: razorpayKeyId });
+  });
+
   // Get contact submissions (for admin access)
   app.get("/api/admin/contact-submissions", async (req, res) => {
     try {
