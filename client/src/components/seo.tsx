@@ -17,9 +17,9 @@ interface SEOProps {
 }
 
 const defaultMeta = {
-  title: 'Chennai Traffic Impact Calculator - Calculate Your Commute Impact',
-  description: 'Calculate how your daily commute affects Chennai traffic. Get personalized suggestions for better alternatives and reduce your environmental impact.',
-  keywords: 'Chennai traffic, commute calculator, traffic impact, sustainable transport, Chennai transport, public transport Chennai, carbon footprint, traffic congestion',
+  title: 'Chennai Traffic Impact Calculator – Live Jam & Commute Insights',
+  description: 'Check live Chennai traffic, calculate your commute impact, and discover faster routes. Free, map-powered jam tracker and congestion score.',
+  keywords: 'Chennai traffic, Chennai traffic today, Chennai traffic jam, Chennai traffic calculator, Chennai traffic impact, Chennai congestion score, Chennai jam tracker, Chennai commute, Chennai commute distance, Chennai travel time, Chennai road congestion, Chennai road traffic, Chennai traffic live, Chennai traffic map, Chennai traffic update, Chennai peak hour traffic, Chennai delay calculator, Chennai driving time, traffic calculator Chennai, commute calculator Chennai, Chennai traffic score, Chennai congestion predictor, Kathipara flyover traffic, OMR traffic status, GST Road traffic, Anna Salai traffic, Marina Beach traffic, T Nagar traffic, Chennai route planner, Chennai traffic dashboard, Chennai traffic analysis',
   ogImage: 'https://chennaitrafficcalc.in/og-image.png',
   siteName: 'Chennai Traffic Impact Calculator',
   siteUrl: 'https://chennaitrafficcalc.in'
@@ -88,21 +88,22 @@ export function SEO({
     "name": "Chennai Traffic Impact Calculator",
     "url": defaultMeta.siteUrl,
     "description": "Free web application to calculate traffic impact and discover sustainable transportation alternatives in Chennai",
-    "applicationCategory": "UtilityApplication",
+    "applicationCategory": "TravelApplication",
     "operatingSystem": "Any",
     "permissions": "free",
+    "keywords": "Chennai traffic, Chennai commute, Chennai traffic calculator, Chennai traffic jam, Chennai congestion score, Chennai jam tracker, Chennai traffic live, Chennai route planner, Chennai traffic analysis",
     "offers": {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "INR"
     },
     "featureList": [
-      "Calculate traffic impact score",
-      "Route optimization suggestions",
-      "Public transport alternatives",
-      "Environmental impact assessment",
-      "Cost comparison analysis",
-      "Real-time Chennai traffic data"
+      "Live Chennai traffic monitoring",
+      "Chennai congestion score calculation", 
+      "Chennai route optimization",
+      "Chennai commute impact analysis",
+      "Real-time Chennai traffic updates",
+      "Chennai peak hour traffic tracking"
     ],
     "author": {
       "@type": "Organization",

@@ -165,9 +165,9 @@ export default function Calculator() {
   return (
     <>
       <SEO
-        title="Traffic Impact Calculator"
-        description="Calculate your daily commute's impact on Chennai traffic. Compare transport modes, find sustainable alternatives, and reduce your environmental footprint."
-        keywords="Chennai traffic calculator, commute impact calculator, transport mode comparison, carbon footprint calculator Chennai, traffic congestion calculator"
+        title="Chennai Traffic Calculator – Live Congestion & Route Analysis"
+        description="Real-time Chennai traffic calculator with live jam updates. Check congestion scores for OMR, GST Road, Anna Salai routes and optimize your commute."
+        keywords="Chennai traffic calculator, Chennai traffic live, Chennai congestion score, Chennai jam tracker, Chennai route planner, Chennai commute calculator, Chennai traffic analysis, Kathipara flyover traffic, OMR traffic status, Chennai delay calculator"
         canonical="https://chennaitrafficcalc.in/calculator"
         structuredData={calculatorPageSchema}
       />
