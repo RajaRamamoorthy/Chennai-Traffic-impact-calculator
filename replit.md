@@ -144,6 +144,11 @@ Preferred communication style: Simple, everyday language.
   - Vehicle impact now shows full base score (luxury SUV: 65 points, not 33)
   - Applied frequency multiplier to timing penalty instead of vehicle impact
   - Updated methodology documentation to reflect correct calculations
+- July 10, 2025: **FRONTEND BREAKDOWN DISPLAY FIX** - Fixed impact breakdown display to show multiplicative factors
+  - Results now properly display multiplicative factors (×congestion, ×timing, ×frequency, ÷occupancy)
+  - Removed old additive breakdown display (routeCongestion, timingPenalty, occupancyBonus)
+  - Updated methodology page to show correct multiplicative formula with all multipliers
+  - Added formula explanation showing: (Base × Congestion × Peak × Frequency) ÷ Sharing
 - July 10, 2025: **PATTERN-BASED TRAVEL SELECTION** - Implemented intuitive travel patterns replacing timing/frequency
   - Added "Daily Work Commute", "Weekday Commute", "Weekend Commute", etc.
   - Updated database schema from timing/frequency columns to single travelPattern column

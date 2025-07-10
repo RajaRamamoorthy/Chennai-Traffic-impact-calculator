@@ -170,13 +170,13 @@ export default function Methodology() {
               <CardContent className="p-8">
                 <Calculator className="w-12 h-12 text-primary mb-4" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Vehicle Impact Score
+                  Vehicle Base Impact
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Base impact calculated using vehicle emission factors, adjusted by occupancy:
+                  Each vehicle type has a base impact score reflecting its environmental footprint:
                 </p>
                 <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm">
-                  vehicleImpact = max(5, baseScore / occupancy)
+                  baseImpact = vehicleType.impactScore
                 </div>
                 <p className="text-slate-600 mt-4">
                   Our database includes 21 vehicle categories with realistic emission factors. 
@@ -191,13 +191,13 @@ export default function Methodology() {
               <CardContent className="p-8">
                 <MapPin className="w-12 h-12 text-orange-500 mb-4" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Route Congestion Factor
+                  Route Congestion Multiplier
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Distance-based congestion impact with Chennai-specific adjustments:
+                  Longer routes increase congestion impact proportionally:
                 </p>
                 <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm">
-                  congestion = min(40, 10 + (distance * 1.5))
+                  congestionFactor = 1 + (distanceKm × 0.02)
                 </div>
                 <p className="text-slate-600 mt-4">
                   Longer routes through Chennai's congested areas contribute more to 
@@ -210,18 +210,30 @@ export default function Methodology() {
               <CardContent className="p-8">
                 <Zap className="w-12 h-12 text-purple-500 mb-4" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Travel Pattern Penalties
+                  Travel Pattern Multipliers
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Different travel patterns receive varying impact penalties:
+                  Travel patterns affect impact through timing and frequency multipliers:
                 </p>
-                <ul className="space-y-2 text-slate-600">
-                  <li>• Daily Commute (both peaks): +35 points</li>
-                  <li>• Weekday Commute: +25 points</li>
-                  <li>• Weekend Commute: +10 points</li>
-                  <li>• Frequent Trips: +10 points</li>
-                  <li>• Occasional/Rare Trips: +10 points</li>
-                </ul>
+                <div className="space-y-3 text-sm">
+                  <div>
+                    <strong>Timing Multipliers:</strong>
+                    <ul className="space-y-1 mt-1 text-slate-600">
+                      <li>• Daily/Weekday (peak hours): ×1.35</li>
+                      <li>• Weekend/Off-peak: ×1.1</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <strong>Frequency Multipliers:</strong>
+                    <ul className="space-y-1 mt-1 text-slate-600">
+                      <li>• Daily commute: ×1.0</li>
+                      <li>• Weekday commute: ×0.75</li>
+                      <li>• Weekend commute: ×0.4</li>
+                      <li>• Frequent trips: ×0.5</li>
+                      <li>• Occasional/Rare: ×0.25</li>
+                    </ul>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
@@ -229,22 +241,25 @@ export default function Methodology() {
               <CardContent className="p-8">
                 <Database className="w-12 h-12 text-green-500 mb-4" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Occupancy Benefits
+                  Occupancy Division
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  <strong>Occupancy Impact (for cars/bikes):</strong>
+                  Sharing your ride divides the environmental impact per person:
                 </p>
-                <ul className="space-y-2 text-slate-600">
-                  <li>• 1 person (solo): 0 reduction</li>
-                  <li>• 2 people: -10 points (score reduction)</li>
-                  <li>• 3 people: -5 points (score reduction)</li>
-                  <li>• 4+ people: 0 reduction</li>
+                <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm mb-4">
+                  perPersonImpact = totalImpact ÷ occupancy
+                </div>
+                <p className="text-slate-600">
+                  Examples:
+                </p>
+                <ul className="space-y-2 text-slate-600 mt-2">
+                  <li>• Solo driver (1 person): Full impact</li>
+                  <li>• 2 people sharing: Impact divided by 2</li>
+                  <li>• 4 people carpooling: Impact divided by 4</li>
+                  <li>• Public transport: Already optimized for sharing</li>
                 </ul>
-                <p className="text-slate-600 mt-4">
-                  <strong>For public transport:</strong> Fixed -5 points bonus (already shared transport)
-                </p>
                 <p className="text-slate-600 mt-4 text-sm bg-green-50 p-3 rounded border-l-4 border-green-400">
-                  <strong>Remember:</strong> The bonus is <em>subtracted</em> from your final score, so higher occupancy gives you a lower (better) score!
+                  <strong>Key insight:</strong> Doubling occupancy halves your personal impact!
                 </p>
               </CardContent>
             </Card>
@@ -266,11 +281,12 @@ export default function Methodology() {
               </p>
               
               <div className="bg-slate-100 p-6 rounded-lg font-mono text-sm mb-6">
-                <div>score = vehicleImpact</div>
-                <div className="ml-8">+ routeCongestion</div>
-                <div className="ml-8">+ timingPenalty</div>
-                <div className="ml-8">- occupancyBonus</div>
-                <div className="mt-2">finalScore = max(0, min(100, score))</div>
+                <div>baseImpact = vehicleType.impact</div>
+                <div>congestionFactor = 1 + (distanceKm × 0.02)</div>
+                <div>timingMultiplier = getPeakMultiplier(pattern)</div>
+                <div>frequencyMultiplier = getFrequencyMultiplier(pattern)</div>
+                <div className="mt-2">score = (baseImpact × congestionFactor × timingMultiplier × frequencyMultiplier) ÷ occupancy</div>
+                <div className="mt-2">finalScore = max(0, min(100, round(score)))</div>
               </div>
               
               <div className="space-y-4">

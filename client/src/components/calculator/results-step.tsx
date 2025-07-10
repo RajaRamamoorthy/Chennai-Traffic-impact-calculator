@@ -325,22 +325,28 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             <h3 className="font-semibold text-slate-900 mb-4">Impact Breakdown</h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">Vehicle Emissions</span>
+                <span className="text-sm text-slate-600">Vehicle Base Impact</span>
                 <span className="font-medium">{results.breakdown.vehicleImpact} pts</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Route Congestion</span>
-                <span className="font-medium">{results.breakdown.routeCongestion} pts</span>
+                <span className="font-medium">×{results.breakdown.congestionFactor || 1}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Peak Hour Travel</span>
-                <span className="font-medium">{results.breakdown.timingPenalty} pts</span>
+                <span className="font-medium">×{results.breakdown.timingMultiplier || 1}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-slate-600">Occupancy Factor</span>
-                <span className="font-medium">
-                  {results.breakdown.occupancyBonus > 0 ? `-${results.breakdown.occupancyBonus}` : '0'} pts
-                </span>
+                <span className="text-sm text-slate-600">Travel Frequency</span>
+                <span className="font-medium">×{results.breakdown.frequencyMultiplier || 1}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">People Sharing</span>
+                <span className="font-medium">÷{results.breakdown.occupancy || 1}</span>
+              </div>
+              <div className="flex justify-between items-center border-t pt-3 mt-3">
+                <span className="text-sm font-semibold text-slate-900">Final Score</span>
+                <span className="font-bold text-lg">{results.score} pts</span>
               </div>
             </div>
           </CardContent>
@@ -372,25 +378,29 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       <Card className="mb-8">
         <CardContent className="p-6">
           <h3 className="font-semibold text-slate-900 mb-4">Impact Breakdown</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">+{results.breakdown.vehicleImpact}</div>
-                <div className="text-sm text-slate-600">Vehicle Impact</div>
+                <div className="text-2xl font-bold text-slate-900">{results.breakdown.vehicleImpact}</div>
+                <div className="text-sm text-slate-600">Base Impact</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">+{results.breakdown.routeCongestion}</div>
-                <div className="text-sm text-slate-600">Route Congestion</div>
+                <div className="text-2xl font-bold text-slate-900">×{results.breakdown.congestionFactor || 1}</div>
+                <div className="text-sm text-slate-600">Congestion</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">+{results.breakdown.timingPenalty}</div>
-                <div className="text-sm text-slate-600">Timing Penalty</div>
+                <div className="text-2xl font-bold text-slate-900">×{results.breakdown.timingMultiplier || 1}</div>
+                <div className="text-sm text-slate-600">Peak Hours</div>
               </div>
               <div className="text-center">
-                <div className={`text-2xl font-bold ${results.breakdown.occupancyBonus > 0 ? 'text-green-600' : 'text-slate-400'}`}>
-                  {results.breakdown.occupancyBonus > 0 ? `-${results.breakdown.occupancyBonus}` : '0'}
+                <div className="text-2xl font-bold text-slate-900">×{results.breakdown.frequencyMultiplier || 1}</div>
+                <div className="text-sm text-slate-600">Frequency</div>
+              </div>
+              <div className="text-center">
+                <div className={`text-2xl font-bold ${results.breakdown.occupancy > 1 ? 'text-green-600' : 'text-slate-400'}`}>
+                  ÷{results.breakdown.occupancy || 1}
                 </div>
                 <div className="text-sm text-slate-600">
-                  Occupancy Bonus
+                  Sharing
                   {results.breakdown.occupancyBonus > 0 && (
                     <div className="text-xs text-green-600 font-medium mt-1">
                       Reduces final score
@@ -400,16 +410,18 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
               </div>
             </div>
 
-            {/* Occupancy Explanation */}
+            {/* Formula Explanation */}
             <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="text-sm text-blue-800">
-                <strong>How Occupancy Works:</strong>
+                <strong>How the Calculation Works:</strong>
+                <div className="mt-2 font-mono text-xs">
+                  Final Score = (Base Impact × Congestion × Peak Hours × Frequency) ÷ Sharing
+                </div>
                 <ul className="mt-2 ml-4 list-disc space-y-1">
-                  <li><strong>Higher occupancy = Lower final score = Better impact</strong></li>
-                  <li><strong>Lower occupancy = Higher final score = Worse impact</strong></li>
-                  <li>Cars/Bikes: Dynamic bonus based on number of people sharing the ride</li>
-                  <li>Public transport: Fixed bonus since they're already shared transportation</li>
-                  <li>The bonus is <em>subtracted</em> from your total score, making it better</li>
+                  <li>All factors multiply together, showing how they compound</li>
+                  <li>More people sharing divides the impact per person</li>
+                  <li>Peak hours and congestion increase your overall impact</li>
+                  <li>Lower scores are better for the environment</li>
                 </ul>
               </div>
             </div>
