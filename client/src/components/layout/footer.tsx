@@ -32,7 +32,13 @@ export function Footer() {
               </li>
             </ul>
           </div>
-          <div></div>
+          <div>
+            <div className="mb-6">
+              <Link href="/about-me" className="text-sm font-bold text-slate-900 hover:text-slate-700">
+                About me
+              </Link>
+            </div>
+          </div>
           <div>
             <h3 className="font-semibold text-slate-900 mb-4">Donate</h3>
             <div className="space-y-3">

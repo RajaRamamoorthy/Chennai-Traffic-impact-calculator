@@ -15,6 +15,7 @@ import Methodology from "@/pages/methodology";
 import DataSources from "@/pages/data-sources";
 import Support from "@/pages/support";
 import ThankYou from "@/pages/thank-you";
+import AboutMe from "@/pages/about-me";
 import NotFound from "@/pages/not-found";
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
                   <Route path="/data-sources" component={DataSources} />
                   <Route path="/support" component={Support} />
                   <Route path="/thank-you" component={ThankYou} />
+                  <Route path="/about-me" component={AboutMe} />
                   <Route component={NotFound} />
                 </Switch>
               </main>

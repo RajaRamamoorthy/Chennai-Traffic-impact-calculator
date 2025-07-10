@@ -721,6 +721,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       { path: "/how-it-works", priority: "0.7", changefreq: "monthly" },
       { path: "/methodology", priority: "0.7", changefreq: "monthly" },
       { path: "/data-sources", priority: "0.6", changefreq: "monthly" },
+      { path: "/about-me", priority: "0.8", changefreq: "monthly" },
       { path: "/support", priority: "0.6", changefreq: "monthly" },
       { path: "/thank-you", priority: "0.4", changefreq: "yearly" }
     ];
