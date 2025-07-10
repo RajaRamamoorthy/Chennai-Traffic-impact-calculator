@@ -52,84 +52,22 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       const shareUrl = 'https://chennaitrafficcalc.in?utm_source=share';
       const shareText = `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`;
 
-      // Check if Web Share API is available first
+      // Try direct share first (must be called immediately in user gesture context)
       if (navigator.share) {
-        // Try to share with screenshot if possible
-        if (scoreCardRef.current) {
-          try {
-            // Temporarily make the hidden container visible for screenshot
-            const originalStyle = scoreCardRef.current.style.cssText;
-            const originalClassName = scoreCardRef.current.className;
-
-            // Position the container in a way that it's rendered but off-screen to the right
-            scoreCardRef.current.style.cssText = `
-              position: fixed;
-              top: 0;
-              left: 100vw;
-              width: 600px;
-              background: white;
-              padding: 32px;
-              z-index: 9999;
-              visibility: visible;
-              opacity: 1;
-              transform: none;
-            `;
-            scoreCardRef.current.className = '';
-
-            // Force a reflow to ensure the element is properly rendered
-            scoreCardRef.current.offsetHeight;
-
-            // Allow time for rendering
-            await new Promise(resolve => setTimeout(resolve, 200));
-
-            const canvas = await html2canvas(scoreCardRef.current, {
-              backgroundColor: '#ffffff',
-              scale: 3,
-              logging: false,
-              width: 600,
-              height: scoreCardRef.current.scrollHeight,
-              useCORS: true,
-              allowTaint: true,
-              foreignObjectRendering: true
-            });
-
-            // Restore original styling
-            scoreCardRef.current.style.cssText = originalStyle;
-            scoreCardRef.current.className = originalClassName;
-
-            // Convert canvas to blob and share immediately
-            const blob = await new Promise<Blob>((resolve) => {
-              canvas.toBlob((blob) => {
-                if (blob) resolve(blob);
-              }, 'image/png');
-            });
-
-            if (blob) {
-              const file = new File([blob], 'traffic-score.png', { type: 'image/png' });
-
-              // Check if Web Share API supports file sharing
-              if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                  title: 'My Chennai Traffic Impact Score',
-                  text: `${shareText}\n\nCalculate yours at: ${shareUrl}`,
-                  files: [file]
-                });
-                return; // Successfully shared with image
-              }
-            }
-          } catch (screenshotError) {
-            console.error('Screenshot failed:', screenshotError);
-            // Continue with text-only share below
-          }
+        try {
+          await navigator.share({
+            title: 'My Chennai Traffic Impact Score',
+            text: `${shareText}\n\nCalculate yours at: ${shareUrl}`
+          });
+          return; // Successfully shared
+        } catch (shareError) {
+          console.error('Share failed:', shareError);
+          // Continue to fallback methods below
         }
+      }
 
-        // Share without image if screenshot failed or file sharing not supported
-        await navigator.share({
-          title: 'My Chennai Traffic Impact Score',
-          text: `${shareText}\n\nCalculate yours at: ${shareUrl}`
-        });
-      } else {
-        // Fallback to copying to clipboard if Web Share API not available
+      // Fallback to copying to clipboard
+      if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(
           `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${shareUrl}`
         );
@@ -137,26 +75,40 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           title: "Link copied!",
           description: "Share link has been copied to your clipboard.",
         });
+      } else {
+        // Final fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at ${shareUrl}`;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          document.execCommand('copy');
+          toast({
+            title: "Link copied!",
+            description: "Share link has been copied to your clipboard.",
+          });
+        } catch (err) {
+          toast({
+            title: "Share failed",
+            description: "Unable to share results. Please try again.",
+            variant: "destructive"
+          });
+        }
+        
+        document.body.removeChild(textArea);
       }
     } catch (error) {
       console.error('Share failed:', error);
-      
-      // Final fallback - try clipboard
-      try {
-        await navigator.clipboard.writeText(
-          `My Chennai Traffic Impact Score: ${results.score}/100. Calculate yours at https://chennaitrafficcalc.in?utm_source=share`
-        );
-        toast({
-          title: "Link copied!",
-          description: "Share link has been copied to your clipboard.",
-        });
-      } catch (clipboardError) {
-        toast({
-          title: "Share failed",
-          description: "Unable to share results. Please try again.",
-          variant: "destructive"
-        });
-      }
+      toast({
+        title: "Share failed",
+        description: "Unable to share results. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setIsSharing(false);
     }
