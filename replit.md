@@ -139,6 +139,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 10, 2025: **REAL-TIME HOMEPAGE STATS** - Replaced placeholder metrics with live database data
+  - Added `/api/stats/homepage` endpoint for real-time statistics
+  - Homepage now shows actual calculation count, CO₂ savings, and money saved from user data
+  - API responds in 60-605ms with zero frontend complexity increase
+  - Stats automatically update as new calculations are completed
+  - Includes smart number formatting (K, L, Cr for thousands/lakhs/crores)
 - July 10, 2025: **ABOUT ME PAGE ADDED** - Created new "/about-me" page with creator's personal story and project journey
   - Added comprehensive personal narrative about Chennai commuting experience
   - Positioned "About me" link in bold above Donate section in footer
