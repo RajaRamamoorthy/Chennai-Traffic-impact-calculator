@@ -374,60 +374,6 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
       </div>
 
-      {/* Impact Breakdown and Metrics */}
-      <Card className="mb-8">
-        <CardContent className="p-6">
-          <h3 className="font-semibold text-slate-900 mb-4">Impact Breakdown</h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">{results.breakdown.vehicleImpact}</div>
-                <div className="text-sm text-slate-600">Base Impact</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">×{results.breakdown.congestionFactor || 1}</div>
-                <div className="text-sm text-slate-600">Congestion</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">×{results.breakdown.timingMultiplier || 1}</div>
-                <div className="text-sm text-slate-600">Peak Hours</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-slate-900">×{results.breakdown.frequencyMultiplier || 1}</div>
-                <div className="text-sm text-slate-600">Frequency</div>
-              </div>
-              <div className="text-center">
-                <div className={`text-2xl font-bold ${results.breakdown.occupancy > 1 ? 'text-green-600' : 'text-slate-400'}`}>
-                  ÷{results.breakdown.occupancy || 1}
-                </div>
-                <div className="text-sm text-slate-600">
-                  Sharing
-                  {results.breakdown.occupancyBonus > 0 && (
-                    <div className="text-xs text-green-600 font-medium mt-1">
-                      Reduces final score
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Formula Explanation */}
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="text-sm text-blue-800">
-                <strong>How the Calculation Works:</strong>
-                <div className="mt-2 font-mono text-xs">
-                  Final Score = (Base Impact × Congestion × Peak Hours × Frequency) ÷ Sharing
-                </div>
-                <ul className="mt-2 ml-4 list-disc space-y-1">
-                  <li>All factors multiply together, showing how they compound</li>
-                  <li>More people sharing divides the impact per person</li>
-                  <li>Peak hours and congestion increase your overall impact</li>
-                  <li>Lower scores are better for the environment</li>
-                </ul>
-              </div>
-            </div>
-        </CardContent>
-      </Card>
-
         {/* Alternatives Section */}
         {results.alternatives.length > 0 && (
           <Card className="mb-8 border-green-200">

@@ -316,18 +316,17 @@ export class ImpactCalculator {
   }
 
   private getCongestionMultiplier(distanceKm: number): number {
-    // Congestion multiplier based on distance (1.0 = no congestion impact)
-    if (distanceKm > 15) return 1.6; // Long distance = high congestion multiplier
-    if (distanceKm > 8) return 1.3; // Medium distance = moderate congestion
-    return 1.0; // Short distance = minimal congestion impact
+    // Congestion multiplier based on distance as per documented formula
+    // congestionFactor = 1 + (distanceKm × 0.02)
+    return 1 + (distanceKm * 0.02);
   }
 
   private getTimingMultiplier(timing: string): number {
-    // Timing multiplier for peak hours (1.0 = no timing penalty)
-    if (timing === 'both-peaks') return 1.8; // Daily commute hits both peaks
-    if (timing === 'morning-peak' || timing === 'evening-peak') return 1.5; // Single peak
-    if (timing === 'off-peak') return 1.0; // No penalty
-    return 0.8; // Night travel bonus
+    // Timing multiplier for peak hours as per methodology
+    if (timing === 'both-peaks') return 1.35; // Daily commute hits both peaks
+    if (timing === 'morning-peak' || timing === 'evening-peak') return 1.35; // Single peak
+    if (timing === 'off-peak') return 1.1; // Weekend/off-peak
+    return 1.1; // Default off-peak
   }
 
   private isInPeakHours(timing: string): boolean {
@@ -336,12 +335,12 @@ export class ImpactCalculator {
 
   private getFrequencyMultiplier(frequency: string): number {
     const multipliers = {
-      'daily': 1.0,
-      'weekdays': 0.9,
-      'weekends': 0.7,
-      'frequent': 0.8,
-      'occasional': 0.5,
-      'rare': 0.3
+      'daily': 1.0,      // Daily commute
+      'weekdays': 0.75,  // Weekday commute
+      'weekends': 0.4,   // Weekend commute
+      'frequent': 0.5,   // Frequent trips
+      'occasional': 0.25, // Occasional trips
+      'rare': 0.25       // Rare trips
     };
     return multipliers[frequency as keyof typeof multipliers] || 1.0;
   }
