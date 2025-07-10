@@ -154,6 +154,7 @@ Preferred communication style: Simple, everyday language.
   - Updated database schema from timing/frequency columns to single travelPattern column
   - Enhanced calculation logic for bidirectional peak travel (daily commute = both peaks)
   - Updated all documentation pages to reflect new pattern-based approach
+  - Travel patterns have significant impact: Daily commute = 1.0 multiplier, Occasional = 0.25 multiplier
 - July 10, 2025: **REAL-TIME HOMEPAGE STATS** - Replaced placeholder metrics with live database data
   - Added `/api/stats/homepage` endpoint for real-time statistics
   - Homepage now shows actual calculation count, CO₂ savings, and money saved from user data
