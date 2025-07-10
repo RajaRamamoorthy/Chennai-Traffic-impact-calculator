@@ -152,6 +152,10 @@ export default function Calculator() {
     setCurrentStep(1);
     setResults(null);
     reset();
+    
+    // Scroll to top after restart
+    setTimeout(scrollToTop, 100);
+    
     toast({
       title: "Calculator reset",
       description: "You can now start a new calculation.",
