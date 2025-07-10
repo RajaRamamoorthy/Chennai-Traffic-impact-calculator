@@ -108,13 +108,13 @@ export function TransportationStep({
     }
 
     // Scroll to vehicle details when they become visible
-    if (shouldShowDetails && vehicleDetailsRef.current) {
+    if (shouldShowDetails) {
       setTimeout(() => {
         vehicleDetailsRef.current?.scrollIntoView({ 
           behavior: 'smooth', 
           block: 'start' 
         });
-      }, 50);
+      }, 150);
     }
   }, [selectedMode]); // Remove the callback functions from dependencies to prevent infinite loop
 
