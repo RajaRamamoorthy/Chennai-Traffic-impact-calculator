@@ -1,10 +1,28 @@
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 // Configure trust proxy for rate limiting in hosted environments
 app.set('trust proxy', 1);
+
+// Security headers with Helmet
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://checkout.razorpay.com", "https://www.googletagmanager.com"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      connectSrc: ["'self'", "https://www.google-analytics.com", "https://api.razorpay.com"],
+      frameSrc: ["'self'", "https://api.razorpay.com"],
+    },
+  },
+  crossOriginEmbedderPolicy: false, // Disable for development
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

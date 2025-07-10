@@ -23,6 +23,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
     legacyHeaders: false,
   });
 
+  // Rate limiting for Google Maps API endpoints
+  const mapsAutocompleteLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 10, // limit each IP to 10 requests per minute
+    message: {
+      error: "Too many autocomplete requests. Please slow down your typing.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: false,
+    keyGenerator: (req) => req.ip + ':autocomplete'
+  });
+
+  const mapsGeocodingLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 20, // limit each IP to 20 geocoding requests per minute
+    message: {
+      error: "Too many location requests. Please wait a moment before trying again.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.ip + ':geocoding'
+  });
+
+  const mapsDirectionsLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 10, // limit each IP to 10 route calculations per minute
+    message: {
+      error: "Too many route calculations. Please wait before calculating another route.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.ip + ':directions'
+  });
+
+  // In-memory cache for Google Maps API responses
+  const apiCache = new Map<string, { data: any; timestamp: number }>();
+  const CACHE_DURATION = {
+    autocomplete: 24 * 60 * 60 * 1000, // 24 hours
+    geocoding: 7 * 24 * 60 * 60 * 1000, // 7 days
+    directions: 60 * 60 * 1000 // 1 hour
+  };
+
+  // API usage monitoring
+  const apiUsageStats = {
+    autocomplete: { calls: 0, cacheHits: 0 },
+    geocoding: { calls: 0, cacheHits: 0 },
+    directions: { calls: 0, cacheHits: 0 },
+    lastReset: new Date()
+  };
+
+  // Reset usage stats daily
+  setInterval(() => {
+    console.log('Google Maps API usage for the day:', {
+      autocomplete: apiUsageStats.autocomplete,
+      geocoding: apiUsageStats.geocoding,
+      directions: apiUsageStats.directions,
+      totalAPICalls: apiUsageStats.autocomplete.calls + apiUsageStats.geocoding.calls + apiUsageStats.directions.calls,
+      totalCacheHits: apiUsageStats.autocomplete.cacheHits + apiUsageStats.geocoding.cacheHits + apiUsageStats.directions.cacheHits
+    });
+    
+    // Reset stats
+    apiUsageStats.autocomplete = { calls: 0, cacheHits: 0 };
+    apiUsageStats.geocoding = { calls: 0, cacheHits: 0 };
+    apiUsageStats.directions = { calls: 0, cacheHits: 0 };
+    apiUsageStats.lastReset = new Date();
+  }, 24 * 60 * 60 * 1000); // 24 hours
+
   // Health check endpoint
   app.get("/api/health", async (req, res) => {
     try {
@@ -65,8 +136,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Geocoding endpoint
-  app.post("/api/geocode", async (req, res) => {
+  // Geocoding endpoint with rate limiting and caching
+  app.post("/api/geocode", mapsGeocodingLimit, async (req, res) => {
     try {
       const { address } = req.body;
 
@@ -74,12 +145,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Address is required" });
       }
 
+      // Check cache first
+      const cacheKey = `geocode:${address.toLowerCase().trim()}`;
+      const cached = apiCache.get(cacheKey);
+      
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION.geocoding) {
+        console.log(`Cache hit for geocoding: ${address}`);
+        apiUsageStats.geocoding.cacheHits++;
+        return res.json(cached.data);
+      }
+
+      // Track API call
+      apiUsageStats.geocoding.calls++;
+      
       const location = await RoutingService.geocodeAddress(address);
 
       if (!location) {
         return res.status(404).json({ error: "Location not found" });
       }
 
+      // Cache the result
+      apiCache.set(cacheKey, { data: location, timestamp: Date.now() });
+      
       res.json(location);
     } catch (error) {
       console.error("Geocoding error:", error);
@@ -90,8 +177,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Route information endpoint
-  app.post("/api/route-info", async (req, res) => {
+  // Route information endpoint with rate limiting and caching
+  app.post("/api/route-info", mapsDirectionsLimit, async (req, res) => {
     try {
       const { origin, destination } = req.body;
 
@@ -99,11 +186,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Origin and destination are required" });
       }
 
+      // Check cache first
+      const cacheKey = `route:${origin.toLowerCase().trim()}:${destination.toLowerCase().trim()}`;
+      const cached = apiCache.get(cacheKey);
+      
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION.directions) {
+        console.log(`Cache hit for route: ${origin} to ${destination}`);
+        apiUsageStats.directions.cacheHits++;
+        return res.json(cached.data);
+      }
+
+      // Track API call
+      apiUsageStats.directions.calls++;
+      
       const routeInfo = await RoutingService.getRouteInfo(origin, destination);
 
       if (!routeInfo) {
         return res.status(404).json({ error: "Route not found" });
       }
+
+      // Cache the result
+      apiCache.set(cacheKey, { data: routeInfo, timestamp: Date.now() });
 
       res.json(routeInfo);
     } catch (error) {
@@ -115,8 +218,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Place autocomplete endpoint
-  app.get("/api/places/autocomplete", async (req, res) => {
+  // Place autocomplete endpoint with rate limiting
+  app.get("/api/places/autocomplete", mapsAutocompleteLimit, async (req, res) => {
     try {
       const { input } = req.query;
 
@@ -124,7 +227,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "Input query is required" });
       }
 
+      // Validate input length to prevent excessive API calls
+      if (input.trim().length < 3) {
+        return res.json([]); // Return empty results for very short queries
+      }
+
+      // Check cache first
+      const cacheKey = `autocomplete:${input.toLowerCase().trim()}`;
+      const cached = apiCache.get(cacheKey);
+      
+      if (cached && Date.now() - cached.timestamp < CACHE_DURATION.autocomplete) {
+        console.log(`Cache hit for autocomplete: ${input}`);
+        apiUsageStats.autocomplete.cacheHits++;
+        return res.json(cached.data);
+      }
+
+      // Track API call
+      apiUsageStats.autocomplete.calls++;
+      
       const predictions = await RoutingService.getPlaceAutocomplete(input);
+      
+      // Cache the result
+      apiCache.set(cacheKey, { data: predictions, timestamp: Date.now() });
+      
       res.json(predictions);
     } catch (error) {
       console.error("Autocomplete error:", error);
@@ -461,6 +586,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         success: false, 
         error: "Payment verification failed" 
       });
+    }
+  });
+
+  // Get API usage statistics (admin only)
+  app.get("/api/admin/api-usage", async (req, res) => {
+    try {
+      // Basic security check
+      const adminKey = req.headers['x-admin-key'];
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const totalAPICalls = apiUsageStats.autocomplete.calls + apiUsageStats.geocoding.calls + apiUsageStats.directions.calls;
+      const totalCacheHits = apiUsageStats.autocomplete.cacheHits + apiUsageStats.geocoding.cacheHits + apiUsageStats.directions.cacheHits;
+      const cacheHitRate = totalAPICalls + totalCacheHits > 0 
+        ? (totalCacheHits / (totalAPICalls + totalCacheHits) * 100).toFixed(2) 
+        : 0;
+
+      res.json({
+        usage: apiUsageStats,
+        summary: {
+          totalAPICalls,
+          totalCacheHits,
+          cacheHitRate: `${cacheHitRate}%`,
+          lastReset: apiUsageStats.lastReset,
+          uptime: new Date().getTime() - apiUsageStats.lastReset.getTime()
+        },
+        estimatedCosts: {
+          autocomplete: `$${(apiUsageStats.autocomplete.calls * 0.00283).toFixed(2)}`,
+          geocoding: `$${(apiUsageStats.geocoding.calls * 0.005).toFixed(2)}`,
+          directions: `$${(apiUsageStats.directions.calls * 0.005).toFixed(2)}`,
+          total: `$${((apiUsageStats.autocomplete.calls * 0.00283) + 
+                      (apiUsageStats.geocoding.calls * 0.005) + 
+                      (apiUsageStats.directions.calls * 0.005)).toFixed(2)}`
+        }
+      });
+    } catch (error) {
+      console.error("API usage stats error:", error);
+      res.status(500).json({ error: "Failed to get API usage stats" });
     }
   });
 

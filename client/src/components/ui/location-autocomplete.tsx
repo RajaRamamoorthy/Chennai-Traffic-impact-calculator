@@ -44,12 +44,13 @@ export function LocationAutocomplete({
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (inputValue.trim().length > 2) {
+      // Increased minimum characters to 4 to reduce API calls
+      if (inputValue.trim().length >= 4) {
         setDebouncedQuery(inputValue);
       } else {
         setDebouncedQuery("");
       }
-    }, 300);
+    }, 500); // Increased debounce from 300ms to 500ms
 
     return () => clearTimeout(timer);
   }, [inputValue]);
@@ -127,7 +128,7 @@ export function LocationAutocomplete({
   };
 
   const handleFocus = () => {
-    if (inputValue.trim().length > 2 && suggestions && suggestions.length > 0) {
+    if (inputValue.trim().length >= 4 && suggestions && suggestions.length > 0) {
       setShowSuggestions(true);
     }
   };
