@@ -703,6 +703,115 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin Dashboard APIs
+  app.get("/api/admin/dashboard-stats", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const stats = await storage.getAdminDashboardStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Admin dashboard stats error:", error);
+      res.status(500).json({ error: "Failed to get admin dashboard stats" });
+    }
+  });
+
+  app.get("/api/admin/top-routes", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const limit = parseInt(req.query.limit as string) || 10;
+      const routes = await storage.getTopRoutes(limit);
+      res.json(routes);
+    } catch (error) {
+      console.error("Top routes error:", error);
+      res.status(500).json({ error: "Failed to get top routes" });
+    }
+  });
+
+  app.get("/api/admin/vehicle-usage", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const stats = await storage.getVehicleUsageStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Vehicle usage error:", error);
+      res.status(500).json({ error: "Failed to get vehicle usage stats" });
+    }
+  });
+
+  app.get("/api/admin/travel-patterns", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const stats = await storage.getTravelPatternStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Travel patterns error:", error);
+      res.status(500).json({ error: "Failed to get travel pattern stats" });
+    }
+  });
+
+  app.get("/api/admin/score-distribution", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const distribution = await storage.getScoreDistribution();
+      res.json(distribution);
+    } catch (error) {
+      console.error("Score distribution error:", error);
+      res.status(500).json({ error: "Failed to get score distribution" });
+    }
+  });
+
+  app.get("/api/admin/recent-calculations", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const limit = parseInt(req.query.limit as string) || 20;
+      const calculations = await storage.getRecentCalculations(limit);
+      res.json(calculations);
+    } catch (error) {
+      console.error("Recent calculations error:", error);
+      res.status(500).json({ error: "Failed to get recent calculations" });
+    }
+  });
+
+  app.get("/api/admin/daily-trends", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(403).json({ error: "Forbidden" });
+      }
+
+      const days = parseInt(req.query.days as string) || 7;
+      const trends = await storage.getDailyCalculationTrends(days);
+      res.json(trends);
+    } catch (error) {
+      console.error("Daily trends error:", error);
+      res.status(500).json({ error: "Failed to get daily trends" });
+    }
+  });
+
   // Get user's previous calculations
   app.get("/api/calculations", async (req, res) => {
     try {

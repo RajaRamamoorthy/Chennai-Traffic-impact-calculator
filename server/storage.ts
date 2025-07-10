@@ -22,7 +22,7 @@ import {
   type InsertRouteCongestion
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, sql, gte, count, sum } from "drizzle-orm";
+import { eq, and, sql, gte, count, sum, desc, avg } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -54,6 +54,25 @@ export interface IStorage {
   // Analytics
   getCalculationStats(): Promise<{totalCalculations: number, avgImpactScore: number}>;
   getHomepageStats(): Promise<{totalCalculations: number, totalCO2SavedKg: number, totalMoneySaved: number}>;
+  
+  // Admin Analytics
+  getAdminDashboardStats(): Promise<{
+    totalCalculations: number;
+    totalUsers: number;
+    avgImpactScore: number;
+    avgCommuteDistance: number;
+    totalFeedback: number;
+    avgRating: number;
+    totalDonations: number;
+    totalDonationAmount: number;
+    totalContactSubmissions: number;
+  }>;
+  getTopRoutes(limit?: number): Promise<Array<{origin: string, destination: string, count: number, avgScore: number}>>;
+  getVehicleUsageStats(): Promise<Array<{vehicleName: string, category: string, count: number, avgScore: number}>>;
+  getTravelPatternStats(): Promise<Array<{pattern: string, count: number, avgScore: number}>>;
+  getScoreDistribution(): Promise<Array<{scoreRange: string, count: number}>>;
+  getRecentCalculations(limit?: number): Promise<Calculation[]>;
+  getDailyCalculationTrends(days?: number): Promise<Array<{date: string, count: number, avgScore: number}>>;
 
   // Contact Submissions
   createContactSubmission(data: InsertContactSubmission): Promise<ContactSubmission>;
@@ -277,6 +296,154 @@ export class DatabaseStorage implements IStorage {
       totalDonations: stats.totalDonations || 0,
       totalAmount: Number(stats.totalAmount) || 0
     };
+  }
+
+  // Admin Analytics Implementation
+  async getAdminDashboardStats(): Promise<{
+    totalCalculations: number;
+    totalUsers: number;
+    avgImpactScore: number;
+    avgCommuteDistance: number;
+    totalFeedback: number;
+    avgRating: number;
+    totalDonations: number;
+    totalDonationAmount: number;
+    totalContactSubmissions: number;
+  }> {
+    const [calcStats] = await db
+      .select({
+        totalCalculations: sql<number>`count(*)`.as('total_calc'),
+        avgImpactScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
+        avgCommuteDistance: sql<number>`avg(CAST(${calculations.distanceKm} AS DECIMAL))`.as('avg_distance'),
+      })
+      .from(calculations);
+
+    const [userStats] = await db
+      .select({
+        totalUsers: sql<number>`count(*)`.as('total_users'),
+      })
+      .from(users);
+
+    const [feedbackStats] = await db
+      .select({
+        totalFeedback: sql<number>`count(*)`.as('total_feedback'),
+        avgRating: sql<number>`avg(${feedback.rating})`.as('avg_rating'),
+      })
+      .from(feedback);
+
+    const [donationStats] = await db
+      .select({
+        totalDonations: sql<number>`count(*)`.as('total_donations'),
+        totalDonationAmount: sql<number>`sum(${donations.amount})`.as('total_amount'),
+      })
+      .from(donations)
+      .where(eq(donations.status, 'verified'));
+
+    const [contactStats] = await db
+      .select({
+        totalContactSubmissions: sql<number>`count(*)`.as('total_contacts'),
+      })
+      .from(contactSubmissions);
+
+    return {
+      totalCalculations: calcStats.totalCalculations || 0,
+      totalUsers: userStats.totalUsers || 0,
+      avgImpactScore: Math.round(calcStats.avgImpactScore || 0),
+      avgCommuteDistance: Math.round((Number(calcStats.avgCommuteDistance) || 0) * 100) / 100,
+      totalFeedback: feedbackStats.totalFeedback || 0,
+      avgRating: Math.round((feedbackStats.avgRating || 0) * 10) / 10,
+      totalDonations: donationStats.totalDonations || 0,
+      totalDonationAmount: Number(donationStats.totalDonationAmount) || 0,
+      totalContactSubmissions: contactStats.totalContactSubmissions || 0,
+    };
+  }
+
+  async getTopRoutes(limit: number = 10): Promise<Array<{origin: string, destination: string, count: number, avgScore: number}>> {
+    return await db
+      .select({
+        origin: calculations.origin,
+        destination: calculations.destination,
+        count: sql<number>`count(*)`.as('count'),
+        avgScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
+      })
+      .from(calculations)
+      .groupBy(calculations.origin, calculations.destination)
+      .orderBy(sql`count DESC`)
+      .limit(limit);
+  }
+
+  async getVehicleUsageStats(): Promise<Array<{vehicleName: string, category: string, count: number, avgScore: number}>> {
+    return await db
+      .select({
+        vehicleName: vehicleTypes.name,
+        category: vehicleTypes.category,
+        count: sql<number>`count(*)`.as('count'),
+        avgScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
+      })
+      .from(calculations)
+      .innerJoin(vehicleTypes, eq(calculations.vehicleTypeId, vehicleTypes.id))
+      .groupBy(vehicleTypes.name, vehicleTypes.category)
+      .orderBy(sql`count DESC`);
+  }
+
+  async getTravelPatternStats(): Promise<Array<{pattern: string, count: number, avgScore: number}>> {
+    return await db
+      .select({
+        pattern: calculations.travelPattern,
+        count: sql<number>`count(*)`.as('count'),
+        avgScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
+      })
+      .from(calculations)
+      .groupBy(calculations.travelPattern)
+      .orderBy(sql`count DESC`);
+  }
+
+  async getScoreDistribution(): Promise<Array<{scoreRange: string, count: number}>> {
+    return await db
+      .select({
+        scoreRange: sql<string>`
+          CASE 
+            WHEN ${calculations.impactScore} < 20 THEN '0-19 (Excellent)'
+            WHEN ${calculations.impactScore} < 40 THEN '20-39 (Good)'
+            WHEN ${calculations.impactScore} < 60 THEN '40-59 (Moderate)'
+            WHEN ${calculations.impactScore} < 80 THEN '60-79 (High)'
+            ELSE '80-100 (Very High)'
+          END
+        `.as('score_range'),
+        count: sql<number>`count(*)`.as('count'),
+      })
+      .from(calculations)
+      .groupBy(sql`
+        CASE 
+          WHEN ${calculations.impactScore} < 20 THEN '0-19 (Excellent)'
+          WHEN ${calculations.impactScore} < 40 THEN '20-39 (Good)'
+          WHEN ${calculations.impactScore} < 60 THEN '40-59 (Moderate)'
+          WHEN ${calculations.impactScore} < 80 THEN '60-79 (High)'
+          ELSE '80-100 (Very High)'
+        END
+      `)
+      .orderBy(sql`count DESC`);
+  }
+
+  async getRecentCalculations(limit: number = 20): Promise<Calculation[]> {
+    return await db
+      .select()
+      .from(calculations)
+      .orderBy(desc(calculations.createdAt))
+      .limit(limit);
+  }
+
+  async getDailyCalculationTrends(days: number = 7): Promise<Array<{date: string, count: number, avgScore: number}>> {
+    return await db
+      .select({
+        date: sql<string>`DATE(${calculations.createdAt})`.as('date'),
+        count: sql<number>`count(*)`.as('count'),
+        avgScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
+      })
+      .from(calculations)
+      .where(sql`${calculations.createdAt} >= CURRENT_DATE - INTERVAL '${days} days'`)
+      .groupBy(sql`DATE(${calculations.createdAt})`)
+      .orderBy(sql`DATE(${calculations.createdAt}) DESC`);
   }
 }
 
