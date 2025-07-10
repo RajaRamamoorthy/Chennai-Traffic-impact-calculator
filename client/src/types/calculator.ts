@@ -33,9 +33,11 @@ export interface CalculationResult {
   };
   breakdown: {
     vehicleImpact: number;
-    routeCongestion: number;
-    timingPenalty: number;
-    occupancyBonus: number;
+    congestionFactor: number;
+    timingMultiplier: number;
+    frequencyMultiplier: number;
+    occupancy: number;
+    rawScore: number;
   };
   equivalentCommuters: number;
   monthlySavings: number;

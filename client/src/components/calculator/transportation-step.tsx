@@ -213,7 +213,7 @@ export function TransportationStep({
                   {t.transportation.vehicleType}
                 </label>
                 <Select 
-                  value={vehicleTypeId?.toString()} 
+                  value={vehicleTypeId?.toString() || ""} 
                   onValueChange={(value) => handleVehicleTypeSelect(parseInt(value))}
                   disabled={vehicleTypesLoading}
                 >

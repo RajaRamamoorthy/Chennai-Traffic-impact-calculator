@@ -238,7 +238,7 @@ npm start
 
 ### Calculator Endpoints
 
-#### POST `/api/calculate`
+#### POST `/api/calculate-impact`
 Calculate traffic impact for a journey.
 
 **Request Body:**
@@ -263,9 +263,11 @@ Calculate traffic impact for a journey.
   },
   "breakdown": {
     "vehicleImpact": 45,
-    "routeCongestion": 15,
-    "timingPenalty": 8,
-    "occupancyBonus": 0
+    "congestionFactor": 1.304,
+    "timingMultiplier": 1.35,
+    "frequencyMultiplier": 1.0,
+    "occupancy": 1,
+    "rawScore": 79.22
   },
   "equivalentCommuters": 2600,
   "monthlySavings": 800,
@@ -286,7 +288,7 @@ Get location suggestions for Chennai area.
 #### POST `/api/geocode`
 Convert address to coordinates and validate location.
 
-#### POST `/api/directions`
+#### POST `/api/route-info`
 Get route information between two points.
 
 ### Admin Endpoints

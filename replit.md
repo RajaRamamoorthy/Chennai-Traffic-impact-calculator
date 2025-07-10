@@ -139,6 +139,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 10, 2025: **BUG FIXES COMPLETED** - Fixed all critical and high priority bugs identified in comprehensive testing
+  - Fixed documentation-implementation mismatch: Updated README.md endpoints from `/api/calculate` to `/api/calculate-impact` and `/api/directions` to `/api/route-info`
+  - Fixed React Select control warnings: Added fallback empty string for `vehicleTypeId?.toString() || ""` to prevent uncontrolled-to-controlled component warnings
+  - Fixed response structure inconsistency: Updated frontend TypeScript interfaces to match backend breakdown structure (congestionFactor, timingMultiplier, frequencyMultiplier, occupancy, rawScore)
+  - Confirmed email service working correctly with Zoho Alt Server fallback configuration
 - July 10, 2025: **CRITICAL CALCULATION LOGIC FIX** - Fixed occupancy bonus and vehicle impact calculations
   - Single occupancy now correctly gets 0 bonus (was incorrectly getting +15)
   - Vehicle impact now shows full base score (luxury SUV: 65 points, not 33)
