@@ -3,8 +3,12 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { Heart, Calculator, ArrowLeft } from "lucide-react";
+import { useEffect } from "react";
 
 export default function ThankYou() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <SEO 

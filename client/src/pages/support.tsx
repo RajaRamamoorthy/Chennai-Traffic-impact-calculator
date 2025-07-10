@@ -1,8 +1,12 @@
 import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, HeartHandshake, MapPin, DollarSign } from "lucide-react";
+import { useEffect } from "react";
 
 export default function Support() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <SEO 
@@ -40,7 +44,7 @@ export default function Support() {
           ]
         }}
       />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <header className="text-center mb-8">
