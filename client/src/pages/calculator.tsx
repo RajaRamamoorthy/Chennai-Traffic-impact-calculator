@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StepIndicator } from "@/components/calculator/step-indicator";
@@ -21,6 +21,7 @@ export default function Calculator() {
   const [results, setResults] = useState<CalculationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const cardRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<CalculatorFormData>({
     resolver: zodResolver(calculatorFormSchema),
@@ -54,9 +55,20 @@ export default function Calculator() {
     analytics.trackStepProgression(currentStep, stepNames[currentStep as keyof typeof stepNames] || 'unknown');
   }, [currentStep]);
 
+  const scrollToTop = () => {
+    if (cardRef.current) {
+      cardRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }
+  };
+
   const nextStep = () => {
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
+      // Scroll to top of card after state update
+      setTimeout(scrollToTop, 100);
     }
   };
 
@@ -85,6 +97,9 @@ export default function Calculator() {
 
       setResults(result);
       setCurrentStep(3);
+      
+      // Scroll to top of results after state update
+      setTimeout(scrollToTop, 100);
 
       toast({
         title: "Calculation complete!",
@@ -147,7 +162,7 @@ export default function Calculator() {
       <div className="max-w-4xl mx-auto px-4">
         <StepIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
 
-        <Card className="overflow-hidden">
+        <Card ref={cardRef} className="overflow-hidden">
           {currentStep === 1 && (
             <TransportationStep
               selectedMode={formData.transportMode}
