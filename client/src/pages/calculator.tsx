@@ -215,13 +215,7 @@ export default function Calculator() {
           )}
         </Card>
 
-        {/* Completion Motivation */}
-        <div className="mt-8 text-center">
-          <div className="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full text-sm text-blue-700">
-            <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></span>
-            Join 10,000+ Chennai commuters making informed transport choices
-          </div>
-        </div>
+        
       </div>
     </div>
     </>
