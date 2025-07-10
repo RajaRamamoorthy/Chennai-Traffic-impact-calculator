@@ -139,6 +139,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 10, 2025: **ABOUT ME PAGE ADDED** - Created new "/about-me" page with creator's personal story and project journey
+  - Added comprehensive personal narrative about Chennai commuting experience
+  - Positioned "About me" link in bold above Donate section in footer
+  - Updated sitemap.xml and added structured data for SEO optimization
+  - Added Person schema markup for better search engine visibility
 - July 10, 2025: **COMPREHENSIVE PROJECT DOCUMENTATION** - Created detailed README.md with complete project overview, calculation methodology, setup instructions, and API documentation
 - July 10, 2025: **COMPREHENSIVE API SECURITY AUDIT** - Implemented rate limiting, caching, and monitoring for Google Maps API
   - Added rate limiting middleware to prevent API abuse
