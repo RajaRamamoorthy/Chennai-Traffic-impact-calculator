@@ -18,6 +18,8 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   const [isSharing, setIsSharing] = useState(false);
   const { toast } = useToast();
   const scoreCardRef = useRef<HTMLDivElement>(null);
+  const [timing, setTiming] = useState<string>('');
+  const [frequency, setFrequency] = useState<string>('');
 
   const getScoreColor = (score: number) => {
     if (score <= 30) return "text-green-600 bg-green-50";
@@ -43,20 +45,20 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   const handleShare = async () => {
     // Prevent multiple simultaneous share operations
     if (isSharing) return;
-    
+
     setIsSharing(true);
-    
+
     try {
       const shareUrl = 'https://chennaitrafficcalc.in?utm_source=share';
       const shareText = `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`;
-      
+
       // Capture screenshot of the score card
       if (scoreCardRef.current) {
         try {
           // Temporarily make the hidden container visible for screenshot
           const originalStyle = scoreCardRef.current.style.cssText;
           const originalClassName = scoreCardRef.current.className;
-          
+
           // Position the container in a way that it's rendered but off-screen to the right
           scoreCardRef.current.style.cssText = `
             position: fixed;
@@ -71,13 +73,13 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             transform: none;
           `;
           scoreCardRef.current.className = '';
-          
+
           // Force a reflow to ensure the element is properly rendered
           scoreCardRef.current.offsetHeight;
-          
+
           // Allow time for rendering
           await new Promise(resolve => setTimeout(resolve, 200));
-          
+
           const canvas = await html2canvas(scoreCardRef.current, {
             backgroundColor: '#ffffff',
             scale: 3,
@@ -88,16 +90,16 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             allowTaint: true,
             foreignObjectRendering: true
           });
-          
+
           // Restore original styling
           scoreCardRef.current.style.cssText = originalStyle;
           scoreCardRef.current.className = originalClassName;
-          
+
           // Convert canvas to blob
           canvas.toBlob(async (blob) => {
             if (blob) {
               const file = new File([blob], 'traffic-score.png', { type: 'image/png' });
-              
+
               // Check if Web Share API supports file sharing
               if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
@@ -189,7 +191,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           <div className="text-2xl font-bold text-green-700">ChennaiTrafficCalc.in</div>
           <div className="text-sm text-slate-600">Calculate Your Chennai Traffic Impact</div>
         </div>
-        
+
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
           <p className="text-slate-600">Based on your commute pattern in Chennai</p>
@@ -232,7 +234,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           <div className="text-xl font-bold text-green-700">ChennaiTrafficCalc.in</div>
           <div className="text-sm text-slate-600">Calculate Your Chennai Traffic Impact</div>
         </div>
-        
+
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
           <p className="text-slate-600">Based on your commute pattern in Chennai</p>
@@ -328,7 +330,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                 <Lightbulb className="inline w-5 h-5 text-green-500 mr-2" />
                 Better Alternatives
               </h3>
-              
+
               <div className="space-y-4">
                 {results.alternatives.map((alternative, index) => {
                   const getIcon = (type: string) => {
