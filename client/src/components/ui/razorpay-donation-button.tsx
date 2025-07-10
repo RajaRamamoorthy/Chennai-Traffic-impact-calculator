@@ -5,36 +5,50 @@ interface RazorpayDonationButtonProps {
 }
 
 export function RazorpayDonationButton({ paymentButtonId }: RazorpayDonationButtonProps) {
-  const formRef = useRef<HTMLFormElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Check if Razorpay script is already loaded
-    if (document.querySelector('script[src="https://checkout.razorpay.com/v1/payment-button.js"]')) {
-      return;
+    // Check if script is already loaded
+    let script = document.querySelector('script[src="https://checkout.razorpay.com/v1/payment-button.js"]');
+    
+    if (!script) {
+      // Create and load the script
+      script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/payment-button.js';
+      script.async = true;
+      document.head.appendChild(script);
     }
 
-    // Create and load the Razorpay script
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/payment-button.js';
-    script.setAttribute('data-payment_button_id', paymentButtonId);
-    script.async = true;
-
-    // Add the script to the form
-    if (formRef.current) {
-      formRef.current.appendChild(script);
+    // Create a form element and add it to our container
+    if (containerRef.current) {
+      // Clear any existing content
+      containerRef.current.innerHTML = '';
+      
+      // Create the form
+      const form = document.createElement('form');
+      
+      // Create the script element for the button
+      const buttonScript = document.createElement('script');
+      buttonScript.src = 'https://checkout.razorpay.com/v1/payment-button.js';
+      buttonScript.setAttribute('data-payment_button_id', paymentButtonId);
+      buttonScript.async = true;
+      
+      // Add script to form and form to container
+      form.appendChild(buttonScript);
+      containerRef.current.appendChild(form);
     }
 
-    // Cleanup function to remove the script when component unmounts
+    // Cleanup
     return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
+      if (containerRef.current) {
+        containerRef.current.innerHTML = '';
       }
     };
   }, [paymentButtonId]);
 
   return (
-    <form ref={formRef} className="razorpay-donation-form">
-      {/* The Razorpay script will inject its button here */}
-    </form>
+    <div ref={containerRef} className="razorpay-donation-button">
+      {/* Razorpay button will be injected here */}
+    </div>
   );
 }
