@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import helmet from "helmet";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { requestIdMiddleware } from "./middleware/request-id";
 
 const app = express();
 // Configure trust proxy for rate limiting in hosted environments
@@ -25,6 +26,9 @@ app.use(helmet({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Add request ID for tracking and debugging
+app.use(requestIdMiddleware);
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -59,12 +63,35 @@ app.use((req, res, next) => {
 (async () => {
   const server = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
 
-    res.status(status).json({ message });
-    throw err;
+    // Enhanced error logging for production monitoring
+    const errorInfo = {
+      timestamp: new Date().toISOString(),
+      method: req.method,
+      url: req.url,
+      ip: req.ip,
+      userAgent: req.get('User-Agent'),
+      status,
+      message: err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    };
+
+    // Log error details (in production, this would go to a logging service like DataDog or LogRocket)
+    console.error('🔥 Application Error:', JSON.stringify(errorInfo, null, 2));
+
+    // Don't expose internal error details in production
+    const clientMessage = status === 500 && process.env.NODE_ENV === 'production' 
+      ? "Internal Server Error" 
+      : message;
+
+    res.status(status).json({ 
+      error: clientMessage,
+      timestamp: errorInfo.timestamp,
+      requestId: req.headers['x-request-id'] || 'unknown'
+    });
   });
 
   // importantly only setup vite in development and after
