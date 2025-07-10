@@ -2,9 +2,9 @@ import { db } from "./db";
 import { vehicleTypes, routeCongestion, contactSubmissions, calculations, feedback } from "@shared/schema";
 
 const seedVehicleTypes = [
-  // Cars - Body Styles
+  // Cars - Body Styles with Popular Models
   {
-    name: 'Hatchback',
+    name: 'Hatchback (Swift, Baleno)',
     category: 'car',
     emissionFactor: '0.142', // kg CO2/km
     fuelCostPerKm: '6.50',   // ₹/km
@@ -12,7 +12,7 @@ const seedVehicleTypes = [
     baseImpactScore: 45
   },
   {
-    name: 'Compact Sedan',
+    name: 'Compact Sedan (Dzire, Amaze)',
     category: 'car',
     emissionFactor: '0.148',
     fuelCostPerKm: '7.20',
@@ -20,7 +20,7 @@ const seedVehicleTypes = [
     baseImpactScore: 47
   },
   {
-    name: 'Sedan',
+    name: 'Sedan (City, Verna)',
     category: 'car',
     emissionFactor: '0.155',
     fuelCostPerKm: '8.50',
@@ -28,15 +28,23 @@ const seedVehicleTypes = [
     baseImpactScore: 50
   },
   {
-    name: 'Sedan (Above 5m)',
+    name: 'Premium Sedan (Camry, Accord)',
     category: 'car',
     emissionFactor: '0.165',
-    fuelCostPerKm: '9.80',
+    fuelCostPerKm: '10.20',
     avgSpeedKmh: 30,
     baseImpactScore: 58
   },
   {
-    name: 'SUV',
+    name: 'Compact SUV (Brezza, Venue)',
+    category: 'car',
+    emissionFactor: '0.158',
+    fuelCostPerKm: '8.80',
+    avgSpeedKmh: 28,
+    baseImpactScore: 52
+  },
+  {
+    name: 'Mid-size SUV (Creta, Seltos)',
     category: 'car',
     emissionFactor: '0.168',
     fuelCostPerKm: '9.20',
@@ -44,7 +52,7 @@ const seedVehicleTypes = [
     baseImpactScore: 55
   },
   {
-    name: 'MUV',
+    name: 'MUV/MPV (Ertiga, Innova)',
     category: 'car',
     emissionFactor: '0.172',
     fuelCostPerKm: '9.50',
@@ -52,7 +60,7 @@ const seedVehicleTypes = [
     baseImpactScore: 57
   },
   {
-    name: 'Luxury SUV',
+    name: 'Luxury SUV (XUV700, Fortuner)',
     category: 'car',
     emissionFactor: '0.185',
     fuelCostPerKm: '12.00',
@@ -60,7 +68,7 @@ const seedVehicleTypes = [
     baseImpactScore: 65
   },
   {
-    name: 'Electric Car',
+    name: 'Electric Car (Nexon EV, Tiago EV)',
     category: 'car',
     emissionFactor: '0.045', // Lower due to electric
     fuelCostPerKm: '2.80',   // Lower operating cost
@@ -68,9 +76,9 @@ const seedVehicleTypes = [
     baseImpactScore: 25
   },
 
-  // Two-wheelers - Engine Categories
+  // Two-wheelers - Engine Categories with Popular Models
   {
-    name: 'Scooter',
+    name: 'Scooter 100-125cc (Activa, Jupiter)',
     category: 'bike',
     emissionFactor: '0.062',
     fuelCostPerKm: '2.10',
@@ -78,23 +86,47 @@ const seedVehicleTypes = [
     baseImpactScore: 25
   },
   {
-    name: 'Less than 350cc',
+    name: 'Premium Scooter 150cc+ (Aerox 155, NTorq 125)',
+    category: 'bike',
+    emissionFactor: '0.068',
+    fuelCostPerKm: '2.40',
+    avgSpeedKmh: 32,
+    baseImpactScore: 28
+  },
+  {
+    name: 'Commuter Bike 100-150cc (Splendor, HF Deluxe)',
     category: 'bike',
     emissionFactor: '0.055',
-    fuelCostPerKm: '2.30',
+    fuelCostPerKm: '2.00',
     avgSpeedKmh: 35,
     baseImpactScore: 22
   },
   {
-    name: 'More than 350cc',
+    name: 'Sports Bike 150-200cc (Pulsar 150, FZ-S)',
+    category: 'bike',
+    emissionFactor: '0.058',
+    fuelCostPerKm: '2.30',
+    avgSpeedKmh: 38,
+    baseImpactScore: 24
+  },
+  {
+    name: 'Mid-capacity Bike 200-350cc (Dominar 250, Duke 250)',
+    category: 'bike',
+    emissionFactor: '0.063',
+    fuelCostPerKm: '2.60',
+    avgSpeedKmh: 40,
+    baseImpactScore: 26
+  },
+  {
+    name: 'High-capacity Bike 350cc+ (Duke 390, Classic 350)',
     category: 'bike',
     emissionFactor: '0.065',
     fuelCostPerKm: '2.80',
-    avgSpeedKmh: 40,
+    avgSpeedKmh: 42,
     baseImpactScore: 28
   },
   {
-    name: 'Electric Two-wheeler',
+    name: 'Electric Two-wheeler (Ather 450X, TVS iQube)',
     category: 'bike',
     emissionFactor: '0.018',
     fuelCostPerKm: '0.80',

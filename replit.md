@@ -112,6 +112,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 10, 2025: Enhanced vehicle type categories with market-relevant classifications and popular model examples
+- July 10, 2025: Updated car categories: Added Compact SUV/Mid-size SUV split, Premium Sedan, and model examples in brackets
+- July 10, 2025: Improved bike categories: Added engine capacity ranges (100-125cc, 150-200cc, 200-350cc, 350cc+) with model examples
+- July 10, 2025: Database reseeded with 21 improved vehicle types including realistic emission factors and costs
+- July 10, 2025: Vehicle categories now reflect actual Indian market segments popular in Chennai
 - July 9, 2025: Implemented comprehensive SEO strategy with sitemap, meta tags, OpenGraph, and PWA support
 - July 9, 2025: Created dynamic sitemap generator endpoint at /sitemap.xml with proper XML formatting
 - July 9, 2025: Added OpenGraph image (og-image.svg) for enhanced social media sharing
