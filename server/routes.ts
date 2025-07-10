@@ -292,8 +292,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         vehicleTypeId: calculationInput.vehicleTypeId,
         occupancy: calculationInput.occupancy,
         distanceKm: calculationInput.distanceKm,
-        timing: calculationInput.timing,
-        frequency: calculationInput.frequency,
+        travelPattern: calculationInput.travelPattern,
         sessionId,
         origin: calculationInput.origin,
         destination: calculationInput.destination

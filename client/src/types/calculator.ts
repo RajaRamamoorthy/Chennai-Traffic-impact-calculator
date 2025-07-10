@@ -22,8 +22,7 @@ export interface CalculatorForm {
   occupancy: number;
   origin: string;
   destination: string;
-  timing: string;
-  frequency: string;
+  travelPattern: string;
 }
 
 export interface CalculationResult {
