@@ -112,7 +112,7 @@ export default function Home() {
                   Join the Movement
                 </h3>
                 <p className="text-slate-600">
-                  Join Chennai commuters making informed transport choices 
+                  Be part of Chennai's growing community of commuters making informed transport choices 
                   for a better city.
                 </p>
               </CardContent>
