@@ -205,6 +205,55 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
+  async getPotentialSavingsStats(): Promise<{
+    totalCalculations: number;
+    currentMonthlyCO2: number;
+    currentMonthlyCost: number;
+    potentialMonthlyCO2Saved: number;
+    potentialMonthlyCostSaved: number;
+    potentialAnnualCO2Saved: number;
+    potentialAnnualCostSaved: number;
+  }> {
+    const allCalculations = await db.select().from(calculations);
+    
+    let totalPotentialCO2Saved = 0;
+    let totalPotentialCostSaved = 0;
+    let totalCurrentCO2 = 0;
+    let totalCurrentCost = 0;
+
+    for (const calc of allCalculations) {
+      const currentCO2 = Number(calc.monthlyEmissions) || 0;
+      const currentCost = Number(calc.monthlyCost) || 0;
+      
+      totalCurrentCO2 += currentCO2;
+      totalCurrentCost += currentCost;
+      
+      // Calculate potential savings from alternatives
+      const alternatives = calc.alternatives as any[];
+      if (alternatives && alternatives.length > 0) {
+        // Get the best alternative (highest cost savings)
+        const bestAlternative = alternatives.reduce((best, alt) => 
+          alt.costSavings > best.costSavings ? alt : best
+        );
+        
+        // Calculate CO2 reduction based on impact reduction percentage
+        const co2Reduction = (currentCO2 * bestAlternative.impactReduction) / 100;
+        totalPotentialCO2Saved += co2Reduction;
+        totalPotentialCostSaved += bestAlternative.costSavings;
+      }
+    }
+
+    return {
+      totalCalculations: allCalculations.length,
+      currentMonthlyCO2: Math.round(totalCurrentCO2),
+      currentMonthlyCost: Math.round(totalCurrentCost),
+      potentialMonthlyCO2Saved: Math.round(totalPotentialCO2Saved),
+      potentialMonthlyCostSaved: Math.round(totalPotentialCostSaved),
+      potentialAnnualCO2Saved: Math.round(totalPotentialCO2Saved * 12),
+      potentialAnnualCostSaved: Math.round(totalPotentialCostSaved * 12),
+    };
+  }
+
   async getHomepageStats(): Promise<{totalCalculations: number, totalCO2SavedKg: number, totalMoneySaved: number}> {
     const [stats] = await db
       .select({

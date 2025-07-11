@@ -22,6 +22,13 @@ export default function Home() {
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
+  // Fetch potential savings stats  
+  const { data: potentialStats } = useQuery({
+    queryKey: ['/api/stats/potential-savings'],
+    queryFn: api.getPotentialSavingsStats,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
   const homePageSchema = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -123,30 +130,88 @@ export default function Home() {
 
       {/* Stats Section */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12">
-            Making a Real Difference
-          </h2>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">
+              Current Impact vs Potential Savings
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Based on {potentialStats ? formatNumber(potentialStats.totalCalculations) : "10,000+"} calculations completed, 
+              here's Chennai's current commute impact and what we could achieve together
+            </p>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div>
-              <div className="text-4xl font-bold text-primary mb-2">
-                {stats ? formatNumber(stats.totalCalculations) : "10,000+"}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Current Impact */}
+            <div className="bg-red-50 p-8 rounded-xl">
+              <h3 className="text-2xl font-bold text-red-800 mb-6 text-center">
+                Current Monthly Impact
+              </h3>
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-red-600 mb-2">
+                    {potentialStats ? `${formatNumber(potentialStats.currentMonthlyCO2)} kg` : "208K kg"}
+                  </div>
+                  <div className="text-slate-600">CO₂ emissions from current commutes</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-red-600 mb-2">
+                    {potentialStats ? `₹${formatNumber(potentialStats.currentMonthlyCost)}` : "₹3.8L"}
+                  </div>
+                  <div className="text-slate-600">Fuel & maintenance costs</div>
+                </div>
               </div>
-              <div className="text-slate-600">Calculations completed</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-green-500 mb-2">
-                {stats ? `${formatNumber(stats.totalCO2SavedKg)} kg` : "2.5M kg"}
+
+            {/* Potential Savings */}
+            <div className="bg-green-50 p-8 rounded-xl">
+              <h3 className="text-2xl font-bold text-green-800 mb-6 text-center">
+                Potential Monthly Savings
+              </h3>
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-green-600 mb-2">
+                    {potentialStats ? `${formatNumber(potentialStats.potentialMonthlyCO2Saved)} kg` : "125K kg"}
+                  </div>
+                  <div className="text-slate-600">CO₂ reduction if using alternatives</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-green-600 mb-2">
+                    {potentialStats ? `₹${formatNumber(potentialStats.potentialMonthlyCostSaved)}` : "₹1.2L"}
+                  </div>
+                  <div className="text-slate-600">Money saved with better options</div>
+                </div>
               </div>
-              <div className="text-slate-600">CO₂ saved annually</div>
             </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-500 mb-2">
-                {stats ? `₹${formatNumber(stats.totalMoneySaved)}` : "₹45L"}
+          </div>
+
+          {/* Annual Projection */}
+          <div className="mt-12 p-8 bg-blue-50 rounded-xl text-center">
+            <h3 className="text-2xl font-bold text-blue-800 mb-4">
+              Annual Potential Impact
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <div className="text-3xl font-bold text-blue-600 mb-2">
+                  {potentialStats ? `${formatNumber(potentialStats.potentialAnnualCO2Saved)} kg` : "1.5M kg"}
+                </div>
+                <div className="text-slate-600">CO₂ reduction potential per year</div>
               </div>
-              <div className="text-slate-600">Money saved by users</div>
+              <div>
+                <div className="text-3xl font-bold text-blue-600 mb-2">
+                  {potentialStats ? `₹${formatNumber(potentialStats.potentialAnnualCostSaved)}` : "₹14L"}
+                </div>
+                <div className="text-slate-600">Annual savings for Chennai commuters</div>
+              </div>
             </div>
+          </div>
+
+          <div className="mt-8 p-4 bg-slate-100 rounded-lg text-center">
+            <p className="text-sm text-slate-600">
+              <strong>How it works:</strong> Current impact shows actual emissions and costs from user calculations. 
+              Potential savings are based on the best alternative suggested to each user. 
+              These benefits are achievable when commuters adopt recommended transport options.
+            </p>
           </div>
         </div>
       </section>

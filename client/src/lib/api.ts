@@ -60,7 +60,7 @@ export const api = {
       });
       return res.json();
     }
-    
+
     // Otherwise use the regular feedback endpoint
     const res = await apiRequest("POST", "/api/feedback", feedback);
     return res.json();
@@ -74,7 +74,12 @@ export const api = {
       }
     });
     return res.json();
-  }
+  },
+
+  getPotentialSavingsStats: async () => {
+    const res = await apiRequest("GET", '/api/stats/potential-savings');
+    return res.json();
+  },
 };
 
 function getSessionId(): string {

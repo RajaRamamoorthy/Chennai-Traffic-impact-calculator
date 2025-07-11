@@ -86,7 +86,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       totalAPICalls: apiUsageStats.autocomplete.calls + apiUsageStats.geocoding.calls + apiUsageStats.directions.calls,
       totalCacheHits: apiUsageStats.autocomplete.cacheHits + apiUsageStats.geocoding.cacheHits + apiUsageStats.directions.cacheHits
     });
-    
+
     // Reset stats
     apiUsageStats.autocomplete = { calls: 0, cacheHits: 0 };
     apiUsageStats.geocoding = { calls: 0, cacheHits: 0 };
@@ -162,7 +162,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check cache first
       const cacheKey = `geocode:${address.toLowerCase().trim()}`;
       const cached = apiCache.get(cacheKey);
-      
+
       if (cached && Date.now() - cached.timestamp < CACHE_DURATION.geocoding) {
         console.log(`Cache hit for geocoding: ${address}`);
         apiUsageStats.geocoding.cacheHits++;
@@ -171,7 +171,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Track API call
       apiUsageStats.geocoding.calls++;
-      
+
       const location = await RoutingService.geocodeAddress(address);
 
       if (!location) {
@@ -180,7 +180,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Cache the result
       apiCache.set(cacheKey, { data: location, timestamp: Date.now() });
-      
+
       res.json(location);
     } catch (error) {
       console.error("Geocoding error:", error);
@@ -203,7 +203,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check cache first
       const cacheKey = `route:${origin.toLowerCase().trim()}:${destination.toLowerCase().trim()}`;
       const cached = apiCache.get(cacheKey);
-      
+
       if (cached && Date.now() - cached.timestamp < CACHE_DURATION.directions) {
         console.log(`Cache hit for route: ${origin} to ${destination}`);
         apiUsageStats.directions.cacheHits++;
@@ -212,7 +212,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Track API call
       apiUsageStats.directions.calls++;
-      
+
       const routeInfo = await RoutingService.getRouteInfo(origin, destination);
 
       if (!routeInfo) {
@@ -249,7 +249,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Check cache first
       const cacheKey = `autocomplete:${input.toLowerCase().trim()}`;
       const cached = apiCache.get(cacheKey);
-      
+
       if (cached && Date.now() - cached.timestamp < CACHE_DURATION.autocomplete) {
         console.log(`Cache hit for autocomplete: ${input}`);
         apiUsageStats.autocomplete.cacheHits++;
@@ -258,12 +258,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Track API call
       apiUsageStats.autocomplete.calls++;
-      
+
       const predictions = await RoutingService.getPlaceAutocomplete(input);
-      
+
       // Cache the result
       apiCache.set(cacheKey, { data: predictions, timestamp: Date.now() });
-      
+
       res.json(predictions);
     } catch (error) {
       console.error("Autocomplete error:", error);
@@ -344,7 +344,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/contact", contactRateLimit, async (req, res) => {
     try {
       const contactData = insertContactSubmissionSchema.parse(req.body);
-      
+
       // Get client IP and user agent
       const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
       const userAgent = req.get('User-Agent') || 'unknown';
@@ -396,10 +396,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       } catch (emailError) {
         console.error("Email sending failed:", emailError);
-        
+
         // Update submission status to failed but still return success
         await storage.updateContactSubmissionStatus(submission.id, 'failed');
-        
+
         res.json({ 
           success: true, 
           message: "Your message has been received. We'll get back to you soon!" 
@@ -457,7 +457,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         message: 'This is a test email to verify the Chennai Traffic Impact Calculator contact form is working.',
         submittedAt: new Date().toLocaleString()
       });
-      
+
       res.json({ 
         success: result,
         message: result ? "Test email sent successfully!" : "Failed to send test email"
@@ -474,22 +474,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get Razorpay config for frontend (only public key)
   app.get("/api/razorpay-config", (req, res) => {
     const razorpayKeyId = process.env.RAZORPAY_KEY_ID;
-    
+
     if (!razorpayKeyId) {
       return res.status(500).json({ error: "Razorpay configuration missing" });
     }
-    
+
     res.json({ keyId: razorpayKeyId });
   });
 
   // Get Razorpay payment button config for frontend
   app.get("/api/razorpay-button-config", (req, res) => {
     const paymentButtonId = process.env.RAZORPAY_PAYMENT_BUTTON_ID;
-    
+
     if (!paymentButtonId) {
       return res.status(500).json({ error: "Payment button configuration missing" });
     }
-    
+
     res.json({ paymentButtonId });
   });
 
@@ -497,7 +497,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/verify-payment", async (req, res) => {
     try {
       const { razorpay_payment_id, razorpay_order_id, razorpay_signature, amount } = req.body;
-      
+
       if (!razorpay_payment_id || !amount) {
         return res.status(400).json({ 
           success: false, 
@@ -552,12 +552,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
           .digest('hex');
 
         const isAuthentic = expectedSignature === razorpay_signature;
-        
+
         if (!isAuthentic) {
           console.error('Payment signature verification failed');
           console.error('Expected:', expectedSignature);
           console.error('Received:', razorpay_signature);
-          
+
           return res.status(400).json({ 
             success: false, 
             error: "Payment verification failed" 
@@ -587,7 +587,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('IP Address:', req.ip);
       console.log('User Agent:', req.get('User-Agent'));
       console.log('========================');
-      
+
       res.json({ 
         success: true, 
         message: "Payment verified successfully",
@@ -652,7 +652,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const stats = await storage.getDonationStats();
       const donations = await storage.getDonations();
-      
+
       res.json({
         stats,
         donations: donations.map(d => ({
@@ -675,13 +675,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Basic security - only allow from localhost or with admin key
       const adminKey = req.headers['x-admin-key'] as string;
       const isLocalhost = req.ip === '127.0.0.1' || req.ip === '::1' || req.hostname === 'localhost';
-      
+
       if (!isLocalhost && adminKey !== process.env.ADMIN_KEY) {
         return res.status(403).json({ error: "Access denied" });
       }
 
       const submissions = await db.select().from(contactSubmissions).orderBy(desc(contactSubmissions.createdAt)).limit(50);
-      
+
       res.json({ 
         success: true,
         submissions: submissions.map(sub => ({
@@ -836,7 +836,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/sitemap.xml", (req, res) => {
     const baseUrl = "https://chennaitrafficcalc.in";
     const lastModified = new Date().toISOString().split('T')[0];
-    
+
     const urls = [
       { path: "/", priority: "1.0", changefreq: "weekly" },
       { path: "/calculator", priority: "0.9", changefreq: "weekly" },
@@ -847,7 +847,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       { path: "/support", priority: "0.6", changefreq: "monthly" },
       { path: "/thank-you", priority: "0.4", changefreq: "yearly" }
     ];
-    
+
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -860,9 +860,23 @@ ${urls.map(url => `  <url>
     <priority>${url.priority}</priority>
   </url>`).join('\n')}
 </urlset>`;
-    
+
     res.header("Content-Type", "application/xml");
     res.send(sitemap);
+  });
+
+  // Potential savings stats endpoint
+  app.get("/api/stats/potential-savings", async (req, res) => {
+    try {
+      const stats = await storage.getPotentialSavingsStats();
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching potential savings stats:", error);
+      res.status(500).json({
+        error: "Failed to fetch potential savings stats",
+        message: error instanceof Error ? error.message : "Unknown error"
+      });
+    }
   });
 
   const httpServer = createServer(app);
