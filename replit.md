@@ -139,6 +139,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 11, 2025: **OPEN GRAPH AND CANONICAL LINKS ENHANCEMENT** - Fixed comprehensive SEO meta tags and URL configuration
+  - Fixed OG image extension mismatch: Changed from .png to .svg in SEO component defaults to match actual file
+  - Added missing canonical URLs to support page (`/support`) and about-me page (`/about-me`)
+  - Verified all public pages have proper canonical URLs: home, calculator, methodology, how-it-works, data-sources, support, about-me, thank-you
+  - Confirmed admin dashboard properly configured with noindex for private access
+  - Tested Open Graph tags working correctly for WhatsApp and social media sharing with proper image, title, description
+  - All pages now have complete Open Graph metadata including og:title, og:description, og:image, og:url, og:type
+  - Enhanced SEO setup ensures proper URL previews when sharing links on WhatsApp, Facebook, Twitter, and other platforms
 - July 10, 2025: **POTENTIAL SAVINGS ANALYTICS** - Added comprehensive potential savings calculations and API endpoints
   - New `/api/stats/potential-savings` endpoint calculates what users could save if they adopted suggested alternatives
   - Homepage now displays both current impact metrics and potential savings projections

@@ -13,6 +13,7 @@ export default function Support() {
         title="Support & FAQ"
         description="Support the Chennai Traffic Impact Calculator with donations. Learn how your contributions help keep the tool free and cover API costs."
         keywords="donation, support, FAQ, Chennai traffic calculator, free tool, Razorpay payment, secure donations"
+        canonical="https://chennaitrafficcalc.in/support"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "FAQPage",

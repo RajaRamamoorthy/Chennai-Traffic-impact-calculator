@@ -29,6 +29,7 @@ export default function ThankYou() {
         title="Thank You"
         description="Thank you for supporting the Chennai Traffic Impact Calculator. Your donation helps keep the tool free for everyone."
         keywords="thank you, donation, support, Chennai traffic calculator, sustainability, green transport"
+        canonical="https://chennaitrafficcalc.in/thank-you"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "WebPage",

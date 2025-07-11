@@ -12,6 +12,7 @@ export default function AboutMe() {
         title="About Me"
         description="Learn about Raja Ramamoorthy R, the creator of Chennai Traffic Impact Calculator, and his journey from experiencing Chennai traffic as a commuter to building this tool for sustainable transportation choices."
         keywords="about me, Raja Ramamoorthy, Chennai traffic, sustainability, product manager, commute journey, transportation choices"
+        canonical="https://chennaitrafficcalc.in/about-me"
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Person",

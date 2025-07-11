@@ -20,7 +20,7 @@ const defaultMeta = {
   title: 'Chennai Traffic Impact Calculator – Live Jam & Commute Insights',
   description: 'Check live Chennai traffic, calculate your commute impact, and discover faster routes. Free, map-powered jam tracker and congestion score.',
   keywords: 'Chennai traffic, Chennai traffic today, Chennai traffic jam, Chennai traffic calculator, Chennai traffic impact, Chennai congestion score, Chennai jam tracker, Chennai commute, Chennai commute distance, Chennai travel time, Chennai road congestion, Chennai road traffic, Chennai traffic live, Chennai traffic map, Chennai traffic update, Chennai peak hour traffic, Chennai delay calculator, Chennai driving time, traffic calculator Chennai, commute calculator Chennai, Chennai traffic score, Chennai congestion predictor, Kathipara flyover traffic, OMR traffic status, GST Road traffic, Anna Salai traffic, Marina Beach traffic, T Nagar traffic, Chennai route planner, Chennai traffic dashboard, Chennai traffic analysis',
-  ogImage: 'https://chennaitrafficcalc.in/og-image.png',
+  ogImage: 'https://chennaitrafficcalc.in/og-image.svg',
   siteName: 'Chennai Traffic Impact Calculator',
   siteUrl: 'https://chennaitrafficcalc.in'
 };
