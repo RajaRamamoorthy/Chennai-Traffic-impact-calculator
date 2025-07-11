@@ -353,6 +353,16 @@ Use the admin API key to access analytics endpoints and monitor system health.
 - **Congestion Areas**: Modify Chennai-specific areas in route congestion table
 - **Score Algorithms**: Customize calculation logic in `server/services/impact-calculator.ts`
 
+## Recent Changes
+
+- July 10, 2025: **POTENTIAL SAVINGS ANALYTICS** - Added comprehensive potential savings calculations and API endpoints
+  - New `/api/stats/potential-savings` endpoint calculates what users could save if they adopted suggested alternatives
+  - Homepage now displays both current impact metrics and potential savings projections
+  - Enhanced messaging to clarify that stats represent potential benefits, not accomplished savings
+  - Added impact reduction percentage showing overall community potential (60% average reduction)
+  - Stats section redesigned with better context and disclaimer about projected benefits
+- July 10, 2025: **GA4 AND SEO ENHANCEMENT AUDIT COMPLETED** - Completed comprehensive SEO and GA4 analytics audit and enhancement
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

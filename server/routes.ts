@@ -111,17 +111,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Rate limiter for new stats endpoints
+  const rateLimiter = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 20, // limit each IP to 20 requests per minute
+    message: {
+      error: "Too many requests. Please wait a moment before trying again.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.ip + ':stats'
+  });
+
   // Homepage stats endpoint
-  app.get("/api/stats/homepage", async (req, res) => {
+  app.get('/api/stats/homepage', rateLimiter, async (req, res) => {
     try {
       const stats = await storage.getHomepageStats();
       res.json(stats);
     } catch (error) {
-      console.error("Error fetching homepage stats:", error);
-      res.status(500).json({ 
-        error: "Failed to fetch homepage stats",
-        message: error instanceof Error ? error.message : "Unknown error"
-      });
+      console.error('Error fetching homepage stats:', error);
+      res.status(500).json({ error: 'Failed to fetch homepage stats' });
     }
   });
 
@@ -866,16 +876,13 @@ ${urls.map(url => `  <url>
   });
 
   // Potential savings stats endpoint
-  app.get("/api/stats/potential-savings", async (req, res) => {
+  app.get('/api/stats/potential-savings', rateLimiter, async (req, res) => {
     try {
       const stats = await storage.getPotentialSavingsStats();
       res.json(stats);
     } catch (error) {
-      console.error("Error fetching potential savings stats:", error);
-      res.status(500).json({
-        error: "Failed to fetch potential savings stats",
-        message: error instanceof Error ? error.message : "Unknown error"
-      });
+      console.error('Error fetching potential savings stats:', error);
+      res.status(500).json({ error: 'Failed to fetch potential savings stats' });
     }
   });
 
