@@ -114,6 +114,10 @@ export default function AboutMe() {
                 </p>
               </div>
               
+              <p>
+                P.S. I still choose autos for short trips. There's something magical about experiencing Chennai through those open windows.
+              </p>
+              
               <div>
                 <h2 className="text-2xl font-semibold text-slate-900 mb-4">Let's Connect</h2>
                 <p>
@@ -187,10 +191,7 @@ export default function AboutMe() {
                   </div>
                 </div>
                 
-                <p>
-                  P.S. I still choose autos for short trips. There's something magical about experiencing Chennai through those open windows.
-                </p>
-              </div>
+                </div>
             </div>
           </div>
         </div>
