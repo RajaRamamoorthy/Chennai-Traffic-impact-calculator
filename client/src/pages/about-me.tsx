@@ -146,6 +146,47 @@ export default function AboutMe() {
                   </a>
                 </div>
                 
+                <div className="mt-8">
+                  <h3 className="text-lg font-semibold text-slate-900 mb-4">Other Projects & Demos</h3>
+                  <div className="flex flex-col gap-3">
+                    <a 
+                      href="https://howmanymore.xyz/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      How Many More? - Interactive Election Data Visualization
+                    </a>
+                    
+                    <a 
+                      href="https://gaza-counter.replit.app/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Gaza Counter - Real-time Impact Tracker
+                    </a>
+                    
+                    <a 
+                      href="https://gaza-genocide-threshold.replit.app/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Gaza Genocide Threshold - Data Analysis Tool
+                    </a>
+                  </div>
+                </div>
+                
                 <p>
                   P.S. I still choose autos for short trips. There's something magical about experiencing Chennai through those open windows.
                 </p>
