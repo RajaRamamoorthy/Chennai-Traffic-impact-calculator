@@ -54,8 +54,37 @@ export default function Home() {
       <SEO
         title="Home"
         description="Calculate how your daily commute affects Chennai traffic. Get personalized suggestions for better alternatives to save time, money, and reduce environmental impact."
-        canonical="https://chennaitrafficcalc.in/"
-        structuredData={homePageSchema}
+        canonical="https://chennaitrafficcalc.in"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is the Chennai Traffic Impact Calculator?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Chennai Traffic Impact Calculator is a free web tool that helps Chennai commuters understand their traffic impact score based on their daily commute patterns and provides personalized recommendations for more sustainable alternatives."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How is the traffic impact score calculated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The traffic impact score (0-100) is calculated based on vehicle type, occupancy, route congestion, timing (peak vs off-peak hours), and frequency of travel. Lower scores indicate better sustainable choices."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the Chennai Traffic Impact Calculator free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, the Chennai Traffic Impact Calculator is completely free to use. No registration or payment is required."
+              }
+            }
+          ]
+        }}
       />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
@@ -84,7 +113,7 @@ export default function Home() {
           <h2 className="text-3xl font-bold text-center text-slate-900 mb-12">
             Live Jam & Congestion Score Analysis
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card>
               <CardContent className="p-8 text-center">
@@ -140,7 +169,7 @@ export default function Home() {
               here's Chennai's current commute impact and what we could achieve together
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Current Impact */}
             <div className="bg-red-50 p-8 rounded-xl">
