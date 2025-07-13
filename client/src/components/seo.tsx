@@ -48,6 +48,18 @@ export function SEO({
   const finalOgUrl = ogUrl || canonical || defaultMeta.siteUrl;
   const finalKeywords = keywords || defaultMeta.keywords;
 
+  // Microsoft Clarity configuration
+  const clarityProjectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
+  
+  // Microsoft Clarity tracking script
+  const clarityScript = clarityProjectId ? `
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "${clarityProjectId}");
+  ` : null;
+
   // Default organization structured data
   const organizationSchema = {
     "@context": "https://schema.org",
@@ -172,6 +184,14 @@ export function SEO({
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
+      )}
+      
+      {/* Microsoft Clarity Analytics */}
+      {clarityScript && (
+        <script 
+          type="text/javascript"
+          dangerouslySetInnerHTML={{ __html: clarityScript }}
+        />
       )}
     </Helmet>
   );

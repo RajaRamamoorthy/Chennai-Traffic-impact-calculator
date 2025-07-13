@@ -139,6 +139,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 13, 2025: **MICROSOFT CLARITY ANALYTICS INTEGRATION** - Added comprehensive user behavior tracking with heatmaps and session recordings
+  - Integrated Microsoft Clarity tracking script into SEO component for site-wide coverage
+  - Environment variable configuration with `VITE_CLARITY_PROJECT_ID` for secure project ID management
+  - Conditional loading ensures script only loads when project ID is configured
+  - Enables heatmap analysis, session recordings, and user interaction insights across calculator flow
+  - Complements existing GA4 analytics with visual behavior analysis capabilities
 - July 11, 2025: **OPEN GRAPH AND CANONICAL LINKS ENHANCEMENT** - Fixed comprehensive SEO meta tags and URL configuration
   - Fixed OG image extension mismatch: Changed from .png to .svg in SEO component defaults to match actual file
   - Added missing canonical URLs to support page (`/support`) and about-me page (`/about-me`)
