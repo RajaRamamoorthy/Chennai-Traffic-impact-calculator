@@ -101,9 +101,8 @@ export default function FAQ() {
                         <p className="mb-2">Using the calculator is simple:</p>
                         <ol className="list-decimal list-inside space-y-1">
                           <li>Select your transportation mode (Car, Bike, Public Transport, etc.)</li>
-                          <li>Choose your specific vehicle type (if applicable)</li>
+                          <li>Choose your specific vehicle type and travel pattern</li>
                           <li>Enter your origin and destination addresses</li>
-                          <li>Select your travel pattern (Daily commute, Weekly, etc.)</li>
                           <li>Click "Calculate Impact" to get your results</li>
                         </ol>
                         <p className="mt-2">The calculator will show your impact score, breakdown, and alternative suggestions.</p>

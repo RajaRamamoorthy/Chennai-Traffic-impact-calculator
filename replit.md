@@ -163,6 +163,12 @@ Preferred communication style: Simple, everyday language.
     - Removed 30-day response time commitment for privacy rights requests (no implementation tracking)
     - Fixed date consistency (July 13, 2025 instead of January 13, 2025)
     - All legal statements now accurately reflect actual codebase implementation
+  - **ABOUT PAGES VALIDATION**: Fixed implementation inaccuracies in How it works, Methodology, and Data sources pages
+    - Fixed calculator flow order: Changed Route->Transport->Score to Transport->Route->Score (matches actual implementation)
+    - Removed false Chennai Traffic Authority data source claim (no actual integration exists)
+    - Updated methodology page with accurate calculation formula and multiplier values
+    - Fixed FAQ page calculator usage steps to match actual implementation flow
+    - All About pages now accurately reflect actual codebase functionality without false claims
 - July 13, 2025: **MICROSOFT CLARITY ANALYTICS INTEGRATION** - Added comprehensive user behavior tracking with heatmaps and session recordings
   - Integrated Microsoft Clarity tracking script into SEO component for site-wide coverage
   - Environment variable configuration with `VITE_CLARITY_PROJECT_ID` for secure project ID management

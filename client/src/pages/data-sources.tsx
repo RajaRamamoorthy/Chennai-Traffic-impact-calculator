@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { ExternalLink, Database, MapPin, Users, Clock } from "lucide-react";
+import { ExternalLink, Database, MapPin, Users, Clock, TrendingUp } from "lucide-react";
 import { SEO } from "@/components/seo";
 import { useEffect } from "react";
 
@@ -132,18 +132,18 @@ export default function DataSources() {
 
             <Card>
               <CardContent className="p-8">
-                <Users className="w-12 h-12 text-purple-500 mb-4" />
+                <TrendingUp className="w-12 h-12 text-purple-500 mb-4" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Chennai Traffic Authority
+                  Chennai Congestion Analysis
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Local traffic patterns, congestion data, and infrastructure information.
+                  Our internal analysis of Chennai traffic patterns and congestion areas.
                 </p>
                 <ul className="space-y-2 text-slate-600">
-                  <li>• Peak hour traffic multipliers</li>
-                  <li>• Major congestion areas</li>
-                  <li>• Traffic density patterns</li>
-                  <li>• Infrastructure capacity data</li>
+                  <li>• Peak hour traffic multipliers (1.5x morning, 1.6x evening)</li>
+                  <li>• Major congestion areas (8 identified zones)</li>
+                  <li>• Traffic density patterns by time of day</li>
+                  <li>• Distance-based congestion factors</li>
                 </ul>
               </CardContent>
             </Card>

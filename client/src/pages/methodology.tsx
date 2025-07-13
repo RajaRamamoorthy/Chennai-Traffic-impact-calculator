@@ -219,8 +219,8 @@ export default function Methodology() {
                   <div>
                     <strong>Timing Multipliers:</strong>
                     <ul className="space-y-1 mt-1 text-slate-600">
-                      <li>• Daily/Weekday (peak hours): ×1.35</li>
-                      <li>• Weekend/Off-peak: ×1.1</li>
+                      <li>• Peak hours (morning/evening): ×1.35</li>
+                      <li>• Off-peak/Weekend: ×1.1</li>
                     </ul>
                   </div>
                   <div>
@@ -230,7 +230,7 @@ export default function Methodology() {
                       <li>• Weekday commute: ×0.75</li>
                       <li>• Weekend commute: ×0.4</li>
                       <li>• Frequent trips: ×0.5</li>
-                      <li>• Occasional/Rare: ×0.25</li>
+                      <li>• Occasional trips: ×0.25</li>
                     </ul>
                   </div>
                 </div>
@@ -281,12 +281,12 @@ export default function Methodology() {
               </p>
               
               <div className="bg-slate-100 p-6 rounded-lg font-mono text-sm mb-6">
-                <div>baseImpact = vehicleType.impact</div>
+                <div>baseImpact = vehicleType.baseImpactScore</div>
                 <div>congestionFactor = 1 + (distanceKm × 0.02)</div>
                 <div>timingMultiplier = getPeakMultiplier(pattern)</div>
                 <div>frequencyMultiplier = getFrequencyMultiplier(pattern)</div>
-                <div className="mt-2">score = (baseImpact × congestionFactor × timingMultiplier × frequencyMultiplier) ÷ occupancy</div>
-                <div className="mt-2">finalScore = max(0, min(100, round(score)))</div>
+                <div className="mt-2">rawScore = (baseImpact × congestionFactor × timingMultiplier × frequencyMultiplier) ÷ occupancy</div>
+                <div className="mt-2">finalScore = max(0, min(100, round(rawScore)))</div>
               </div>
               
               <div className="space-y-4">

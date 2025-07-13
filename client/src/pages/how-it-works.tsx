@@ -87,14 +87,14 @@ export default function HowItWorks() {
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
                   1
                 </div>
-                <MapPin className="w-12 h-12 text-primary mx-auto mb-4 mt-2" />
+                <Calculator className="w-12 h-12 text-orange-500 mx-auto mb-4 mt-2" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Enter Your Route
+                  Select Transportation
                 </h3>
                 <p className="text-slate-600">
-                  Tell us your starting point and destination in Chennai. Our system 
-                  uses Google Maps to calculate the most accurate route distance and 
-                  identify congestion patterns.
+                  Choose from 6 transport modes, then select your specific vehicle type from 
+                  21 categories including popular models like Swift, Activa, Creta, and more. 
+                  Select your travel pattern (daily commute, occasional trips, etc.) for accurate impact calculation.
                 </p>
               </CardContent>
             </Card>
@@ -104,14 +104,14 @@ export default function HowItWorks() {
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
                   2
                 </div>
-                <Calculator className="w-12 h-12 text-orange-500 mx-auto mb-4 mt-2" />
+                <MapPin className="w-12 h-12 text-primary mx-auto mb-4 mt-2" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                  Select Transportation
+                  Enter Your Route
                 </h3>
                 <p className="text-slate-600">
-                  Choose from 6 transport modes, then select your specific vehicle type from 
-                  21 categories including popular models like Swift, Activa, Creta, and more. 
-                  Select your travel pattern (daily commute, occasional trips, etc.) for accurate impact calculation.
+                  Tell us your starting point and destination in Chennai. Our system 
+                  uses Google Maps to calculate the most accurate route distance and 
+                  identify congestion patterns.
                 </p>
               </CardContent>
             </Card>
