@@ -133,7 +133,7 @@ export default function FAQ() {
                     <AccordionTrigger>Can I save or share my calculation results?</AccordionTrigger>
                     <AccordionContent>
                       <p className="text-slate-600">
-                        Currently, results are not saved automatically. However, you can bookmark your results page or take a screenshot to save them. Each calculation generates a unique URL that you can share with others. We're working on adding user accounts and result history in future updates.
+                        Results are not saved automatically and disappear when you navigate away. You can use the "Share Results" button to copy a shareable text summary and create a screenshot image of your results. The share function copies text to your clipboard and generates an image you can share on social media or save locally.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
@@ -235,7 +235,7 @@ export default function FAQ() {
                     <AccordionTrigger>Are there known issues on mobile devices?</AccordionTrigger>
                     <AccordionContent>
                       <p className="text-slate-600">
-                        The calculator is designed to work on mobile devices, but some features may work better on desktop. If you experience issues on mobile, try using landscape mode or switching to desktop. Location services should be enabled for better address autocomplete functionality.
+                        The calculator is designed to work on mobile devices, but some features may work better on desktop. If you experience issues on mobile, try using landscape mode or switching to desktop. The address autocomplete works through text input without requiring device location access.
                       </p>
                     </AccordionContent>
                   </AccordionItem>
@@ -389,7 +389,7 @@ export default function FAQ() {
                   <p className="text-slate-600">Fill out our contact form</p>
                 </div>
                 <p className="text-slate-600 mt-4 text-sm">
-                  We typically respond within 24-48 hours. For urgent technical issues, please include detailed information about the problem in your message.
+                  We aim to respond as quickly as possible. For urgent technical issues, please include detailed information about the problem in your message.
                 </p>
               </CardContent>
             </Card>
