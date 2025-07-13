@@ -1,0 +1,29 @@
+1. Adding a Site Disclosure
+We recommend that all websites that use Clarity include site disclosures in the footer or somewhere else on the homepage where Clarity runs.
+
+We've developed the following message to support Clarity customers seeking sample language for what they might want to put onto their website or app about the use of Clarity.
+
+"We improve our products and advertising by using Microsoft Clarity to see how you use our website. By using our site, you agree that we and Microsoft can collect and use this data. Our privacy statement <link> has more details."
+
+Note:
+
+You can tailor the above statement to fit your particular use of our services. When you create your site disclosure, include the following details:
+
+You use Microsoft Clarity.
+You capture XYZ data for XYZ purpose.
+Learn more at your Privacy statement <link>.
+By using this site, your users agree to data collection/use by you and Microsoft.
+2. Adding Privacy Policy Disclosures
+Ensure your Privacy Policy properly communicates to your users on how you're using Clarity (and any other similar services) on your website or app.
+
+We recommend you ensure your policies are up-to-date and clear to your readers. We have a sample version of the wording, which you can include in your Privacy Policy.
+
+"We partner with Microsoft Clarity and Microsoft Advertising to capture how you use and interact with our website through behavioral metrics, heatmaps, and session replay to improve and market our products/services. Website usage data is captured using first and third-party cookies and other tracking technologies to determine the popularity of products/services and online activity. Additionally, we use this information for site optimization, fraud/security purposes, and advertising. For more information about how Microsoft collects and uses your data, visit the Microsoft Privacy Statement."
+
+Note:
+
+You can tailor the statement to fit your particular use of our services. When you create your privacy policy disclosure, include the following details:
+
+You use Clarity with more detail on how the technology works.
+You capture XYZ data with more detail (session replays and heatmaps) for XYZ purposes with more detail.
+Link to the Microsoft Privacy Statement so users can learn more about how Microsoft use/protect their data.
