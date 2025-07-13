@@ -139,6 +139,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 13, 2025: **LEGAL PAGES IMPLEMENTATION** - Added comprehensive Privacy Policy, Terms & Conditions, and FAQ pages
+  - Created `/privacy-policy` page with detailed data handling practices, Microsoft Clarity integration disclosure, and user rights
+  - Created `/terms-conditions` page with service usage terms, payment policies, and liability limitations
+  - Created `/faq` page with comprehensive Q&A covering calculator usage, privacy, technical support, and donations
+  - Updated footer with new "Legal" section containing Privacy Policy and Terms & Conditions links
+  - Added FAQ link to Support section in footer for better accessibility
+  - Updated sitemap.xml to include new pages with appropriate SEO priorities
+  - All pages include proper structured data, canonical URLs, and SEO optimization
+  - Content addresses Microsoft Clarity analytics integration and data collection practices transparently
 - July 13, 2025: **MICROSOFT CLARITY ANALYTICS INTEGRATION** - Added comprehensive user behavior tracking with heatmaps and session recordings
   - Integrated Microsoft Clarity tracking script into SEO component for site-wide coverage
   - Environment variable configuration with `VITE_CLARITY_PROJECT_ID` for secure project ID management

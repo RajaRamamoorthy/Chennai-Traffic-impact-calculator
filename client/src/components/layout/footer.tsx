@@ -17,11 +17,13 @@ export function Footer() {
               <li><Link href="/how-it-works" className="hover:text-slate-900">How it works</Link></li>
               <li><Link href="/methodology" className="hover:text-slate-900">Methodology</Link></li>
               <li><Link href="/data-sources" className="hover:text-slate-900">Data sources</Link></li>
+              <li><Link href="/about-me" className="hover:text-slate-900">About me</Link></li>
             </ul>
           </div>
           <div>
             <h3 className="font-semibold text-slate-900 mb-4">Support</h3>
             <ul className="space-y-2 text-sm text-slate-600">
+              <li><Link href="/faq" className="hover:text-slate-900">FAQ</Link></li>
               <li>
                 <button 
                   onClick={() => setFeedbackModalOpen(true)}
@@ -33,11 +35,11 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h3 className="font-semibold text-slate-900 mb-4">
-              <Link href="/about-me" className="hover:text-slate-700">
-                About me
-              </Link>
-            </h3>
+            <h3 className="font-semibold text-slate-900 mb-4">Legal</h3>
+            <ul className="space-y-2 text-sm text-slate-600">
+              <li><Link href="/privacy-policy" className="hover:text-slate-900">Privacy Policy</Link></li>
+              <li><Link href="/terms-conditions" className="hover:text-slate-900">Terms & Conditions</Link></li>
+            </ul>
           </div>
           <div>
             <h3 className="font-semibold text-slate-900 mb-4">Donate</h3>
@@ -56,6 +58,11 @@ export function Footer() {
         </div>
         <div className="border-t border-slate-200 mt-8 pt-8 text-center text-sm text-slate-600">
           <p>&copy; 2025 Chennai Traffic Impact Calculator. Made with ❤️ for Chennai commuters.</p>
+          <div className="mt-2 space-x-4">
+            <Link href="/privacy-policy" className="hover:text-slate-900">Privacy Policy</Link>
+            <span>•</span>
+            <Link href="/terms-conditions" className="hover:text-slate-900">Terms & Conditions</Link>
+          </div>
         </div>
       </div>
     </footer>

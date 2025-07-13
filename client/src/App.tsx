@@ -16,6 +16,9 @@ import DataSources from "@/pages/data-sources";
 import Support from "@/pages/support";
 import ThankYou from "@/pages/thank-you";
 import AboutMe from "@/pages/about-me";
+import PrivacyPolicy from "@/pages/privacy-policy";
+import TermsConditions from "@/pages/terms-conditions";
+import FAQ from "@/pages/faq";
 import { AdminDashboard } from "@/pages/admin-dashboard";
 import NotFound from "@/pages/not-found";
 
@@ -37,6 +40,9 @@ function App() {
                   <Route path="/support" component={Support} />
                   <Route path="/thank-you" component={ThankYou} />
                   <Route path="/about-me" component={AboutMe} />
+                  <Route path="/privacy-policy" component={PrivacyPolicy} />
+                  <Route path="/terms-conditions" component={TermsConditions} />
+                  <Route path="/faq" component={FAQ} />
                   <Route path="/admin-dashboard-9c8e4b7a" component={AdminDashboard} />
                   <Route component={NotFound} />
                 </Switch>
