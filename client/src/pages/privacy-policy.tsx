@@ -39,7 +39,7 @@ export default function PrivacyPolicy() {
               How we collect, use, and protect your information
             </p>
             <p className="text-sm text-slate-500 mt-2">
-              Last updated: January 13, 2025
+              Last updated: July 13, 2025
             </p>
           </header>
 
@@ -127,9 +127,9 @@ export default function PrivacyPolicy() {
                   </div>
 
                   <div>
-                    <h3 className="font-semibold text-slate-900 mb-2">Google Analytics</h3>
+                    <h3 className="font-semibold text-slate-900 mb-2">Google Analytics 4</h3>
                     <p className="text-slate-600">
-                      We use Google Analytics to understand how users interact with our website, including page views, user behavior patterns, and traffic sources. This helps us improve our services and user experience.
+                      We use Google Analytics 4 (GA4) to understand how users interact with our website, including page views, user behavior patterns, and traffic sources. This helps us improve our services and user experience.
                     </p>
                   </div>
 
@@ -188,10 +188,10 @@ export default function PrivacyPolicy() {
                   <div>
                     <h3 className="font-semibold text-slate-900 mb-2">How Long We Keep Your Data</h3>
                     <ul className="list-disc list-inside text-slate-600 space-y-1">
-                      <li>Calculation data: Stored indefinitely for service improvement and analytics</li>
-                      <li>Contact submissions: Retained for 2 years for customer support purposes</li>
-                      <li>Donation records: Kept for 7 years for tax and audit compliance</li>
-                      <li>Session and analytics data: Retained according to Microsoft Clarity and Google Analytics policies</li>
+                      <li>Calculation data: Stored for service improvement and analytics</li>
+                      <li>Contact submissions: Retained for customer support purposes</li>
+                      <li>Donation records: Kept for audit compliance and record keeping</li>
+                      <li>Session and analytics data: Retained according to Microsoft Clarity and Google Analytics 4 policies</li>
                     </ul>
                   </div>
 
@@ -228,7 +228,7 @@ export default function PrivacyPolicy() {
                   <div>
                     <h3 className="font-semibold text-slate-900 mb-2">How to Exercise Your Rights</h3>
                     <p className="text-slate-600">
-                      To exercise any of these rights, please contact us at contact@chennaitrafficcalc.in. We will respond to your request within 30 days. Please note that some data may be necessary to provide our services.
+                      To exercise any of these rights, please contact us at contact@chennaitrafficcalc.in. We will respond to your request as soon as possible. Please note that some data may be necessary to provide our services.
                     </p>
                   </div>
 

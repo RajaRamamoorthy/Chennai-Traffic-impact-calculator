@@ -39,7 +39,7 @@ export default function TermsConditions() {
               Terms of service for using Chennai Traffic Impact Calculator
             </p>
             <p className="text-sm text-slate-500 mt-2">
-              Last updated: January 13, 2025
+              Last updated: July 13, 2025
             </p>
           </header>
 
@@ -178,7 +178,7 @@ export default function TermsConditions() {
                   <div>
                     <h3 className="font-semibold text-slate-900 mb-2">Refund Policy</h3>
                     <p className="text-slate-600">
-                      Due to the nature of donations and operational costs, we generally do not provide refunds. However, if you believe a donation was made in error or due to fraudulent activity, please contact us at contact@chennaitrafficcalc.in within 7 days of the transaction.
+                      Due to the nature of donations and operational costs, we generally do not provide refunds. However, if you believe a donation was made in error or due to fraudulent activity, please contact us at contact@chennaitrafficcalc.in and we will review each case individually.
                     </p>
                   </div>
 

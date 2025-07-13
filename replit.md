@@ -153,6 +153,16 @@ Preferred communication style: Simple, everyday language.
     - Fixed location services claim (autocomplete works through text input, not device GPS)
     - Updated support response time commitments to be more realistic
     - All FAQ statements now accurately reflect actual codebase functionality
+  - **TERMS AND CONDITIONS VALIDATION**: Fixed inaccuracies in Terms and Conditions to match actual functionality
+    - Removed specific 7-day response time commitment for refund requests (no implementation tracking)
+    - Updated to reflect actual case-by-case review process for refund disputes
+    - Fixed date consistency (July 13, 2025 instead of January 13, 2025)
+  - **PRIVACY POLICY VALIDATION**: Fixed inaccuracies in Privacy Policy to match actual functionality
+    - Updated Google Analytics reference to be more specific (Google Analytics 4)
+    - Removed specific data retention periods (2 years, 7 years) since no actual implementation exists
+    - Removed 30-day response time commitment for privacy rights requests (no implementation tracking)
+    - Fixed date consistency (July 13, 2025 instead of January 13, 2025)
+    - All legal statements now accurately reflect actual codebase implementation
 - July 13, 2025: **MICROSOFT CLARITY ANALYTICS INTEGRATION** - Added comprehensive user behavior tracking with heatmaps and session recordings
   - Integrated Microsoft Clarity tracking script into SEO component for site-wide coverage
   - Environment variable configuration with `VITE_CLARITY_PROJECT_ID` for secure project ID management
