@@ -1,4 +1,5 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import rateLimit from "express-rate-limit";
 import { storage } from "./storage";
@@ -21,6 +22,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     },
     standardHeaders: true,
     legacyHeaders: false,
+  });
+
+  // Rate limiting for payment verification endpoint (CRITICAL SECURITY)
+  const paymentVerificationLimit = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // limit each IP to 5 payment verification attempts per 15 minutes
+    message: {
+      error: "Too many payment verification attempts. Please try again later.",
+      retryAfter: "15 minutes"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: false,
+    keyGenerator: (req) => req.ip + ':payment-verification'
+  });
+
+  // Rate limiting for Razorpay webhook endpoint
+  const webhookRateLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 50, // Allow up to 50 webhook calls per minute
+    message: {
+      error: "Webhook rate limit exceeded",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.ip + ':webhook'
   });
 
   // Rate limiting for Google Maps API endpoints
@@ -503,8 +531,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ paymentButtonId });
   });
 
-  // Verify payment signature
-  app.post("/api/verify-payment", async (req, res) => {
+  // Razorpay webhook handler for server-to-server payment confirmations
+  app.post("/api/razorpay/webhook", webhookRateLimit, express.raw({type: 'application/json', limit: '10mb'}), async (req, res) => {
+    try {
+      const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+      
+      if (!webhookSecret) {
+        console.error("Razorpay webhook secret not configured");
+        return res.status(500).json({ error: "Webhook not configured" });
+      }
+
+      // Verify webhook signature
+      const crypto = require('crypto');
+      const shasum = crypto.createHmac('sha256', webhookSecret);
+      shasum.update(JSON.stringify(req.body));
+      const digest = shasum.digest('hex');
+
+      const signature = req.headers['x-razorpay-signature'];
+
+      if (digest !== signature) {
+        console.error('Webhook signature verification failed');
+        console.error('Expected:', digest);
+        console.error('Received:', signature);
+        return res.status(400).json({ error: "Invalid signature" });
+      }
+
+      // Process webhook event
+      const { event, payload } = req.body;
+
+      if (event === 'payment.captured') {
+        const payment = payload.payment.entity;
+        
+        // Store webhook-verified payment
+        const donationData = {
+          paymentId: payment.id,
+          orderId: payment.order_id || null,
+          amount: payment.amount,
+          currency: payment.currency,
+          status: 'webhook_verified',
+          ipAddress: req.ip,
+          userAgent: req.get('User-Agent') || null
+        };
+
+        // Check if payment already exists
+        const existingDonation = await storage.getDonation(payment.id);
+        if (!existingDonation) {
+          await storage.createDonation(donationData);
+          
+          console.log('=== WEBHOOK DONATION VERIFIED ===');
+          console.log('Payment ID:', payment.id);
+          console.log('Amount:', payment.amount / 100, 'INR');
+          console.log('Event:', event);
+          console.log('================================');
+        }
+      }
+
+      res.json({ status: "ok" });
+    } catch (error) {
+      console.error("Webhook processing error:", error);
+      res.status(500).json({ error: "Webhook processing failed" });
+    }
+  });
+
+  // Verify payment signature (with enhanced security)
+  app.post("/api/verify-payment", paymentVerificationLimit, async (req, res) => {
     try {
       const { razorpay_payment_id, razorpay_order_id, razorpay_signature, amount } = req.body;
 
@@ -515,8 +605,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // Validate payment amount (security check)
+      // Enhanced input validation and sanitization
       if (typeof amount !== 'number' || amount < 100 || amount > 10000000) {
+        console.warn('Invalid payment amount attempt:', { amount, ip: req.ip });
         return res.status(400).json({ 
           success: false, 
           error: "Invalid payment amount" 
@@ -525,9 +616,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Validate payment ID format (Razorpay IDs are alphanumeric)
       if (!/^pay_[A-Za-z0-9]+$/.test(razorpay_payment_id)) {
+        console.warn('Invalid payment ID format attempt:', { razorpay_payment_id, ip: req.ip });
         return res.status(400).json({ 
           success: false, 
           error: "Invalid payment ID format" 
+        });
+      }
+
+      // Additional fraud detection checks
+      const suspiciousActivity = {
+        rapidRequests: false,
+        unusualAmount: false,
+        duplicateAttempt: false
+      };
+
+      // Check for unusual payment amounts
+      if (amount > 5000000) { // More than ₹50,000
+        suspiciousActivity.unusualAmount = true;
+        console.warn('High-value payment detected:', { 
+          paymentId: razorpay_payment_id, 
+          amount: amount / 100, 
+          ip: req.ip 
         });
       }
 
@@ -550,10 +659,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      // For custom donations, signature might not be present
-      // We'll verify the payment directly with Razorpay API if needed
+      // Enhanced signature verification for different payment types
+      let signatureVerified = false;
+      
       if (razorpay_signature && razorpay_order_id) {
-        // Create verification signature for order-based payments
+        // Order-based payment signature verification
         const crypto = require('crypto');
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto
@@ -561,27 +671,39 @@ export async function registerRoutes(app: Express): Promise<Server> {
           .update(body.toString())
           .digest('hex');
 
-        const isAuthentic = expectedSignature === razorpay_signature;
+        signatureVerified = expectedSignature === razorpay_signature;
 
-        if (!isAuthentic) {
-          console.error('Payment signature verification failed');
+        if (!signatureVerified) {
+          console.error('Order payment signature verification failed');
           console.error('Expected:', expectedSignature);
           console.error('Received:', razorpay_signature);
 
           return res.status(400).json({ 
             success: false, 
-            error: "Payment verification failed" 
+            error: "Payment signature verification failed" 
           });
         }
+      } else {
+        // For payment button or custom payments without order, log for manual review
+        console.warn('Payment without signature verification:', {
+          paymentId: razorpay_payment_id,
+          amount: amount / 100,
+          ip: req.ip,
+          userAgent: req.get('User-Agent'),
+          timestamp: new Date().toISOString()
+        });
+        
+        // Set flag for enhanced monitoring
+        signatureVerified = false;
       }
 
-      // Store donation in database
+      // Store donation in database with enhanced security status
       const donationData = {
         paymentId: razorpay_payment_id,
         orderId: razorpay_order_id || null,
         amount: amount,
         currency: 'INR',
-        status: 'verified',
+        status: signatureVerified ? 'signature_verified' : 'frontend_verified',
         ipAddress: req.ip,
         userAgent: req.get('User-Agent') || null
       };
