@@ -139,6 +139,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 14, 2025: **MICROSOFT CLARITY CSP FIX** - Fixed Microsoft Clarity tracking not loading due to Content Security Policy restrictions
+  - Updated CSP in index.html to include https://www.clarity.ms for script loading
+  - Added https://c.clarity.ms to connect-src for data transmission to Microsoft servers
+  - Clarity tracking now successfully loads and sends user behavior data for heatmaps and session recordings
+  - Verified tracking script appears in network requests and data flows to Clarity dashboard
 - July 13, 2025: **LEGAL PAGES IMPLEMENTATION** - Added comprehensive Privacy Policy, Terms & Conditions, and FAQ pages
   - Created `/privacy-policy` page with detailed data handling practices, Microsoft Clarity integration disclosure, and user rights
   - Created `/terms-conditions` page with service usage terms, payment policies, and liability limitations
