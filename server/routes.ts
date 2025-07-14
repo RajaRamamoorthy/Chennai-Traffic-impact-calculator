@@ -2,6 +2,7 @@ import type { Express } from "express";
 import express from "express";
 import { createServer, type Server } from "http";
 import rateLimit from "express-rate-limit";
+import crypto from "crypto";
 import { storage } from "./storage";
 import { impactCalculator } from "./services/impact-calculator";
 import { RoutingService } from "./services/routing-service";
@@ -531,8 +532,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ paymentButtonId });
   });
 
-  // Razorpay webhook handler for server-to-server payment confirmations
-  app.post("/api/razorpay/webhook", webhookRateLimit, express.raw({type: 'application/json', limit: '10mb'}), async (req, res) => {
+  // Razorpay webhook handler for server-to-server payment confirmations  
+  app.post("/api/razorpay/webhook", webhookRateLimit, express.text({type: 'application/json', limit: '10mb'}), async (req, res) => {
     try {
       const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
       
@@ -541,10 +542,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(500).json({ error: "Webhook not configured" });
       }
 
-      // Verify webhook signature
-      const crypto = require('crypto');
+      // Verify webhook signature using text body
       const shasum = crypto.createHmac('sha256', webhookSecret);
-      shasum.update(JSON.stringify(req.body));
+      shasum.update(req.body);
       const digest = shasum.digest('hex');
 
       const signature = req.headers['x-razorpay-signature'];
@@ -553,11 +553,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error('Webhook signature verification failed');
         console.error('Expected:', digest);
         console.error('Received:', signature);
+        console.error('Body:', req.body);
         return res.status(400).json({ error: "Invalid signature" });
       }
 
-      // Process webhook event
-      const { event, payload } = req.body;
+      // Parse the JSON body after signature verification
+      const webhookData = JSON.parse(req.body);
+      const { event, payload } = webhookData;
 
       if (event === 'payment.captured') {
         const payment = payload.payment.entity;
@@ -664,7 +666,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       if (razorpay_signature && razorpay_order_id) {
         // Order-based payment signature verification
-        const crypto = require('crypto');
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto
           .createHmac('sha256', razorpaySecret)
