@@ -1,0 +1,69 @@
+[vite] connecting...
+[vite] connected.
+Razorpay key loaded successfully
+Cannot read properties of null (reading 'toFixed')
+at Dashboard (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/dashboard.tsx:287:47)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:11548:26)
+at updateFunctionComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:14582:28)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:15924:22)
+at HTMLUnknownElement.callCallback2 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:3674:22)
+at Object.invokeGuardedCallbackDev (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:3699:24)
+at invokeGuardedCallback (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:3733:39)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19765:15)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19137:13)
+Cannot read properties of null (reading 'toFixed')
+at Dashboard (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/dashboard.tsx:287:47)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:11548:26)
+at updateFunctionComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:14582:28)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:15924:22)
+at HTMLUnknownElement.callCallback2 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:3674:22)
+at Object.invokeGuardedCallbackDev (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:3699:24)
+at invokeGuardedCallback (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:3733:39)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19765:15)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19137:13)
+The above error occurred in the <Dashboard> component:
+
+    at Dashboard (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/dashboard.tsx:38:41)
+    at Route (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=2ffcfb72:280:16)
+    at Switch (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=2ffcfb72:336:17)
+    at main
+    at div
+    at Router (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=2ffcfb72:235:17)
+    at LanguageProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/contexts/language-context.tsx:21:36)
+    at QueryClientProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=2ffcfb72:2933:3)
+    at _a (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-helmet-async.js?v=2ffcfb72:624:5)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+
+at Dashboard (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/dashboard.tsx:38:41)
+at Route (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=2ffcfb72:280:16)
+at Switch (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=2ffcfb72:336:17)
+at main
+at div
+at Router (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=2ffcfb72:235:17)
+at LanguageProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/contexts/language-context.tsx:21:36)
+at QueryClientProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=2ffcfb72:2933:3)
+at _a (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-helmet-async.js?v=2ffcfb72:624:5)
+at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+at t.value (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:17465)
+at new t (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:12630)
+at t.value (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:32766)
+at https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/__replco/static/devtools/eruda/3.2.3/eruda.js:2:34400
+Cannot read properties of null (reading 'toFixed')
+at Dashboard (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/dashboard.tsx:287:47)
+at renderWithHooks (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:11548:26)
+at updateFunctionComponent (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:14582:28)
+at beginWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:15924:22)
+at beginWork$1 (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19753:22)
+at performUnitOfWork (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19198:20)
+at workLoopSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19137:13)
+at renderRootSync (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:19116:15)
+at recoverFromConcurrentError (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:18736:28)
+at performSyncWorkOnRoot (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=2ffcfb72:18879:28)

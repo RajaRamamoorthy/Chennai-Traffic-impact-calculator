@@ -192,7 +192,7 @@ export default function Dashboard() {
                       ) : (
                         <>
                           <div className="text-2xl font-bold text-gray-900">
-                            {commuteData?.averageScore.toFixed(1) || '0'}
+                            {commuteData?.averageScore?.toFixed(1) || '0'}
                           </div>
                           <p className="text-xs text-gray-500 mt-1">
                             Higher score = worse impact
@@ -216,7 +216,7 @@ export default function Dashboard() {
                       ) : (
                         <>
                           <div className="text-2xl font-bold text-gray-900">
-                            {commuteData?.averageDistance.toFixed(1) || '0'} km
+                            {commuteData?.averageDistance?.toFixed(1) || '0'} km
                           </div>
                           <p className="text-xs text-gray-500 mt-1">
                             Per trip
