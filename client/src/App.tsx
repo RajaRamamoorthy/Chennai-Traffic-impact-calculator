@@ -19,6 +19,7 @@ import AboutMe from "@/pages/about-me";
 import PrivacyPolicy from "@/pages/privacy-policy";
 import TermsConditions from "@/pages/terms-conditions";
 import FAQ from "@/pages/faq";
+import Dashboard from "@/pages/dashboard";
 import { AdminDashboard } from "@/pages/admin-dashboard";
 import NotFound from "@/pages/not-found";
 
@@ -43,6 +44,7 @@ function App() {
                   <Route path="/privacy-policy" component={PrivacyPolicy} />
                   <Route path="/terms-conditions" component={TermsConditions} />
                   <Route path="/faq" component={FAQ} />
+                  <Route path="/dashboard" component={Dashboard} />
                   <Route path="/admin-dashboard-9c8e4b7a" component={AdminDashboard} />
                   <Route component={NotFound} />
                 </Switch>

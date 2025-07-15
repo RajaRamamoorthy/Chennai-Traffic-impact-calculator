@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Globe, Info, Home } from "lucide-react";
+import { Globe, Info, Home, Navigation } from "lucide-react";
 import { useLanguage } from "@/contexts/language-context";
 import { useTranslation } from "@/lib/i18n";
 
@@ -26,6 +26,17 @@ export function Header() {
                 title={t.header.home}
               >
                 <Home className="w-4 h-4" />
+              </Button>
+            </Link>
+            <Link href="/dashboard">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="ml-1 sm:ml-2 text-slate-600 hover:text-slate-900 flex-shrink-0"
+                title="Dashboard"
+              >
+                <Navigation className="w-4 h-4 sm:mr-1" />
+                <span className="hidden sm:inline">Dashboard</span>
               </Button>
             </Link>
           </div>

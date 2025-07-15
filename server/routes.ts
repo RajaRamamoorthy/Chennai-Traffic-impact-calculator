@@ -965,6 +965,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Dashboard API endpoints
+  app.get("/api/dashboard/commute-insights", async (req, res) => {
+    try {
+      const stats = await storage.getCalculationStats();
+      const topRoutes = await storage.getTopRoutes(3);
+      const totalCalculations = await storage.getHomepageStats();
+
+      // Calculate average distance from recent calculations
+      const recentCalculations = await storage.getRecentCalculations(100);
+      const avgDistance = recentCalculations.length > 0 
+        ? recentCalculations.reduce((sum, calc) => sum + calc.distanceKm, 0) / recentCalculations.length
+        : 0;
+
+      const response = {
+        averageScore: stats.avgImpactScore,
+        topLocations: topRoutes.map(route => ({
+          location: `${route.origin} → ${route.destination}`,
+          count: route.count
+        })),
+        averageDistance: avgDistance,
+        totalCalculations: totalCalculations.totalCalculations
+      };
+
+      res.json(response);
+    } catch (error) {
+      console.error("Dashboard commute insights error:", error);
+      res.status(500).json({ error: "Failed to get commute insights" });
+    }
+  });
+
+  app.get("/api/dashboard/traffic-insights", async (req, res) => {
+    try {
+      // This will fetch real-time traffic data from Google Maps
+      const trafficService = new (await import('./services/traffic-service')).TrafficService();
+      const trafficData = await trafficService.getChennaiTrafficData();
+      res.json(trafficData);
+    } catch (error) {
+      console.error("Dashboard traffic insights error:", error);
+      res.status(500).json({ error: "Failed to get traffic insights" });
+    }
+  });
+
+  app.get("/api/dashboard/weather", async (req, res) => {
+    try {
+      // This will fetch Chennai weather from IMD API
+      const weatherService = new (await import('./services/weather-service')).WeatherService();
+      const weatherData = await weatherService.getChennaiWeather();
+      res.json(weatherData);
+    } catch (error) {
+      console.error("Dashboard weather error:", error);
+      res.status(500).json({ error: "Failed to get weather data" });
+    }
+  });
+
   // Sitemap generation endpoint
   app.get("/sitemap.xml", (req, res) => {
     const baseUrl = "https://chennaitrafficcalc.in";
@@ -973,6 +1027,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const urls = [
       { path: "/", priority: "1.0", changefreq: "weekly" },
       { path: "/calculator", priority: "0.9", changefreq: "weekly" },
+      { path: "/dashboard", priority: "0.8", changefreq: "daily" },
       { path: "/how-it-works", priority: "0.7", changefreq: "monthly" },
       { path: "/methodology", priority: "0.7", changefreq: "monthly" },
       { path: "/data-sources", priority: "0.6", changefreq: "monthly" },
