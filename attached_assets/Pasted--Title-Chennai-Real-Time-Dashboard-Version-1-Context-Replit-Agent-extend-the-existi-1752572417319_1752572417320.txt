@@ -1,0 +1,128 @@
+**Title:** Chennai Real-Time Dashboard (Version 1)
+
+**Context:**\
+Replit Agent, extend the existing Chennai Traffic Impact Calculator codebase by adding a brand-new dashboard page. Do **not** modify any existing pages or functionality. Follow the established architecture, patterns, and coding conventions.
+
+* * * * *
+
+1\. Routing & Navigation
+------------------------
+
+-   Add a new route `/dashboard` (or `/chennai-dashboard`) in the front-end router.
+
+-   Update the global header/nav component to include a "Dashboard" link visible to all users, pointing to this new route.
+
+* * * * *
+
+2\. Page Layout
+---------------
+
+Create a responsive two-column layout for desktop (stacked on mobile):
+
+1.  **Commute Insights** (left/top)
+
+2.  **Real-Time Traffic Insights** (right/bottom)
+
+Clearly label each section with a heading.
+
+* * * * *
+
+3\. Commute Insights Section
+----------------------------
+
+Fetch from the existing backend API or database:
+
+-   **Average Commuter Score** (number, with legend: higher = worse)
+
+-   **Top 3 Most Commuted Locations** (list of location names + counts)
+
+-   **Average Commute Distance** (km)
+
+Display these as simple cards or summary widgets. Use existing styles/components for cards, typography, and loading states. Inform the user that data is from existing calculator's calcuations.
+
+* * * * *
+
+4\. Real-Time Traffic Insights Section
+--------------------------------------
+
+Integrate live data from:
+
+-   **Google Maps Traffic Layer**
+
+    -   Highlight "Roads to Avoid Right Now."
+
+    -   Show a list ("Top 5 Worst Roads") alongside the map. The list should only the roads in chennai city.
+
+-   **Google Maps Chokepoints**
+
+    -   Identify current choke points via Maps API speed data. Fetch only Chennai's choke points.
+
+    -   Display as markers or list entries. The list should only the chokepoints in chennai city.
+
+-   **IMD Weather API** (per <https://mausam.imd.gov.in/imd_latest/contents/api.pdf>)
+
+    -   Fetch today's Chennai weather summary (temperature, rain status).
+
+    -   Show as a compact "Weather at a Glance" widget.
+
+Implement caching on these API calls with sensible TTLs (e.g., 5 min for traffic, 30 min for weather). In the UI, indicate "Last updated: X minutes ago."
+
+* * * * *
+
+5\. Data & Security
+-------------------
+
+-   Reuse existing API client modules and environment variable patterns.
+
+-   Validate all API responses and handle errors gracefully (show user-friendly messages).
+
+-   Sanitize and validate any user-facing data.
+
+* * * * *
+
+6\. Testing & QA
+----------------
+
+-   **Use Cases:**
+
+    1.  Dashboard loads successfully for authenticated and anonymous users.
+
+    2.  Commute Insights reflect correct DB values.
+
+    3.  Real-Time Traffic data refreshes on demand and per cache rules.
+
+    4.  Weather widget updates and handles API failures.
+
+-   Write unit tests for new front-end components.
+
+-   Write integration tests for the new `/api/dashboard/*` endpoints if needed.
+
+-   Perform manual QA: verify map overlays, lists, and update indicators.
+
+* * * * *
+
+7\. SEO & Crawling
+------------------
+
+-   Add `<title>Chennai Dashboard | Traffic Impact Calculator</title>` and meaningful `<meta name="description">`.
+
+-   Include Open Graph tags (`og:title`, `og:description`, `og:url`, `og:image`).
+
+-   Update `sitemap.xml` to include `/dashboard` entry.
+
+-   Ensure server-side rendering or prerendering so crawlers index key content.
+
+* * * * *
+
+**Deliverables:**
+
+1.  New dashboard page under `/dashboard`.
+
+2.  Updated header/nav with Dashboard link.
+
+3.  All components, services, and tests for the two sections.
+
+4.  SEO/OpenGraph tags and sitemap updated.
+
+Ensure no existing pages or features are modified. Follow the project's code style, commit guidelines, and CI checks.\
+<<end>>
