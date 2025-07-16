@@ -90,6 +90,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     keyGenerator: (req) => req.ip + ':directions'
   });
 
+  // Rate limiting for calculator endpoints (SECURITY PROTECTION)
+  const calculatorLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 15, // limit each IP to 15 calculations per minute
+    message: {
+      error: "Too many calculations. Please wait a moment before trying again.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: false,
+    keyGenerator: (req) => req.ip + ':calculator'
+  });
+
+  // Rate limiting for feedback endpoints (SECURITY PROTECTION)
+  const feedbackLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 5, // limit each IP to 5 feedback submissions per minute
+    message: {
+      error: "Too many feedback submissions. Please wait before submitting again.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: false,
+    keyGenerator: (req) => req.ip + ':feedback'
+  });
+
+  // Rate limiting for dashboard endpoints (SECURITY PROTECTION)
+  const dashboardLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 30, // limit each IP to 30 dashboard requests per minute
+    message: {
+      error: "Too many dashboard requests. Please wait a moment before refreshing.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: false,
+    keyGenerator: (req) => req.ip + ':dashboard'
+  });
+
+  // General API rate limiting for other endpoints (SECURITY PROTECTION)
+  const generalApiLimit = rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    max: 50, // limit each IP to 50 general API requests per minute
+    message: {
+      error: "Too many API requests. Please slow down.",
+      retryAfter: "1 minute"
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skipSuccessfulRequests: false,
+    keyGenerator: (req) => req.ip + ':general-api'
+  });
+
   // In-memory cache for Google Maps API responses
   const apiCache = new Map<string, { data: any; timestamp: number }>();
   const CACHE_DURATION = {
@@ -164,8 +220,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get vehicle types
-  app.get("/api/vehicle-types", async (req, res) => {
+  // Get vehicle types (with rate limiting)
+  app.get("/api/vehicle-types", generalApiLimit, async (req, res) => {
     try {
       const { category } = req.query;
       let vehicleTypes;
@@ -313,8 +369,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Calculate traffic impact
-  app.post("/api/calculate-impact", async (req, res) => {
+  // Calculate traffic impact (with rate limiting)
+  app.post("/api/calculate-impact", calculatorLimit, async (req, res) => {
     try {
       // Validate input
       const calculationInput = insertCalculationSchema.extend({
@@ -356,8 +412,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Submit feedback
-  app.post("/api/feedback", async (req, res) => {
+  // Submit feedback (with rate limiting)
+  app.post("/api/feedback", feedbackLimit, async (req, res) => {
     try {
       const feedbackData = insertFeedbackSchema.parse(req.body);
       const feedback = await storage.createFeedback(feedbackData);
@@ -945,8 +1001,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get user's previous calculations
-  app.get("/api/calculations", async (req, res) => {
+  // Get user's previous calculations (with rate limiting)
+  app.get("/api/calculations", generalApiLimit, async (req, res) => {
     try {
       const sessionId = req.headers['x-session-id'] as string;
 
@@ -965,8 +1021,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Dashboard API endpoints
-  app.get("/api/dashboard/commute-insights", async (req, res) => {
+  // Dashboard API endpoints (with rate limiting)
+  app.get("/api/dashboard/commute-insights", dashboardLimit, async (req, res) => {
     try {
       const stats = await storage.getCalculationStats();
       const topRoutes = await storage.getTopRoutes(3);
@@ -999,7 +1055,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/dashboard/traffic-insights", async (req, res) => {
+  app.get("/api/dashboard/traffic-insights", dashboardLimit, async (req, res) => {
     try {
       // This will fetch real-time traffic data from Google Maps
       const trafficService = new (await import('./services/traffic-service')).TrafficService();
@@ -1011,7 +1067,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/dashboard/weather", async (req, res) => {
+  app.get("/api/dashboard/weather", dashboardLimit, async (req, res) => {
     try {
       // This will fetch Chennai weather from IMD API
       const weatherService = new (await import('./services/weather-service')).WeatherService();
