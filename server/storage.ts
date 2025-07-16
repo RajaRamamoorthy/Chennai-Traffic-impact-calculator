@@ -24,6 +24,9 @@ import {
 import { db } from "./db";
 import { eq, and, sql, gte, count, sum, desc, avg } from "drizzle-orm";
 
+// Production cutoff date - exclude test data before this date
+const PRODUCTION_CUTOFF_DATE = new Date('2025-07-11T00:00:00.000Z');
+
 export interface IStorage {
   // Users
   getUser(id: number): Promise<User | undefined>;
@@ -197,7 +200,8 @@ export class DatabaseStorage implements IStorage {
         totalCalculations: sql<number>`count(*)`.as('total'),
         avgImpactScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
       })
-      .from(calculations);
+      .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE));
 
     return {
       totalCalculations: stats.totalCalculations || 0,
@@ -214,7 +218,8 @@ export class DatabaseStorage implements IStorage {
     potentialAnnualCO2Saved: number;
     potentialAnnualCostSaved: number;
   }> {
-    const allCalculations = await db.select().from(calculations);
+    const allCalculations = await db.select().from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE));
     
     let totalPotentialCO2Saved = 0;
     let totalPotentialCostSaved = 0;
@@ -261,7 +266,8 @@ export class DatabaseStorage implements IStorage {
         totalMonthlyCO2: sql<number>`sum(CAST(${calculations.monthlyEmissions} AS DECIMAL))`.as('total_co2'),
         totalMonthlySavings: sql<number>`sum(CAST(${calculations.monthlyCost} AS DECIMAL))`.as('total_savings'),
       })
-      .from(calculations);
+      .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE));
 
     return {
       totalCalculations: stats.totalCalculations || 0,
@@ -365,7 +371,8 @@ export class DatabaseStorage implements IStorage {
         avgImpactScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
         avgCommuteDistance: sql<number>`avg(CAST(${calculations.distanceKm} AS DECIMAL))`.as('avg_distance'),
       })
-      .from(calculations);
+      .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE));
 
     const [userStats] = await db
       .select({
@@ -378,7 +385,9 @@ export class DatabaseStorage implements IStorage {
         totalFeedback: sql<number>`count(*)`.as('total_feedback'),
         avgRating: sql<number>`avg(${feedback.rating})`.as('avg_rating'),
       })
-      .from(feedback);
+      .from(feedback)
+      .innerJoin(calculations, eq(feedback.calculationId, calculations.id))
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE));
 
     const [donationStats] = await db
       .select({
@@ -416,6 +425,7 @@ export class DatabaseStorage implements IStorage {
         avgScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
       })
       .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE))
       .groupBy(calculations.origin, calculations.destination)
       .orderBy(sql`count DESC`)
       .limit(limit);
@@ -431,6 +441,7 @@ export class DatabaseStorage implements IStorage {
       })
       .from(calculations)
       .innerJoin(vehicleTypes, eq(calculations.vehicleTypeId, vehicleTypes.id))
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE))
       .groupBy(vehicleTypes.name, vehicleTypes.category)
       .orderBy(sql`count DESC`);
   }
@@ -443,6 +454,7 @@ export class DatabaseStorage implements IStorage {
         avgScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
       })
       .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE))
       .groupBy(calculations.travelPattern)
       .orderBy(sql`count DESC`);
   }
@@ -462,6 +474,7 @@ export class DatabaseStorage implements IStorage {
         count: sql<number>`count(*)`.as('count'),
       })
       .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE))
       .groupBy(sql`
         CASE 
           WHEN ${calculations.impactScore} < 20 THEN '0-19 (Excellent)'
@@ -478,6 +491,7 @@ export class DatabaseStorage implements IStorage {
     return await db
       .select()
       .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE))
       .orderBy(desc(calculations.createdAt))
       .limit(limit);
   }
@@ -490,7 +504,10 @@ export class DatabaseStorage implements IStorage {
         avgScore: sql<number>`avg(${calculations.impactScore})`.as('avg_score'),
       })
       .from(calculations)
-      .where(sql`${calculations.createdAt} >= CURRENT_DATE - INTERVAL '${days} days'`)
+      .where(and(
+        gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE),
+        sql`${calculations.createdAt} >= CURRENT_DATE - INTERVAL '${days} days'`
+      ))
       .groupBy(sql`DATE(${calculations.createdAt})`)
       .orderBy(sql`DATE(${calculations.createdAt}) DESC`);
   }

@@ -133,12 +133,6 @@ export const insertUserSchema = createInsertSchema(users).omit({
 export const insertCalculationSchema = createInsertSchema(calculations).omit({
   id: true,
   createdAt: true,
-  impactScore: true,
-  breakdown: true,
-  monthlyEmissions: true,
-  monthlyCost: true,
-  monthlyTimeHours: true,
-  alternatives: true,
 });
 
 export const insertFeedbackSchema = createInsertSchema(feedback).omit({
