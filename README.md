@@ -2,7 +2,7 @@
 
 A comprehensive web application that empowers Chennai commuters to make sustainable transportation choices through data-driven insights and interactive analysis.
 
-![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.0.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
+![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.3.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
 
 ## 🎯 Project Goals
 
@@ -17,6 +17,8 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - Estimate monthly CO₂ emissions, costs, and time spent commuting
 - Suggest practical alternatives with quantified benefits
 - Track community-wide impact through aggregated analytics
+- Real-time traffic monitoring with dual-mode analysis (user routes vs city-wide)
+- Granular road segment analysis for precise traffic insights
 
 ## 🏗️ System Architecture
 
@@ -39,9 +41,10 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - **Helmet.js** for security headers and protection
 
 #### External Integrations
-- **Google Maps Services**: Geocoding, place autocomplete, directions API
+- **Google Maps Services**: Geocoding, place autocomplete, directions API, Distance Matrix API for traffic analysis
 - **Razorpay**: Secure donation processing with webhook verification
 - **Nodemailer**: Email service for contact form submissions
+- **Weather APIs**: IMD API with OpenWeatherMap fallback for Chennai weather data
 
 ### Database Schema
 
@@ -60,6 +63,61 @@ feedback (id, calculation_id, rating, helpful, comments, created_at)
 contact_submissions (id, name, email, message, ip_address, status, created_at)
 donations (id, payment_id, order_id, amount, currency, status, donor_email, created_at)
 ```
+
+## 🚦 Real-Time Traffic Monitoring System
+
+### Dual-Mode Traffic Analysis
+
+The application features an advanced dual-mode traffic monitoring system that provides both user-specific and city-wide traffic insights:
+
+#### Calculator Mode (Default)
+- **Data Source**: Actual user commute routes from database
+- **Precision**: Street-level analysis of most-traveled user routes
+- **Focus**: Specific road segments with delays >10% compared to normal conditions
+- **Chokepoints**: Intersection-level analysis from user routes with 30%+ delays
+- **Benefits**: Actionable insights for actual commute patterns
+
+#### City-Wide (Holistic) Mode
+- **Data Source**: 20 granular Chennai road segments monitored via Google Maps
+- **Coverage**: Comprehensive city-wide traffic analysis
+- **Segments**: Anna Salai (Gemini-Nandanam), GST Road (Chrompet-Pallavaram), OMR (Tidel Park-Sholinganallur)
+- **Junctions**: Kathipara Junction, Koyambedu Junction, Madhya Kailash Junction
+- **Benefits**: Broader traffic context and alternative route insights
+
+### Road Segments Monitored
+
+#### Major Arterial Roads
+- **Anna Salai**: Gemini to Nandanam, Nandanam to Saidapet
+- **GST Road**: Chrompet to Pallavaram, Pallavaram to Tambaram
+- **OMR (Rajiv Gandhi Salai)**: Tidel Park to Sholinganallur, Sholinganallur to Siruseri
+- **ECR (East Coast Road)**: Thiruvanmiyur to Neelankarai, Neelankarai to Injambakkam
+
+#### Inner City Roads
+- **Poonamallee High Road**: Kilpauk to Aminjikarai, Aminjikarai to Chetpet
+- **Velachery Main Road**: Velachery to Guindy
+- **Sardar Patel Road**: Adyar to Guindy
+- **Lattice Bridge Road**: Adyar to Thiruvanmiyur
+
+#### Key Junctions & Connecting Roads
+- **Kathipara Junction**: GST Road-Inner Ring Road intersection
+- **Koyambedu Junction**: Major bus terminal and transport hub
+- **Madhya Kailash Junction**: OMR connectivity point
+- **Inner Ring Road**: Adyar to Saidapet connector
+- **100 Feet Road**: Vadapalani to Ashok Nagar
+- **Arcot Road**: Kodambakkam to Vadapalani
+
+### API Endpoints
+
+#### Impact Calculator
+- `POST /api/calculate-impact`: Calculate traffic impact for a journey
+- `GET /api/vehicle-types`: Get available vehicle types
+- `POST /api/feedback`: Submit feedback for calculations
+
+#### Real-Time Traffic
+- `GET /api/dashboard/traffic-insights?mode=calculator`: User route-based traffic data
+- `GET /api/dashboard/traffic-insights?mode=holistic`: City-wide traffic monitoring
+- `GET /api/dashboard/commute-insights`: Database-derived commute statistics
+- `GET /api/dashboard/weather`: Chennai weather conditions
 
 ## 🧮 Calculation Logic & Methodology
 

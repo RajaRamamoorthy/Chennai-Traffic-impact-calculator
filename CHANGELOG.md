@@ -5,6 +5,31 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2025-07-16
+
+### Added
+- **Granular City-Wide Traffic System**: Enhanced dual-mode traffic monitoring with precise road segment analysis
+  - 20 specific Chennai road segments for street-level traffic monitoring
+  - Granular junction and intersection analysis (Kathipara Junction, Koyambedu Junction, Madhya Kailash Junction)
+  - Toggle switch system for calculator-based vs city-wide traffic data modes
+  - Context-aware traffic descriptions based on road type and delay severity
+  - Separate caching for calculator vs holistic modes with mode-specific API endpoints
+  - Improved delay detection sensitivity (15% vs 20% thresholds)
+  - Precise chokepoint analysis focusing on key intersections, bridges, and arterial highways
+
+### Enhanced
+- **Traffic Data Precision**: Replaced basic location-to-location monitoring with specific road segment analysis
+  - Anna Salai (Gemini - Nandanam), GST Road (Chrompet - Pallavaram), OMR (Tidel Park - Sholinganallur)
+  - Inner city roads: Poonamallee High Road, Velachery Main Road, Sardar Patel Road
+  - Connecting roads: Inner Ring Road, Rajiv Gandhi Salai, 100 Feet Road, Arcot Road
+  - Enhanced API endpoint `/api/dashboard/traffic-insights` with mode parameter support
+
+### Technical Details
+- Mode-specific caching system with separate cache keys for calculator and holistic modes
+- Granular chokepoint generation method for intersection-level traffic insights
+- Enhanced traffic descriptions with contextual information based on road type
+- Improved API response structure with detailed road segment information
+
 ## [1.2.0] - 2025-07-16
 
 ### Added
