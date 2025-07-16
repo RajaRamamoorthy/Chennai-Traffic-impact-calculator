@@ -7,7 +7,7 @@ import { storage } from "./storage";
 import { impactCalculator } from "./services/impact-calculator";
 import { RoutingService } from "./services/routing-service";
 import { emailService } from "./services/email-service";
-import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema, contactSubmissions } from "@shared/schema";
+import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema, contactSubmissions, calculations, donations } from "@shared/schema";
 import { z } from "zod";
 import { desc } from "drizzle-orm";
 import { db } from "./db";
@@ -972,11 +972,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const topRoutes = await storage.getTopRoutes(3);
       const totalCalculations = await storage.getHomepageStats();
 
-      // Calculate average distance from recent calculations
-      const recentCalculations = await storage.getRecentCalculations(100);
-      const avgDistance = recentCalculations.length > 0 
-        ? recentCalculations.reduce((sum, calc) => sum + calc.distanceKm, 0) / recentCalculations.length
-        : 0;
+      // Calculate average distance using SQL aggregation to handle decimal properly
+      const avgDistanceQuery = await db
+        .select({
+          avgDistance: sql<number>`avg(CAST(${calculations.distanceKm} AS DECIMAL))`.as('avg_distance')
+        })
+        .from(calculations)
+        .where(sql`${calculations.distanceKm} IS NOT NULL AND CAST(${calculations.distanceKm} AS DECIMAL) > 0`);
+      
+      const avgDistance = Number(avgDistanceQuery[0]?.avgDistance) || 0;
 
       const response = {
         averageScore: stats.avgImpactScore,
