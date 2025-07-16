@@ -139,6 +139,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 16, 2025: **GRANULAR CITY-WIDE TRAFFIC SYSTEM IMPLEMENTED** - Enhanced dual-mode traffic monitoring with 20 precise road segments
+  - Replaced basic location-to-location monitoring with specific road segment analysis (Anna Salai Gemini-Nandanam, GST Road Chrompet-Pallavaram, etc.)
+  - Added granular junction and intersection monitoring (Kathipara Junction, Koyambedu Junction, Madhya Kailash Junction)
+  - Implemented separate caching for calculator vs holistic modes with mode-specific API endpoints
+  - Created precise chokepoint analysis focusing on key intersections, bridges, and arterial highways
+  - Enhanced traffic descriptions with context-aware messaging based on road type and delay severity
+  - Toggle switch system allows users to choose between user-route-based data (calculator) and comprehensive city-wide analysis (holistic)
+  - Improved accuracy with lower delay thresholds (15% vs 20%) for more sensitive traffic detection
+  - Traffic data now covers 20 specific Chennai road segments including inner city roads, connecting roads, and major junctions
 - July 16, 2025: **PRODUCTION DATA FILTERING IMPLEMENTED** - Added comprehensive production cutoff date filtering to exclude all test data before July 11, 2025
   - Added PRODUCTION_CUTOFF_DATE constant (July 11, 2025) to all analytics queries
   - Updated all statistics endpoints: homepage stats, dashboard insights, admin analytics, calculation trends

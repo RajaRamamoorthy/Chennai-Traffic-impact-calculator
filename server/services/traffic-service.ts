@@ -44,18 +44,36 @@ export class TrafficService {
   private client: Client;
   private apiKey: string;
 
-  // Chennai major roads and areas to check for traffic
-  private readonly chennaiLocations = [
-    { name: "Anna Salai", coords: { lat: 13.0827, lng: 80.2707 } },
-    { name: "GST Road", coords: { lat: 12.9184, lng: 80.1848 } },
-    { name: "OMR (Rajiv Gandhi Salai)", coords: { lat: 12.9716, lng: 80.2431 } },
-    { name: "Mount Road", coords: { lat: 13.0669, lng: 80.2563 } },
-    { name: "Poonamallee High Road", coords: { lat: 13.0878, lng: 80.2101 } },
-    { name: "ECR (East Coast Road)", coords: { lat: 12.8866, lng: 80.2101 } },
-    { name: "Velachery Main Road", coords: { lat: 12.9816, lng: 80.2209 } },
-    { name: "Anna Nagar 2nd Avenue", coords: { lat: 13.0850, lng: 80.2101 } },
-    { name: "T. Nagar Pondy Bazaar", coords: { lat: 13.0418, lng: 80.2341 } },
-    { name: "Adyar Signal", coords: { lat: 13.0067, lng: 80.2560 } }
+  // Granular Chennai road segments for precise traffic monitoring
+  private readonly chennaiRoadSegments = [
+    // Major arterial roads with specific segments
+    { name: "Anna Salai (Gemini - Nandanam)", start: { lat: 13.0827, lng: 80.2707 }, end: { lat: 13.0364, lng: 80.2456 } },
+    { name: "Anna Salai (Nandanam - Saidapet)", start: { lat: 13.0364, lng: 80.2456 }, end: { lat: 13.0186, lng: 80.2267 } },
+    { name: "GST Road (Chrompet - Pallavaram)", start: { lat: 12.9184, lng: 80.1848 }, end: { lat: 12.9673, lng: 80.1492 } },
+    { name: "GST Road (Pallavaram - Tambaram)", start: { lat: 12.9673, lng: 80.1492 }, end: { lat: 12.9249, lng: 80.1000 } },
+    { name: "OMR (Tidel Park - Sholinganallur)", start: { lat: 12.9698, lng: 80.2452 }, end: { lat: 12.9010, lng: 80.2279 } },
+    { name: "OMR (Sholinganallur - Siruseri)", start: { lat: 12.9010, lng: 80.2279 }, end: { lat: 12.8259, lng: 80.2284 } },
+    { name: "ECR (Thiruvanmiyur - Neelankarai)", start: { lat: 12.9368, lng: 80.2468 }, end: { lat: 12.9422, lng: 80.2633 } },
+    { name: "ECR (Neelankarai - Injambakkam)", start: { lat: 12.9422, lng: 80.2633 }, end: { lat: 12.9103, lng: 80.2885 } },
+    
+    // Inner city roads and key intersections
+    { name: "Poonamallee High Road (Kilpauk - Aminjikarai)", start: { lat: 13.0878, lng: 80.2785 }, end: { lat: 13.0718, lng: 80.2318 } },
+    { name: "Poonamallee High Road (Aminjikarai - Chetpet)", start: { lat: 13.0718, lng: 80.2318 }, end: { lat: 13.0678, lng: 80.2440 } },
+    { name: "Velachery Main Road (Velachery - Guindy)", start: { lat: 12.9698, lng: 80.2452 }, end: { lat: 13.0067, lng: 80.2206 } },
+    { name: "Sardar Patel Road (Adyar - Guindy)", start: { lat: 13.0067, lng: 80.2206 }, end: { lat: 13.0186, lng: 80.2267 } },
+    { name: "Lattice Bridge Road (Adyar - Thiruvanmiyur)", start: { lat: 13.0067, lng: 80.2206 }, end: { lat: 12.9854, lng: 80.2568 } },
+    
+    // Key junctions and chokepoints
+    { name: "Kathipara Junction (GST-Inner Ring)", start: { lat: 13.0186, lng: 80.2267 }, end: { lat: 13.0067, lng: 80.2206 } },
+    { name: "Koyambedu Junction (Poonamallee High Road)", start: { lat: 13.0718, lng: 80.2318 }, end: { lat: 13.0827, lng: 80.2707 } },
+    { name: "Madhya Kailash Junction (OMR)", start: { lat: 12.9698, lng: 80.2452 }, end: { lat: 12.9854, lng: 80.2568 } },
+    
+    // Connecting roads between major areas
+    { name: "Inner Ring Road (Adyar - Saidapet)", start: { lat: 13.0067, lng: 80.2206 }, end: { lat: 13.0186, lng: 80.2267 } },
+    { name: "Rajiv Gandhi Salai (Thoraipakkam - Navalur)", start: { lat: 12.9397, lng: 80.2348 }, end: { lat: 12.8444, lng: 80.2284 } },
+    { name: "100 Feet Road (Vadapalani - Ashok Nagar)", start: { lat: 13.0501, lng: 80.2060 }, end: { lat: 13.0364, lng: 80.2097 } },
+    { name: "Arcot Road (Kodambakkam - Vadapalani)", start: { lat: 13.0501, lng: 80.2060 }, end: { lat: 13.0718, lng: 80.2318 } },
+    { name: "Nelson Manickam Road (Aminjikarai - Chetpet)", start: { lat: 13.0718, lng: 80.2318 }, end: { lat: 13.0678, lng: 80.2440 } }
   ];
 
   constructor() {
@@ -129,16 +147,14 @@ export class TrafficService {
   }
 
   private async getHolisticTrafficData(): Promise<TrafficData> {
-    // Use comprehensive city-wide monitoring
-    const trafficPromises = this.chennaiLocations.map(async (location, index) => {
+    // Use granular road segment monitoring for city-wide traffic analysis
+    const trafficPromises = this.chennaiRoadSegments.map(async (segment) => {
       try {
-        // Create a route from this location to next major area to check traffic
-        const destination = this.chennaiLocations[(index + 1) % this.chennaiLocations.length];
-        
+        // Get traffic data for this specific road segment
         const response = await this.client.distancematrix({
           params: {
-            origins: [`${location.coords.lat},${location.coords.lng}`],
-            destinations: [`${destination.coords.lat},${destination.coords.lng}`],
+            origins: [`${segment.start.lat},${segment.start.lng}`],
+            destinations: [`${segment.end.lat},${segment.end.lng}`],
             mode: "driving",
             departure_time: "now",
             traffic_model: "best_guess",
@@ -155,23 +171,24 @@ export class TrafficService {
           let severity: 'high' | 'medium' | 'low' = 'low';
           let delay = 'Normal flow';
           
-          if (delayRatio > 1.5) {
+          if (delayRatio > 1.4) {
             severity = 'high';
             delay = `${Math.round((delayRatio - 1) * 100)}% longer than usual`;
-          } else if (delayRatio > 1.2) {
+          } else if (delayRatio > 1.15) {
             severity = 'medium';
             delay = `${Math.round((delayRatio - 1) * 100)}% longer than usual`;
           }
 
           return {
-            road: location.name,
+            road: segment.name,
             severity,
             delay,
-            delayRatio
+            delayRatio,
+            segment: segment.name
           };
         }
       } catch (error) {
-        console.error(`Error fetching traffic for ${location.name}:`, error);
+        console.error(`Error fetching traffic for ${segment.name}:`, error);
       }
       return null;
     });
@@ -182,16 +199,17 @@ export class TrafficService {
       severity: 'high' | 'medium' | 'low';
       delay: string;
       delayRatio: number;
+      segment: string;
     }>;
 
-    // Sort by delay ratio (worst first) and take top 5
+    // Sort by delay ratio (worst first) and take top 6 for more granular data
     const worstRoads = validResults
       .sort((a, b) => b.delayRatio - a.delayRatio)
-      .slice(0, 5)
+      .slice(0, 6)
       .map(({ road, severity, delay }) => ({ road, severity, delay }));
 
-    // Generate chokepoints based on traffic data
-    const chokepoints = this.generateChokepoints(validResults);
+    // Generate granular chokepoints based on road segments
+    const chokepoints = this.generateGranularChokepoints(validResults);
 
     const trafficData: TrafficData = {
       worstRoads: worstRoads.length > 0 ? worstRoads : this.getFallbackTrafficData().worstRoads,
@@ -506,6 +524,58 @@ export class TrafficService {
       severity: area.severity,
       description: `Heavy congestion detected with ${area.delay.toLowerCase()}`
     }));
+  }
+
+  private generateGranularChokepoints(trafficResults: Array<{
+    road: string;
+    severity: 'high' | 'medium' | 'low';
+    delay: string;
+    delayRatio: number;
+    segment: string;
+  }>): Array<{ location: string; severity: 'high' | 'medium' | 'low'; description: string }> {
+    // Focus on junction areas and key intersections with high delays
+    const junctionAreas = trafficResults
+      .filter(result => result.delayRatio > 1.2 && (
+        result.segment.includes('Junction') || 
+        result.segment.includes('Bridge') || 
+        result.segment.includes('GST') ||
+        result.segment.includes('OMR') ||
+        result.segment.includes('Anna Salai') ||
+        result.segment.includes('Poonamallee') ||
+        result.segment.includes('ECR') ||
+        result.segment.includes('Velachery')
+      ))
+      .slice(0, 5); // Top 5 precise chokepoints
+
+    return junctionAreas.map(area => {
+      let description = '';
+      
+      // Generate more specific descriptions based on delay severity
+      if (area.delayRatio > 1.5) {
+        description = `Critical bottleneck: ${area.delay} due to heavy traffic volume`;
+      } else if (area.delayRatio > 1.3) {
+        description = `Significant delays: ${area.delay} with slow-moving traffic`;
+      } else {
+        description = `Moderate congestion: ${area.delay} affecting vehicle flow`;
+      }
+
+      // Add context based on road type
+      if (area.segment.includes('Junction')) {
+        description += ' at major intersection';
+      } else if (area.segment.includes('Bridge')) {
+        description += ' on bridge approach';
+      } else if (area.segment.includes('GST') || area.segment.includes('OMR')) {
+        description += ' on arterial highway';
+      } else if (area.segment.includes('ECR')) {
+        description += ' on coastal road';
+      }
+
+      return {
+        location: area.road,
+        severity: area.severity,
+        description
+      };
+    });
   }
 
   private getFallbackTrafficData(): TrafficData {
