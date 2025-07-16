@@ -116,6 +116,22 @@ The application uses PostgreSQL with the following main tables:
 
 Preferred communication style: Simple, everyday language.
 
+## Development Best Practices
+
+### Content Security Policy (CSP) Management
+- **Always include both `script-src` AND `script-src-elem` directives** when allowing external scripts
+- Modern browsers may require explicit `script-src-elem` even when `script-src` is present
+- Test all external script loading (analytics, payments, etc.) after any CSP changes
+- Common external domains to include: Google Analytics, Microsoft Clarity, Razorpay, Replit
+- **CSP Update Checklist**: After adding new external services, verify scripts load in browser console
+
+### API Validation Schema Patterns
+- **Separate input schemas from database schemas** - never validate output-only fields on API inputs
+- Create dedicated `InputSchema` variants that exclude computed fields (id, createdAt, calculated results)
+- Database schemas (insertCalculationSchema) include ALL fields; API input schemas include only user-provided fields
+- **Input Schema Checklist**: Ensure validation schemas only include fields the frontend actually sends
+- Use descriptive schema names: `calculationInputSchema` vs `insertCalculationSchema` for clarity
+
 ## Security Architecture
 
 ### API Security Implementation
@@ -140,6 +156,18 @@ Preferred communication style: Simple, everyday language.
 - Admin endpoint provides real-time cost estimates
 
 ## Recent Changes
+
+- July 16, 2025: **CRITICAL CSP AND API VALIDATION FIXES** - Fixed two dashboard-breaking issues preventing proper functionality
+  - **CSP Script Loading Fix**: Added `script-src-elem` directive to Content Security Policy in index.html to allow Microsoft Clarity script loading
+    - Issue: Clarity script blocked by CSP causing "Refused to load script" console errors  
+    - Solution: Added explicit `script-src-elem` directive alongside existing `script-src` for modern browser compatibility
+    - Prevention: Always test external script loading after CSP changes and include both script-src and script-src-elem directives
+  - **API Validation Schema Fix**: Fixed `/api/calculate-impact` endpoint returning 400 validation errors
+    - Issue: Backend validation schema included output-only fields (impactScore, breakdown, etc.) that frontend doesn't send
+    - Solution: Created input-only validation schema excluding computed/output fields  
+    - Prevention: Always separate input validation schemas from full table schemas; validate only fields sent by frontend
+  - **Testing Protocol**: Both fixes verified working - Clarity loads correctly, calculator functions without validation errors
+  - **Quality Assurance**: Added prevention guidelines to avoid recurrence of CSP and validation schema mismatches
 
 - January 17, 2025: **MICROSOFT CLARITY INSTALLATION VERIFIED** - Debugged and optimized Microsoft Clarity analytics installation
   - Moved Clarity tracking script from React component to index.html for improved reliability
