@@ -21,6 +21,89 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   const [timing, setTiming] = useState<string>('');
   const [frequency, setFrequency] = useState<string>('');
 
+  // Dynamic messaging based on transport mode and score
+  const getMessagingContext = () => {
+    const transportMode = results.transportMode || 'car'; // Default to car if not provided
+    const score = results.score;
+    
+    // Determine efficiency level
+    const isEfficient = (transportMode === 'metro' || transportMode === 'bus') && score <= 30;
+    const isZeroCost = transportMode === 'walking' || transportMode === 'cycling';
+    const isHighWaste = (transportMode === 'car' || transportMode === 'taxi') && score >= 60;
+    const isMixedEfficiency = score > 30 && score < 60;
+    
+    // Calculate potential car cost for comparison (estimate)
+    const potentialCarCost = results.monthlyCost * 2.5; // Conservative estimate
+    const actualSavings = potentialCarCost - results.monthlyCost;
+    
+    return {
+      transportMode,
+      score,
+      isEfficient,
+      isZeroCost,
+      isHighWaste,
+      isMixedEfficiency,
+      potentialCarCost,
+      actualSavings: Math.max(0, actualSavings),
+      maxSavings: Math.max(...results.alternatives.map(alt => alt.costSavings))
+    };
+  };
+
+  const context = getMessagingContext();
+
+  const getDynamicHeadline = () => {
+    if (context.isZeroCost) {
+      return `Zero transport costs! You're saving ₹${context.actualSavings}/month vs driving`;
+    }
+    if (context.isEfficient) {
+      return `You're saving ₹${context.actualSavings}/month with smart transport choices!`;
+    }
+    if (context.isHighWaste) {
+      return `Your commute costs ₹${results.monthlyCost}/month extra`;
+    }
+    return `You could save an additional ₹${context.maxSavings}/month`;
+  };
+
+  const getDynamicSubtitle = () => {
+    if (context.isZeroCost || context.isEfficient) {
+      return "Keep up the great work! You're making financially smart choices.";
+    }
+    if (context.isHighWaste) {
+      return `That's ₹${results.monthlyCost * 12} wasted annually on inefficient commuting`;
+    }
+    return "Small changes could unlock significant monthly savings";
+  };
+
+  const getDynamicTheme = () => {
+    if (context.isZeroCost || context.isEfficient) {
+      return {
+        primary: "text-green-600",
+        bg: "bg-green-50",
+        border: "border-green-200",
+        gradient: "from-green-50 to-emerald-50",
+        borderColor: "border-green-200"
+      };
+    }
+    if (context.isHighWaste) {
+      return {
+        primary: "text-red-600",
+        bg: "bg-red-50",
+        border: "border-red-200",
+        gradient: "from-red-50 to-orange-50",
+        borderColor: "border-red-200"
+      };
+    }
+    return {
+      primary: "text-orange-600",
+      bg: "bg-orange-50",
+      border: "border-orange-200",
+      gradient: "from-orange-50 to-yellow-50",
+      borderColor: "border-orange-200"
+    };
+  };
+
+  const theme = getDynamicTheme();
+
   const getScoreColor = (score: number) => {
     if (score <= 30) return "text-green-600 bg-green-50";
     if (score <= 60) return "text-yellow-600 bg-yellow-50";
@@ -233,25 +316,31 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         style={{ width: '600px', minHeight: 'auto', visibility: 'hidden' }}
       >
         {/* Website URL header for screenshot */}
-        <div className="text-center mb-6 py-4 bg-gradient-to-r from-red-50 to-orange-50 border-b-2 border-red-200">
-          <div className="text-2xl font-bold text-red-700">ChennaiTrafficCalc.in</div>
+        <div className={`text-center mb-6 py-4 bg-gradient-to-r ${theme.gradient} border-b-2 ${theme.borderColor}`}>
+          <div className={`text-2xl font-bold ${theme.primary}`}>ChennaiTrafficCalc.in</div>
           <div className="text-sm text-slate-600">Calculate Your Chennai Commute Costs</div>
         </div>
 
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-red-600 mb-3">Your commute costs ₹{results.monthlyCost}/month extra</h2>
-          <p className="text-lg text-slate-700 mb-2">That's ₹{results.monthlyCost * 12} wasted annually on inefficient commuting</p>
+          <h2 className={`text-3xl font-bold ${theme.primary} mb-3`}>{getDynamicHeadline()}</h2>
+          <p className="text-lg text-slate-700 mb-2">{getDynamicSubtitle()}</p>
           <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
         </div>
 
         {/* Cost and Score Display for Screenshot */}
-        <div className="p-8 text-center rounded-lg border-2 border-red-200 bg-red-50">
+        <div className={`p-8 text-center rounded-lg border-2 ${theme.border} ${theme.bg}`}>
           <div className="mb-6">
-            <div className="text-8xl font-bold text-red-600 mb-4">₹{results.monthlyCost}</div>
-            <div className="text-2xl mb-4 font-semibold text-red-700">Monthly Transport Cost</div>
+            <div className={`text-8xl font-bold ${theme.primary} mb-4`}>
+              {context.isZeroCost ? '₹0' : `₹${results.monthlyCost}`}
+            </div>
+            <div className={`text-2xl mb-4 font-semibold ${theme.primary}`}>Monthly Transport Cost</div>
             <div className="text-base text-slate-600 mb-6 max-w-lg mx-auto leading-relaxed">
-              You're spending <span className="font-bold text-red-600">₹{results.monthlyCost * 12}</span> annually on inefficient commuting. 
-              This extra cost comes from fuel consumption, maintenance, and time lost in traffic.
+              {context.isZeroCost ? 
+                `You're saving money by walking/cycling! Car users spend ₹${context.potentialCarCost}/month on the same route.` :
+                context.isEfficient ? 
+                `Smart choice! You're spending significantly less than car users (₹${context.potentialCarCost}/month) on the same route.` :
+                `You're spending ${context.isHighWaste ? 'too much' : 'considerable amounts'} on transport. This comes from fuel consumption, maintenance, and time lost in traffic.`
+              }
             </div>
           </div>
           <div className="border-t pt-4">
@@ -266,26 +355,36 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       {/* Visible responsive content */}
       <div>
         {/* Website URL header for screenshot */}
-        <div className="text-center mb-6 py-4 bg-gradient-to-r from-red-50 to-orange-50 border-b-2 border-red-200">
-          <div className="text-xl font-bold text-red-700">ChennaiTrafficCalc.in</div>
+        <div className={`text-center mb-6 py-4 bg-gradient-to-r ${theme.gradient} border-b-2 ${theme.borderColor}`}>
+          <div className={`text-xl font-bold ${theme.primary}`}>ChennaiTrafficCalc.in</div>
           <div className="text-sm text-slate-600">Calculate Your Chennai Commute Costs</div>
         </div>
 
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-red-600 mb-3">Your commute costs ₹{results.monthlyCost}/month extra</h2>
-          <p className="text-lg text-slate-700 mb-2">That's ₹{results.monthlyCost * 12} wasted annually on inefficient commuting</p>
+          <h2 className={`text-3xl font-bold ${theme.primary} mb-3`}>{getDynamicHeadline()}</h2>
+          <p className="text-lg text-slate-700 mb-2">{getDynamicSubtitle()}</p>
           <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
         </div>
 
         {/* Monthly Cost Display - Primary Focus */}
-        <Card className="mb-8 border-red-200 bg-red-50">
+        <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
           <CardContent className="p-8 text-center">
             <div className="mb-4">
-              <div className="text-6xl font-bold text-red-600 mb-2">₹{results.monthlyCost}</div>
-              <div className="text-lg text-red-700 mb-2">Monthly Transport Cost</div>
+              <div className={`text-6xl font-bold ${theme.primary} mb-2`}>
+                {context.isZeroCost ? '₹0' : `₹${results.monthlyCost}`}
+              </div>
+              <div className={`text-lg ${theme.primary} mb-2`}>
+                {context.isZeroCost ? 'Monthly Transport Cost' : 
+                 context.isEfficient ? 'Monthly Transport Cost' :
+                 'Monthly Transport Cost'}
+              </div>
               <div className="text-sm text-slate-600 mb-4 max-w-md mx-auto">
-                You're spending <span className="font-bold text-red-600">₹{results.monthlyCost * 12}</span> annually on inefficient commuting. 
-                This extra cost comes from fuel consumption, maintenance, and time lost in traffic.
+                {context.isZeroCost ? 
+                  `You're saving money by walking/cycling! Car users spend ₹${context.potentialCarCost}/month on the same route.` :
+                  context.isEfficient ? 
+                  `Smart choice! You're spending significantly less than car users (₹${context.potentialCarCost}/month) on the same route.` :
+                  `You're spending ${context.isHighWaste ? 'too much' : 'considerable amounts'} on transport. This comes from fuel consumption, maintenance, and time lost in traffic.`
+                }
               </div>
             </div>
           </CardContent>
@@ -409,14 +508,24 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
         {/* Alternatives Section */}
         {results.alternatives.length > 0 && (
-          <Card className="mb-8 border-green-200">
+          <Card className={`mb-8 ${theme.border}`}>
             <CardContent className="p-6">
               <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                <DollarSign className="inline w-5 h-5 text-green-500 mr-2" />
-                Why You're Losing Money
+                {context.isZeroCost || context.isEfficient ? (
+                  <><Clock className="inline w-5 h-5 text-green-500 mr-2" />
+                  How to optimize your current smart choices</>
+                ) : (
+                  <><DollarSign className="inline w-5 h-5 text-green-500 mr-2" />
+                  Why You're Losing Money</>
+                )}
               </h3>
               <p className="text-sm text-slate-600 mb-6">
-                Here's how to save ₹{Math.max(...results.alternatives.map(alt => alt.costSavings))}/month with better transport choices:
+                {context.isZeroCost ? 
+                  "You're already at zero cost! Here are route optimizations to save time:" :
+                  context.isEfficient ? 
+                  "Great job choosing efficient transport! Here are ways to optimize further:" :
+                  `Here's how to save ₹${Math.max(...results.alternatives.map(alt => alt.costSavings))}/month with better transport choices:`
+                }
               </p>
 
               <div className="space-y-4">

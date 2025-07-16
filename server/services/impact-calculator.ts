@@ -102,7 +102,8 @@ export class ImpactCalculator {
         monthlyTimeHours: monthlyMetrics.timeHours,
         alternatives,
         methodology: `Based on vehicle emissions (${vehicle.emissionFactor} kg CO2/km), route congestion analysis, timing factors, and Chennai traffic patterns.`,
-        calculationId
+        calculationId,
+        transportMode: input.transportMode
       };
 
     } catch (error) {
@@ -158,7 +159,8 @@ export class ImpactCalculator {
       monthlyTimeHours: monthlyMetrics.timeHours,
       alternatives,
       methodology: 'Sustainable transport modes have minimal traffic impact',
-      calculationId
+      calculationId,
+      transportMode: input.transportMode
     };
   }
 

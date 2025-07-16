@@ -157,6 +157,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 16, 2025: **CONTEXT-SENSITIVE MESSAGING SYSTEM IMPLEMENTED** - Created intelligent results display that adapts messaging based on transport mode and efficiency level
+  - **Financial-First Approach**: Prioritized monthly cost over environmental impact score in headlines, CTAs, and primary display
+  - **Dynamic Messaging Engine**: Built comprehensive context-aware messaging that changes based on transport mode and efficiency spectrum
+  - **Transport Mode Detection**: System now identifies walking/cycling (congratulatory), metro/bus (efficient), cars/taxis (cost-focused) from backend data
+  - **Efficiency-Based Theming**: Dynamic color themes (green for efficient, red for wasteful) with conditional styling and icons
+  - **Score-Aware Language**: Different messaging for 0-30 (efficient), 30-60 (moderate), 60+ (wasteful) ranges to avoid inappropriate "wasting money" messages
+  - **Alternative Recommendations**: Context-sensitive suggestions with appropriate headlines (optimization vs cost-saving focused)
+  - **Backend Integration**: Enhanced calculation service to include transportMode in API responses for frontend context detection
+  - **User Experience**: Prevents frustrating "you're wasting money" messages for Metro users while maintaining cost-focus for car users
+  - **Holistic Design**: Applied context-sensitive theming across all result components including screenshot generation
 - July 16, 2025: **WEATHER IMPACT ANALYSIS COMPREHENSIVE TESTING AND FIXES COMPLETED** - Expert testing identified and resolved 5 critical system inconsistencies
   - **Expert Testing Conducted**: 10 comprehensive test categories covering timezone logic, temperature ranges, weather conditions, API validation, cache performance, and edge cases
   - **Critical Timezone Bug**: Fixed UTC vs Chennai IST time confusion causing rush hour to be treated as peak heat (5:54 PM IST ≠ 11:54 AM UTC)

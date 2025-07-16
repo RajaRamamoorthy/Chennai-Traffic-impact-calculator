@@ -48,6 +48,7 @@ export interface CalculationResult {
   methodology: string;
   disclaimer?: string;
   calculationId?: number;
+  transportMode?: string;
 }
 
 export interface Alternative {
