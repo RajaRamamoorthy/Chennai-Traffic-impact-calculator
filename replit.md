@@ -157,6 +157,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 16, 2025: **MICROSOFT CLARITY CSP FIX COMPLETED** - Fixed Content Security Policy to allow all required Microsoft Clarity endpoints
+  - **Issue**: Microsoft Clarity trying to connect to new endpoint `https://e.clarity.ms/collect` blocked by CSP
+  - **Solution**: Added `https://e.clarity.ms` to both server-side Helmet CSP and client-side HTML meta tag CSP configurations
+  - **Result**: All three Clarity endpoints now allowed (c.clarity.ms, z.clarity.ms, e.clarity.ms) - analytics tracking working without console errors
+  - **Status**: Microsoft Clarity user behavior tracking fully operational for heatmaps and session recordings
 - July 16, 2025: **REAL-TIME FINANCIAL INSIGHTS DASHBOARD IMPLEMENTED** - Enhanced Chennai Dashboard with comprehensive financial analytics that update dynamically with each calculator submission
   - **New API Endpoint**: Added `/api/dashboard/financial-insights` endpoint with complete financial data aggregation from PostgreSQL database
   - **Live Financial Metrics**: Total monthly cost, potential savings, average cost per kilometer, and top transport mode by cost - all calculated from real user data
