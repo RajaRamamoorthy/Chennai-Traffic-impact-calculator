@@ -130,8 +130,8 @@ export default function Dashboard() {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Chennai Live Traffic Dashboard - Real-Time Road Conditions | Traffic Impact Calculator",
-    "description": "Intelligent Chennai traffic monitoring dashboard with weather impact analysis, real-time road conditions, contextual commute recommendations, and smart weather-traffic integration. Advanced analytics for Chennai commuters.",
-    "keywords": "Chennai traffic weather impact, intelligent weather traffic analysis, Chennai weather commute impact, weather-aware traffic planning, Chennai traffic dashboard, live traffic Chennai weather, Chennai weather traffic delays, contextual traffic recommendations, Chennai traffic monitoring weather, weather traffic intelligence, Chennai weather-based traffic advice, real-time weather traffic analysis",
+    "description": "Intelligent Chennai traffic monitoring dashboard with weather impact analysis, real-time road conditions, contextual commute recommendations, financial insights, and smart weather-traffic integration. Advanced analytics for Chennai commuters with cost savings.",
+    "keywords": "Chennai traffic weather impact, intelligent weather traffic analysis, Chennai weather commute impact, weather-aware traffic planning, Chennai traffic dashboard, live traffic Chennai weather, Chennai weather traffic delays, contextual traffic recommendations, Chennai traffic monitoring weather, weather traffic intelligence, Chennai weather-based traffic advice, real-time weather traffic analysis, Chennai financial insights, Chennai commute cost, Chennai transport cost analysis, Chennai cost savings, Chennai monthly commute cost, Chennai financial dashboard, Chennai commute budget optimization",
     "about": {
       "@type": "Thing",
       "name": "Chennai Traffic Monitoring System",
@@ -177,7 +177,13 @@ export default function Dashboard() {
         "Dual-mode traffic analysis",
         "Major road segment monitoring",
         "Junction traffic analysis",
-        "Smart weather-traffic insights"
+        "Smart weather-traffic insights",
+        "Monthly commute cost analysis",
+        "Financial insights and cost savings",
+        "Transport cost per kilometer calculation",
+        "Money-saving route alternatives",
+        "Real-time financial dashboard",
+        "Chennai commute budget optimization"
       ]
     },
     "geo": {
@@ -195,10 +201,10 @@ export default function Dashboard() {
   return (
     <>
       <SEO 
-        title="Chennai Live Traffic Dashboard - Intelligent Weather Impact & Real-Time Traffic Monitoring | Chennai Traffic Impact Calculator"
-        description="Advanced Chennai traffic dashboard with intelligent weather impact analysis, real-time road conditions, and contextual commute recommendations. Monitor weather-aware traffic insights for Anna Salai, OMR, GST Road with smart travel advice based on current conditions."
+        title="Chennai Live Traffic Dashboard - Real-Time Traffic & Financial Insights | Chennai Traffic Impact Calculator"
+        description="Advanced Chennai traffic dashboard with intelligent weather impact analysis, real-time road conditions, financial insights, and cost-saving recommendations. Monitor live traffic on Anna Salai, OMR, GST Road with monthly commute cost analysis and budget optimization."
         canonical="https://chennaitrafficcalc.in/dashboard"
-        keywords="Chennai traffic weather impact, intelligent weather traffic analysis, Chennai weather commute impact, weather-aware traffic planning, Chennai traffic dashboard, live traffic Chennai weather, Chennai weather traffic delays, contextual traffic recommendations, Chennai traffic monitoring weather, Anna Salai weather traffic, OMR weather conditions, GST Road weather impact, Chennai commute weather insights, weather traffic intelligence, Chennai weather-based traffic advice, real-time weather traffic analysis, Chennai traffic weather integration, smart weather commute planning"
+        keywords="Chennai traffic weather impact, intelligent weather traffic analysis, Chennai weather commute impact, weather-aware traffic planning, Chennai traffic dashboard, live traffic Chennai weather, Chennai weather traffic delays, contextual traffic recommendations, Chennai traffic monitoring weather, Anna Salai weather traffic, OMR weather conditions, GST Road weather impact, Chennai commute weather insights, weather traffic intelligence, Chennai weather-based traffic advice, real-time weather traffic analysis, Chennai traffic weather integration, smart weather commute planning, Chennai financial insights, Chennai commute cost, Chennai transport cost analysis, Chennai cost savings, Chennai monthly commute cost, Chennai financial dashboard, Chennai commute budget optimization"
         structuredData={dashboardSchema}
       />
       

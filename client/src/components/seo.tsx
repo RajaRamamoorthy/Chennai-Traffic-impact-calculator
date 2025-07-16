@@ -18,8 +18,8 @@ interface SEOProps {
 
 const defaultMeta = {
   title: 'Chennai Traffic Impact Calculator – Live Jam & Commute Insights',
-  description: 'Check live Chennai traffic, calculate your commute impact, and discover faster routes. Free, map-powered jam tracker and congestion score.',
-  keywords: 'Chennai traffic, Chennai traffic today, Chennai traffic jam, Chennai traffic calculator, Chennai traffic impact, Chennai congestion score, Chennai jam tracker, Chennai commute, Chennai commute distance, Chennai travel time, Chennai road congestion, Chennai road traffic, Chennai traffic live, Chennai traffic map, Chennai traffic update, Chennai peak hour traffic, Chennai delay calculator, Chennai driving time, traffic calculator Chennai, commute calculator Chennai, Chennai traffic score, Chennai congestion predictor, Kathipara flyover traffic, OMR traffic status, GST Road traffic, Anna Salai traffic, Marina Beach traffic, T Nagar traffic, Chennai route planner, Chennai traffic dashboard, Chennai traffic analysis',
+  description: 'Check live Chennai traffic, calculate your commute impact, and discover faster routes. Free tool with financial insights, monthly cost analysis, and money-saving alternatives.',
+  keywords: 'Chennai traffic, Chennai traffic today, Chennai traffic jam, Chennai traffic calculator, Chennai traffic impact, Chennai congestion score, Chennai jam tracker, Chennai commute, Chennai commute distance, Chennai travel time, Chennai road congestion, Chennai road traffic, Chennai traffic live, Chennai traffic map, Chennai traffic update, Chennai peak hour traffic, Chennai delay calculator, Chennai driving time, traffic calculator Chennai, commute calculator Chennai, Chennai traffic score, Chennai congestion predictor, Kathipara flyover traffic, OMR traffic status, GST Road traffic, Anna Salai traffic, Marina Beach traffic, T Nagar traffic, Chennai route planner, Chennai traffic dashboard, Chennai traffic analysis, Chennai commute cost, Chennai monthly commute cost, Chennai travel cost calculator, Chennai financial insights, Chennai cost savings, Chennai money saving alternatives, Chennai transport cost analysis, Chennai fuel cost calculator, Chennai commute budget, Chennai travel expense, Chennai cost per km, Chennai financial dashboard, Chennai commute cost optimization, Chennai transport financial analysis',
   ogImage: 'https://chennaitrafficcalc.in/og-image.svg',
   siteName: 'Chennai Traffic Impact Calculator',
   siteUrl: 'https://chennaitrafficcalc.in'
@@ -90,11 +90,11 @@ export function SEO({
     "@type": "WebApplication",
     "name": "Chennai Traffic Impact Calculator",
     "url": defaultMeta.siteUrl,
-    "description": "Free web application to calculate traffic impact and discover sustainable transportation alternatives in Chennai",
+    "description": "Free web application to calculate traffic impact, analyze commute costs, and discover sustainable transportation alternatives in Chennai with financial insights",
     "applicationCategory": "TravelApplication",
     "operatingSystem": "Any",
     "permissions": "free",
-    "keywords": "Chennai traffic, Chennai commute, Chennai traffic calculator, Chennai traffic jam, Chennai congestion score, Chennai jam tracker, Chennai traffic live, Chennai route planner, Chennai traffic analysis",
+    "keywords": "Chennai traffic, Chennai commute, Chennai traffic calculator, Chennai traffic jam, Chennai congestion score, Chennai jam tracker, Chennai traffic live, Chennai route planner, Chennai traffic analysis, Chennai commute cost, Chennai financial insights, Chennai cost savings, Chennai transport cost analysis",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -106,7 +106,13 @@ export function SEO({
       "Chennai route optimization",
       "Chennai commute impact analysis",
       "Real-time Chennai traffic updates",
-      "Chennai peak hour traffic tracking"
+      "Chennai peak hour traffic tracking",
+      "Monthly commute cost analysis",
+      "Financial insights and cost savings",
+      "Transport cost per kilometer calculation",
+      "Money-saving route alternatives",
+      "Real-time financial dashboard",
+      "Chennai commute budget optimization"
     ],
     "author": {
       "@type": "Organization",

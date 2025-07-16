@@ -35,7 +35,7 @@ export default function Home() {
     "name": "Chennai Traffic Impact Calculator",
     "applicationCategory": "TravelApplication",
     "operatingSystem": "Web Browser",
-    "keywords": "Chennai traffic, Chennai traffic today, Chennai traffic jam, Chennai commute calculator, Chennai congestion score, Chennai route planner",
+    "keywords": "Chennai traffic, Chennai traffic today, Chennai traffic jam, Chennai commute calculator, Chennai congestion score, Chennai route planner, Chennai commute cost, Chennai financial insights, Chennai cost savings, Chennai transport cost analysis, Chennai monthly commute cost, Chennai financial dashboard, Chennai commute budget optimization",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -46,14 +46,14 @@ export default function Home() {
       "ratingValue": "4.8",
       "ratingCount": "10000"
     },
-    "description": "Live Chennai traffic monitoring and congestion score calculator. Check traffic updates for Kathipara flyover, OMR, GST Road and plan optimal routes."
+    "description": "Live Chennai traffic monitoring and congestion score calculator with financial insights. Check traffic updates for Kathipara flyover, OMR, GST Road and plan optimal routes with cost savings analysis."
   };
 
   return (
     <>
       <SEO
         title="Home"
-        description="Calculate how your daily commute affects Chennai traffic. Get personalized suggestions for better alternatives to save time, money, and reduce environmental impact."
+        description="Calculate how your daily commute affects Chennai traffic and costs. Get personalized suggestions for better alternatives to save time, money, and reduce environmental impact with financial insights and monthly cost analysis."
         canonical="https://chennaitrafficcalc.in"
         structuredData={{
           "@context": "https://schema.org",
