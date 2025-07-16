@@ -1,0 +1,378 @@
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+Dr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+jt @ clarity.js:2
+Ko @ clarity.js:2
+gi @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+clarity.js:2 Refused to connect to 'https://z.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+Dr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+jt @ clarity.js:2
+Ko @ clarity.js:2
+gi @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+Rr.o.onreadystatechange @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+(anonymous) @ clarity.js:2
+Promise.then
+Bn @ clarity.js:2
+(anonymous) @ clarity.js:2
+childList
+(anonymous) @ jquery-3.4.0.min.js:1
+ce @ jquery-3.4.0.min.js:1
+se.setDocument @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
+(anonymous) @ jquery-3.4.0.min.js:1
