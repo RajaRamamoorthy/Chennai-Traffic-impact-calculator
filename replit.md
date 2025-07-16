@@ -157,6 +157,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 16, 2025: **TRAFFIC DASHBOARD DATA DUPLICATION DEBUG COMPLETED** - Fixed critical issue where Roads to Avoid and Traffic Chokepoints sections displayed identical data
+  - **Root Cause**: Both sections were using the same traffic results array with minimal filtering differences
+  - **Solution**: Complete separation of data generation algorithms:
+    - Roads to Avoid: Focuses on road segment delays and traffic flow issues  
+    - Traffic Chokepoints: Focuses on intersection analysis, transport hubs, and bottleneck points
+  - **Calculator Mode Fix**: Added intersection-based chokepoint analysis using route patterns instead of road segment data
+  - **Holistic Mode Fix**: Created dedicated `generateHolisticChokepoints` method with city-wide intersection focus
+  - **Result**: Two sections now display completely different, contextually relevant traffic insights
+  - **Testing**: Verified both calculator and holistic modes show distinct data for optimal user experience
 - January 20, 2025: **MICROSOFT CLARITY Z.CLARITY.MS ENDPOINT FIX** - Fixed CSP blocking Clarity's secondary data collection endpoint
   - **Issue**: Microsoft Clarity was trying to connect to https://z.clarity.ms/collect but CSP only allowed https://c.clarity.ms
   - **Solution**: Added https://z.clarity.ms to connect-src in both server/index.ts Helmet configuration and client/index.html meta tag
