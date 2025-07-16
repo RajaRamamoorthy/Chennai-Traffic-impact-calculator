@@ -486,12 +486,12 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
               )}
               
               {(results.breakdown.occupancy && results.breakdown.occupancy > 1) && (
-                <div className="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                <div className={`flex justify-between items-center p-3 ${theme.bg} rounded-lg`}>
                   <div>
                     <span className="text-sm font-medium text-slate-900">Sharing Ride</span>
                     <p className="text-xs text-slate-600">{results.breakdown.occupancy} people sharing reduces individual impact</p>
                   </div>
-                  <span className="font-bold text-green-600">÷{results.breakdown.occupancy}</span>
+                  <span className={`font-bold ${theme.primary}`}>÷{results.breakdown.occupancy}</span>
                 </div>
               )}
               
@@ -513,10 +513,10 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             <CardContent className="p-6">
               <h3 className="text-xl font-semibold text-slate-900 mb-4">
                 {context.isZeroCost || context.isEfficient ? (
-                  <><Clock className="inline w-5 h-5 text-green-500 mr-2" />
+                  <><Clock className={`inline w-5 h-5 ${theme.primary} mr-2`} />
                   How to optimize your current smart choices</>
                 ) : (
-                  <><DollarSign className="inline w-5 h-5 text-green-500 mr-2" />
+                  <><DollarSign className={`inline w-5 h-5 ${theme.primary} mr-2`} />
                   Why You're Losing Money</>
                 )}
               </h3>
@@ -550,7 +550,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                   };
 
                   return (
-                    <Card key={index} className="border-green-200">
+                    <Card key={index} className={theme.border}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div className="flex items-center">
@@ -563,7 +563,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                             </div>
                             <div>
                               <h4 className="font-medium text-slate-900">{alternative.title}</h4>
-                              <p className="text-sm text-green-600 font-medium">
+                              <p className={`text-sm ${theme.primary} font-medium`}>
                                 Save ₹{formatNumber(alternative.costSavings)}/month
                               </p>
                               <p className="text-xs text-blue-600 mt-1">{alternative.timeDelta} travel time</p>
@@ -571,7 +571,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-2xl font-bold text-green-600">{alternative.newScore}</div>
+                            <div className={`text-2xl font-bold ${theme.primary}`}>{alternative.newScore}</div>
                             <div className="text-xs text-slate-500">New Score</div>
                           </div>
                         </div>
