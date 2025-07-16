@@ -79,6 +79,7 @@ The application uses PostgreSQL with the following main tables:
 ### Environment Variables Required
 - `DATABASE_URL`: PostgreSQL connection string
 - `GOOGLE_MAPS_API_KEY`: For geocoding and maps functionality  
+- `OPENWEATHER_API_KEY`: For real-time Chennai weather data via OneCall API 3.0
 - `RAZORPAY_KEY_ID`: Public key for Razorpay payments
 - `RAZORPAY_KEY_SECRET`: Secret key for payment verification
 - `ADMIN_API_KEY`: For accessing admin endpoints
@@ -139,6 +140,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 16, 2025: **WEATHER IMPACT OVERLAY USER-FRIENDLY ENHANCEMENTS** - Transformed confusing numerical scores into clear, actionable interface
+  - Replaced cryptic "12/100" impact score with visual progress bar showing severity levels
+  - Added user-friendly explanations: "Minimal impact on your commute" instead of raw numbers
+  - Created color-coded impact legend: 0-15=Normal, 15-30=Minor delays, 30-50=Significant, 50+=Major disruption
+  - Enhanced travel time guidance: "Normal conditions" vs "Leave significantly earlier"
+  - Improved SEO optimization with weather impact analysis keywords for Chennai traffic planning
+  - Updated all documentation to reflect intelligent weather-traffic integration capabilities
 - July 16, 2025: **INTELLIGENT WEATHER IMPACT OVERLAY IMPLEMENTED** - Created contextually-aware weather impact analysis system for Chennai traffic
   - Built comprehensive weather impact service analyzing real weather data against traffic patterns
   - Integrated time-of-day context (rush hour, peak heat, weekend vs weekday) for accurate recommendations

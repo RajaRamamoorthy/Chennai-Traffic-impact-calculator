@@ -19,6 +19,8 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - Track community-wide impact through aggregated analytics
 - Real-time traffic monitoring with dual-mode analysis (user routes vs city-wide)
 - Granular road segment analysis for precise traffic insights
+- Intelligent weather impact overlay with contextual Chennai commute recommendations
+- Weather-aware traffic planning with time-of-day context analysis
 
 ## 🏗️ System Architecture
 
@@ -42,6 +44,7 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 
 #### External Integrations
 - **Google Maps Services**: Geocoding, place autocomplete, directions API, Distance Matrix API for traffic analysis
+- **OpenWeatherMap OneCall API 3.0**: Real-time Chennai weather data for intelligent weather impact analysis
 - **Razorpay**: Secure donation processing with webhook verification
 - **Nodemailer**: Email service for contact form submissions
 - **Weather APIs**: IMD API with OpenWeatherMap fallback for Chennai weather data
@@ -117,7 +120,36 @@ The application features an advanced dual-mode traffic monitoring system that pr
 - `GET /api/dashboard/traffic-insights?mode=calculator`: User route-based traffic data
 - `GET /api/dashboard/traffic-insights?mode=holistic`: City-wide traffic monitoring
 - `GET /api/dashboard/commute-insights`: Database-derived commute statistics
-- `GET /api/dashboard/weather`: Chennai weather conditions
+- `GET /api/dashboard/weather`: Chennai weather conditions via OpenWeatherMap OneCall API 3.0
+- `GET /api/dashboard/weather-impact`: Intelligent weather impact analysis with contextual recommendations
+
+## 🌦️ Intelligent Weather Impact Analysis
+
+### Weather-Aware Traffic Planning
+
+The application features an advanced weather impact overlay that analyzes real Chennai weather conditions and provides contextually relevant traffic insights:
+
+#### Real-Time Weather Integration
+- **Data Source**: OpenWeatherMap OneCall API 3.0 with user's valid subscription
+- **Analysis Factors**: Temperature, humidity, wind speed, visibility, precipitation
+- **Context Awareness**: Time-of-day, rush hour patterns, weekend vs weekday analysis
+- **Chennai-Specific**: Monsoon impacts, heat island effects, drainage considerations
+
+#### Intelligent Impact Assessment
+- **Severity Levels**: Critical, High, Medium, Low with color-coded visual indicators
+- **Impact Scores**: 0-100 scale with user-friendly explanations
+- **Practical Guidance**: "Normal conditions" to "Leave significantly earlier"
+- **Contextual Recommendations**: AC fuel advice, headlight usage, route alternatives
+
+#### Weather-Traffic Correlation
+- **Rush Hour Analysis**: Weather impact multiplied during peak traffic times
+- **Heat Stress Factors**: AC usage impact on fuel consumption and potential stops
+- **Visibility Analysis**: Dawn/dusk and pollution-based visibility recommendations
+- **Monsoon Preparedness**: Drainage issues and flood-prone area alerts
+
+### Weather Impact API Endpoints
+- `GET /api/dashboard/weather`: Real-time Chennai weather via OpenWeatherMap OneCall API 3.0
+- `GET /api/dashboard/weather-impact`: Intelligent weather impact analysis with contextual recommendations
 
 ## 🧮 Calculation Logic & Methodology
 
