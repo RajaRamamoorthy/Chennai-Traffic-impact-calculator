@@ -1033,7 +1033,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/dashboard/commute-insights", dashboardLimit, async (req, res) => {
     try {
       const stats = await storage.getCalculationStats();
-      const topRoutes = await storage.getTopRoutes(3);
       const totalCalculations = await storage.getHomepageStats();
 
       // Calculate average distance using SQL aggregation to handle decimal properly
@@ -1048,10 +1047,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const response = {
         averageScore: stats.avgImpactScore,
-        topLocations: topRoutes.map(route => ({
-          location: `${route.origin} → ${route.destination}`,
-          count: route.count
-        })),
         averageDistance: avgDistance,
         totalCalculations: totalCalculations.totalCalculations
       };
@@ -1060,6 +1055,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Dashboard commute insights error:", error);
       res.status(500).json({ error: "Failed to get commute insights" });
+    }
+  });
+
+  app.get("/api/dashboard/financial-insights", dashboardLimit, async (req, res) => {
+    try {
+      const financialData = await storage.getFinancialInsights();
+      res.json(financialData);
+    } catch (error) {
+      console.error("Dashboard financial insights error:", error);
+      res.status(500).json({ error: "Failed to get financial insights" });
     }
   });
 

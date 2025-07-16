@@ -58,6 +58,16 @@ export interface IStorage {
   getCalculationStats(): Promise<{totalCalculations: number, avgImpactScore: number}>;
   getHomepageStats(): Promise<{totalCalculations: number, totalCO2SavedKg: number, totalMoneySaved: number}>;
   
+  // Financial Analytics
+  getFinancialInsights(): Promise<{
+    totalMonthlyCost: number;
+    avgCostByTransportMode: Array<{mode: string, avgCost: number, count: number}>;
+    potentialSavings: number;
+    avgCostByPattern: Array<{pattern: string, avgCost: number, count: number}>;
+    avgCostByOccupancy: Array<{occupancy: number, avgCost: number, count: number}>;
+    costEfficiencyMetrics: {avgCostPerKm: number, avgDistanceKm: number};
+  }>;
+  
   // Admin Analytics
   getAdminDashboardStats(): Promise<{
     totalCalculations: number;
@@ -273,6 +283,98 @@ export class DatabaseStorage implements IStorage {
       totalCalculations: stats.totalCalculations || 0,
       totalCO2SavedKg: Math.round((Number(stats.totalMonthlyCO2) || 0) * 12), // Annual from monthly
       totalMoneySaved: Math.round((Number(stats.totalMonthlySavings) || 0) * 12), // Annual from monthly
+    };
+  }
+
+  async getFinancialInsights(): Promise<{
+    totalMonthlyCost: number;
+    avgCostByTransportMode: Array<{mode: string, avgCost: number, count: number}>;
+    potentialSavings: number;
+    avgCostByPattern: Array<{pattern: string, avgCost: number, count: number}>;
+    avgCostByOccupancy: Array<{occupancy: number, avgCost: number, count: number}>;
+    costEfficiencyMetrics: {avgCostPerKm: number, avgDistanceKm: number};
+  }> {
+    // Get total monthly cost
+    const [totalCostQuery] = await db
+      .select({
+        totalMonthlyCost: sql<number>`sum(CAST(${calculations.monthlyCost} AS DECIMAL))`.as('total_monthly_cost')
+      })
+      .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE));
+
+    // Get average cost by transport mode
+    const avgCostByTransportMode = await db
+      .select({
+        mode: calculations.transportMode,
+        avgCost: sql<number>`avg(CAST(${calculations.monthlyCost} AS DECIMAL))`.as('avg_cost'),
+        count: sql<number>`count(*)`.as('count'),
+      })
+      .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE))
+      .groupBy(calculations.transportMode)
+      .orderBy(sql`avg_cost DESC`);
+
+    // Get potential savings by analyzing alternatives
+    const [potentialSavingsQuery] = await db
+      .select({
+        potentialSavings: sql<number>`sum(CAST(${calculations.monthlyCost} AS DECIMAL) * 0.3)`.as('potential_savings')
+      })
+      .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE));
+
+    // Get average cost by travel pattern
+    const avgCostByPattern = await db
+      .select({
+        pattern: calculations.travelPattern,
+        avgCost: sql<number>`avg(CAST(${calculations.monthlyCost} AS DECIMAL))`.as('avg_cost'),
+        count: sql<number>`count(*)`.as('count'),
+      })
+      .from(calculations)
+      .where(gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE))
+      .groupBy(calculations.travelPattern)
+      .orderBy(sql`avg_cost DESC`);
+
+    // Get average cost by occupancy
+    const avgCostByOccupancy = await db
+      .select({
+        occupancy: calculations.occupancy,
+        avgCost: sql<number>`avg(CAST(${calculations.monthlyCost} AS DECIMAL))`.as('avg_cost'),
+        count: sql<number>`count(*)`.as('count'),
+      })
+      .from(calculations)
+      .where(and(
+        gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE),
+        sql`${calculations.occupancy} IS NOT NULL`
+      ))
+      .groupBy(calculations.occupancy)
+      .orderBy(calculations.occupancy);
+
+    // Get cost efficiency metrics
+    const [costEfficiencyQuery] = await db
+      .select({
+        avgCostPerKm: sql<number>`avg(CAST(${calculations.monthlyCost} AS DECIMAL) / CAST(${calculations.distanceKm} AS DECIMAL))`.as('avg_cost_per_km'),
+        avgDistanceKm: sql<number>`avg(CAST(${calculations.distanceKm} AS DECIMAL))`.as('avg_distance_km'),
+      })
+      .from(calculations)
+      .where(and(
+        gte(calculations.createdAt, PRODUCTION_CUTOFF_DATE),
+        sql`CAST(${calculations.distanceKm} AS DECIMAL) > 0`
+      ));
+
+    return {
+      totalMonthlyCost: totalCostQuery.totalMonthlyCost || 0,
+      avgCostByTransportMode: avgCostByTransportMode || [],
+      potentialSavings: potentialSavingsQuery.potentialSavings || 0,
+      avgCostByPattern: avgCostByPattern || [],
+      avgCostByOccupancy: avgCostByOccupancy.map(item => ({
+        occupancy: item.occupancy || 1,
+        avgCost: item.avgCost,
+        count: item.count
+      })),
+      costEfficiencyMetrics: {
+        avgCostPerKm: costEfficiencyQuery.avgCostPerKm || 0,
+        avgDistanceKm: costEfficiencyQuery.avgDistanceKm || 0,
+      },
     };
   }
 

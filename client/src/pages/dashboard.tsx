@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { SEO } from "@/components/seo";
 import { WeatherImpactOverlay } from "@/components/weather-impact-overlay";
+import { formatNumber } from "@/lib/utils";
 import { 
   Navigation, 
   MapPin, 
@@ -17,18 +18,27 @@ import {
   Route,
   Gauge,
   Database,
-  Globe
+  Globe,
+  IndianRupee,
+  PiggyBank,
+  Car,
+  Calendar
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface CommuteInsights {
   averageScore: number;
-  topLocations: Array<{
-    location: string;
-    count: number;
-  }>;
   averageDistance: number;
   totalCalculations: number;
+}
+
+interface FinancialInsights {
+  totalMonthlyCost: number;
+  avgCostByTransportMode: Array<{mode: string, avgCost: number, count: number}>;
+  potentialSavings: number;
+  avgCostByPattern: Array<{pattern: string, avgCost: number, count: number}>;
+  avgCostByOccupancy: Array<{occupancy: number, avgCost: number, count: number}>;
+  costEfficiencyMetrics: {avgCostPerKm: number, avgDistanceKm: number};
 }
 
 interface TrafficData {
@@ -61,6 +71,11 @@ export default function Dashboard() {
   // Fetch commute insights from existing database
   const { data: commuteData, isLoading: commuteLoading } = useQuery<CommuteInsights>({
     queryKey: ['/api/dashboard/commute-insights'],
+  });
+
+  // Fetch financial insights
+  const { data: financialData, isLoading: financialLoading } = useQuery<FinancialInsights>({
+    queryKey: ['/api/dashboard/financial-insights'],
   });
 
   // Fetch real-time traffic data based on selected mode
@@ -304,33 +319,65 @@ export default function Dashboard() {
                   </Card>
                 </div>
 
-                {/* Top Commuted Locations */}
+                {/* Financial Insights */}
                 <div className="mt-6">
                   <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center gap-2">
-                    <MapPin className="w-5 h-5 text-primary" />
-                    Top 3 Most Commuted Locations
+                    <IndianRupee className="w-5 h-5 text-primary" />
+                    Financial Insights
                   </h3>
-                  <div className="space-y-3">
-                    {commuteLoading ? (
-                      Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                          <Skeleton className="h-4 w-32" />
-                          <Skeleton className="h-4 w-8" />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {financialLoading ? (
+                      Array.from({ length: 4 }).map((_, i) => (
+                        <div key={i} className="p-3 bg-gray-50 rounded-lg">
+                          <Skeleton className="h-4 w-20 mb-2" />
+                          <Skeleton className="h-6 w-16" />
                         </div>
                       ))
                     ) : (
-                      commuteData?.topLocations.map((location, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                          <span className="text-gray-900 font-medium">
-                            {index + 1}. {location.location}
-                          </span>
-                          <Badge variant="secondary">
-                            {location.count} trips
-                          </Badge>
+                      <>
+                        <div className="p-3 bg-green-50 rounded-lg">
+                          <div className="flex items-center gap-2 mb-1">
+                            <PiggyBank className="w-4 h-4 text-green-600" />
+                            <span className="text-sm font-medium text-green-800">Total Monthly Cost</span>
+                          </div>
+                          <div className="text-lg font-bold text-green-900">
+                            ₹{formatNumber(Math.round(financialData?.totalMonthlyCost || 0))}
+                          </div>
                         </div>
-                      )) || (
-                        <p className="text-gray-500 text-center py-4">No data available</p>
-                      )
+                        
+                        <div className="p-3 bg-blue-50 rounded-lg">
+                          <div className="flex items-center gap-2 mb-1">
+                            <TrendingUp className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm font-medium text-blue-800">Potential Savings</span>
+                          </div>
+                          <div className="text-lg font-bold text-blue-900">
+                            ₹{formatNumber(Math.round(financialData?.potentialSavings || 0))}
+                          </div>
+                        </div>
+                        
+                        <div className="p-3 bg-purple-50 rounded-lg">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Car className="w-4 h-4 text-purple-600" />
+                            <span className="text-sm font-medium text-purple-800">Avg Cost/km</span>
+                          </div>
+                          <div className="text-lg font-bold text-purple-900">
+                            ₹{(Number(financialData?.costEfficiencyMetrics?.avgCostPerKm) || 0).toFixed(2)}
+                          </div>
+                        </div>
+                        
+                        <div className="p-3 bg-orange-50 rounded-lg">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Calendar className="w-4 h-4 text-orange-600" />
+                            <span className="text-sm font-medium text-orange-800">Top Transport Mode</span>
+                          </div>
+                          <div className="text-lg font-bold text-orange-900">
+                            {financialData?.avgCostByTransportMode?.[0]?.mode || 'N/A'}
+                          </div>
+                          <div className="text-xs text-orange-700">
+                            ₹{formatNumber(Math.round(financialData?.avgCostByTransportMode?.[0]?.avgCost || 0))} avg
+                          </div>
+                        </div>
+                      </>
                     )}
                   </div>
                 </div>
