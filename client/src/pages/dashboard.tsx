@@ -299,7 +299,7 @@ export default function Dashboard() {
                     Roads to Avoid Right Now
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Based on Google Maps traffic data comparing current travel times to normal conditions for major Chennai roads
+                    Live analysis of actual user commute routes - showing specific road segments with delays above 10% compared to normal conditions
                   </p>
                   <div className="space-y-2">
                     {trafficLoading ? (
@@ -336,7 +336,7 @@ export default function Dashboard() {
                     Current Traffic Chokepoints
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Areas with delays over 30% longer than usual, identified from real-time traffic analysis of Chennai's major intersections
+                    Precise intersection-level analysis from most-traveled user routes - showing exact chokepoints with 30%+ delays and actionable alternatives
                   </p>
                   <div className="space-y-2">
                     {trafficLoading ? (
