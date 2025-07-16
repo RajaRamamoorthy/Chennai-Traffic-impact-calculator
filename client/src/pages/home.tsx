@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Calculator, Users, TrendingDown, Clock } from "lucide-react";
 import { SEO } from "@/components/seo";
 import { ChennaiTrafficQA } from "@/components/seo/featured-snippets";
-import { InternalLinks, TrafficRouteHub } from "@/components/layout/internal-links";
+import { InternalLinks } from "@/components/layout/internal-links";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
@@ -254,13 +254,6 @@ export default function Home() {
             Chennai Traffic FAQs & Live Updates
           </h2>
           <ChennaiTrafficQA />
-        </div>
-      </section>
-
-      {/* Traffic Route Hub */}
-      <section className="py-16 px-4 bg-slate-50">
-        <div className="max-w-6xl mx-auto">
-          <TrafficRouteHub />
         </div>
       </section>
 
