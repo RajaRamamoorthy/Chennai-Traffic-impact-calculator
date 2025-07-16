@@ -1057,9 +1057,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get("/api/dashboard/traffic-insights", dashboardLimit, async (req, res) => {
     try {
+      // Get mode from query parameter (calculator or holistic)
+      const mode = req.query.mode as 'calculator' | 'holistic' || 'calculator';
+      
+      // Validate mode parameter
+      if (mode !== 'calculator' && mode !== 'holistic') {
+        return res.status(400).json({ error: "Invalid mode. Use 'calculator' or 'holistic'" });
+      }
+
       // This will fetch real-time traffic data from Google Maps
       const trafficService = new (await import('./services/traffic-service')).TrafficService();
-      const trafficData = await trafficService.getChennaiTrafficData();
+      const trafficData = await trafficService.getChennaiTrafficData(mode);
       res.json(trafficData);
     } catch (error) {
       console.error("Dashboard traffic insights error:", error);

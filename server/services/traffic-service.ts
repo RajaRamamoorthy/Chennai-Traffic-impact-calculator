@@ -32,10 +32,10 @@ interface RouteSegment {
   coords: { lat: number; lng: number };
 }
 
-// In-memory cache for traffic data
-let trafficCache: { data: TrafficData | null; timestamp: number } = {
-  data: null,
-  timestamp: 0
+// In-memory cache for traffic data (separate for each mode)
+let trafficCache: { [key: string]: { data: TrafficData | null; timestamp: number } } = {
+  calculator: { data: null, timestamp: 0 },
+  holistic: { data: null, timestamp: 0 }
 };
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
@@ -63,44 +63,24 @@ export class TrafficService {
     this.client = new Client({});
   }
 
-  async getChennaiTrafficData(): Promise<TrafficData> {
-    // Check cache first
+  async getChennaiTrafficData(mode: 'calculator' | 'holistic' = 'calculator'): Promise<TrafficData> {
+    // Use separate cache for each mode
     const now = Date.now();
-    if (trafficCache.data && (now - trafficCache.timestamp) < CACHE_DURATION) {
-      console.log('Returning cached traffic data');
-      return trafficCache.data;
+    const modeCache = trafficCache[mode];
+    
+    if (modeCache.data && (now - modeCache.timestamp) < CACHE_DURATION) {
+      console.log(`Returning cached ${mode} traffic data`);
+      return modeCache.data;
     }
 
     try {
-      console.log('Fetching fresh traffic data from Google Maps using actual user routes');
+      console.log(`Fetching fresh ${mode} traffic data from Google Maps`);
       
-      // Get actual user routes from database
-      const userRoutes = await this.getUserRoutes();
-      
-      if (userRoutes.length === 0) {
-        return this.getFallbackTrafficData();
+      if (mode === 'calculator') {
+        return await this.getCalculatorBasedTrafficData();
+      } else {
+        return await this.getHolisticTrafficData();
       }
-
-      // Analyze traffic for actual user routes
-      const routeAnalysis = await this.analyzeUserRoutes(userRoutes);
-      
-      // Generate granular traffic analysis
-      const worstRoads = await this.generateGranularTrafficAnalysis(routeAnalysis);
-      const chokepoints = await this.generatePreciseChokepoints(routeAnalysis);
-
-      const trafficData: TrafficData = {
-        worstRoads: worstRoads.length > 0 ? worstRoads : this.getFallbackTrafficData().worstRoads,
-        chokepoints: chokepoints.length > 0 ? chokepoints : this.getFallbackTrafficData().chokepoints,
-        lastUpdated: new Date().toISOString()
-      };
-
-      // Update cache
-      trafficCache = {
-        data: trafficData,
-        timestamp: now
-      };
-
-      return trafficData;
 
     } catch (error) {
       console.error('Error fetching traffic data:', error);
@@ -109,13 +89,123 @@ export class TrafficService {
       const fallbackData = this.getFallbackTrafficData();
       
       // Cache fallback data for shorter duration (1 minute)
-      trafficCache = {
+      trafficCache[mode] = {
         data: fallbackData,
         timestamp: now - (CACHE_DURATION - 60000) // Cache for only 1 minute
       };
       
       return fallbackData;
     }
+  }
+
+  private async getCalculatorBasedTrafficData(): Promise<TrafficData> {
+    // Get actual user routes from database
+    const userRoutes = await this.getUserRoutes();
+    
+    if (userRoutes.length === 0) {
+      return this.getFallbackTrafficData();
+    }
+
+    // Analyze traffic for actual user routes
+    const routeAnalysis = await this.analyzeUserRoutes(userRoutes);
+    
+    // Generate granular traffic analysis
+    const worstRoads = await this.generateGranularTrafficAnalysis(routeAnalysis);
+    const chokepoints = await this.generatePreciseChokepoints(routeAnalysis);
+
+    const trafficData: TrafficData = {
+      worstRoads: worstRoads.length > 0 ? worstRoads : this.getFallbackTrafficData().worstRoads,
+      chokepoints: chokepoints.length > 0 ? chokepoints : this.getFallbackTrafficData().chokepoints,
+      lastUpdated: new Date().toISOString()
+    };
+
+    // Update cache for calculator mode
+    trafficCache['calculator'] = {
+      data: trafficData,
+      timestamp: Date.now()
+    };
+
+    return trafficData;
+  }
+
+  private async getHolisticTrafficData(): Promise<TrafficData> {
+    // Use comprehensive city-wide monitoring
+    const trafficPromises = this.chennaiLocations.map(async (location, index) => {
+      try {
+        // Create a route from this location to next major area to check traffic
+        const destination = this.chennaiLocations[(index + 1) % this.chennaiLocations.length];
+        
+        const response = await this.client.distancematrix({
+          params: {
+            origins: [`${location.coords.lat},${location.coords.lng}`],
+            destinations: [`${destination.coords.lat},${destination.coords.lng}`],
+            mode: "driving",
+            departure_time: "now",
+            traffic_model: "best_guess",
+            key: this.apiKey,
+          },
+        });
+
+        const element = response.data.rows[0]?.elements[0];
+        if (element && element.status === 'OK') {
+          const duration = element.duration?.value || 0;
+          const durationInTraffic = element.duration_in_traffic?.value || duration;
+          const delayRatio = durationInTraffic / duration;
+          
+          let severity: 'high' | 'medium' | 'low' = 'low';
+          let delay = 'Normal flow';
+          
+          if (delayRatio > 1.5) {
+            severity = 'high';
+            delay = `${Math.round((delayRatio - 1) * 100)}% longer than usual`;
+          } else if (delayRatio > 1.2) {
+            severity = 'medium';
+            delay = `${Math.round((delayRatio - 1) * 100)}% longer than usual`;
+          }
+
+          return {
+            road: location.name,
+            severity,
+            delay,
+            delayRatio
+          };
+        }
+      } catch (error) {
+        console.error(`Error fetching traffic for ${location.name}:`, error);
+      }
+      return null;
+    });
+
+    const trafficResults = await Promise.all(trafficPromises);
+    const validResults = trafficResults.filter(result => result !== null) as Array<{
+      road: string;
+      severity: 'high' | 'medium' | 'low';
+      delay: string;
+      delayRatio: number;
+    }>;
+
+    // Sort by delay ratio (worst first) and take top 5
+    const worstRoads = validResults
+      .sort((a, b) => b.delayRatio - a.delayRatio)
+      .slice(0, 5)
+      .map(({ road, severity, delay }) => ({ road, severity, delay }));
+
+    // Generate chokepoints based on traffic data
+    const chokepoints = this.generateChokepoints(validResults);
+
+    const trafficData: TrafficData = {
+      worstRoads: worstRoads.length > 0 ? worstRoads : this.getFallbackTrafficData().worstRoads,
+      chokepoints: chokepoints.length > 0 ? chokepoints : this.getFallbackTrafficData().chokepoints,
+      lastUpdated: new Date().toISOString()
+    };
+
+    // Update cache for holistic mode
+    trafficCache['holistic'] = {
+      data: trafficData,
+      timestamp: Date.now()
+    };
+
+    return trafficData;
   }
 
   private async getUserRoutes(): Promise<UserRoute[]> {

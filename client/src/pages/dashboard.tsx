@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Switch } from "@/components/ui/switch";
 import { SEO } from "@/components/seo";
 import { 
   Navigation, 
@@ -13,7 +14,9 @@ import {
   RefreshCw,
   Users,
   Route,
-  Gauge
+  Gauge,
+  Database,
+  Globe
 } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -52,15 +55,21 @@ interface WeatherData {
 
 export default function Dashboard() {
   const [refreshTime, setRefreshTime] = useState<Date>(new Date());
+  const [trafficMode, setTrafficMode] = useState<'calculator' | 'holistic'>('calculator');
 
   // Fetch commute insights from existing database
   const { data: commuteData, isLoading: commuteLoading } = useQuery<CommuteInsights>({
     queryKey: ['/api/dashboard/commute-insights'],
   });
 
-  // Fetch real-time traffic data
+  // Fetch real-time traffic data based on selected mode
   const { data: trafficData, isLoading: trafficLoading, refetch: refetchTraffic } = useQuery<TrafficData>({
-    queryKey: ['/api/dashboard/traffic-insights'],
+    queryKey: ['/api/dashboard/traffic-insights', trafficMode],
+    queryFn: async () => {
+      const response = await fetch(`/api/dashboard/traffic-insights?mode=${trafficMode}`);
+      if (!response.ok) throw new Error('Failed to fetch traffic data');
+      return response.json();
+    },
     refetchInterval: 5 * 60 * 1000, // 5 minutes
   });
 
@@ -288,10 +297,29 @@ export default function Dashboard() {
             <div className="space-y-6">
               {/* Traffic Conditions */}
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                  <AlertTriangle className="w-6 h-6 text-primary" />
-                  Real-Time Traffic Insights
-                </h2>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-semibold text-gray-900 flex items-center gap-2">
+                    <AlertTriangle className="w-6 h-6 text-primary" />
+                    Real-Time Traffic Insights
+                  </h2>
+                  
+                  {/* Traffic Mode Toggle */}
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Database className="w-4 h-4" />
+                      <span>Calculator Routes</span>
+                    </div>
+                    <Switch
+                      checked={trafficMode === 'holistic'}
+                      onCheckedChange={(checked) => setTrafficMode(checked ? 'holistic' : 'calculator')}
+                      className="data-[state=checked]:bg-primary"
+                    />
+                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                      <Globe className="w-4 h-4" />
+                      <span>City-wide</span>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Roads to Avoid */}
                 <div className="mb-6">
@@ -299,7 +327,10 @@ export default function Dashboard() {
                     Roads to Avoid Right Now
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Live analysis of actual user commute routes - showing specific road segments with delays above 10% compared to normal conditions
+                    {trafficMode === 'calculator' 
+                      ? 'Live analysis of actual user commute routes - showing specific road segments with delays above 10% compared to normal conditions'
+                      : 'Comprehensive city-wide traffic analysis using Google Maps - monitoring major Chennai roads and arterial routes for all traffic conditions'
+                    }
                   </p>
                   <div className="space-y-2">
                     {trafficLoading ? (
@@ -336,7 +367,10 @@ export default function Dashboard() {
                     Current Traffic Chokepoints
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
-                    Precise intersection-level analysis from most-traveled user routes - showing exact chokepoints with 30%+ delays and actionable alternatives
+                    {trafficMode === 'calculator' 
+                      ? 'Precise intersection-level analysis from most-traveled user routes - showing exact chokepoints with 30%+ delays and actionable alternatives'
+                      : 'Major Chennai intersections and junctions with significant traffic delays - identified through comprehensive city-wide monitoring'
+                    }
                   </p>
                   <div className="space-y-2">
                     {trafficLoading ? (
