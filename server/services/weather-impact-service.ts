@@ -22,9 +22,14 @@ interface WeatherImpact {
 export class WeatherImpactService {
   
   analyzeWeatherImpact(weather: WeatherData): WeatherImpact {
+    // Convert to Chennai/IST timezone (UTC+5:30)
     const now = new Date();
-    const hour = now.getHours();
-    const day = now.getDay(); // 0 = Sunday, 6 = Saturday
+    const istOffset = 5.5 * 60; // IST is UTC+5:30 (5.5 hours)
+    const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const istTime = new Date(utcTime + (istOffset * 60000));
+    
+    const hour = istTime.getHours();
+    const day = istTime.getDay(); // 0 = Sunday, 6 = Saturday
     const isWeekend = day === 0 || day === 6;
     const isRushHour = (hour >= 7 && hour <= 10) || (hour >= 17 && hour <= 20);
     const isEveningRush = hour >= 17 && hour <= 20;
@@ -73,6 +78,24 @@ export class WeatherImpactService {
       } else {
         impactScore += 5;
         factors.push("Pleasant warm weather");
+      }
+    } else if (weather.temperature >= 30) {
+      // Chennai typical weather - moderate impact during peak heat/rush
+      if (isPeakHeat && isRushHour) {
+        impactScore += 10;
+        factors.push("Moderate heat + traffic combination");
+        recommendations.push("Regular Chennai heat - stay hydrated in traffic");
+      } else if (isPeakHeat) {
+        impactScore += 6;
+        factors.push("Typical Chennai heat conditions");
+        recommendations.push("Moderate heat - AC usage increases fuel consumption");
+      } else if (isRushHour) {
+        impactScore += 8;
+        factors.push("Rush hour traffic in moderate heat");
+        recommendations.push("Traffic volume + moderate heat - plan extra time");
+      } else {
+        impactScore += 3;
+        factors.push("Normal Chennai weather conditions");
       }
     } else if (weather.temperature <= 25 && hour <= 7) {
       impactScore += 8;
@@ -135,6 +158,21 @@ export class WeatherImpactService {
       }
     }
 
+    if (condition.includes('overcast') || condition.includes('cloudy')) {
+      // Overcast conditions in Chennai often signal pre-monsoon buildup
+      if (weather.humidity >= 75 && weather.temperature >= 30) {
+        impactScore += 4;
+        factors.push("Overcast with humid conditions");
+        if (isPeakHeat) {
+          recommendations.push("Overcast heat - less sunlight but still humid and warm");
+        }
+      } else {
+        impactScore += 2;
+        factors.push("Overcast conditions");
+        recommendations.push("Cloudy weather - good driving visibility");
+      }
+    }
+
     // Humidity Impact (Chennai climate with heat consideration)
     if (weather.humidity >= 85 && weather.temperature >= 30) {
       impactScore += 15;
@@ -147,6 +185,11 @@ export class WeatherImpactService {
       impactScore += 8;
       factors.push("Very humid conditions");
       recommendations.push("Window fogging likely - ensure defogger works");
+    } else if (weather.humidity >= 70 && weather.temperature >= 30 && isPeakHeat) {
+      // Chennai typical humidity during hot hours
+      impactScore += 5;
+      factors.push("Moderate humidity in heat");
+      recommendations.push("Typical Chennai humidity - AC comfort recommended");
     }
 
     // Wind Speed Impact (Chennai context)
@@ -245,8 +288,9 @@ export class WeatherImpactService {
     
     // Generate contextual description
     let description: string;
-    const timeContext = isPeakHeat ? "during peak heat hours" : 
-                       isRushHour ? "during rush hour" : 
+    // Priority: Rush hour takes precedence over peak heat for time context
+    const timeContext = isRushHour ? "during rush hour" :
+                       isPeakHeat ? "during peak heat hours" : 
                        isWeekend ? "weekend conditions" : "current conditions";
     
     if (severity === 'critical') {

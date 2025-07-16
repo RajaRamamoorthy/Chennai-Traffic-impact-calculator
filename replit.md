@@ -157,6 +157,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 16, 2025: **WEATHER IMPACT ANALYSIS INCONSISTENCIES DEBUGGED AND FIXED** - Comprehensive fix of critical timezone and logic issues in weather impact system
+  - **Critical Timezone Bug**: Fixed UTC vs Chennai IST time confusion causing rush hour to be treated as peak heat (5:54 PM IST ≠ 11:54 AM UTC)
+  - **Missing Temperature Logic**: Added comprehensive 30-34°C analysis for typical Chennai weather (was previously ignored, causing 0 impact scores)
+  - **Overcast Condition Gap**: Added analysis for overcast weather conditions with humidity correlation for pre-monsoon Chennai patterns  
+  - **Humidity Threshold Fix**: Lowered threshold from 85%+ to 70%+ for typical Chennai humid conditions during peak heat
+  - **Time Context Priority**: Fixed rush hour taking precedence over peak heat in contextual descriptions
+  - **Result**: Weather impact now correctly analyzes 33°C overcast evening rush hour as "Rush hour traffic in moderate heat" (12 points) instead of ignored conditions
 - July 16, 2025: **TRAFFIC DASHBOARD DATA DUPLICATION DEBUG COMPLETED** - Fixed critical issue where Roads to Avoid and Traffic Chokepoints sections displayed identical data
   - **Root Cause**: Both sections were using the same traffic results array with minimal filtering differences
   - **Solution**: Complete separation of data generation algorithms:
