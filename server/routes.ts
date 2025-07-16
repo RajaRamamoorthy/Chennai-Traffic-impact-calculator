@@ -1087,6 +1087,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/dashboard/weather-impact", dashboardLimit, async (req, res) => {
+    try {
+      const weatherService = new (await import('./services/weather-service')).WeatherService();
+      const weatherImpactService = new (await import('./services/weather-impact-service')).WeatherImpactService();
+      
+      const weatherData = await weatherService.getChennaiWeather();
+      const impactAnalysis = weatherImpactService.analyzeWeatherImpact(weatherData);
+      
+      res.json(impactAnalysis);
+    } catch (error) {
+      console.error("Weather impact analysis error:", error);
+      res.status(500).json({ error: "Failed to analyze weather impact" });
+    }
+  });
+
   // Sitemap generation endpoint
   app.get("/sitemap.xml", (req, res) => {
     const baseUrl = "https://chennaitrafficcalc.in";

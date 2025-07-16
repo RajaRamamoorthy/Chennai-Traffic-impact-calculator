@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { SEO } from "@/components/seo";
+import { WeatherImpactOverlay } from "@/components/weather-impact-overlay";
 import { 
   Navigation, 
   MapPin, 
@@ -480,6 +481,11 @@ export default function Dashboard() {
                 ) : (
                   <p className="text-gray-500 text-center py-4">Weather data unavailable</p>
                 )}
+              </div>
+
+              {/* Weather Impact on Traffic Overlay */}
+              <div className="mt-6">
+                <WeatherImpactOverlay />
               </div>
             </div>
           </div>
