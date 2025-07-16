@@ -133,23 +133,57 @@ export function WeatherImpactOverlay() {
         </Alert>
 
         {/* Impact Metrics */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white/70 p-3 rounded-lg border">
-            <div className="flex items-center gap-2 mb-1">
-              <Thermometer className="w-4 h-4 text-gray-600" />
-              <span className="text-sm font-medium text-gray-700">Impact Score</span>
+        <div className="space-y-4">
+          <div className="bg-white/70 p-4 rounded-lg border">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <Thermometer className="w-4 h-4 text-gray-600" />
+                <span className="text-sm font-medium text-gray-700">Weather Impact Level</span>
+              </div>
+              <Badge className={config.badgeColor}>
+                {impactData.severity.charAt(0).toUpperCase() + impactData.severity.slice(1)}
+              </Badge>
             </div>
-            <div className="text-2xl font-bold text-gray-900">
-              {impactData.impactScore}/100
+            
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
+              <div 
+                className={`h-3 rounded-full transition-all duration-300 ${
+                  impactData.severity === 'critical' ? 'bg-red-500' :
+                  impactData.severity === 'high' ? 'bg-orange-500' :
+                  impactData.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
+                }`}
+                style={{ width: `${Math.min(impactData.impactScore, 100)}%` }}
+              ></div>
+            </div>
+            
+            {/* Score Explanation */}
+            <div className="text-sm text-gray-600">
+              <div className="flex justify-between items-center">
+                <span>
+                  {impactData.impactScore < 15 ? 'Minimal impact on your commute' :
+                   impactData.impactScore < 30 ? 'Some delays possible' :
+                   impactData.impactScore < 50 ? 'Significant delays expected' :
+                   'Major traffic disruption likely'}
+                </span>
+                <span className="font-medium text-gray-800">{impactData.impactScore}/100</span>
+              </div>
             </div>
           </div>
+
           <div className="bg-white/70 p-3 rounded-lg border">
             <div className="flex items-center gap-2 mb-1">
               <Clock className="w-4 h-4 text-gray-600" />
-              <span className="text-sm font-medium text-gray-700">Est. Delay</span>
+              <span className="text-sm font-medium text-gray-700">Expected Additional Travel Time</span>
             </div>
             <div className="text-2xl font-bold text-gray-900">
               {impactData.estimatedDelay}
+            </div>
+            <div className="text-xs text-gray-500 mt-1">
+              {impactData.impactScore < 15 ? 'Normal conditions' :
+               impactData.impactScore < 30 ? 'Plan a bit extra time' :
+               impactData.impactScore < 50 ? 'Leave significantly earlier' :
+               'Consider delaying travel if possible'}
             </div>
           </div>
         </div>
@@ -193,9 +227,30 @@ export function WeatherImpactOverlay() {
           </div>
         )}
 
-        {/* Weather Icons Legend */}
-        <div className="text-xs text-gray-500 text-center pt-2 border-t">
-          Live analysis based on current Chennai weather conditions
+        {/* Impact Score Legend */}
+        <div className="bg-gray-50 p-3 rounded-lg text-xs text-gray-600 space-y-1">
+          <div className="font-medium text-gray-700 mb-2">Understanding Impact Levels:</div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span>0-15: Normal conditions</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+              <span>15-30: Minor delays</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
+              <span>30-50: Significant impact</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+              <span>50+: Major disruption</span>
+            </div>
+          </div>
+          <div className="text-center pt-2 border-t border-gray-200 mt-2">
+            Live analysis based on current Chennai weather conditions & traffic patterns
+          </div>
         </div>
       </CardContent>
     </Card>
