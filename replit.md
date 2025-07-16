@@ -157,6 +157,11 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- January 20, 2025: **MICROSOFT CLARITY Z.CLARITY.MS ENDPOINT FIX** - Fixed CSP blocking Clarity's secondary data collection endpoint
+  - **Issue**: Microsoft Clarity was trying to connect to https://z.clarity.ms/collect but CSP only allowed https://c.clarity.ms
+  - **Solution**: Added https://z.clarity.ms to connect-src in both server/index.ts Helmet configuration and client/index.html meta tag
+  - **Impact**: Eliminated repeated console errors "Refused to connect to 'https://z.clarity.ms/collect'"
+  - **Status**: Clarity analytics now fully functional with both primary (c.clarity.ms) and secondary (z.clarity.ms) endpoints allowed
 - July 16, 2025: **HELMET CSP SECURITY FIX** - Fixed Content Security Policy violations blocking Microsoft Clarity and Replit scripts
   - **Issue**: Server-side Helmet CSP configuration overriding HTML meta tag, blocking https://www.clarity.ms and https://replit.com scripts
   - **Solution**: Updated server/index.ts Helmet configuration with complete script-src and script-src-elem directives
