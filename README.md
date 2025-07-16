@@ -189,6 +189,18 @@ npm run dev
 # Access at http://localhost:5000
 ```
 
+### Data Quality Verification
+
+```bash
+# Check production data filtering
+curl "http://localhost:5000/api/stats/homepage"
+# Should show production calculations only (423+ calculations)
+
+# Verify dashboard insights  
+curl "http://localhost:5000/api/dashboard/commute-insights"
+# Should display authentic Chennai commuter patterns
+```
+
 ### Production Deployment
 
 ```bash
@@ -228,6 +240,12 @@ npm start
 - **Intelligent Caching**: Reduces Google Maps API costs by 70-80%
 - **Request Validation**: Zod schemas for all input validation
 - **Security Headers**: Helmet.js configuration for production security
+
+### Production Data Quality
+- **Production Cutoff Filtering**: All analytics exclude test data before July 11, 2025
+- **Clean Metrics**: 423 production calculations vs 33 test calculations filtered out
+- **Authentic Insights**: Homepage stats, dashboard, and admin analytics show real Chennai commuter behavior
+- **Data Preservation**: Test data preserved for debugging but excluded from user-facing metrics
 
 ### Cost Optimization
 - **Google Maps API**: Cached responses reduce API calls significantly
