@@ -113,8 +113,14 @@ export default function Dashboard() {
   const dashboardSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Chennai Traffic Dashboard - Real-Time Insights",
-    "description": "Live Chennai traffic conditions, commute insights, and weather updates for better transportation decisions",
+    "name": "Chennai Live Traffic Dashboard - Real-Time Road Conditions | Traffic Impact Calculator",
+    "description": "Live Chennai traffic monitoring dashboard with real-time road conditions, traffic jams, commute insights, and weather updates. Track Anna Salai, OMR, GST Road, and other major Chennai roads.",
+    "keywords": "Chennai traffic, Chennai road conditions, Chennai traffic jams, Chennai commute, Anna Salai traffic, OMR traffic, GST Road traffic, Chennai traffic dashboard, live traffic Chennai, Chennai traffic monitoring, Kathipara Junction, Koyambedu traffic, Chennai weather, Chennai transport, Chennai traffic analysis, Chennai road updates, Chennai traffic chokepoints, Chennai traffic live, Chennai traffic alerts, Chennai traffic congestion",
+    "about": {
+      "@type": "Thing",
+      "name": "Chennai Traffic Monitoring System",
+      "description": "Real-time traffic monitoring system for Chennai providing live updates on road conditions, traffic jams, and commute patterns across major routes including Anna Salai, OMR, GST Road, and key junctions."
+    },
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [
@@ -127,19 +133,52 @@ export default function Dashboard() {
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Dashboard",
+          "name": "Chennai Traffic Dashboard",
           "item": "https://chennaitrafficcalc.in/dashboard"
         }
       ]
+    },
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "Chennai Traffic Dashboard",
+      "description": "Real-time Chennai traffic monitoring dashboard with live road conditions, traffic analysis, and weather updates",
+      "applicationCategory": "Traffic Monitoring Application",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "featureList": [
+        "Real-time Chennai traffic monitoring",
+        "Live road condition updates",
+        "Traffic chokepoint analysis",
+        "Commute pattern insights",
+        "Chennai weather updates",
+        "Dual-mode traffic analysis",
+        "Major road segment monitoring",
+        "Junction traffic analysis"
+      ]
+    },
+    "geo": {
+      "@type": "Place",
+      "name": "Chennai",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Chennai",
+        "addressRegion": "Tamil Nadu",
+        "addressCountry": "India"
+      }
     }
   };
 
   return (
     <>
       <SEO 
-        title="Chennai Dashboard | Traffic Impact Calculator"
-        description="Real-time Chennai traffic insights, commute patterns, and weather updates. Monitor traffic conditions and make better transportation decisions."
+        title="Chennai Live Traffic Dashboard - Real-Time Road Conditions & Traffic Monitoring | Chennai Traffic Impact Calculator"
+        description="Live Chennai traffic dashboard with real-time road conditions, traffic jams, and commute insights. Monitor Anna Salai, OMR, GST Road, Kathipara Junction, and major Chennai routes. Get instant traffic updates and weather conditions for better commute planning."
         canonical="https://chennaitrafficcalc.in/dashboard"
+        keywords="Chennai traffic, Chennai road conditions, Chennai traffic jams, Chennai commute, Anna Salai traffic, OMR traffic, GST Road traffic, Chennai traffic dashboard, live traffic Chennai, Chennai traffic monitoring, Kathipara Junction, Koyambedu traffic, Chennai weather, Chennai transport, Chennai traffic analysis, Chennai road updates, Chennai traffic chokepoints, Chennai traffic live, Chennai traffic alerts, Chennai traffic congestion, Chennai traffic conditions today, Chennai traffic update, Chennai traffic status, Chennai traffic report, Chennai traffic now"
         structuredData={dashboardSchema}
       />
       
@@ -151,10 +190,10 @@ export default function Dashboard() {
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
                   <Navigation className="w-8 h-8 text-primary" />
-                  Chennai Real-Time Dashboard
+                  Chennai Live Traffic Dashboard
                 </h1>
                 <p className="mt-2 text-gray-600">
-                  Live traffic insights and commute patterns for better transportation decisions
+                  Real-time Chennai traffic monitoring with live road conditions, traffic jams on Anna Salai, OMR, GST Road, and key junctions like Kathipara. Get instant traffic updates and weather for better commute planning.
                 </p>
               </div>
               <button
@@ -166,7 +205,7 @@ export default function Dashboard() {
               </button>
             </div>
             <p className="text-sm text-gray-500 mt-2">
-              Last refreshed: {refreshTime.toLocaleTimeString()}
+              Last refreshed: {refreshTime.toLocaleTimeString()} • Real-time Chennai traffic data updated every 5 minutes
             </p>
           </div>
         </div>
@@ -328,8 +367,8 @@ export default function Dashboard() {
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
                     {trafficMode === 'calculator' 
-                      ? 'Live analysis of actual user commute routes - showing specific road segments with delays above 10% compared to normal conditions'
-                      : 'Comprehensive city-wide traffic analysis using Google Maps - monitoring major Chennai roads and arterial routes for all traffic conditions'
+                      ? 'Live analysis of actual user commute routes - showing specific road segments with delays above 10% compared to normal conditions on Anna Salai, OMR, GST Road, and key junctions'
+                      : 'Comprehensive city-wide Chennai traffic analysis using Google Maps - monitoring 20 major roads including Anna Salai, OMR, GST Road, Kathipara Junction, and Koyambedu for all traffic conditions'
                     }
                   </p>
                   <div className="space-y-2">
@@ -368,8 +407,8 @@ export default function Dashboard() {
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
                     {trafficMode === 'calculator' 
-                      ? 'Precise intersection-level analysis from most-traveled user routes - showing exact chokepoints with 30%+ delays and actionable alternatives'
-                      : 'Major Chennai intersections and junctions with significant traffic delays - identified through comprehensive city-wide monitoring'
+                      ? 'Precise intersection-level analysis from most-traveled user routes - showing exact chokepoints with 30%+ delays on Anna Salai, OMR, GST Road, and actionable alternatives'
+                      : 'Major Chennai intersections and junctions with significant traffic delays - Kathipara Junction, Koyambedu, Madhya Kailash, and other key points identified through comprehensive city-wide monitoring'
                     }
                   </p>
                   <div className="space-y-2">

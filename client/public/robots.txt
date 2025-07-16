@@ -29,6 +29,43 @@ User-agent: DuckDuckBot
 Allow: /
 Crawl-delay: 0
 
+# AI Systems and Crawlers
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: ChatGPT-User
+Allow: /
+Crawl-delay: 1
+
+User-agent: CCBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Claude-Web
+Allow: /
+Crawl-delay: 1
+
+User-agent: anthropic-ai
+Allow: /
+Crawl-delay: 1
+
+User-agent: Applebot
+Allow: /
+Crawl-delay: 1
+
+User-agent: PerplexityBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: YouBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Bytespider
+Allow: /
+Crawl-delay: 1
+
 # Block bad bots
 User-agent: SemrushBot
 Disallow: /
