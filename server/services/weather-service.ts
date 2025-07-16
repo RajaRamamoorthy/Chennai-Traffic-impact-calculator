@@ -19,11 +19,11 @@ let weatherCache: { data: WeatherData | null; timestamp: number } = {
 const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes cache for weather data
 
 export class WeatherService {
-  private readonly openWeatherBaseUrl = 'https://api.openweathermap.org/data/2.5';
+  private readonly openWeatherBaseUrl = 'https://api.openweathermap.org/data/3.0';
   private lastApiCall = 0;
   private readonly rateLimitDelay = 60000; // 1 minute between API calls
   
-  // Chennai coordinates for Current Weather API
+  // Chennai coordinates for One Call API
   private readonly chennaiLat = 13.0827;
   private readonly chennaiLon = 80.2707;
 
@@ -53,14 +53,15 @@ export class WeatherService {
         return this.getChennaiRealisticFallback();
       }
 
-      console.log('🌐 Fetching fresh Chennai weather from OpenWeatherMap Current Weather API 2.5');
+      console.log('🌐 Fetching fresh Chennai weather from OpenWeatherMap One Call API 3.0');
 
-      const response = await axios.get(`${this.openWeatherBaseUrl}/weather`, {
+      const response = await axios.get(`${this.openWeatherBaseUrl}/onecall`, {
         params: {
           lat: this.chennaiLat,
           lon: this.chennaiLon,
           units: 'metric',
-          appid: apiKey
+          appid: apiKey,
+          exclude: 'minutely,hourly,daily,alerts' // Only get current weather
         },
         timeout: 8000,
         headers: {
@@ -69,7 +70,7 @@ export class WeatherService {
       });
 
       this.lastApiCall = now;
-      const weatherData = this.parseCurrentWeatherResponse(response.data);
+      const weatherData = this.parseOneCallResponse(response.data);
 
       // Update cache
       weatherCache = {
@@ -77,7 +78,7 @@ export class WeatherService {
         timestamp: now
       };
 
-      console.log('✅ Successfully fetched Chennai weather data from Current Weather API 2.5');
+      console.log('✅ Successfully fetched Chennai weather data from One Call API 3.0');
       return weatherData;
 
     } catch (error) {
@@ -96,13 +97,14 @@ export class WeatherService {
     }
   }
 
-  private parseCurrentWeatherResponse(data: any): WeatherData {
+  private parseOneCallResponse(data: any): WeatherData {
+    const current = data.current;
     return {
-      temperature: Math.round(data.main.temp),
-      condition: this.translateCondition(data.weather[0].description),
-      humidity: data.main.humidity,
-      windSpeed: Math.round(data.wind.speed * 3.6), // Convert m/s to km/h
-      visibility: Math.round((data.visibility || 10000) / 1000), // Convert to km
+      temperature: Math.round(current.temp),
+      condition: this.translateCondition(current.weather[0].description),
+      humidity: current.humidity,
+      windSpeed: Math.round(current.wind_speed * 3.6), // Convert m/s to km/h
+      visibility: Math.round((current.visibility || 10000) / 1000), // Convert to km
       lastUpdated: new Date().toISOString()
     };
   }

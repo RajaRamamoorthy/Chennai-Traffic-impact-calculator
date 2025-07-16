@@ -139,6 +139,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 16, 2025: **OPENWEATHER ONECALL API 3.0 ACTIVATED** - Successfully configured real-time Chennai weather with paid OneCall API 3.0 subscription
+  - Restored OneCall API 3.0 endpoints after confirming user's valid subscription
+  - API key activation completed successfully after initial 401 errors
+  - Weather service now fetching authentic Chennai weather data: temperature, humidity, wind speed, visibility
+  - Dashboard displays real-time Chennai weather conditions instead of fallback data
+  - API responds within 110ms with current weather from OpenWeatherMap OneCall API 3.0
 - July 16, 2025: **CRITICAL DATABASE CONNECTION FIX** - Resolved WebSocket connection issues preventing app startup
   - Enhanced Neon database configuration with secure WebSocket settings and disabled pipeline connect
   - Improved connection pool reliability by reducing minimum connections from 5 to 2 and increasing timeout from 2s to 5s

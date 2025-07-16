@@ -1,0 +1,45 @@
+
+Dear Customer!
+
+Thank you for subscribing to the One Call API 3.0 subscription! Activating your API keys can take several minutes, and then you will be able to use them to make requests to One Call API 3.0.
+
+Below is some important information about how to make the most of your service, please read it carefully before you begin.
+
+1. How to request data via One Call API 3.0
+
+Full documentation for this API is available here. To call this API, you will need to use your API keys that you can find here.
+
+Below is the format of API calls that you need to use.
+
+API call to request current weather and forecast data:
+https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={API key}
+
+API call to request historical data:
+https://api.openweathermap.org/data/3.0/onecall/timemachine?lat={lat}&lon={lon}&dt={time}&appid={API key}
+
+API call to request daily aggregation data:
+https://api.openweathermap.org/data/3.0/onecall/day_summary?lat={lat}&lon={lon}&date={date}&appid={API key}
+
+API call to request weather overview with a human-readable weather summary:
+https://api.openweathermap.org/data/3.0/onecall/overview?lat={lat}&lon={lon}&appid={API key}
+
+Call to request weather data and weather-related advice in a human-readable and friendly format:
+
+Web interface: please use the following unique URL https://openweathermap.org/weather-assistant?apikey={API key}
+API: please read the instructions here.
+Please note that this link contains your API key. Keep it private.
+
+Example of an API call:
+https://api.openweathermap.org/data/3.0/onecall?lat=33.44&lon=-94.04&appid=f723e67f06703b34214a1bc115d4518b
+
+
+2. About the One Call API 3.0 subscription
+
+- First 1,000 API calls per day can be made for free. All API calls that exceed this threshold will be charged in accordance with the pricing list.
+- You can set the individual API call limit for your account to ensure that you do not go over a certain number of calls accidentally. A 2,000 API calls per day limit is set by default. You can change this limit anytime via the "Billing plan" tab in your Personal account. If you reach that threshold, you will receive the "429" error.
+- Statistics of your One Call 3.0 usage can be found on the "OneCall statistics" tab in your Personal account.
+
+3. Other useful information
+
+- FAQ - separate section dedicated to frequently asked questions about One Call 3.0 and other products
+- Blog - updates from our team
