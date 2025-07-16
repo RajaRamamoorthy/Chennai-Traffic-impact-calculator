@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Car, Bike, Bus, Train, User } from "lucide-react";
+import { ArrowRight, Car, Bike, Bus, Train, User, Truck } from "lucide-react";
 import { api } from "@/lib/api";
 import { VehicleType } from "@/types/calculator";
 import { useLanguage } from "@/contexts/language-context";
@@ -52,13 +52,7 @@ const getTransportModes = (t: any) => [
   {
     id: 'auto',
     name: t.transportation.modes.auto.name,
-    icon: () => (
-      <img 
-        src="/illustrations/auto-rickshaw-sample.svg" 
-        alt="Auto rickshaw"
-        className="w-6 h-6"
-      />
-    ),
+    icon: Truck,
     description: t.transportation.modes.auto.description,
     requiresVehicleDetails: false
   },
