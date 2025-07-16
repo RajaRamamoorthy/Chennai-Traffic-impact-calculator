@@ -233,39 +233,29 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         style={{ width: '600px', minHeight: 'auto', visibility: 'hidden' }}
       >
         {/* Website URL header for screenshot */}
-        <div className="text-center mb-6 py-4 bg-gradient-to-r from-green-50 to-blue-50 border-b-2 border-green-200">
-          <div className="text-2xl font-bold text-green-700">ChennaiTrafficCalc.in</div>
-          <div className="text-sm text-slate-600">Calculate Your Chennai Traffic Impact</div>
+        <div className="text-center mb-6 py-4 bg-gradient-to-r from-red-50 to-orange-50 border-b-2 border-red-200">
+          <div className="text-2xl font-bold text-red-700">ChennaiTrafficCalc.in</div>
+          <div className="text-sm text-slate-600">Calculate Your Chennai Commute Costs</div>
         </div>
 
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
-          <p className="text-slate-600">Based on your commute pattern in Chennai</p>
+          <h2 className="text-3xl font-bold text-red-600 mb-3">Your commute costs ₹{results.monthlyCost}/month extra</h2>
+          <p className="text-lg text-slate-700 mb-2">That's ₹{results.monthlyCost * 12} wasted annually on inefficient commuting</p>
+          <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
         </div>
 
-        {/* Impact Score Display Only */}
-        <div className={`p-8 text-center rounded-lg border-2 ${getScoreColor(results.score)}`}>
-          <div className="mb-4">
-            <div className="text-8xl font-bold mb-4">{results.score}</div>
-            <div className="text-2xl mb-4 font-semibold">{getScoreLabel(results.score)}</div>
+        {/* Cost and Score Display for Screenshot */}
+        <div className="p-8 text-center rounded-lg border-2 border-red-200 bg-red-50">
+          <div className="mb-6">
+            <div className="text-8xl font-bold text-red-600 mb-4">₹{results.monthlyCost}</div>
+            <div className="text-2xl mb-4 font-semibold text-red-700">Monthly Transport Cost</div>
             <div className="text-base text-slate-600 mb-6 max-w-lg mx-auto leading-relaxed">
-              {results.score >= 70 ? (
-                <span className="text-red-700 font-medium">
-                  Your commute significantly contributes to Chennai's traffic congestion and pollution. 
-                  Consider alternatives to reduce your impact.
-                </span>
-              ) : results.score >= 40 ? (
-                <span className="text-yellow-700 font-medium">
-                  Your commute has a moderate impact on Chennai's traffic. 
-                  Small changes could make a meaningful difference.
-                </span>
-              ) : (
-                <span className="text-green-700 font-medium">
-                  Great job! Your transportation choices help keep Chennai's roads cleaner and less congested. 
-                  You're making a positive difference.
-                </span>
-              )}
+              You're spending <span className="font-bold text-red-600">₹{results.monthlyCost * 12}</span> annually on inefficient commuting. 
+              This extra cost comes from fuel consumption, maintenance, and time lost in traffic.
             </div>
+          </div>
+          <div className="border-t pt-4">
+            <div className="text-3xl font-bold text-slate-700 mb-2">Impact Score: {results.score}/100</div>
             <div className={`inline-block px-4 py-2 rounded-full text-base font-medium ${getConfidenceBadge(results.confidence.level)}`}>
               Confidence {results.confidence.level}: {results.confidence.description}
             </div>
@@ -276,50 +266,80 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       {/* Visible responsive content */}
       <div>
         {/* Website URL header for screenshot */}
-        <div className="text-center mb-6 py-4 bg-gradient-to-r from-green-50 to-blue-50 border-b-2 border-green-200">
-          <div className="text-xl font-bold text-green-700">ChennaiTrafficCalc.in</div>
-          <div className="text-sm text-slate-600">Calculate Your Chennai Traffic Impact</div>
+        <div className="text-center mb-6 py-4 bg-gradient-to-r from-red-50 to-orange-50 border-b-2 border-red-200">
+          <div className="text-xl font-bold text-red-700">ChennaiTrafficCalc.in</div>
+          <div className="text-sm text-slate-600">Calculate Your Chennai Commute Costs</div>
         </div>
 
         <div className="text-center mb-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">Your Traffic Impact Score</h2>
-          <p className="text-slate-600">Based on your commute pattern in Chennai</p>
+          <h2 className="text-3xl font-bold text-red-600 mb-3">Your commute costs ₹{results.monthlyCost}/month extra</h2>
+          <p className="text-lg text-slate-700 mb-2">That's ₹{results.monthlyCost * 12} wasted annually on inefficient commuting</p>
+          <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
         </div>
 
-        {/* Impact Score Display */}
-        <Card className={`mb-8 ${getScoreColor(results.score)}`}>
-        <CardContent className="p-8 text-center">
-          <div className="mb-4">
-            <div className="text-6xl font-bold mb-2">{results.score}</div>
-            <div className="text-lg mb-2">{getScoreLabel(results.score)}</div>
-            <div className="text-sm text-slate-600 mb-4 max-w-md mx-auto">
-              {results.score >= 70 ? (
-                <span className="text-red-700 font-medium">
-                  Your commute significantly contributes to Chennai's traffic congestion and pollution. 
-                  Consider the alternatives below to reduce your impact.
-                </span>
-              ) : results.score >= 40 ? (
-                <span className="text-yellow-700 font-medium">
-                  Your commute has a moderate impact on Chennai's traffic. 
-                  Small changes could make a meaningful difference.
-                </span>
-              ) : (
-                <span className="text-green-700 font-medium">
-                  Great job! Your transportation choices help keep Chennai's roads cleaner and less congested. 
-                  You're making a positive difference.
-                </span>
-              )}
+        {/* Monthly Cost Display - Primary Focus */}
+        <Card className="mb-8 border-red-200 bg-red-50">
+          <CardContent className="p-8 text-center">
+            <div className="mb-4">
+              <div className="text-6xl font-bold text-red-600 mb-2">₹{results.monthlyCost}</div>
+              <div className="text-lg text-red-700 mb-2">Monthly Transport Cost</div>
+              <div className="text-sm text-slate-600 mb-4 max-w-md mx-auto">
+                You're spending <span className="font-bold text-red-600">₹{results.monthlyCost * 12}</span> annually on inefficient commuting. 
+                This extra cost comes from fuel consumption, maintenance, and time lost in traffic.
+              </div>
             </div>
-            <Badge className={getConfidenceBadge(results.confidence.level)}>
-              Confidence {results.confidence.level}: {results.confidence.description}
-            </Badge>
+          </CardContent>
+        </Card>
+
+      {/* Time Wasted Display - Secondary Focus */}
+      <Card className="mb-8 border-orange-200 bg-orange-50">
+        <CardContent className="p-6 text-center">
+          <div className="mb-4">
+            <div className="text-4xl font-bold text-orange-600 mb-2">{results.monthlyTimeHours} hours/month</div>
+            <div className="text-lg text-orange-700 mb-2">Time Wasted in Traffic</div>
+            <div className="text-sm text-slate-600 mb-2">
+              That's <span className="font-bold text-orange-600">{(results.monthlyTimeHours * 12 / 24).toFixed(1)} days</span> lost annually to inefficient commuting
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Impact Breakdown and Metrics */}
+      {/* Environmental Impact and Score */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {/* Breakdown */}
+        {/* Environmental Impact - Supporting Metric */}
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+              Environmental Impact
+            </h3>
+            <div className="text-center p-4 bg-green-50 rounded-lg">
+              <div className="text-3xl font-bold text-green-600 mb-2">{results.monthlyEmissions}kg</div>
+              <div className="text-sm text-slate-600">Monthly CO₂ emissions</div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Impact Score - Secondary Position */}
+        <Card className={`${getScoreColor(results.score)}`}>
+          <CardContent className="p-6">
+            <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+              Traffic Impact Score
+            </h3>
+            <div className="text-center">
+              <div className="text-4xl font-bold mb-2">{results.score}</div>
+              <div className="text-sm mb-2">{getScoreLabel(results.score)}</div>
+              <Badge className={getConfidenceBadge(results.confidence.level)}>
+                Confidence {results.confidence.level}: {results.confidence.description}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Impact Breakdown */}
+      <div className="grid grid-cols-1 gap-6 mb-8">
         <Card>
           <CardContent className="p-6">
             <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
@@ -385,27 +405,6 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             </div>
           </CardContent>
         </Card>
-
-        {/* Monthly Impact */}
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="font-semibold text-slate-900 mb-4">Monthly Impact</h3>
-            <div className="space-y-4">
-              <div className="text-center p-4 bg-red-50 rounded-lg">
-                <div className="text-2xl font-bold text-red-600">₹{results.monthlyCost}</div>
-                <div className="text-sm text-slate-600">Fuel & maintenance cost</div>
-              </div>
-              <div className="text-center p-4 bg-orange-50 rounded-lg">
-                <div className="text-2xl font-bold text-orange-600">{results.monthlyEmissions}kg</div>
-                <div className="text-sm text-slate-600">CO₂ emissions</div>
-              </div>
-              <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-600">{results.monthlyTimeHours} hrs</div>
-                <div className="text-sm text-slate-600">Time in traffic</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
         {/* Alternatives Section */}
@@ -413,9 +412,12 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           <Card className="mb-8 border-green-200">
             <CardContent className="p-6">
               <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                <Lightbulb className="inline w-5 h-5 text-green-500 mr-2" />
-                Better Alternatives
+                <DollarSign className="inline w-5 h-5 text-green-500 mr-2" />
+                Why You're Losing Money
               </h3>
+              <p className="text-sm text-slate-600 mb-6">
+                Here's how to save ₹{Math.max(...results.alternatives.map(alt => alt.costSavings))}/month with better transport choices:
+              </p>
 
               <div className="space-y-4">
                 {results.alternatives.map((alternative, index) => {
@@ -451,10 +453,11 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                             </div>
                             <div>
                               <h4 className="font-medium text-slate-900">{alternative.title}</h4>
-                              <p className="text-sm text-slate-600">
-                                Reduce impact by {alternative.impactReduction}% • Save ₹{alternative.costSavings}/month
+                              <p className="text-sm text-green-600 font-medium">
+                                Save ₹{alternative.costSavings}/month
                               </p>
-                              <p className="text-xs text-green-600 mt-1">{alternative.timeDelta} travel time</p>
+                              <p className="text-xs text-blue-600 mt-1">{alternative.timeDelta} travel time</p>
+                              <p className="text-xs text-slate-500 mt-1">Reduce emissions by {alternative.impactReduction}%</p>
                             </div>
                           </div>
                           <div className="text-right">
