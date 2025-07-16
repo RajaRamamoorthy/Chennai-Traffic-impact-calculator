@@ -372,11 +372,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Calculate traffic impact (with rate limiting)
   app.post("/api/calculate-impact", calculatorLimit, async (req, res) => {
     try {
-      // Validate input
-      const calculationInput = insertCalculationSchema.extend({
+      // Create input-only validation schema (exclude output fields)
+      const calculationInputSchema = z.object({
+        transportMode: z.string(),
         vehicleTypeId: z.number().optional(),
+        occupancy: z.number().int().min(1).default(1),
+        origin: z.string(),
+        destination: z.string(),
         distanceKm: z.number().positive(),
-      }).parse(req.body);
+        travelPattern: z.string()
+      });
+
+      // Validate input
+      const calculationInput = calculationInputSchema.parse(req.body);
 
       // Get session ID from headers or generate one
       const sessionId = req.headers['x-session-id'] as string || `session_${Date.now()}_${Math.random()}`;
