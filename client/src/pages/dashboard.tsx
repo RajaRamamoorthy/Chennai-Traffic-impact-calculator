@@ -298,6 +298,9 @@ export default function Dashboard() {
                   <h3 className="text-lg font-medium text-gray-900 mb-4">
                     Roads to Avoid Right Now
                   </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Based on Google Maps traffic data comparing current travel times to normal conditions for major Chennai roads
+                  </p>
                   <div className="space-y-2">
                     {trafficLoading ? (
                       Array.from({ length: 5 }).map((_, i) => (
@@ -332,6 +335,9 @@ export default function Dashboard() {
                   <h3 className="text-lg font-medium text-gray-900 mb-4">
                     Current Traffic Chokepoints
                   </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Areas with delays over 30% longer than usual, identified from real-time traffic analysis of Chennai's major intersections
+                  </p>
                   <div className="space-y-2">
                     {trafficLoading ? (
                       Array.from({ length: 3 }).map((_, i) => (
