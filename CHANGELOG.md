@@ -5,6 +5,34 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2025-07-16
+
+### Added
+- **Advanced SEO Optimization Suite**: Comprehensive search engine ranking improvements for Chennai traffic keywords
+  - **Schema Markup Expansion**: LocalBusiness, Place, and enhanced Organization schemas with Chennai geo-coordinates (13.0827, 80.2707)
+  - **Featured Snippet Optimization**: Structured Q&A content targeting "What time is traffic worst in Chennai?", "How to avoid Anna Salai traffic?"
+  - **Internal Linking Strategy**: Breadcrumb navigation with structured data, contextual cross-page links, related content suggestions
+  - **Performance Optimization**: Resource hints, DNS prefetch, preconnect for Google Maps/Analytics, lazy loading infrastructure
+
+### Enhanced
+- **SEO Content Integration**: Chennai Traffic Q&A section with peak hours data, alternative routes, cost impact information
+  - Morning peak (7:30-10 AM), Evening peak (5:30-8:30 PM) structured data
+  - Anna Salai, OMR, GST Road specific traffic guidance with alternatives
+  - Monthly commute cost data (₹3,000-8,000) with traffic delay impact (₹600-1,500 extra)
+- **Page-Level SEO**: Breadcrumbs on calculator and FAQ pages, internal links on results completion
+- **Performance Components**: LazyImage component for Core Web Vitals, PerformanceHints for critical resource optimization
+
+### Changed
+- **Homepage Layout**: Removed traffic routes section for cleaner user experience per feedback
+- **Content Flow**: Streamlined homepage sections from Chennai Q&A directly to call-to-action
+- **SEO Infrastructure**: Centralized performance optimization with reusable components
+
+### Technical Details
+- Schema.org compliant breadcrumb navigation with structured data
+- FAQ page schema enhancement with Chennai-specific traffic questions
+- Performance hints for Google Maps API, Analytics, Microsoft Clarity
+- Enhanced structured data for local business and place context
+
 ## [1.5.0] - 2025-07-16
 
 ### Added

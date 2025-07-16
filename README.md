@@ -2,7 +2,7 @@
 
 A comprehensive web application that empowers Chennai commuters to make sustainable transportation choices through data-driven insights and interactive analysis.
 
-![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.5.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
+![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.6.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
 
 ## 🎯 Project Goals
 
@@ -26,6 +26,8 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - Adaptive results display based on transport mode (metro/walking vs cars/taxis) and efficiency levels
 - Real-time financial insights dashboard with live data aggregation from Chennai commuter submissions
 - Comprehensive financial analytics: total monthly costs, potential savings, cost efficiency metrics, transport mode analysis
+- Advanced SEO optimization with featured snippet targeting and enhanced schema markup for Chennai traffic searches
+- Performance optimization with resource hints, lazy loading, and Core Web Vitals improvements
 
 ## 🏗️ System Architecture
 
@@ -53,6 +55,12 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - **Razorpay**: Secure donation processing with webhook verification
 - **Nodemailer**: Email service for contact form submissions
 - **Weather APIs**: IMD API with OpenWeatherMap fallback for Chennai weather data
+
+#### SEO & Performance
+- **Schema.org Structured Data**: LocalBusiness, Place, Organization, FAQ, and Breadcrumb schemas
+- **Performance Optimization**: DNS prefetch, preconnect, resource hints for critical third-party services
+- **Featured Snippet Optimization**: Chennai traffic Q&A content targeting Google featured snippets
+- **Internal Linking Strategy**: Contextual cross-page navigation with SEO-optimized anchor text
 
 ### Database Schema
 
@@ -124,6 +132,13 @@ The application features an advanced dual-mode traffic monitoring system that pr
 #### Real-Time Traffic & Analytics
 - `GET /api/dashboard/traffic-insights?mode=calculator`: User route-based traffic data
 - `GET /api/dashboard/traffic-insights?mode=holistic`: City-wide traffic monitoring
+
+#### SEO & Performance Features
+- **Featured Snippet Content**: Chennai traffic peak hours, route alternatives, cost analysis
+- **Structured Data**: Schema.org markup for local business, place context, and FAQ pages
+- **Performance Optimization**: Resource hints, lazy loading, Core Web Vitals improvements
+- **Internal Navigation**: Breadcrumb navigation with structured data across all pages
+
 - `GET /api/dashboard/commute-insights`: Database-derived commute statistics
 - `GET /api/dashboard/financial-insights`: **NEW** Real-time financial analytics with live data aggregation
 - `GET /api/dashboard/weather`: Chennai weather conditions via OpenWeatherMap OneCall API 3.0
