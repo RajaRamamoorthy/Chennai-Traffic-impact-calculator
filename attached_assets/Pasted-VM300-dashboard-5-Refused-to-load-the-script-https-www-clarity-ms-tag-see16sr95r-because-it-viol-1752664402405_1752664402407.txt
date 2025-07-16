@@ -1,0 +1,34 @@
+VM300 dashboard:5 Refused to load the script 'https://www.clarity.ms/tag/see16sr95r' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://www.googletagmanager.com". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+(anonymous) @ VM300 dashboard:5
+dashboard:1 Refused to load the script 'https://replit.com/public/js/replit-dev-banner.js' because it violates the following Content Security Policy directive: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://checkout.razorpay.com https://www.googletagmanager.com". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.
+
+index-DxORjCkx.js:392 Razorpay key loaded successfully
+index-DxORjCkx.js:48 Analytics event tracked: page_view Object
+index-DxORjCkx.js:48 Analytics event tracked: calculator_step_progress Object
+index-DxORjCkx.js:48 Analytics event tracked: transport_mode_select Object
+index-DxORjCkx.js:48 Analytics event tracked: calculator_step_progress Object
+index-DxORjCkx.js:48 Analytics event tracked: location_select Object
+index-DxORjCkx.js:48 Analytics event tracked: location_autocomplete Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: location_select Object
+index-DxORjCkx.js:48 Analytics event tracked: location_autocomplete Object
+index-DxORjCkx.js:48 Analytics event tracked: route_search Object
+index-DxORjCkx.js:48 Analytics event tracked: calculation_start Object
+api/calculate-impact:1  Failed to load resource: the server responded with a status of 400 ()
+hook.js:608 Calculation failed: Error: 400: {"error":"Invalid input data","details":[{"code":"invalid_type","expected":"number","received":"undefined","path":["impactScore"],"message":"Required"},{"code":"invalid_union","unionErrors":[{"issues":[{"code":"invalid_union","unionErrors":[{"issues":[{"code":"invalid_type","expected":"string","received":"undefined","path":["breakdown"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"number","received":"undefined","path":["breakdown"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"boolean","received":"undefined","path":["breakdown"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"null","received":"undefined","path":["breakdown"],"message":"Required"}],"name":"ZodError"}],"path":["breakdown"],"message":"Invalid input"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"object","received":"undefined","path":["breakdown"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"array","received":"undefined","path":["breakdown"],"message":"Required"}],"name":"ZodError"}],"path":["breakdown"],"message":"Invalid input"},{"code":"invalid_union","unionErrors":[{"issues":[{"code":"invalid_union","unionErrors":[{"issues":[{"code":"invalid_type","expected":"string","received":"undefined","path":["alternatives"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"number","received":"undefined","path":["alternatives"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"boolean","received":"undefined","path":["alternatives"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"null","received":"undefined","path":["alternatives"],"message":"Required"}],"name":"ZodError"}],"path":["alternatives"],"message":"Invalid input"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"object","received":"undefined","path":["alternatives"],"message":"Required"}],"name":"ZodError"},{"issues":[{"code":"invalid_type","expected":"array","received":"undefined","path":["alternatives"],"message":"Required"}],"name":"ZodError"}],"path":["alternatives"],"message":"Invalid input"}]}
+    at YC (index-DxORjCkx.js:48:55279)
+    at async lA (index-DxORjCkx.js:48:55480)
+    at async Object.calculateImpact (index-DxORjCkx.js:392:7068)
+    at async f (index-DxORjCkx.js:415:15273)
+    at async index-DxORjCkx.js:348:26951
+overrideMethod @ hook.js:608
