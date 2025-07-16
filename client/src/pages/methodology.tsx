@@ -58,7 +58,8 @@ export default function Methodology() {
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
             Understanding the science behind our traffic impact calculations. 
             Our methodology combines real-world data with proven algorithms to 
-            provide accurate assessments.
+            provide accurate assessments with context-sensitive messaging that 
+            prioritizes financial impact over environmental scores.
           </p>
         </div>
       </section>

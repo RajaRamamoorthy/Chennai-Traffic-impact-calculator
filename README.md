@@ -2,7 +2,7 @@
 
 A comprehensive web application that empowers Chennai commuters to make sustainable transportation choices through data-driven insights and interactive analysis.
 
-![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.3.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
+![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.4.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
 
 ## 🎯 Project Goals
 
@@ -11,6 +11,7 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - **Sustainable Transportation**: Promote adoption of eco-friendly transport alternatives through personalized recommendations
 - **Data-Driven Decisions**: Provide scientifically-backed calculations based on real vehicle emission factors and Chennai traffic patterns
 - **Community Impact**: Create a collective movement toward sustainable commuting in Chennai
+- **Context-Sensitive Messaging**: Intelligent results display that prioritizes financial impact and adapts messaging based on transport mode and efficiency level
 
 ### Impact Metrics
 - Calculate personalized traffic impact scores (0-100 scale)
@@ -21,6 +22,8 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - Granular road segment analysis for precise traffic insights
 - Intelligent weather impact overlay with contextual Chennai commute recommendations
 - Weather-aware traffic planning with time-of-day context analysis
+- Context-sensitive messaging system with financial-first approach and dynamic theming
+- Adaptive results display based on transport mode (metro/walking vs cars/taxis) and efficiency levels
 
 ## 🏗️ System Architecture
 
@@ -165,6 +168,36 @@ The application features an advanced weather impact overlay that analyzes real C
 - **Comprehensive Testing**: 10 test categories covering timezone logic, temperature ranges, weather conditions, API validation, and cache performance
 - **Production Ready**: Expert testing verified all weather scenarios work correctly with proper Chennai timezone handling
 - **Performance Optimized**: Intelligent caching (30-minute TTL) reduces API calls while maintaining real-time accuracy
+
+## 🎨 Context-Sensitive Messaging System
+
+### Financial-First Approach
+The application prioritizes financial impact over environmental impact in messaging, recognizing that cost savings are often more immediately motivating for users than environmental benefits.
+
+### Dynamic Theming & Messaging
+The results display adapts based on transport mode and efficiency level:
+
+#### Transport Mode Detection
+- **Efficient Transport** (Metro, Bus, Walking, Cycling): Green theming with congratulatory messaging
+- **Moderate Efficiency** (Mixed transport patterns): Orange theming with optimization suggestions
+- **Wasteful Transport** (Single-occupancy cars, luxury vehicles): Red theming with cost-focused messaging
+
+#### Adaptive Headlines
+- **Zero-cost transport**: "Zero transport costs! You're saving ₹X/month vs driving"
+- **Efficient transport**: "You're saving ₹X/month with smart transport choices!"
+- **Wasteful transport**: "Your commute costs ₹X/month extra"
+
+#### Context-Aware Elements
+- **Time Display**: "Monthly Commute Time" vs "Time Wasted in Traffic"
+- **Alternative Recommendations**: "How to optimize your current smart choices" vs "Why You're Losing Money"
+- **Environmental Impact**: All visual elements (colors, borders, backgrounds) match transport efficiency context
+- **Cost Formatting**: Indian decimal format with commas (₹10,000 instead of ₹10000)
+
+### User Experience Benefits
+- Prevents inappropriate messaging (e.g., "you're wasting money" for Metro users)
+- Maintains motivation for efficient transport users with positive reinforcement
+- Provides cost-focused motivation for wasteful transport users
+- Ensures consistent visual experience across all result components
 
 ## 🧮 Calculation Logic & Methodology
 

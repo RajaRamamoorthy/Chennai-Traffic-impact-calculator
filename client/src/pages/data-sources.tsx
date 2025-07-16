@@ -57,6 +57,8 @@ export default function DataSources() {
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
             Our calculations are based on reliable, up-to-date data sources 
             specific to Chennai's transportation infrastructure and traffic patterns.
+            Results are displayed with context-sensitive messaging that adapts to 
+            your transport efficiency level and prioritizes financial impact.
           </p>
         </div>
       </section>

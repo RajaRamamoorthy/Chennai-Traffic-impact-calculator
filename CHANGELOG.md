@@ -5,6 +5,38 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2025-07-16
+
+### Added
+- **Context-Sensitive Messaging System**: Complete intelligent results display with financial-first approach
+  - Dynamic theming based on transport mode and efficiency levels
+  - Adaptive headlines: Zero-cost, efficient, and wasteful transport messaging
+  - Context-aware elements: Time display, alternative recommendations, environmental impact
+  - Indian decimal formatting with commas for all cost displays (₹10,000 vs ₹10000)
+  - Transport mode detection: Green for efficient (metro/bus), red for wasteful (cars/taxis)
+  - User experience enhancement: Prevents inappropriate messaging for efficient transport users
+
+### Enhanced
+- **Financial Impact Priority**: Prioritized monthly cost over environmental impact score
+  - Financial-first approach in headlines, CTAs, and primary display positioning
+  - Cost-focused messaging for wasteful transport choices
+  - Congratulatory messaging for efficient transport users
+  - Backend integration: Enhanced calculation service to include transportMode in API responses
+
+### Changed
+- **Complete Visual Consistency**: All result components now use dynamic theming
+  - Time wasted box: Context-aware colors and messaging
+  - Environmental impact section: Dynamic colors matching transport efficiency
+  - Alternatives section: Contextual theming and cost savings highlighting
+  - Impact breakdown: Dynamic theming for all visual elements
+  - Score-aware language: Different messaging for efficiency spectrum (0-30, 30-60, 60+)
+
+### Technical Details
+- Context detection engine with transport mode identification
+- Dynamic theme generation based on efficiency levels
+- Comprehensive testing verified across Bus (score 20), MUV/MPV (score 25), Luxury SUV (score 100)
+- Enhanced user experience prevents frustrating messaging mismatches
+
 ## [1.3.0] - 2025-07-16
 
 ### Added

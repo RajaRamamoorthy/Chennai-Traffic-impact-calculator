@@ -126,9 +126,10 @@ export default function HowItWorks() {
                   Get Your Impact Score
                 </h3>
                 <p className="text-slate-600">
-                  Receive a detailed analysis showing your traffic impact score, 
-                  environmental footprint, and personalized suggestions for reducing 
-                  your impact.
+                  Receive a detailed analysis with context-sensitive messaging that prioritizes 
+                  financial impact. The display adapts based on your transport efficiency - green 
+                  themes with congratulatory messages for efficient transport (Metro, Bus) and 
+                  red themes with cost-focused messaging for wasteful choices (single-occupancy cars).
                 </p>
               </CardContent>
             </Card>
@@ -170,7 +171,7 @@ export default function HowItWorks() {
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <h3 className="font-semibold text-slate-900 mb-2">Cost Analysis</h3>
               <p className="text-slate-600 text-sm">
-                Monthly transportation costs including fuel, fares, and vehicle maintenance.
+                Monthly transportation costs prioritized in results display with Indian decimal formatting (₹10,000) and context-aware messaging.
               </p>
             </div>
             
@@ -184,8 +185,58 @@ export default function HowItWorks() {
         </div>
       </section>
 
+      {/* Context-Sensitive Messaging */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">
+            Context-Sensitive Results Display
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-green-50 p-6 rounded-lg border border-green-200">
+              <h3 className="font-semibold text-slate-900 mb-2">Efficient Transport</h3>
+              <p className="text-slate-600 text-sm mb-3">
+                Metro, Bus, Walking, Cycling
+              </p>
+              <ul className="text-sm text-slate-600 space-y-1">
+                <li>• Green theming with congratulatory messages</li>
+                <li>• "Monthly Commute Time" instead of "Time Wasted"</li>
+                <li>• "How to optimize your current smart choices"</li>
+                <li>• Positive reinforcement for sustainable choices</li>
+              </ul>
+            </div>
+            
+            <div className="bg-orange-50 p-6 rounded-lg border border-orange-200">
+              <h3 className="font-semibold text-slate-900 mb-2">Moderate Efficiency</h3>
+              <p className="text-slate-600 text-sm mb-3">
+                Shared transport, occasional trips
+              </p>
+              <ul className="text-sm text-slate-600 space-y-1">
+                <li>• Orange theming with optimization suggestions</li>
+                <li>• Balanced messaging for improvement</li>
+                <li>• Focus on potential additional savings</li>
+                <li>• Encouraging optimization recommendations</li>
+              </ul>
+            </div>
+            
+            <div className="bg-red-50 p-6 rounded-lg border border-red-200">
+              <h3 className="font-semibold text-slate-900 mb-2">Wasteful Transport</h3>
+              <p className="text-slate-600 text-sm mb-3">
+                Single-occupancy cars, luxury vehicles
+              </p>
+              <ul className="text-sm text-slate-600 space-y-1">
+                <li>• Red theming with cost-focused messaging</li>
+                <li>• "Time Wasted in Traffic" highlighting</li>
+                <li>• "Why You're Losing Money" recommendations</li>
+                <li>• Clear financial impact emphasis</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why It Matters */}
-      <section className="py-16 px-4">
+      <section className="py-16 px-4 bg-slate-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
             Why Your Score Matters
