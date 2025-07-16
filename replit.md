@@ -161,8 +161,9 @@ Preferred communication style: Simple, everyday language.
   - **Issue**: Server-side Helmet CSP configuration overriding HTML meta tag, blocking https://www.clarity.ms and https://replit.com scripts
   - **Solution**: Updated server/index.ts Helmet configuration with complete script-src and script-src-elem directives
   - **Enhancement**: Added proper connectSrc domains for Clarity data transmission and Google Maps API
+  - **Critical Fix**: Added api.openweathermap.org (connectSrc) and maps.gstatic.com (imgSrc) for weather data and map tiles
   - **Security**: Maintained strict CSP while allowing necessary analytics and development tools
-  - **Status**: Microsoft Clarity tracking and Replit dev banner now load correctly without console errors
+  - **Status**: Microsoft Clarity tracking, weather API, and Google Maps now load correctly without console errors
 - July 16, 2025: **CRITICAL CSP AND API VALIDATION FIXES** - Fixed two dashboard-breaking issues preventing proper functionality
   - **CSP Script Loading Fix**: Added `script-src-elem` directive to Content Security Policy in index.html to allow Microsoft Clarity script loading
     - Issue: Clarity script blocked by CSP causing "Refused to load script" console errors  
