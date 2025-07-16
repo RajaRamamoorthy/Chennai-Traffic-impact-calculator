@@ -392,13 +392,18 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
 
       {/* Time Wasted Display - Secondary Focus */}
-      <Card className="mb-8 border-orange-200 bg-orange-50">
+      <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
         <CardContent className="p-6 text-center">
           <div className="mb-4">
-            <div className="text-4xl font-bold text-orange-600 mb-2">{results.monthlyTimeHours} hours/month</div>
-            <div className="text-lg text-orange-700 mb-2">Time Wasted in Traffic</div>
+            <div className={`text-4xl font-bold ${theme.primary} mb-2`}>{results.monthlyTimeHours} hours/month</div>
+            <div className={`text-lg ${theme.primary} mb-2`}>
+              {context.isZeroCost || context.isEfficient ? 'Monthly Commute Time' : 'Time Wasted in Traffic'}
+            </div>
             <div className="text-sm text-slate-600 mb-2">
-              That's <span className="font-bold text-orange-600">{(results.monthlyTimeHours * 12 / 24).toFixed(1)} days</span> lost annually to inefficient commuting
+              {context.isZeroCost || context.isEfficient ? 
+                `You're making efficient use of your ${(results.monthlyTimeHours * 12 / 24).toFixed(1)} days annually for commuting` :
+                <>That's <span className={`font-bold ${theme.primary}`}>{(results.monthlyTimeHours * 12 / 24).toFixed(1)} days</span> lost annually to inefficient commuting</>
+              }
             </div>
           </div>
         </CardContent>
@@ -410,11 +415,11 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         <Card>
           <CardContent className="p-6">
             <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
-              <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+              <div className={`w-2 h-2 ${theme.primary.replace('text-', 'bg-')} rounded-full mr-2`}></div>
               Environmental Impact
             </h3>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <div className="text-3xl font-bold text-green-600 mb-2">{results.monthlyEmissions}kg</div>
+            <div className={`text-center p-4 ${theme.bg} rounded-lg`}>
+              <div className={`text-3xl font-bold ${theme.primary} mb-2`}>{results.monthlyEmissions}kg</div>
               <div className="text-sm text-slate-600">Monthly CO₂ emissions</div>
             </div>
           </CardContent>
