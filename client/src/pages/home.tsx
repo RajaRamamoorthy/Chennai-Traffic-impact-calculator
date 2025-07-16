@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calculator, Users, TrendingDown, Clock } from "lucide-react";
 import { SEO } from "@/components/seo";
+import { ChennaiTrafficQA } from "@/components/seo/featured-snippets";
+import { InternalLinks, TrafficRouteHub } from "@/components/layout/internal-links";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/lib/api";
 
@@ -245,6 +247,23 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Featured Snippet Content for Chennai Traffic Questions */}
+      <section className="py-16 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-slate-900 mb-8">
+            Chennai Traffic FAQs & Live Updates
+          </h2>
+          <ChennaiTrafficQA />
+        </div>
+      </section>
+
+      {/* Traffic Route Hub */}
+      <section className="py-16 px-4 bg-slate-50">
+        <div className="max-w-6xl mx-auto">
+          <TrafficRouteHub />
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 px-4 bg-primary text-white">
         <div className="max-w-4xl mx-auto text-center">
@@ -260,6 +279,13 @@ export default function Home() {
               Start Your Calculation
             </Button>
           </Link>
+        </div>
+      </section>
+
+      {/* Internal Links */}
+      <section className="py-8 px-4 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <InternalLinks currentPage="home" />
         </div>
       </section>
     </div>

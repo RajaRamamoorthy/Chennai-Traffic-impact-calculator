@@ -2,6 +2,8 @@ import { SEO } from "@/components/seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Calculator, Shield, HelpCircle, CreditCard, Map, Database, Bug } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { InternalLinks } from "@/components/layout/internal-links";
 import { useEffect } from "react";
 
 export default function FAQ() {
@@ -66,6 +68,10 @@ export default function FAQ() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
+          <Breadcrumb 
+            items={[]}
+            currentPage="FAQ"
+          />
           <header className="text-center mb-8">
             <h1 className="text-3xl font-bold text-slate-900 mb-4">
               Frequently Asked Questions
@@ -392,6 +398,11 @@ export default function FAQ() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+
+          {/* Internal Links */}
+          <div className="mt-8">
+            <InternalLinks currentPage="faq" />
           </div>
         </div>
       </div>

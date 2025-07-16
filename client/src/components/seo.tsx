@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import { PerformanceHints } from './seo/performance-hints';
 
 interface SEOProps {
   title?: string;
@@ -121,8 +122,54 @@ export function SEO({
     }
   };
 
+  // LocalBusiness schema for Chennai traffic service
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Chennai Traffic Impact Calculator",
+    "description": "Chennai traffic monitoring and commute cost calculator service",
+    "url": defaultMeta.siteUrl,
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Chennai",
+      "addressRegion": "Tamil Nadu",
+      "addressCountry": "IN"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "13.0827",
+      "longitude": "80.2707"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Chennai",
+      "sameAs": "https://en.wikipedia.org/wiki/Chennai"
+    },
+    "serviceType": "Traffic Monitoring and Route Planning",
+    "priceRange": "Free"
+  };
+
+  // Place schema for Chennai
+  const placeSchema = {
+    "@context": "https://schema.org",
+    "@type": "Place",
+    "name": "Chennai",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "13.0827",
+      "longitude": "80.2707"
+    },
+    "containedInPlace": {
+      "@type": "State",
+      "name": "Tamil Nadu"
+    },
+    "description": "Chennai traffic monitoring zone covered by Chennai Traffic Impact Calculator"
+  };
+
   return (
-    <Helmet>
+    <>
+      <PerformanceHints />
+      <Helmet>
       {/* Basic Meta Tags */}
       <title>{finalTitle}</title>
       <meta name="description" content={finalDescription} />
@@ -177,11 +224,18 @@ export function SEO({
       <script type="application/ld+json">
         {JSON.stringify(webApplicationSchema)}
       </script>
+      <script type="application/ld+json">
+        {JSON.stringify(localBusinessSchema)}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify(placeSchema)}
+      </script>
       {structuredData && (
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
       )}
     </Helmet>
+    </>
   );
 }

@@ -8,6 +8,8 @@ import { ResultsStep } from "@/components/calculator/results-step";
 import { Card } from "@/components/ui/card";
 import { calculatorFormSchema, type CalculatorFormData } from "@/lib/validation";
 import { SEO } from "@/components/seo";
+import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { InternalLinks } from "@/components/layout/internal-links";
 
 import { api } from "@/lib/api";
 import { CalculationResult } from "@/types/calculator";
@@ -176,6 +178,10 @@ export default function Calculator() {
       />
       <div className="min-h-screen bg-slate-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
+        <Breadcrumb 
+          items={[]}
+          currentPage="Traffic Calculator"
+        />
         <StepIndicator currentStep={currentStep} totalSteps={TOTAL_STEPS} />
 
         <Card ref={cardRef} className="overflow-hidden">
@@ -215,7 +221,12 @@ export default function Calculator() {
           )}
         </Card>
 
-        
+        {/* Internal Links */}
+        {currentStep === 3 && results && (
+          <div className="mt-8">
+            <InternalLinks currentPage="calculator" />
+          </div>
+        )}
       </div>
     </div>
     </>
