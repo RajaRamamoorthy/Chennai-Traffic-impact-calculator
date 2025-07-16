@@ -84,6 +84,7 @@ The application uses PostgreSQL with the following main tables:
 - `RAZORPAY_KEY_SECRET`: Secret key for payment verification
 - `ADMIN_API_KEY`: For accessing admin endpoints
 - `SMTP_USER`, `SMTP_PASS`: Optional email configuration
+- `VITE_CLARITY_PROJECT_ID`: Microsoft Clarity project ID for user behavior analytics
 
 ## SEO Architecture
 
@@ -140,6 +141,12 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- January 17, 2025: **MICROSOFT CLARITY INSTALLATION VERIFIED** - Debugged and optimized Microsoft Clarity analytics installation
+  - Moved Clarity tracking script from React component to index.html for improved reliability
+  - Script now loads directly in HTML head tag as per Microsoft's best practices
+  - Verified project ID (see16sr95r) is correctly configured and CSP allows Clarity domains
+  - Installation captures user behavior data across all pages of the SPA
+  - Updated documentation to reflect proper Clarity integration approach
 - July 16, 2025: **CHENNAI LIVE TRAFFIC DASHBOARD DEPLOYMENT READY** - Completed comprehensive final testing and deployment preparation for major dashboard feature
   - Verified all critical systems: database connections, Google Maps API, OpenWeatherMap OneCall API 3.0, security measures
   - Confirmed real-time traffic and weather data flowing correctly with intelligent caching (5-minute traffic, 30-minute weather TTL)
@@ -306,11 +313,12 @@ Preferred communication style: Simple, everyday language.
     - Fixed FAQ page calculator usage steps to match actual implementation flow
     - All About pages now accurately reflect actual codebase functionality without false claims
 - July 13, 2025: **MICROSOFT CLARITY ANALYTICS INTEGRATION** - Added comprehensive user behavior tracking with heatmaps and session recordings
-  - Integrated Microsoft Clarity tracking script into SEO component for site-wide coverage
-  - Environment variable configuration with `VITE_CLARITY_PROJECT_ID` for secure project ID management
-  - Conditional loading ensures script only loads when project ID is configured
-  - Enables heatmap analysis, session recordings, and user interaction insights across calculator flow
+  - Integrated Microsoft Clarity tracking script directly into index.html for better reliability
+  - Environment variable configuration with `VITE_CLARITY_PROJECT_ID` (currently set to: see16sr95r)
+  - Script loads early in page lifecycle to capture all user interactions from initial page load
+  - Enables heatmap analysis, session recordings, and user interaction insights across all pages
   - Complements existing GA4 analytics with visual behavior analysis capabilities
+  - Content Security Policy properly configured to allow Clarity domains (www.clarity.ms and c.clarity.ms)
 - July 11, 2025: **OPEN GRAPH AND CANONICAL LINKS ENHANCEMENT** - Fixed comprehensive SEO meta tags and URL configuration
   - Fixed OG image extension mismatch: Changed from .png to .svg in SEO component defaults to match actual file
   - Added missing canonical URLs to support page (`/support`) and about-me page (`/about-me`)

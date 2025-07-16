@@ -446,6 +446,21 @@ Update congestion data in `server/seed.ts` with area coordinates and multipliers
 - **API Usage**: Google Maps API calls, costs, cache hit rates
 - **Performance**: Response times, error rates, database query performance
 
+### Analytics Integration
+
+#### Google Analytics 4
+- **Tracking ID**: G-8S4RJMVGST
+- **Events**: Calculator flow, navigation, feedback, donations, conversions
+- **Metrics**: Page views, user engagement, conversion tracking
+- **Implementation**: Direct script injection in index.html
+
+#### Microsoft Clarity
+- **Project ID**: see16sr95r (configured via `VITE_CLARITY_PROJECT_ID`)
+- **Features**: Session recordings, heatmaps, user behavior analysis
+- **Coverage**: All pages tracked automatically including SPA route changes
+- **Implementation**: Script loaded in index.html for early initialization
+- **Data**: Complements GA4 with visual behavior insights
+
 ### Admin Dashboard Access
 Use the admin API key to access analytics endpoints and monitor system health.
 
