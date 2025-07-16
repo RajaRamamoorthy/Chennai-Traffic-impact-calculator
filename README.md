@@ -2,7 +2,7 @@
 
 A comprehensive web application that empowers Chennai commuters to make sustainable transportation choices through data-driven insights and interactive analysis.
 
-![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.4.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
+![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.5.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
 
 ## 🎯 Project Goals
 
@@ -24,6 +24,8 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - Weather-aware traffic planning with time-of-day context analysis
 - Context-sensitive messaging system with financial-first approach and dynamic theming
 - Adaptive results display based on transport mode (metro/walking vs cars/taxis) and efficiency levels
+- Real-time financial insights dashboard with live data aggregation from Chennai commuter submissions
+- Comprehensive financial analytics: total monthly costs, potential savings, cost efficiency metrics, transport mode analysis
 
 ## 🏗️ System Architecture
 
@@ -119,12 +121,36 @@ The application features an advanced dual-mode traffic monitoring system that pr
 - `GET /api/vehicle-types`: Get available vehicle types
 - `POST /api/feedback`: Submit feedback for calculations
 
-#### Real-Time Traffic
+#### Real-Time Traffic & Analytics
 - `GET /api/dashboard/traffic-insights?mode=calculator`: User route-based traffic data
 - `GET /api/dashboard/traffic-insights?mode=holistic`: City-wide traffic monitoring
 - `GET /api/dashboard/commute-insights`: Database-derived commute statistics
+- `GET /api/dashboard/financial-insights`: **NEW** Real-time financial analytics with live data aggregation
 - `GET /api/dashboard/weather`: Chennai weather conditions via OpenWeatherMap OneCall API 3.0
 - `GET /api/dashboard/weather-impact`: Intelligent weather impact analysis with contextual recommendations
+
+#### Financial Insights Response Format
+```json
+{
+  "totalMonthlyCost": 15150.75,
+  "avgCostByTransportMode": [
+    { "mode": "Car", "avgCost": 8500.50, "count": 125 },
+    { "mode": "Bike", "avgCost": 3200.25, "count": 89 }
+  ],
+  "potentialSavings": 4545.23,
+  "avgCostByPattern": [
+    { "pattern": "Daily Work Commute", "avgCost": 6800.75, "count": 156 }
+  ],
+  "avgCostByOccupancy": [
+    { "occupancy": 1, "avgCost": 7500.00, "count": 98 },
+    { "occupancy": 2, "avgCost": 4200.50, "count": 67 }
+  ],
+  "costEfficiencyMetrics": {
+    "avgCostPerKm": 45.25,
+    "avgDistanceKm": 18.5
+  }
+}
+```
 
 ## 🌦️ Intelligent Weather Impact Analysis
 

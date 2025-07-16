@@ -5,6 +5,29 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2025-07-16
+
+### Added
+- **Real-Time Financial Insights Dashboard**: Comprehensive financial analytics system with live data aggregation
+  - New `/api/dashboard/financial-insights` API endpoint for dynamic financial data
+  - Live financial metrics: total monthly cost, potential savings, average cost per kilometer, top transport mode
+  - Complete data flow from calculator submissions to dashboard display with no hardcoded values
+  - Indian number formatting with commas for all cost displays (₹1,51,500 format)
+  - Enhanced DatabaseStorage with financial analytics methods for transport mode analysis and cost efficiency metrics
+  - Clean financial insights UI section providing contextual cost information for Chennai commuters
+
+### Enhanced
+- **Dashboard User Experience**: Replaced static location data with valuable financial context
+  - Removed "Top 3 Most Commuted Locations" section for cleaner UI
+  - Added contextual financial display without overwhelming the dashboard interface
+  - Production data filtering ensures authentic Chennai commuter behavior representation
+
+### Technical Details
+- Complete PostgreSQL integration with real-time SQL aggregations
+- Financial data methods: transport mode analysis, travel pattern costs, occupancy impact, cost efficiency metrics
+- Dynamic updates with each calculator submission ensuring live dashboard metrics
+- All queries use PRODUCTION_CUTOFF_DATE filtering for authentic data representation
+
 ## [1.4.0] - 2025-07-16
 
 ### Added
