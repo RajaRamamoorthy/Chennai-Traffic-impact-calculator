@@ -9,7 +9,7 @@ import { RoutingService } from "./services/routing-service";
 import { emailService } from "./services/email-service";
 import { insertCalculationSchema, insertFeedbackSchema, insertContactSubmissionSchema, contactSubmissions, calculations, donations } from "@shared/schema";
 import { z } from "zod";
-import { desc } from "drizzle-orm";
+import { desc, sql } from "drizzle-orm";
 import { db } from "./db";
 
 export async function registerRoutes(app: Express): Promise<Server> {
