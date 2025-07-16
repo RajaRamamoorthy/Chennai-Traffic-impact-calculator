@@ -1,0 +1,327 @@
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+Dr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+jt @ clarity.js:2
+Ko @ clarity.js:2
+gi @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://e.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+Dr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+jt @ clarity.js:2
+Ko @ clarity.js:2
+gi @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+Ar @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+XMLHttpRequest.send
+Rr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+o @ clarity.js:2
+Promise.then
+c @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+Pr @ clarity.js:2
+(anonymous) @ clarity.js:2
+setTimeout
+B @ clarity.js:2
+Cr @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+ot @ clarity.js:2
+xn @ clarity.js:2
+Rn @ clarity.js:2
+t @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+Go @ clarity.js:2
+(anonymous) @ clarity.js:2
+tu @ clarity.js:2
+(anonymous) @ clarity.js:2
+(anonymous) @ clarity.js:2
+client:495 [vite] connecting...
+client:618 [vite] connected.
+chunk-RPCDYKBN.js?v=f8e0762e:377 [Violation] 'message' handler took 170ms
+donation-button.tsx:31 Razorpay key loaded successfully
+donation-button.tsx:31 Razorpay key loaded successfully
