@@ -7,6 +7,7 @@ import { CalculationResult } from "@/types/calculator";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import html2canvas from "html2canvas";
+import { formatNumber } from "@/lib/utils";
 
 interface ResultsStepProps {
   results: CalculationResult;
@@ -53,15 +54,15 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
   const getDynamicHeadline = () => {
     if (context.isZeroCost) {
-      return `Zero transport costs! You're saving ₹${context.actualSavings}/month vs driving`;
+      return `Zero transport costs! You're saving ₹${formatNumber(context.actualSavings)}/month vs driving`;
     }
     if (context.isEfficient) {
-      return `You're saving ₹${context.actualSavings}/month with smart transport choices!`;
+      return `You're saving ₹${formatNumber(context.actualSavings)}/month with smart transport choices!`;
     }
     if (context.isHighWaste) {
-      return `Your commute costs ₹${results.monthlyCost}/month extra`;
+      return `Your commute costs ₹${formatNumber(results.monthlyCost)}/month extra`;
     }
-    return `You could save an additional ₹${context.maxSavings}/month`;
+    return `You could save an additional ₹${formatNumber(context.maxSavings)}/month`;
   };
 
   const getDynamicSubtitle = () => {
@@ -69,7 +70,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       return "Keep up the great work! You're making financially smart choices.";
     }
     if (context.isHighWaste) {
-      return `That's ₹${results.monthlyCost * 12} wasted annually on inefficient commuting`;
+      return `That's ₹${formatNumber(results.monthlyCost * 12)} wasted annually on inefficient commuting`;
     }
     return "Small changes could unlock significant monthly savings";
   };
@@ -331,14 +332,14 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         <div className={`p-8 text-center rounded-lg border-2 ${theme.border} ${theme.bg}`}>
           <div className="mb-6">
             <div className={`text-8xl font-bold ${theme.primary} mb-4`}>
-              {context.isZeroCost ? '₹0' : `₹${results.monthlyCost}`}
+              {context.isZeroCost ? '₹0' : `₹${formatNumber(results.monthlyCost)}`}
             </div>
             <div className={`text-2xl mb-4 font-semibold ${theme.primary}`}>Monthly Transport Cost</div>
             <div className="text-base text-slate-600 mb-6 max-w-lg mx-auto leading-relaxed">
               {context.isZeroCost ? 
-                `You're saving money by walking/cycling! Car users spend ₹${context.potentialCarCost}/month on the same route.` :
+                `You're saving money by walking/cycling! Car users spend ₹${formatNumber(context.potentialCarCost)}/month on the same route.` :
                 context.isEfficient ? 
-                `Smart choice! You're spending significantly less than car users (₹${context.potentialCarCost}/month) on the same route.` :
+                `Smart choice! You're spending significantly less than car users (₹${formatNumber(context.potentialCarCost)}/month) on the same route.` :
                 `You're spending ${context.isHighWaste ? 'too much' : 'considerable amounts'} on transport. This comes from fuel consumption, maintenance, and time lost in traffic.`
               }
             </div>
@@ -371,7 +372,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           <CardContent className="p-8 text-center">
             <div className="mb-4">
               <div className={`text-6xl font-bold ${theme.primary} mb-2`}>
-                {context.isZeroCost ? '₹0' : `₹${results.monthlyCost}`}
+                {context.isZeroCost ? '₹0' : `₹${formatNumber(results.monthlyCost)}`}
               </div>
               <div className={`text-lg ${theme.primary} mb-2`}>
                 {context.isZeroCost ? 'Monthly Transport Cost' : 
@@ -380,9 +381,9 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
               </div>
               <div className="text-sm text-slate-600 mb-4 max-w-md mx-auto">
                 {context.isZeroCost ? 
-                  `You're saving money by walking/cycling! Car users spend ₹${context.potentialCarCost}/month on the same route.` :
+                  `You're saving money by walking/cycling! Car users spend ₹${formatNumber(context.potentialCarCost)}/month on the same route.` :
                   context.isEfficient ? 
-                  `Smart choice! You're spending significantly less than car users (₹${context.potentialCarCost}/month) on the same route.` :
+                  `Smart choice! You're spending significantly less than car users (₹${formatNumber(context.potentialCarCost)}/month) on the same route.` :
                   `You're spending ${context.isHighWaste ? 'too much' : 'considerable amounts'} on transport. This comes from fuel consumption, maintenance, and time lost in traffic.`
                 }
               </div>
@@ -524,7 +525,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                   "You're already at zero cost! Here are route optimizations to save time:" :
                   context.isEfficient ? 
                   "Great job choosing efficient transport! Here are ways to optimize further:" :
-                  `Here's how to save ₹${Math.max(...results.alternatives.map(alt => alt.costSavings))}/month with better transport choices:`
+                  `Here's how to save ₹${formatNumber(Math.max(...results.alternatives.map(alt => alt.costSavings)))}/month with better transport choices:`
                 }
               </p>
 
@@ -563,7 +564,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                             <div>
                               <h4 className="font-medium text-slate-900">{alternative.title}</h4>
                               <p className="text-sm text-green-600 font-medium">
-                                Save ₹{alternative.costSavings}/month
+                                Save ₹{formatNumber(alternative.costSavings)}/month
                               </p>
                               <p className="text-xs text-blue-600 mt-1">{alternative.timeDelta} travel time</p>
                               <p className="text-xs text-slate-500 mt-1">Reduce emissions by {alternative.impactReduction}%</p>
