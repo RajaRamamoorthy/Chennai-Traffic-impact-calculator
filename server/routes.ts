@@ -1150,6 +1150,41 @@ ${urls.map(url => `  <url>
     }
   });
 
+  // Cache clearing endpoint (admin only)
+  app.post("/api/admin/clear-cache", async (req, res) => {
+    try {
+      const adminKey = req.headers['x-admin-key'] as string;
+      if (!adminKey || adminKey !== process.env.ADMIN_API_KEY) {
+        return res.status(401).json({ error: "Unauthorized" });
+      }
+
+      // Clear traffic service cache
+      const { TrafficService } = await import('./services/traffic-service');
+      if (TrafficService.clearCache) {
+        TrafficService.clearCache();
+      }
+
+      // Clear weather service cache
+      const { WeatherService } = await import('./services/weather-service');
+      if (WeatherService.clearCache) {
+        WeatherService.clearCache();
+      }
+
+      // Clear Google Maps API cache
+      apiCache.clear();
+      
+      console.log('🧹 All server caches cleared successfully');
+      res.json({ 
+        success: true, 
+        message: "All caches cleared successfully",
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error("Cache clearing error:", error);
+      res.status(500).json({ error: "Failed to clear cache" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

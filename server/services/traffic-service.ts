@@ -44,6 +44,15 @@ export class TrafficService {
   private client: Client;
   private apiKey: string;
 
+  // Static method to clear cache
+  static clearCache() {
+    trafficCache = {
+      calculator: { data: null, timestamp: 0 },
+      holistic: { data: null, timestamp: 0 }
+    };
+    console.log('🧹 Traffic cache cleared');
+  }
+
   // Granular Chennai road segments for precise traffic monitoring
   private readonly chennaiRoadSegments = [
     // Major arterial roads with specific segments

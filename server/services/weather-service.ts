@@ -22,6 +22,15 @@ export class WeatherService {
   private readonly openWeatherBaseUrl = 'https://api.openweathermap.org/data/3.0';
   private lastApiCall = 0;
   private readonly rateLimitDelay = 60000; // 1 minute between API calls
+
+  // Static method to clear cache
+  static clearCache() {
+    weatherCache = {
+      data: null,
+      timestamp: 0
+    };
+    console.log('🧹 Weather cache cleared');
+  }
   
   // Chennai coordinates for One Call API
   private readonly chennaiLat = 13.0827;
