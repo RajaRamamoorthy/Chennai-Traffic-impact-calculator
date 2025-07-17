@@ -394,6 +394,14 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
       {/* Visible responsive content */}
       <div>
+        {/* Traffic Impact Score - Primary Display */}
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center gap-2 bg-slate-100 rounded-full px-4 py-2 mb-4">
+            <span className="text-sm font-medium text-slate-700">Traffic Impact Score</span>
+            <span className="text-xl font-bold text-slate-900">{results.score}/100</span>
+          </div>
+        </div>
+        
         {/* Hero Section with Score-Based Messaging */}
         <div className="text-center mb-8">
           {results.transportMode === 'walking' || results.transportMode === 'cycling' ? (
@@ -524,19 +532,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
         )}
 
-        {/* Traffic Impact Score - Secondary Display */}
-        <Card className={`mb-8 ${getScoreColor(results.score)}`}>
-          <CardContent className="p-6 text-center">
-            <h3 className="font-semibold text-slate-900 mb-4">Traffic Impact Score</h3>
-            <div className="mb-4">
-              <div className="text-5xl font-bold mb-2">{results.score}/100</div>
-              <div className="text-base mb-3 text-slate-700">{getScoreLabel(results.score)}</div>
-              <Badge className={getConfidenceBadge(results.confidence.level)}>
-                Confidence {results.confidence.level}: {results.confidence.description}
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+
 
         {/* Time Framing with Impact */}
         <Card className="mb-8">
