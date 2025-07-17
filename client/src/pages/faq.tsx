@@ -22,6 +22,32 @@ export default function FAQ() {
           "@context": "https://schema.org",
           "@type": "FAQPage",
           "mainEntity": [
+            // General Calculator Questions
+            {
+              "@type": "Question",
+              "name": "What is the Chennai Traffic Impact Calculator?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Chennai Traffic Impact Calculator is a free web tool that helps Chennai commuters understand their traffic impact score based on their daily commute patterns and provides personalized recommendations for more sustainable alternatives."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How is the traffic impact score calculated?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The traffic impact score (0-100) is calculated based on vehicle type, occupancy, route congestion, timing (peak vs off-peak hours), and frequency of travel. Lower scores indicate better sustainable choices."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Is the Chennai Traffic Impact Calculator free to use?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, the Chennai Traffic Impact Calculator is completely free to use. No registration or payment is required."
+              }
+            },
+            // Technical Questions  
             {
               "@type": "Question",
               "name": "How accurate are the traffic impact calculations?",
@@ -40,14 +66,6 @@ export default function FAQ() {
             },
             {
               "@type": "Question",
-              "name": "Is the calculator free to use?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, the Chennai Traffic Impact Calculator is completely free to use. We accept voluntary donations to help cover API costs and server infrastructure."
-              }
-            },
-            {
-              "@type": "Question",
               "name": "Can I use this calculator for cities other than Chennai?",
               "acceptedAnswer": {
                 "@type": "Answer",
@@ -60,6 +78,64 @@ export default function FAQ() {
               "acceptedAnswer": {
                 "@type": "Answer",
                 "text": "You can report bugs through our contact form or feedback button. Please include details about what you were doing when the issue occurred and your browser information."
+              }
+            },
+            // Chennai Traffic Questions
+            {
+              "@type": "Question",
+              "name": "What time is traffic worst in Chennai?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Chennai traffic is worst during morning peak hours (7:30 AM - 10:00 AM) and evening peak hours (5:30 PM - 8:30 PM). Monday mornings and Friday evenings typically have the heaviest congestion."
+              }
+            },
+            {
+              "@type": "Question", 
+              "name": "How to avoid traffic in Anna Salai?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "To avoid Anna Salai traffic: 1) Travel before 7 AM or after 10 AM for morning commutes, 2) Use alternative routes like Poonamallee High Road or Inner Ring Road, 3) Consider Chennai Metro between Alandur and Airport, 4) Avoid the Nandanam to Thousand Lights stretch during peak hours."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What's the traffic like on OMR today?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "OMR (Old Mahabalipuram Road) typically experiences heavy traffic from Thoraipakkam to Sholinganallur during peak hours. Current conditions vary - use live traffic apps for real-time updates. Alternative routes include ECR via Injambakkam."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much does Chennai traffic cost commuters monthly?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Average Chennai commuters spend ₹3,000-8,000 monthly on transportation costs including fuel, vehicle maintenance, and parking. Traffic delays add 20-30% to fuel consumption, increasing costs by ₹600-1,500 per month."
+              }
+            },
+            // Donation Questions
+            {
+              "@type": "Question",
+              "name": "Where does the donation money go?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Donations cover Google Maps API costs, database hosting, server infrastructure, domain renewal, and development costs to keep the tool free for all users."
+              }
+            },
+            {
+              "@type": "Question", 
+              "name": "Is my payment secure?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, we use Razorpay, India's trusted payment gateway with PCI DSS Level 1 compliance and bank-grade encryption."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How much should I donate?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Any amount helps! ₹50 covers ~100 calculations, ₹100 supports ~200 users, ₹500 funds a week, ₹1000 keeps us running for a month."
               }
             }
           ]
@@ -82,6 +158,45 @@ export default function FAQ() {
           </header>
 
           <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calculator className="h-5 w-5 text-blue-600" />
+                  General Questions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="what-is">
+                    <AccordionTrigger>What is the Chennai Traffic Impact Calculator?</AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-slate-600">
+                        The Chennai Traffic Impact Calculator is a free web tool that helps Chennai commuters understand their traffic impact score based on their daily commute patterns and provides personalized recommendations for more sustainable alternatives.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="how-calculated">
+                    <AccordionTrigger>How is the traffic impact score calculated?</AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-slate-600">
+                        The traffic impact score (0-100) is calculated based on vehicle type, occupancy, route congestion, timing (peak vs off-peak hours), and frequency of travel. Lower scores indicate better sustainable choices.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="free-to-use">
+                    <AccordionTrigger>Is the Chennai Traffic Impact Calculator free to use?</AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-slate-600">
+                        Yes, the Chennai Traffic Impact Calculator is completely free to use. No registration or payment is required.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
@@ -187,6 +302,60 @@ export default function FAQ() {
                     <AccordionContent>
                       <p className="text-slate-600">
                         We only share data with essential service providers: Google Maps for route calculations, Microsoft Clarity for analytics, and Razorpay for payment processing (if you donate). We do not sell your data to advertisers or other third parties. All data sharing is covered in our Privacy Policy.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Map className="h-5 w-5 text-orange-600" />
+                  Chennai Traffic Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="worst-traffic-times">
+                    <AccordionTrigger>What time is traffic worst in Chennai?</AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-slate-600">
+                        Chennai traffic is worst during morning peak hours (7:30 AM - 10:00 AM) and evening peak hours (5:30 PM - 8:30 PM). Monday mornings and Friday evenings typically have the heaviest congestion.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="anna-salai-traffic">
+                    <AccordionTrigger>How to avoid traffic in Anna Salai?</AccordionTrigger>
+                    <AccordionContent>
+                      <div className="text-slate-600">
+                        <p className="mb-2">To avoid Anna Salai traffic:</p>
+                        <ol className="list-decimal list-inside space-y-1">
+                          <li>Travel before 7 AM or after 10 AM for morning commutes</li>
+                          <li>Use alternative routes like Poonamallee High Road or Inner Ring Road</li>
+                          <li>Consider Chennai Metro between Alandur and Airport</li>
+                          <li>Avoid the Nandanam to Thousand Lights stretch during peak hours</li>
+                        </ol>
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="omr-traffic">
+                    <AccordionTrigger>What's the traffic like on OMR today?</AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-slate-600">
+                        OMR (Old Mahabalipuram Road) typically experiences heavy traffic from Thoraipakkam to Sholinganallur during peak hours. Current conditions vary - use live traffic apps for real-time updates. Alternative routes include ECR via Injambakkam.
+                      </p>
+                    </AccordionContent>
+                  </AccordionItem>
+
+                  <AccordionItem value="traffic-costs">
+                    <AccordionTrigger>How much does Chennai traffic cost commuters monthly?</AccordionTrigger>
+                    <AccordionContent>
+                      <p className="text-slate-600">
+                        Average Chennai commuters spend ₹3,000-8,000 monthly on transportation costs including fuel, vehicle maintenance, and parking. Traffic delays add 20-30% to fuel consumption, increasing costs by ₹600-1,500 per month.
                       </p>
                     </AccordionContent>
                   </AccordionItem>

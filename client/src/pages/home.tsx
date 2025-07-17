@@ -57,36 +57,7 @@ export default function Home() {
         title="Home"
         description="Calculate how your daily commute affects Chennai traffic and costs. Get personalized suggestions for better alternatives to save time, money, and reduce environmental impact with financial insights and monthly cost analysis."
         canonical="https://chennaitrafficcalc.in"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "What is the Chennai Traffic Impact Calculator?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "The Chennai Traffic Impact Calculator is a free web tool that helps Chennai commuters understand their traffic impact score based on their daily commute patterns and provides personalized recommendations for more sustainable alternatives."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How is the traffic impact score calculated?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "The traffic impact score (0-100) is calculated based on vehicle type, occupancy, route congestion, timing (peak vs off-peak hours), and frequency of travel. Lower scores indicate better sustainable choices."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Is the Chennai Traffic Impact Calculator free to use?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, the Chennai Traffic Impact Calculator is completely free to use. No registration or payment is required."
-              }
-            }
-          ]
-        }}
+        structuredData={homePageSchema}
       />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}

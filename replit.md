@@ -157,6 +157,21 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 17, 2025: **DUPLICATE FAQPAGE SCHEMA FIX** - Critical SEO issue resolved for Google Search Console compliance
+  - **Issue Diagnosed**: Google Search Console detected 4 duplicate FAQPage schemas across different pages
+  - **Root Cause**: Multiple pages (Home, Support, FAQ, Featured Snippets) each had separate `@type: "FAQPage"` schemas
+  - **Solution Implemented**: Consolidated all FAQ content into single comprehensive FAQPage schema on `/faq` page only
+  - **Schema Replacements**: 
+    - Home page: Changed from FAQPage to existing WebApplication schema
+    - Support page: Changed from FAQPage to WebPage with Nonprofit schema
+    - Featured snippets: Removed duplicate FAQPage schema completely
+  - **Content Consolidation**: Added all questions to /faq page content in organized sections:
+    - General Questions (What is calculator, how scores calculated, is it free)
+    - Technical Questions (accuracy, privacy, other cities, bug reporting)
+    - Chennai Traffic Questions (worst times, Anna Salai traffic, OMR traffic, costs)
+    - Donation Questions (where money goes, payment security, amounts)
+  - **Result**: Only one FAQPage schema remains (on /faq), eliminating Google Search Console errors
+  - **SEO Compliance**: Now follows Google's structured data guidelines for single comprehensive FAQ page
 - July 17, 2025: **RESULTS PAGE TRACKING AND SEO ENHANCEMENT COMPLETED** - Implemented comprehensive GA4/Clarity tracking, verified CSP compliance, and enhanced SEO optimization for methodology and results pages
   - **Enhanced Analytics Tracking**: Added detailed GA4 event tracking for results page display including impact scores, transport modes, contextual content visibility, and alternatives count
   - **Section View Tracking**: Implemented granular tracking for user engagement with different results page sections (contextual nuggets, alternatives, universal comparisons)

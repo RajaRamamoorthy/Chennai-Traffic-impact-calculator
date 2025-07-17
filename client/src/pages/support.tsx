@@ -16,33 +16,20 @@ export default function Support() {
         canonical="https://chennaitrafficcalc.in/support"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "Where does the donation money go?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Donations cover Google Maps API costs, database hosting, server infrastructure, domain renewal, and development costs to keep the tool free for all users."
-              }
-            },
-            {
-              "@type": "Question", 
-              "name": "Is my payment secure?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes, we use Razorpay, India's trusted payment gateway with PCI DSS Level 1 compliance and bank-grade encryption."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How much should I donate?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Any amount helps! ₹50 covers ~100 calculations, ₹100 supports ~200 users, ₹500 funds a week, ₹1000 keeps us running for a month."
-              }
+          "@type": "WebPage",
+          "name": "Support & Donations",
+          "description": "Support the Chennai Traffic Impact Calculator with donations. Help keep the tool free for all users.",
+          "url": "https://chennaitrafficcalc.in/support",
+          "mainEntity": {
+            "@type": "Nonprofit",
+            "name": "Chennai Traffic Impact Calculator",
+            "description": "Free web tool helping Chennai commuters make sustainable transportation choices",
+            "seeks": {
+              "@type": "Demand",
+              "name": "Financial Support",
+              "description": "Donations to cover API costs, hosting, and development"
             }
-          ]
+          }
         }}
       />
 

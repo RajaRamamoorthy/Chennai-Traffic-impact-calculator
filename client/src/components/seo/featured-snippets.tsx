@@ -3,52 +3,10 @@ import { Clock, MapPin, TrendingDown, IndianRupee } from "lucide-react";
 
 // Featured snippet optimized Q&A content for Chennai traffic
 export function ChennaiTrafficQA() {
-  const qaSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What time is traffic worst in Chennai?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Chennai traffic is worst during morning peak hours (7:30 AM - 10:00 AM) and evening peak hours (5:30 PM - 8:30 PM). Monday mornings and Friday evenings typically have the heaviest congestion."
-        }
-      },
-      {
-        "@type": "Question", 
-        "name": "How to avoid traffic in Anna Salai?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "To avoid Anna Salai traffic: 1) Travel before 7 AM or after 10 AM for morning commutes, 2) Use alternative routes like Poonamallee High Road or Inner Ring Road, 3) Consider Chennai Metro between Alandur and Airport, 4) Avoid the Nandanam to Thousand Lights stretch during peak hours."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What's the traffic like on OMR today?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "OMR (Old Mahabalipuram Road) typically experiences heavy traffic from Thoraipakkam to Sholinganallur during peak hours. Current conditions vary - use live traffic apps for real-time updates. Alternative routes include ECR via Injambakkam."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How much does Chennai traffic cost commuters monthly?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Average Chennai commuters spend ₹3,000-8,000 monthly on transportation costs including fuel, vehicle maintenance, and parking. Traffic delays add 20-30% to fuel consumption, increasing costs by ₹600-1,500 per month."
-        }
-      }
-    ]
-  };
+  // Removed duplicate FAQPage schema - now consolidated in /faq page
+  // This component provides visual content for featured snippets without duplicate structured data
 
   return (
-    <>
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(qaSchema) }}
-      />
-      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
         <Card>
           <CardHeader>
@@ -150,6 +108,5 @@ export function ChennaiTrafficQA() {
           </CardContent>
         </Card>
       </div>
-    </>
   );
 }
