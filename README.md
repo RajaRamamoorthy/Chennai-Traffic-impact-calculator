@@ -2,7 +2,7 @@
 
 A comprehensive web application that empowers Chennai commuters to make sustainable transportation choices through data-driven insights and interactive analysis.
 
-![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.6.0-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
+![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.6.1-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
 
 ## 🎯 Project Goals
 
@@ -11,7 +11,8 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - **Sustainable Transportation**: Promote adoption of eco-friendly transport alternatives through personalized recommendations
 - **Data-Driven Decisions**: Provide scientifically-backed calculations based on real vehicle emission factors and Chennai traffic patterns
 - **Community Impact**: Create a collective movement toward sustainable commuting in Chennai
-- **Context-Sensitive Messaging**: Intelligent results display that prioritizes financial impact and adapts messaging based on transport mode and efficiency level
+- **Context-Sensitive Messaging**: Intelligent results display with hybrid approach that balances impact score visibility with financial-first architecture
+- **Optimized User Experience**: Traffic impact score prominently displayed first, followed by financial results, reducing user confusion while maintaining architectural priorities
 
 ### Impact Metrics
 - Calculate personalized traffic impact scores (0-100 scale)
@@ -24,6 +25,7 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - Weather-aware traffic planning with time-of-day context analysis
 - Context-sensitive messaging system with financial-first approach and dynamic theming
 - Adaptive results display based on transport mode (metro/walking vs cars/taxis) and efficiency levels
+- Hybrid layout optimization: Traffic impact score displayed first with medium prominence, followed by financial results as primary display
 - Real-time financial insights dashboard with live data aggregation from Chennai commuter submissions
 - Comprehensive financial analytics: total monthly costs, potential savings, cost efficiency metrics, transport mode analysis
 - Advanced SEO optimization with featured snippet targeting and enhanced schema markup for Chennai traffic searches

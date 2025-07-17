@@ -5,6 +5,28 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.1] - 2025-07-17
+
+### Enhanced
+- **Results Screen Layout Optimization**: Implemented hybrid approach for improved user experience
+  - **Traffic Impact Score**: Moved to first position with medium prominence to address user expectations
+  - **Financial-First Maintained**: Monthly Transport Cost retained as primary large display following architectural decisions
+  - **Logical Information Hierarchy**: Reorganized flow as Score → Financial → Time → Environmental for better user comprehension
+  - **Screenshot Optimization**: Removed confidence badge from sharing screenshots for cleaner presentation
+  - **Context-Sensitive Preservation**: Maintained dynamic theming and messaging system throughout reorganization
+
+### User Experience
+- **Reduced User Confusion**: Users now immediately see their impact score without searching
+- **Balanced Approach**: Respects financial-first architecture while improving score visibility
+- **Consistent Theming**: All visual elements maintain context-sensitive colors and messaging
+- **Improved Flow**: Results display follows natural user expectation patterns
+
+### Technical Details
+- Updated ResultsStep component layout with proper visual hierarchy
+- Maintained all existing context-sensitive features during reorganization
+- Preserved screenshot functionality with optimized content display
+- Comprehensive testing across different transport modes and scenarios
+
 ## [1.6.0] - 2025-07-16
 
 ### Added
