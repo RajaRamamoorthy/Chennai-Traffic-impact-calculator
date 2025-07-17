@@ -328,9 +328,15 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
         </div>
 
-        {/* Cost and Score Display for Screenshot */}
+        {/* Score and Cost Display for Screenshot */}
         <div className={`p-8 text-center rounded-lg border-2 ${theme.border} ${theme.bg}`}>
           <div className="mb-6">
+            <div className="text-4xl font-bold text-slate-700 mb-2">Impact Score: {results.score}/100</div>
+            <div className={`inline-block px-4 py-2 rounded-full text-base font-medium ${getConfidenceBadge(results.confidence.level)} mb-6`}>
+              Confidence {results.confidence.level}: {results.confidence.description}
+            </div>
+          </div>
+          <div className="border-t pt-6">
             <div className={`text-8xl font-bold ${theme.primary} mb-4`}>
               {context.isZeroCost ? '₹0' : `₹${formatNumber(results.monthlyCost)}`}
             </div>
@@ -342,12 +348,6 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                 `Smart choice! You're spending significantly less than car users (₹${formatNumber(context.potentialCarCost)}/month) on the same route.` :
                 `You're spending ${context.isHighWaste ? 'too much' : 'considerable amounts'} on transport. This comes from fuel consumption, maintenance, and time lost in traffic.`
               }
-            </div>
-          </div>
-          <div className="border-t pt-4">
-            <div className="text-3xl font-bold text-slate-700 mb-2">Impact Score: {results.score}/100</div>
-            <div className={`inline-block px-4 py-2 rounded-full text-base font-medium ${getConfidenceBadge(results.confidence.level)}`}>
-              Confidence {results.confidence.level}: {results.confidence.description}
             </div>
           </div>
         </div>
@@ -367,7 +367,24 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
         </div>
 
-        {/* Monthly Cost Display - Primary Focus */}
+        {/* Traffic Impact Score - First Display */}
+        <Card className={`mb-8 ${getScoreColor(results.score)}`}>
+          <CardContent className="p-6 text-center">
+            <h3 className="font-semibold text-slate-900 mb-4 flex items-center justify-center">
+              <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+              Traffic Impact Score
+            </h3>
+            <div className="mb-4">
+              <div className="text-5xl font-bold mb-2">{results.score}/100</div>
+              <div className="text-base mb-3 text-slate-700">{getScoreLabel(results.score)}</div>
+              <Badge className={getConfidenceBadge(results.confidence.level)}>
+                Confidence {results.confidence.level}: {results.confidence.description}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Monthly Cost Display - Primary Focus (Financial-First) */}
         <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
           <CardContent className="p-8 text-center">
             <div className="mb-4">
@@ -409,39 +426,19 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </CardContent>
       </Card>
 
-      {/* Environmental Impact and Score */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {/* Environmental Impact - Supporting Metric */}
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
-              <div className={`w-2 h-2 ${theme.primary.replace('text-', 'bg-')} rounded-full mr-2`}></div>
-              Environmental Impact
-            </h3>
-            <div className={`text-center p-4 ${theme.bg} rounded-lg`}>
-              <div className={`text-3xl font-bold ${theme.primary} mb-2`}>{results.monthlyEmissions}kg</div>
-              <div className="text-sm text-slate-600">Monthly CO₂ emissions</div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Impact Score - Secondary Position */}
-        <Card className={`${getScoreColor(results.score)}`}>
-          <CardContent className="p-6">
-            <h3 className="font-semibold text-slate-900 mb-4 flex items-center">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-              Traffic Impact Score
-            </h3>
-            <div className="text-center">
-              <div className="text-4xl font-bold mb-2">{results.score}</div>
-              <div className="text-sm mb-2">{getScoreLabel(results.score)}</div>
-              <Badge className={getConfidenceBadge(results.confidence.level)}>
-                Confidence {results.confidence.level}: {results.confidence.description}
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Environmental Impact - Supporting Metric */}
+      <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
+        <CardContent className="p-6 text-center">
+          <h3 className="font-semibold text-slate-900 mb-4 flex items-center justify-center">
+            <div className={`w-2 h-2 ${theme.primary.replace('text-', 'bg-')} rounded-full mr-2`}></div>
+            Environmental Impact
+          </h3>
+          <div className="mb-4">
+            <div className={`text-4xl font-bold ${theme.primary} mb-2`}>{results.monthlyEmissions}kg</div>
+            <div className="text-base text-slate-600">Monthly CO₂ emissions</div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Impact Breakdown */}
       <div className="grid grid-cols-1 gap-6 mb-8">
