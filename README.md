@@ -2,7 +2,7 @@
 
 A comprehensive web application that empowers Chennai commuters to make sustainable transportation choices through data-driven insights and interactive analysis.
 
-![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.6.2-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
+![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.6.4-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
 
 ## 🎯 Project Goals
 
@@ -546,24 +546,29 @@ Update congestion data in `server/seed.ts` with area coordinates and multipliers
 
 ### Available Metrics
 - **Impact Calculations**: Total calculations, average scores, transport mode distribution
-- **User Engagement**: Session duration, conversion rates, feedback ratings
+- **Results Page Analytics**: Impact score ranges, contextual content engagement, alternatives interaction
+- **User Engagement**: Session duration, conversion rates, feedback ratings, section-specific interaction patterns
 - **API Usage**: Google Maps API calls, costs, cache hit rates
 - **Performance**: Response times, error rates, database query performance
+- **SEO Performance**: Dynamic meta tag effectiveness, search visibility for calculation results
 
 ### Analytics Integration
 
 #### Google Analytics 4
 - **Tracking ID**: G-8S4RJMVGST
 - **Events**: Calculator flow, navigation, feedback, donations, conversions
-- **Metrics**: Page views, user engagement, conversion tracking
-- **Implementation**: Direct script injection in index.html
+- **Enhanced Results Tracking**: Detailed analytics for results page display including impact scores, transport modes, contextual content visibility, and alternatives count
+- **Section Engagement**: Granular tracking for user interaction with different results page sections (contextual nuggets, alternatives, universal comparisons)
+- **Metrics**: Page views, user engagement, conversion tracking, score distribution analysis
+- **Implementation**: Direct script injection in index.html with comprehensive event tracking service
 
 #### Microsoft Clarity
 - **Project ID**: see16sr95r (configured via `VITE_CLARITY_PROJECT_ID`)
 - **Features**: Session recordings, heatmaps, user behavior analysis
 - **Coverage**: All pages tracked automatically including SPA route changes
+- **CSP Compliant**: All required endpoints (c.clarity.ms, z.clarity.ms, e.clarity.ms) properly configured in security policy
 - **Implementation**: Script loaded in index.html for early initialization
-- **Data**: Complements GA4 with visual behavior insights
+- **Data**: Complements GA4 with visual behavior insights and results page interaction analysis
 
 ### Admin Dashboard Access
 Use the admin API key to access analytics endpoints and monitor system health.
