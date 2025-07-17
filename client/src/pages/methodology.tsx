@@ -596,7 +596,10 @@ export default function Methodology() {
                       <div>• <strong>Home Charging:</strong> ₹5-9/kWh (Domestic rates)</div>
                     </div>
                     <p className="text-xs text-blue-600 mt-2">
-                      <strong>Sources:</strong> GoodReturns, CarDekho, TNERC Tariff Orders
+                      <strong>Sources:</strong> 
+                      <a href="https://www.goodreturns.in/fuel-price.html" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-800 ml-1">GoodReturns</a>, 
+                      <a href="https://www.cardekho.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-800 ml-1">CarDekho</a>, 
+                      <a href="https://www.tnerc.tn.gov.in/website/TariffOrders.aspx" target="_blank" rel="noopener noreferrer" className="underline hover:text-blue-800 ml-1">TNERC Tariff Orders</a>
                     </p>
                   </div>
 
@@ -610,7 +613,10 @@ export default function Methodology() {
                       <div>• <strong>EV Cars:</strong> ~100 Wh/km consumption</div>
                     </div>
                     <p className="text-xs text-green-600 mt-2">
-                      <strong>Sources:</strong> Team-BHP, ZigWheels, Manufacturer specifications
+                      <strong>Sources:</strong> 
+                      <a href="https://www.team-bhp.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-green-800 ml-1">Team-BHP</a>, 
+                      <a href="https://www.zigwheels.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-green-800 ml-1">ZigWheels</a>, 
+                      <span className="ml-1">Manufacturer specifications</span>
                     </p>
                   </div>
                 </div>
@@ -624,16 +630,16 @@ export default function Methodology() {
                   <h4 className="font-semibold text-amber-800 mb-2">Third-Party Research Verification</h4>
                   <div className="text-sm text-amber-700 space-y-2">
                     <div>
-                      <strong>CEEW Study:</strong> EV two-wheeler cost ₹1.48/km vs petrol ₹2.46/km 
+                      <strong><a href="https://www.ceew.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">CEEW Study</a>:</strong> EV two-wheeler cost ₹1.48/km vs petrol ₹2.46/km 
                       <span className="text-xs">(Council on Energy, Environment and Water)</span>
                     </div>
                     <div>
                       <strong>Real-world Data:</strong> Tata Nexon EV home charging ~₹0.42/km, real-world ₹1.5-2.9/km
-                      <span className="text-xs">(1charging.com, The Times of India)</span>
+                      <span className="text-xs">(<a href="https://1charging.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">1charging.com</a>, <a href="https://timesofindia.indiatimes.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">The Times of India</a>)</span>
                     </div>
                     <div>
                       <strong>Market Research:</strong> Petrol car costs ₹6-10/km, diesel cars ₹4-6/km with Chennai traffic and AC usage
-                      <span className="text-xs">(Wikipedia, MyPetrolPrice, Automotive publications)</span>
+                      <span className="text-xs">(<a href="https://en.wikipedia.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">Wikipedia</a>, <a href="https://www.mypetrolprice.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">MyPetrolPrice</a>, Automotive publications)</span>
                     </div>
                   </div>
                 </div>
@@ -647,19 +653,19 @@ export default function Methodology() {
                   <div className="bg-slate-50 p-3 rounded-lg">
                     <h4 className="font-semibold text-slate-700 mb-2">Official Sources</h4>
                     <ul className="text-xs text-slate-600 space-y-1">
-                      <li>• TNERC (Tamil Nadu Electricity Regulatory Commission)</li>
-                      <li>• TANGEDCO (Tamil Nadu Generation and Distribution Corporation)</li>
-                      <li>• Government fuel pricing websites</li>
-                      <li>• CEEW research studies</li>
+                      <li>• <a href="https://www.tnerc.tn.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">TNERC</a> (Tamil Nadu Electricity Regulatory Commission)</li>
+                      <li>• <a href="https://www.tangedco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">TANGEDCO</a> (Tamil Nadu Generation and Distribution Corporation)</li>
+                      <li>• <a href="https://www.goodreturns.in/fuel-price.html" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">Government fuel pricing websites</a></li>
+                      <li>• <a href="https://www.ceew.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">CEEW research studies</a></li>
                     </ul>
                   </div>
 
                   <div className="bg-slate-50 p-3 rounded-lg">
                     <h4 className="font-semibold text-slate-700 mb-2">Industry Publications</h4>
                     <ul className="text-xs text-slate-600 space-y-1">
-                      <li>• Team-BHP automotive forum</li>
-                      <li>• ZigWheels, CarDekho specifications</li>
-                      <li>• Autocar India, The Times of India</li>
+                      <li>• <a href="https://www.team-bhp.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">Team-BHP automotive forum</a></li>
+                      <li>• <a href="https://www.zigwheels.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">ZigWheels</a>, <a href="https://www.cardekho.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">CarDekho</a> specifications</li>
+                      <li>• <a href="https://www.autocarindia.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">Autocar India</a>, <a href="https://timesofindia.indiatimes.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">The Times of India</a></li>
                       <li>• Manufacturer official data</li>
                     </ul>
                   </div>
@@ -667,9 +673,9 @@ export default function Methodology() {
                   <div className="bg-slate-50 p-3 rounded-lg">
                     <h4 className="font-semibold text-slate-700 mb-2">Market Data</h4>
                     <ul className="text-xs text-slate-600 space-y-1">
-                      <li>• GoodReturns daily fuel prices</li>
-                      <li>• MyPetrolPrice regional data</li>
-                      <li>• 1charging.com EV cost analysis</li>
+                      <li>• <a href="https://www.goodreturns.in/fuel-price.html" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">GoodReturns daily fuel prices</a></li>
+                      <li>• <a href="https://www.mypetrolprice.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">MyPetrolPrice regional data</a></li>
+                      <li>• <a href="https://1charging.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">1charging.com EV cost analysis</a></li>
                       <li>• Real-user reported costs</li>
                     </ul>
                   </div>
