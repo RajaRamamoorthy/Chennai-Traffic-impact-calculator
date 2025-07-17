@@ -1,0 +1,92 @@
+error
+2 invalid items detected
+Invalid items are not eligible for Google Search's rich results. Learn more
+Details
+Crawl
+check_circle
+Crawled successfully on 18 Jul 2025, 00:03:05
+Detected items
+error
+Unnamed item
+1 critical issue
+
+Duplicate field 'FAQPage'
+type
+FAQPage
+mainEntity
+type
+Question
+name
+What is the Chennai Traffic Impact Calculator?
+acceptedAnswer
+type
+Answer
+text
+The Chennai Traffic Impact Calculator is a free web tool that helps Chennai commuters understand their traffic impact score based on their daily commute patterns and provides personalized recommendations for more sustainable alternatives.
+mainEntity
+type
+Question
+name
+How is the traffic impact score calculated?
+acceptedAnswer
+type
+Answer
+text
+The traffic impact score (0-100) is calculated based on vehicle type, occupancy, route congestion, timing (peak vs off-peak hours), and frequency of travel. Lower scores indicate better sustainable choices.
+mainEntity
+type
+Question
+name
+Is the Chennai Traffic Impact Calculator free to use?
+acceptedAnswer
+type
+Answer
+text
+Yes, the Chennai Traffic Impact Calculator is completely free to use. No registration or payment is required.
+error
+Unnamed item
+1 critical issue
+
+Duplicate field 'FAQPage'
+type
+FAQPage
+mainEntity
+type
+Question
+name
+What time is traffic worst in Chennai?
+acceptedAnswer
+type
+Answer
+text
+Chennai traffic is worst during morning peak hours (7:30 AM - 10:00 AM) and evening peak hours (5:30 PM - 8:30 PM). Monday mornings and Friday evenings typically have the heaviest congestion.
+mainEntity
+type
+Question
+name
+How to avoid traffic in Anna Salai?
+acceptedAnswer
+type
+Answer
+text
+To avoid Anna Salai traffic: 1) Travel before 7 AM or after 10 AM for morning commutes, 2) Use alternative routes like Poonamallee High Road or Inner Ring Road, 3) Consider Chennai Metro between Alandur and Airport, 4) Avoid the Nandanam to Thousand Lights stretch during peak hours.
+mainEntity
+type
+Question
+name
+What's the traffic like on OMR today?
+acceptedAnswer
+type
+Answer
+text
+OMR (Old Mahabalipuram Road) typically experiences heavy traffic from Thoraipakkam to Sholinganallur during peak hours. Current conditions vary - use live traffic apps for real-time updates. Alternative routes include ECR via Injambakkam.
+mainEntity
+type
+Question
+name
+How much does Chennai traffic cost commuters monthly?
+acceptedAnswer
+type
+Answer
+text
+Average Chennai commuters spend ₹3,000-8,000 monthly on transportation costs including fuel, vehicle maintenance, and parking. Traffic delays add 20-30% to fuel consumption, increasing costs by ₹600-1,500 per month.
