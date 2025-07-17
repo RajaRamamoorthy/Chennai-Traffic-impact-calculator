@@ -56,10 +56,10 @@ export default function Methodology() {
             Our Methodology
           </h1>
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-            Understanding the science behind our traffic impact calculations. 
-            Our methodology combines real-world data with proven algorithms to 
-            provide accurate assessments with context-sensitive messaging that 
-            prioritizes financial impact over environmental scores.
+            Understanding the transparent methodology behind our Chennai traffic cost calculations. 
+            We combine real-world Chennai data with proven financial algorithms to 
+            provide accurate cost assessments, helping you make informed transport decisions 
+            based on actual monetary impact rather than just environmental metrics.
           </p>
         </div>
       </section>
@@ -299,6 +299,138 @@ export default function Methodology() {
                     <li>• 51-75: High impact - Consider alternatives</li>
                     <li>• 76-100: Very high impact - Significant contributor to congestion</li>
                   </ul>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Financial Impact Calculations */}
+      <section className="py-16 px-4 bg-gradient-to-br from-green-50 to-emerald-100">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
+            Financial Impact Calculations
+          </h2>
+          <p className="text-lg text-slate-600 mb-12 text-center max-w-3xl mx-auto">
+            Our platform prioritizes financial impact over environmental scores, helping you understand 
+            the real monetary cost of your Chennai commute with transparent, data-driven calculations.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <Card>
+              <CardContent className="p-8">
+                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-2xl">₹</span>
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Monthly Cost Calculation
+                </h3>
+                <p className="text-slate-600 mb-4">
+                  Your monthly transport cost is calculated using real Chennai fuel prices and vehicle efficiency data:
+                </p>
+                <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm mb-4">
+                  <div>totalKm = distanceKm × 2 × monthlyTrips</div>
+                  <div className="mt-2">monthlyCost = (totalKm × fuelCostPerKm) ÷ occupancy</div>
+                </div>
+                <p className="text-slate-600 text-sm">
+                  Where <strong>fuelCostPerKm</strong> includes fuel consumption and maintenance costs 
+                  specific to Chennai conditions, and <strong>occupancy</strong> divides cost among passengers.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-8">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                  <span className="text-2xl">📊</span>
+                </div>
+                <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                  Cost Efficiency Metrics
+                </h3>
+                <p className="text-slate-600 mb-4">
+                  We calculate cost per kilometer to help you compare transport efficiency:
+                </p>
+                <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm mb-4">
+                  <div>costPerKm = monthlyCost ÷ totalMonthlyKm</div>
+                  <div className="mt-2">efficiencyRating = compareToCityAverage(costPerKm)</div>
+                </div>
+                <p className="text-slate-600 text-sm">
+                  Efficient choices cost <strong>₹3-8/km</strong>, while inefficient choices can cost 
+                  <strong>₹15-25/km</strong> in Chennai traffic conditions.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="mb-8">
+            <CardContent className="p-8">
+              <h3 className="text-2xl font-semibold text-slate-900 mb-6 text-center">
+                Alternative Cost Savings Formula
+              </h3>
+              
+              <div className="bg-slate-100 p-6 rounded-lg font-mono text-sm mb-6">
+                <div className="text-center font-bold mb-4">Complete Financial Analysis</div>
+                <div>currentMonthlyCost = calculateMonthlyCost(selectedVehicle, route, pattern)</div>
+                <div className="mt-2">alternativeCost = calculateMonthlyCost(alternativeMode, route, pattern)</div>
+                <div className="mt-2">monthlySavings = currentMonthlyCost - alternativeCost</div>
+                <div className="mt-2">annualSavings = monthlySavings × 12</div>
+                <div className="mt-4 text-center font-bold">potentialSavings = max(0, monthlySavings)</div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
+                  <h4 className="font-semibold text-green-800 mb-2">High Savings Potential</h4>
+                  <p className="text-sm text-green-700">
+                    Switching from luxury car to metro: Save <strong>₹8,000-15,000/month</strong>
+                  </p>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                  <h4 className="font-semibold text-blue-800 mb-2">Moderate Savings</h4>
+                  <p className="text-sm text-blue-700">
+                    Carpooling or off-peak travel: Save <strong>₹2,000-5,000/month</strong>
+                  </p>
+                </div>
+                <div className="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400">
+                  <h4 className="font-semibold text-yellow-800 mb-2">Optimization</h4>
+                  <p className="text-sm text-yellow-700">
+                    Route and timing changes: Save <strong>₹500-2,000/month</strong>
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-8">
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                Financial Context Messaging
+              </h3>
+              <p className="text-slate-600 mb-6">
+                Our results screen prioritizes financial impact with context-sensitive messaging based on your spending patterns:
+              </p>
+              
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                  <div>
+                    <h4 className="font-medium text-slate-900">Zero/Low Cost (Walking, Cycling)</h4>
+                    <p className="text-sm text-slate-600">"You're saving money! Car users spend ₹X/month on the same route."</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-3 h-3 bg-blue-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                  <div>
+                    <h4 className="font-medium text-slate-900">Efficient Spending (Public Transport, Shared)</h4>
+                    <p className="text-sm text-slate-600">"Smart choice! You're spending significantly less than car users."</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                  <div>
+                    <h4 className="font-medium text-slate-900">High Waste (Luxury Cars, Solo Driving)</h4>
+                    <p className="text-sm text-slate-600">"You're spending too much on transport. This comes from fuel, maintenance, and time lost in traffic."</p>
+                  </div>
                 </div>
               </div>
             </CardContent>
