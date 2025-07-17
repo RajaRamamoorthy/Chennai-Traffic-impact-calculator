@@ -51,6 +51,22 @@ export interface NavigationEventParams {
   language: string;
 }
 
+export interface ResultsDisplayEventParams {
+  impact_score: number;
+  score_range: 'excellent' | 'good' | 'moderate' | 'high';
+  monthly_cost: number;
+  transport_mode: string;
+  has_contextual_nuggets: boolean;
+  alternatives_count: number;
+}
+
+export interface SharingEventParams {
+  share_method: 'screenshot' | 'text';
+  content_type: 'results' | 'calculation';
+  impact_score: number;
+  transport_mode: string;
+}
+
 class AnalyticsService {
   private isInitialized = false;
 
@@ -218,6 +234,28 @@ class AnalyticsService {
       amount: amount,
       source: source || 'footer',
       currency: 'INR'
+    });
+  }
+
+  // Enhanced Results Page Tracking
+  trackResultsDisplay(params: ResultsDisplayEventParams) {
+    this.track('results_display', {
+      event_category: 'results',
+      impact_score: params.impact_score,
+      score_range: params.score_range,
+      monthly_cost: params.monthly_cost,
+      transport_mode: params.transport_mode,
+      has_contextual_nuggets: params.has_contextual_nuggets,
+      alternatives_count: params.alternatives_count,
+    });
+  }
+
+  trackSectionView(sectionName: string, impactScore: number, transportMode: string) {
+    this.track('section_view', {
+      event_category: 'user_behavior',
+      section_name: sectionName,
+      impact_score: impactScore,
+      transport_mode: transportMode,
     });
   }
 

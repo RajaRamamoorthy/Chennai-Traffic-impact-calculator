@@ -77,3 +77,12 @@ export interface RouteInfo {
     southwest: { lat: number; lng: number };
   };
 }
+
+export interface ResultsDisplayEventParams {
+  impact_score: number;
+  score_range: 'excellent' | 'good' | 'moderate' | 'high';
+  monthly_cost: number;
+  transport_mode: string;
+  has_contextual_nuggets: boolean;
+  alternatives_count: number;
+}

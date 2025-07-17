@@ -42,9 +42,9 @@ export default function Methodology() {
   return (
     <>
       <SEO
-        title="Methodology"
-        description="Understand the scientific methodology behind our Chennai traffic impact calculations. Learn about emission factors, congestion formulas, and scoring algorithms."
-        keywords="Chennai traffic methodology, traffic impact formula, emission calculation method, congestion scoring algorithm, transport impact science"
+        title="Chennai Traffic Impact Calculator Methodology - Scientific Algorithm & Formula"
+        description="Detailed methodology for Chennai traffic impact calculation with emission factors, congestion multipliers, and scoring algorithm. Learn the science behind our 0-100 traffic impact score."
+        keywords="Chennai traffic methodology, traffic impact formula, emission calculation method, congestion scoring algorithm, transport impact science, Chennai traffic analysis, vehicle emission factors, route congestion data, occupancy bonus calculation, timing multiplier formula"
         canonical="https://chennaitrafficcalc.in/methodology"
         structuredData={methodologySchema}
       />

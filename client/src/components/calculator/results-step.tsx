@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,8 @@ import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import html2canvas from "html2canvas";
 import { formatNumber } from "@/lib/utils";
+import { analytics } from "@/lib/analytics";
+import { SEO } from "@/components/seo";
 
 interface ResultsStepProps {
   results: CalculationResult;
@@ -19,6 +21,26 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   const [isSharing, setIsSharing] = useState(false);
   const { toast } = useToast();
   const scoreCardRef = useRef<HTMLDivElement>(null);
+
+  // Enhanced analytics tracking on component mount
+  useEffect(() => {
+    const getScoreRange = (score: number): 'excellent' | 'good' | 'moderate' | 'high' => {
+      if (score <= 30) return 'excellent';
+      if (score <= 50) return 'good';
+      if (score <= 70) return 'moderate';
+      return 'high';
+    };
+
+    // Track results display with enhanced parameters
+    analytics.trackResultsDisplay({
+      impact_score: results.score,
+      score_range: getScoreRange(results.score),
+      monthly_cost: results.monthlyCost,
+      transport_mode: results.transportMode || 'unknown',
+      has_contextual_nuggets: true, // Based on our conditional content
+      alternatives_count: results.alternatives.length,
+    });
+  }, [results]);
 
   // Calculate comparison values for universal comparisons
   const calculateComparisons = () => {
@@ -352,8 +374,31 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
     }
   };
 
+  // Dynamic SEO for results page
+  const resultsSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPageElement",
+    "name": "Chennai Traffic Impact Calculator Results",
+    "description": `Traffic impact score ${results.score}/100 with monthly cost ₹${formatNumber(results.monthlyCost)} for ${results.transportMode} commute`,
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://chennaitrafficcalc.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Calculator", "item": "https://chennaitrafficcalc.in/calculator" },
+        { "@type": "ListItem", "position": 3, "name": "Results", "item": "https://chennaitrafficcalc.in/calculator#results" }
+      ]
+    }
+  };
+
   return (
     <div className="p-8">
+      <SEO
+        title={`Traffic Impact Score ${results.score}/100 - ₹${formatNumber(results.monthlyCost)}/month - Chennai Calculator`}
+        description={`Your Chennai ${results.transportMode} commute scored ${results.score}/100 with monthly cost ₹${formatNumber(results.monthlyCost)}. ${results.alternatives.length} alternatives suggested.`}
+        keywords={`Chennai traffic impact score ${results.score}, ${results.transportMode} commute cost ₹${formatNumber(results.monthlyCost)}, Chennai transport alternatives, traffic optimization results`}
+        structuredData={resultsSchema}
+      />
+      
       {/* Hidden simplified screenshot container - only core score info */}
       <div 
         ref={scoreCardRef}
