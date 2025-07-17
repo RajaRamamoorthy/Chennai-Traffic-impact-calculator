@@ -1,0 +1,87 @@
+here’s a clearer breakdown based on recent data:
+
+🚗 Cars (Petrol)
+Typical small/mid‑size petrol car mileage: 12–17 km/l. With petrol around ₹100–101 per litre, running cost is about ₹6–8 per km 
+Wikipedia
++13
+My Petrol Price
++13
+Team-BHP.com
++13
+The Times of India
+. Higher‑end sedans might hit ₹9–10/km due to lower mileage, traffic, AC use, etc.
+
+🏍️ Two‑Wheelers (Petrol)
+Petrol scooters and bikes average 40–60 km per litre. At ₹100/litre, that’s ₹1.7–2.5 per km. A study reported ₹2.46/km for petrol two‑wheelers, which aligns with your ₹2.00–2.80 range 
+Wikipedia
++1
+Travelmath
++1
+.
+
+🛺 Auto Rickshaw (CNG-based)
+CNG autos in Chennai operate around ₹90–92/kg. With typical mileage 20–25 km/kg, fuel cost alone is ₹3.6–4.5/km. After adding maintenance, capital, licensing, fares hover around ₹12/km 
+Reddit
+. Your ₹12/km fits, though pure fuel cost is much lower.
+
+⚡ Electric Vehicles (EVs)
+
+Four‑wheelers (EVs): Running costs vary by model
+
+Tata Nexon EV home‑charge cost ~₹0.42/km 
+1charging.com
++1
+The Times of India
++1
+
+Kona, Nexon EV real‑world data show ₹1.5–2.9/km depending on efficiency and weather 
+My Petrol Price
++9
+Team-BHP.com
++9
+The Times of India
++9
+
+Premium models push above ₹2.5/km
+
+Two‑wheelers (Electric):
+A study by CEEW puts EV two‑wheeler cost at ₹1.48/km versus ₹2.46/km for petrol 
+Reddit
+calkoo.com
++11
+Wikipedia
++11
+The Economic Times
++11
+Spinny
++8
+1charging.com
++8
+The Economic Times
++8
+.
+
+For home charging of EV cars in Chennai, electricity rates run ₹5–9 per kWh . With typical efficiency (~100 Wh/km or more), that results in ~₹0.5–0.9/km. Public fast charging can be costlier, up to ₹15/kWh, raising costs to ₹1.5–3/km .
+
+✅ Summary of ranges in Chennai
+Vehicle type	Your range (₹/km)	Verified typical range (₹/km)
+Small petrol car	6.5–12.0	6–8 (up to 10)
+Two-wheeler (petrol)	2.0–2.8	1.7–2.5 (avg ~2.46)
+Auto‑rickshaw (CNG)	12.0	Fares ~12, fuel ~4
+EV car	0.8–2.8	0.4–2.9 (home/public charging)
+EV two‑wheeler	—	~1.48
+
+Bottom line
+Your estimates match well with real-world data. Some specifics:
+
+Petrol cars usually run at ~₹6–10/km
+
+Petrol two‑wheelers cluster around ₹2/km
+
+EV cars range from ₹0.5 to ₹2.9/km depending on charger and model
+
+EV two‑wheelers hold a clear cost advantage (~₹1.5/km)
+
+CNG auto‑rickshaw fare stays ~₹12/km though fuel cost is ~₹4/km
+
+If you want help calculating specific models or scenarios, just let me know.
