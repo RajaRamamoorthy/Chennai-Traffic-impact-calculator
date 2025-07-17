@@ -1,0 +1,113 @@
+Redesign the Chennai Traffic Impact Calculator results page to be shareable and impactful while respecting diverse user backgrounds. Strike a balance between emotional resonance and inclusivity.
+
+CORE PRINCIPLE: Create "aha moments" about money without making lifestyle assumptions.
+
+BALANCED SCORE-BASED MESSAGING:
+
+1. EXCELLENT SCORE (0-30):
+   - Hero: "You've mastered the Chennai commute! 🎯"
+   - Money line: "Spending only ₹{cost}/month"
+   - Context: "That's ₹{savings} less than most commuters"
+   - Share hook: "Share your commute hack"
+
+2. GOOD SCORE (31-50):
+   - Hero: "Smart commuting, but ₹{potential_savings} is hiding! 👀"
+   - Money line: "Currently spending ₹{cost}/month"
+   - Context: "Better than 60% of Chennai, but could save more"
+   - Share hook: "Compare with friends"
+
+3. MODERATE SCORE (51-70):
+   - Hero: "Your commute's secret cost: ₹{cost}/month 💸"
+   - Money line: "That's ₹{annual} per year on just getting to work"
+   - Context: "Higher than 70% of Chennai commuters"
+   - Share hook: "This surprised me..."
+
+4. HIGH SCORE (71-100):
+   - Hero: "Whoa! ₹{cost}/month on commuting? 🚨"
+   - Money line: "That's ₹{daily} every single working day"
+   - Context: "Among Chennai's costliest 20% commutes"
+   - Share hook: "Check if yours is similar"
+
+UNIVERSAL COMPARISONS (Broadly Relatable):
+
+"Your ₹{cost} monthly commute equals:"
+- 🛵 {percentage}% of a new Activa's EMI
+- 📱 {months} months of unlimited mobile data
+- 🎬 {number} movie tickets (or {ott_months} months of streaming)
+- 🍛 {meals} decent meals
+- ⚡ {units} units of electricity
+- 🏃 {gym_months} months at a local gym
+
+Mix practical (electricity) with lifestyle (movies) - something for everyone.
+
+MONEY FRAMING THAT WORKS:
+
+Instead of "burning/wasting", use active but neutral:
+- "Your commute costs ₹X" ✓
+- "You're spending ₹X on getting to work" ✓
+- "₹X goes into your daily commute" ✓
+- "That's ₹X leaving your pocket monthly" ✓ (slight emotion)
+
+TIME FRAMING WITH IMPACT:
+
+- "{hours} hours/month = {movies} movies worth of time"
+- "Annual commute time: {days} complete days"
+- Add context: "Chennai average: {avg_hours} hours"
+
+SHAREABLE MOMENTS WITHOUT DRAMA:
+
+For HIGH COSTS:
+"Just calculated my Chennai commute cost: ₹{cost}/month! 😮 
+That's more than I realized. What's yours? {link}"
+
+For EFFICIENT COMMUTES:
+"My Chennai commute costs just ₹{cost}/month ✨
+Below city average! Calculate yours: {link}"
+
+For AVERAGE:
+"Interesting - my Chennai commute: ₹{cost}/month
+Right at city average. Check yours: {link}"
+
+CONTEXTUAL NUGGETS (Factual but Impactful):
+
+Peak hour drivers:
+"💡 Peak hour adds ~40% to commute costs"
+
+Short distance car users:
+"🚲 Fun fact: 65% choose two-wheelers for <5km in Chennai"
+
+Solo commuters:
+"🚗 Solo vs Shared: ₹{solo_cost} vs ₹{shared_cost}"
+
+VISUAL EMOTION WITHOUT JUDGMENT:
+
+Use colors strategically:
+- Green: Savings, efficiency 
+- Orange: Attention, notable
+- Red: Only for highest costs
+- Blue: Information, tips
+
+Emojis that work:
+- 💸 (money flying) - universally understood
+- 🎯 (target) - achievement
+- 👀 (eyes) - discovery
+- ⏰ (clock) - time
+- 📊 (chart) - data
+
+BALANCED SHARE BUTTONS:
+
+- "Share this discovery 🔍" (neutral)
+- "Compare with friends 👥" (social)
+- "Spread the word 📢" (active)
+
+Not: "Warn everyone!" or "Brag about this!"
+
+KEY BALANCE POINTS:
+
+1. Use surprise, not shock: "Whoa!" not "SHOCKING!"
+2. Make it about discovery: "Your commute's secret cost"
+3. Use comparisons everyone understands: meals, mobile data, movies
+4. Let users interpret waste: Show cost, let them decide if it's too much
+5. Focus on information sharing: "This surprised me" vs "This is terrible"
+
+The sweet spot: Make users think "Hmm, that's more than I thought" rather than "OMG I'm doomed!" Natural sharing comes from genuine surprise, not manufactured panic.
