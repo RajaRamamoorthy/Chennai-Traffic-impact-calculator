@@ -19,7 +19,7 @@ app.use(helmet({
       scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://checkout.razorpay.com", "https://cdn.razorpay.com", "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://www.clarity.ms", "https://replit.com"],
       scriptSrcElem: ["'self'", "'unsafe-inline'", "https://checkout.razorpay.com", "https://cdn.razorpay.com", "https://www.googletagmanager.com", "https://www.google-analytics.com", "https://www.clarity.ms", "https://replit.com"],
       imgSrc: ["'self'", "data:", "https:", "blob:", "https://maps.gstatic.com"],
-      connectSrc: ["'self'", "https://www.google-analytics.com", "https://analytics.google.com", "https://c.clarity.ms", "https://z.clarity.ms", "https://e.clarity.ms", "https://api.razorpay.com", "https://maps.googleapis.com", "https://api.openweathermap.org"],
+      connectSrc: ["'self'", "https://www.google-analytics.com", "https://analytics.google.com", "https://b.clarity.ms", "https://c.clarity.ms", "https://z.clarity.ms", "https://e.clarity.ms", "https://api.razorpay.com", "https://maps.googleapis.com", "https://api.openweathermap.org"],
       frameSrc: ["'self'", "https://api.razorpay.com"],
     },
   },
