@@ -80,9 +80,9 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
     } else if (score <= 50) {
       // GOOD SCORE
       return {
-        hero: `Smart commuting, but ₹${formatNumber(potentialSavings)} is hiding! 👀`,
+        hero: "Smart commuting with room for optimization! 👀",
         moneyLine: `Currently spending ₹${formatNumber(monthlyCost)}/month`,
-        context: "Better than 60% of Chennai, but could save more",
+        context: "Better than 60% of Chennai, but could optimize further",
         shareHook: "Compare with friends",
         shareText: `Interesting - my Chennai commute: ₹${formatNumber(monthlyCost)}/month\nRight at city average. Check yours:`,
         theme: "blue"
