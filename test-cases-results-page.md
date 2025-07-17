@@ -2,6 +2,13 @@
 
 ## Test Suite: Results Page Redesign UAT
 
+### Test Update Log: v1.6.3 (2025-07-17)
+- **Content Quality Fixes**: Updated test cases to reflect corrected messaging (v1.6.3)
+- **Empty Section Fix**: Added test cases for conditional content section display
+- **Language Improvements**: Tests now validate neutral, non-judgmental language
+
+## Test Suite: Results Page Redesign UAT
+
 ### 1. Score-Based Hero Messaging Tests
 
 #### TC1.1: Low Impact Score (0-30)
@@ -60,12 +67,14 @@
 
 ### 3. Money Framing Tests
 
-#### TC3.1: Neutral Language
+#### TC3.1: Neutral Language (Updated v1.6.3)
 - **Input**: Any cost result
 - **Expected**: 
-  - "Your monthly commute costs ₹X" (not "wasting")
+  - "Your monthly commute cost" (improved from "costs this much monthly")
+  - "Your real commute cost" (improved from "secret cost")
+  - "restaurant meals" (improved from "decent meals")
   - "Could save ₹Y by switching" (not "losing")
-  - No judgmental language
+  - No judgmental or confusing language
 
 #### TC3.2: Time Display Enhancement
 - **Input**: 100 hours monthly
@@ -73,6 +82,39 @@
   - "100 hours = 50 movies worth"
   - "That's 4.2 days every month"
   - "50 days annually in traffic"
+
+### 4. Conditional Content Section Tests (Added v1.6.3)
+
+#### TC4.1: "Did you know?" Section - Auto Rides
+- **Input**: Calculate with Auto transport mode
+- **Expected**: 
+  - "Did you know?" section should NOT appear
+  - No empty content sections displayed
+  - Clean results page without placeholder headers
+
+#### TC4.2: "Did you know?" Section - Cars (Peak Hours)
+- **Input**: Calculate with Car, peak timing (timingMultiplier > 1)
+- **Expected**: 
+  - "Did you know?" section appears with peak hour insight
+  - Content: "Peak hour adds ~40% to commute costs"
+
+#### TC4.3: "Did you know?" Section - Short Car Trips
+- **Input**: Calculate with Car, distance < 5km
+- **Expected**: 
+  - "Did you know?" section appears with short distance insight
+  - Content: "Fun fact: 65% choose two-wheelers for <5km in Chennai"
+
+#### TC4.4: "Did you know?" Section - Solo Car/Taxi
+- **Input**: Calculate with Car/Taxi, occupancy = 1
+- **Expected**: 
+  - "Did you know?" section appears with sharing insight
+  - Content: "Solo vs Shared" cost comparison
+
+#### TC4.5: "Did you know?" Section - Walking/Cycling
+- **Input**: Calculate with Walking or Cycling
+- **Expected**: 
+  - "Did you know?" section should NOT appear (filtered out)
+  - No contextual nuggets for sustainable transport modes
 
 ### 4. Chennai Traffic Nuggets Tests
 

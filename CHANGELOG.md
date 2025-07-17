@@ -5,6 +5,32 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] - 2025-07-17
+
+### Fixed
+- **Content Quality Audit**: Comprehensive review and correction of awkward messaging throughout results page
+  - **"Your commute's secret cost"** → **"Your real commute cost"** (eliminated confusing "secret" reference)
+  - **"Your commute costs this much monthly"** → **"Your monthly commute cost"** (improved directness and clarity)
+  - **"decent meals"** → **"restaurant meals"** (removed subjective judgment, neutral language)
+  - **Review Scope**: Analyzed all score-based messaging (4 ranges), celebration text, cost displays, universal comparisons
+  - **Tone Preservation**: Maintained celebratory tone for efficient commuters and appropriate concern for expensive commutes
+
+- **Empty Content Section Bug**: Fixed "Did you know?" section appearing with header but no content
+  - **Problem**: Auto rides and other transport modes showed empty section when no conditions applied
+  - **Root Cause**: Missing content validation logic for peak hour, short car distance, and sharing insights
+  - **Solution**: Added conditional rendering that checks for actual content before displaying section
+  - **Impact**: Cleaner results display with no empty content sections for any transport mode
+
+### Enhanced
+- **User Experience**: Results page now has consistently clear, professional messaging without awkward phrasing
+- **UI Consistency**: All transport modes display appropriate content sections without empty placeholders
+- **Content Quality**: Systematic review ensures all user-facing text is clear and contextually appropriate
+
+### Technical Details
+- Updated score-based messaging logic in ResultsStep component
+- Implemented content validation for contextual nuggets section
+- Maintained existing celebratory/concern-based theming system
+
 ## [1.6.2] - 2025-07-17
 
 ### Enhanced
