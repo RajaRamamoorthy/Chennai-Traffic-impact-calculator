@@ -784,6 +784,14 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
       )}
 
+      {/* Sharing Information */}
+      <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <p className="text-sm text-blue-800 text-center">
+          <span className="font-medium">📱 Cross-platform sharing:</span> Your score is copied to clipboard automatically. 
+          Paste it along with the shared image on your preferred platform to share complete results.
+        </p>
+      </div>
+
       {/* Balanced Share Buttons */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Button 
