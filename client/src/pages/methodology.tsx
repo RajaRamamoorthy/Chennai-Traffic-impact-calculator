@@ -56,10 +56,10 @@ export default function Methodology() {
             Our Methodology
           </h1>
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-            Understanding the transparent methodology behind our Chennai traffic cost calculations. 
-            We combine real-world Chennai data with proven financial algorithms to 
-            provide accurate cost assessments, helping you make informed transport decisions 
-            based on actual monetary impact rather than just environmental metrics.
+            Discover how we calculate the true cost of your Chennai commute. 
+            Our methodology combines real Chennai traffic data with proven financial algorithms 
+            to give you accurate cost assessments. Make smarter transport choices based on 
+            actual money spent, not just environmental impact.
           </p>
         </div>
       </section>
