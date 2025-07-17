@@ -345,6 +345,12 @@ export default function Dashboard() {
                           <div className="flex items-center gap-2 mb-1">
                             <PiggyBank className="w-4 h-4 text-green-600" />
                             <span className="text-sm font-medium text-green-800">Total Monthly Cost</span>
+                            <div className="relative group">
+                              <div className="w-3 h-3 rounded-full bg-green-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
+                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                                Sum of all monthly transport costs from Chennai commuter submissions
+                              </div>
+                            </div>
                           </div>
                           <div className="text-lg font-bold text-green-900">
                             ₹{formatNumber(Math.round(financialData?.totalMonthlyCost || 0))}
@@ -355,6 +361,12 @@ export default function Dashboard() {
                           <div className="flex items-center gap-2 mb-1">
                             <TrendingUp className="w-4 h-4 text-blue-600" />
                             <span className="text-sm font-medium text-blue-800">Potential Savings</span>
+                            <div className="relative group">
+                              <div className="w-3 h-3 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
+                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                                Estimated savings if users adopted suggested alternatives from calculator
+                              </div>
+                            </div>
                           </div>
                           <div className="text-lg font-bold text-blue-900">
                             ₹{formatNumber(Math.round(financialData?.potentialSavings || 0))}
@@ -365,6 +377,12 @@ export default function Dashboard() {
                           <div className="flex items-center gap-2 mb-1">
                             <Car className="w-4 h-4 text-purple-600" />
                             <span className="text-sm font-medium text-purple-800">Avg Cost/km</span>
+                            <div className="relative group">
+                              <div className="w-3 h-3 rounded-full bg-purple-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
+                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                                Average cost per kilometer across all Chennai commute calculations
+                              </div>
+                            </div>
                           </div>
                           <div className="text-lg font-bold text-purple-900">
                             ₹{(Number(financialData?.costEfficiencyMetrics?.avgCostPerKm) || 0).toFixed(2)}
@@ -375,9 +393,15 @@ export default function Dashboard() {
                           <div className="flex items-center gap-2 mb-1">
                             <Calendar className="w-4 h-4 text-orange-600" />
                             <span className="text-sm font-medium text-orange-800">Top Transport Mode</span>
+                            <div className="relative group">
+                              <div className="w-3 h-3 rounded-full bg-orange-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
+                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                                Most used transport mode by Chennai commuters with highest average cost
+                              </div>
+                            </div>
                           </div>
                           <div className="text-lg font-bold text-orange-900">
-                            {financialData?.avgCostByTransportMode?.[0]?.mode || 'N/A'}
+                            {(financialData?.avgCostByTransportMode?.[0]?.mode || 'N/A').charAt(0).toUpperCase() + (financialData?.avgCostByTransportMode?.[0]?.mode || 'N/A').slice(1).toLowerCase()}
                           </div>
                           <div className="text-xs text-orange-700">
                             ₹{formatNumber(Math.round(financialData?.avgCostByTransportMode?.[0]?.avgCost || 0))} avg
