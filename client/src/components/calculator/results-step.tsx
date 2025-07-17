@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Share, RotateCcw, Clock } from "lucide-react";
+import { Share, RotateCcw, Clock, Users } from "lucide-react";
 import { CalculationResult } from "@/types/calculator";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";

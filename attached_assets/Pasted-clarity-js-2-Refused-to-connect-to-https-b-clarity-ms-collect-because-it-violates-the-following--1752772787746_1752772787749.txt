@@ -1,0 +1,143 @@
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://api.razorpay.com https://maps.googleapis.com https://api.openweathermap.org".
+
+Rr @ clarity.js:2
+clarity.js:2 Refused to connect to 'https://b.clarity.ms/collect' because it violates the following Content Security Policy directive: "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://c.clarity.ms https://z.clarity.ms https://e.clarity.ms https://maps.googleapis.com https://api.razorpay.com".
+
+Rr @ clarity.js:2
+results-step.tsx:673 Uncaught ReferenceError: Users is not defined
+    at getIcon (results-step.tsx:673:47)
+    at results-step.tsx:694:39
+    at Array.map (<anonymous>)
+    at ResultsStep (results-step.tsx:669:39)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=f8e0762e:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=f8e0762e:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=f8e0762e:15914:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=f8e0762e:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=f8e0762e:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=f8e0762e:3733:39)
+getIcon @ results-step.tsx:673
+(anonymous) @ results-step.tsx:694
+ResultsStep @ results-step.tsx:669
+renderWithHooks @ chunk-RPCDYKBN.js?v=f8e0762e:11548
+mountIndeterminateComponent @ chunk-RPCDYKBN.js?v=f8e0762e:14926
+beginWork @ chunk-RPCDYKBN.js?v=f8e0762e:15914
+callCallback2 @ chunk-RPCDYKBN.js?v=f8e0762e:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=f8e0762e:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=f8e0762e:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=f8e0762e:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=f8e0762e:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=f8e0762e:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=f8e0762e:19116
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=f8e0762e:18678
+workLoop @ chunk-RPCDYKBN.js?v=f8e0762e:197
+flushWork @ chunk-RPCDYKBN.js?v=f8e0762e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=f8e0762e:384
+results-step.tsx:673 Uncaught ReferenceError: Users is not defined
+    at getIcon (results-step.tsx:673:47)
+    at results-step.tsx:694:39
+    at Array.map (<anonymous>)
+    at ResultsStep (results-step.tsx:669:39)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=f8e0762e:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=f8e0762e:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=f8e0762e:15914:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=f8e0762e:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=f8e0762e:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=f8e0762e:3733:39)
+getIcon @ results-step.tsx:673
+(anonymous) @ results-step.tsx:694
+ResultsStep @ results-step.tsx:669
+renderWithHooks @ chunk-RPCDYKBN.js?v=f8e0762e:11548
+mountIndeterminateComponent @ chunk-RPCDYKBN.js?v=f8e0762e:14926
+beginWork @ chunk-RPCDYKBN.js?v=f8e0762e:15914
+callCallback2 @ chunk-RPCDYKBN.js?v=f8e0762e:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=f8e0762e:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=f8e0762e:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=f8e0762e:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=f8e0762e:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=f8e0762e:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=f8e0762e:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=f8e0762e:18736
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=f8e0762e:18684
+workLoop @ chunk-RPCDYKBN.js?v=f8e0762e:197
+flushWork @ chunk-RPCDYKBN.js?v=f8e0762e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=f8e0762e:384
+hook.js:608 The above error occurred in the <ResultsStep> component:
+
+    at ResultsStep (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/calculator/results-step.tsx:27:31)
+    at div
+    at _c (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/components/ui/card.tsx:20:11)
+    at div
+    at div
+    at Calculator (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/pages/calculator.tsx:36:41)
+    at Route (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f8e0762e:280:16)
+    at Switch (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f8e0762e:336:17)
+    at main
+    at div
+    at Router (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=f8e0762e:235:17)
+    at LanguageProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/src/contexts/language-context.tsx:21:36)
+    at QueryClientProvider (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=f8e0762e:2933:3)
+    at _a (https://540864b9-bf99-4760-af7a-be52960f68cb-00-r5eoeamshjex.spock.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-helmet-async.js?v=f8e0762e:624:5)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+overrideMethod @ hook.js:608
+logCapturedError @ chunk-RPCDYKBN.js?v=f8e0762e:14032
+update.callback @ chunk-RPCDYKBN.js?v=f8e0762e:14052
+callCallback @ chunk-RPCDYKBN.js?v=f8e0762e:11248
+commitUpdateQueue @ chunk-RPCDYKBN.js?v=f8e0762e:11265
+commitLayoutEffectOnFiber @ chunk-RPCDYKBN.js?v=f8e0762e:17093
+commitLayoutMountEffects_complete @ chunk-RPCDYKBN.js?v=f8e0762e:17980
+commitLayoutEffects_begin @ chunk-RPCDYKBN.js?v=f8e0762e:17969
+commitLayoutEffects @ chunk-RPCDYKBN.js?v=f8e0762e:17920
+commitRootImpl @ chunk-RPCDYKBN.js?v=f8e0762e:19353
+commitRoot @ chunk-RPCDYKBN.js?v=f8e0762e:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=f8e0762e:18760
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=f8e0762e:18718
+workLoop @ chunk-RPCDYKBN.js?v=f8e0762e:197
+flushWork @ chunk-RPCDYKBN.js?v=f8e0762e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=f8e0762e:384
+chunk-RPCDYKBN.js?v=f8e0762e:19413 Uncaught ReferenceError: Users is not defined
+    at getIcon (results-step.tsx:673:47)
+    at results-step.tsx:694:39
+    at Array.map (<anonymous>)
+    at ResultsStep (results-step.tsx:669:39)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=f8e0762e:11548:26)
+    at mountIndeterminateComponent (chunk-RPCDYKBN.js?v=f8e0762e:14926:21)
+    at beginWork (chunk-RPCDYKBN.js?v=f8e0762e:15914:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=f8e0762e:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=f8e0762e:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=f8e0762e:19137:13)
+getIcon @ results-step.tsx:673
+(anonymous) @ results-step.tsx:694
+ResultsStep @ results-step.tsx:669
+renderWithHooks @ chunk-RPCDYKBN.js?v=f8e0762e:11548
+mountIndeterminateComponent @ chunk-RPCDYKBN.js?v=f8e0762e:14926
+beginWork @ chunk-RPCDYKBN.js?v=f8e0762e:15914
+beginWork$1 @ chunk-RPCDYKBN.js?v=f8e0762e:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=f8e0762e:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=f8e0762e:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=f8e0762e:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=f8e0762e:18736
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=f8e0762e:18684
+workLoop @ chunk-RPCDYKBN.js?v=f8e0762e:197
+flushWork @ chunk-RPCDYKBN.js?v=f8e0762e:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=f8e0762e:384
