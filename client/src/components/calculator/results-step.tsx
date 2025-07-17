@@ -420,11 +420,12 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
 
         {/* NEW: Universal Comparisons Section */}
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <h3 className="text-xl font-semibold text-slate-900 mb-6">
-              Your ₹{formatNumber(results.monthlyCost)} monthly commute equals:
-            </h3>
+        {results.monthlyCost > 50 ? (
+          <Card className="mb-8">
+            <CardContent className="p-6">
+              <h3 className="text-xl font-semibold text-slate-900 mb-6">
+                Your ₹{formatNumber(results.monthlyCost)} monthly commute equals:
+              </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {comparisons.activaPercentage > 0 && (
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
@@ -491,6 +492,22 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             </div>
           </CardContent>
         </Card>
+        ) : (
+          <Card className="mb-8">
+            <CardContent className="p-6 text-center">
+              <div className="text-green-600 mb-4">
+                <span className="text-4xl">🚶‍♂️</span>
+              </div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                Excellent choice! Walking is completely free
+              </h3>
+              <div className="text-slate-700">
+                <p className="mb-2">Zero transport costs, zero emissions, maximum health benefits!</p>
+                <p className="text-sm text-slate-600">Plus you're getting free exercise worth ₹1,500/month gym membership</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Traffic Impact Score - Secondary Display */}
         <Card className={`mb-8 ${getScoreColor(results.score)}`}>
