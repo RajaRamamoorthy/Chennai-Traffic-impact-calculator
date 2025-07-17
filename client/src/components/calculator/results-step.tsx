@@ -396,9 +396,19 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       <div>
         {/* Hero Section with Score-Based Messaging */}
         <div className="text-center mb-8">
-          <h1 className={`text-4xl font-bold ${theme.primary} mb-4`}>{messaging.hero}</h1>
-          <p className={`text-2xl font-medium ${theme.primary} mb-2`}>{messaging.moneyLine}</p>
-          <p className="text-lg text-slate-600">{messaging.context}</p>
+          {results.transportMode === 'walking' || results.transportMode === 'cycling' ? (
+            <>
+              <h1 className="text-4xl font-bold text-green-700 mb-4">You're a Chennai eco-champion! 🌱</h1>
+              <p className="text-2xl font-medium text-green-700 mb-2">Zero cost, zero emissions</p>
+              <p className="text-lg text-slate-600">Your sustainable choice sets an example for others</p>
+            </>
+          ) : (
+            <>
+              <h1 className={`text-4xl font-bold ${theme.primary} mb-4`}>{messaging.hero}</h1>
+              <p className={`text-2xl font-medium ${theme.primary} mb-2`}>{messaging.moneyLine}</p>
+              <p className="text-lg text-slate-600">{messaging.context}</p>
+            </>
+          )}
         </div>
 
         {/* Primary Money Display - Large and Prominent */}
@@ -630,48 +640,50 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
       </div>
 
-        {/* Contextual Nuggets Section */}
-        <Card className="mb-8">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Did you know?</h3>
-            <div className="space-y-3">
-              {/* Peak hour insight */}
-              {results.breakdown.timingMultiplier && results.breakdown.timingMultiplier > 1 && (
-                <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
-                  <span className="text-xl">💡</span>
-                  <div>
-                    <div className="font-medium text-slate-900">Peak hour adds ~40% to commute costs</div>
-                    <div className="text-sm text-slate-600">Your current timing increases costs significantly</div>
-                  </div>
-                </div>
-              )}
-              
-              {/* Short distance car usage */}
-              {results.transportMode === 'car' && results.distanceKm && results.distanceKm < 5 && (
-                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                  <span className="text-xl">🚲</span>
-                  <div>
-                    <div className="font-medium text-slate-900">Fun fact: 65% choose two-wheelers for &lt;5km in Chennai</div>
-                    <div className="text-sm text-slate-600">Your short distance is perfect for alternatives</div>
-                  </div>
-                </div>
-              )}
-              
-              {/* Solo vs shared costs */}
-              {results.breakdown.occupancy === 1 && (results.transportMode === 'car' || results.transportMode === 'taxi') && (
-                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                  <span className="text-xl">🚗</span>
-                  <div>
-                    <div className="font-medium text-slate-900">
-                      Solo vs Shared: ₹{formatNumber(results.monthlyCost)} vs ₹{formatNumber(Math.round(results.monthlyCost / 2))}
+        {/* Contextual Nuggets Section - Not shown for walkers/cyclists */}
+        {results.transportMode !== 'walking' && results.transportMode !== 'cycling' && (
+          <Card className="mb-8">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold text-slate-900 mb-4">Did you know?</h3>
+              <div className="space-y-3">
+                {/* Peak hour insight */}
+                {results.breakdown.timingMultiplier && results.breakdown.timingMultiplier > 1 && (
+                  <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
+                    <span className="text-xl">💡</span>
+                    <div>
+                      <div className="font-medium text-slate-900">Peak hour adds ~40% to commute costs</div>
+                      <div className="text-sm text-slate-600">Your current timing increases costs significantly</div>
                     </div>
-                    <div className="text-sm text-slate-600">Sharing your ride could cut costs in half</div>
                   </div>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+                )}
+                
+                {/* Short distance car usage */}
+                {results.transportMode === 'car' && results.distanceKm && results.distanceKm < 5 && (
+                  <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                    <span className="text-xl">🚲</span>
+                    <div>
+                      <div className="font-medium text-slate-900">Fun fact: 65% choose two-wheelers for &lt;5km in Chennai</div>
+                      <div className="text-sm text-slate-600">Your short distance is perfect for alternatives</div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Solo vs shared costs */}
+                {results.breakdown.occupancy === 1 && (results.transportMode === 'car' || results.transportMode === 'taxi') && (
+                  <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                    <span className="text-xl">🚗</span>
+                    <div>
+                      <div className="font-medium text-slate-900">
+                        Solo vs Shared: ₹{formatNumber(results.monthlyCost)} vs ₹{formatNumber(Math.round(results.monthlyCost / 2))}
+                      </div>
+                      <div className="text-sm text-slate-600">Sharing your ride could cut costs in half</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Alternatives Section - Simplified */}
         {results.alternatives.length > 0 && (
