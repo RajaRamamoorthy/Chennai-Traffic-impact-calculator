@@ -750,11 +750,11 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Button 
           onClick={handleShare} 
-          className={`w-full ${theme.primary.replace('text-', 'bg-').replace('600', '600')} text-white hover:${theme.primary.replace('text-', 'bg-').replace('600', '700')}`}
+          className="w-full bg-primary text-white hover:bg-primary/90"
           disabled={isSharing}
         >
           <span className="mr-2">🔍</span>
-          {isSharing ? 'Preparing...' : messaging.shareHook}
+          <span>{isSharing ? 'Preparing...' : messaging.shareHook}</span>
         </Button>
         <Button 
           onClick={handleShare}
@@ -763,7 +763,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           disabled={isSharing}
         >
           <span className="mr-2">👥</span>
-          Compare with friends
+          <span>Compare with friends</span>
         </Button>
         <Button 
           onClick={handleShare}
@@ -772,7 +772,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           disabled={isSharing}
         >
           <span className="mr-2">📢</span>
-          Spread the word
+          <span>Spread the word</span>
         </Button>
       </div>
       
