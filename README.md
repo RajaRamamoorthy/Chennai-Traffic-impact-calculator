@@ -2,7 +2,7 @@
 
 A comprehensive web application that empowers Chennai commuters to make sustainable transportation choices through data-driven insights and interactive analysis.
 
-![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.6.1-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
+![Chennai Traffic Impact Calculator](https://img.shields.io/badge/Version-1.6.2-green) ![License](https://img.shields.io/badge/License-MIT-blue) ![Node.js](https://img.shields.io/badge/Node.js-20+-brightgreen) ![React](https://img.shields.io/badge/React-18+-blue)
 
 ## 🎯 Project Goals
 
@@ -32,6 +32,9 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - Professional data presentation with proper capitalization and Chennai-specific contextual explanations
 - Advanced SEO optimization with featured snippet targeting and enhanced schema markup for Chennai traffic searches
 - Performance optimization with resource hints, lazy loading, and Core Web Vitals improvements
+- **Enhanced Source Transparency**: Methodology page with clickable links to specific research papers, fuel calculators, and automotive cost analysis
+- **Professional Validation**: Direct access to CEEW studies, 1charging.com EV analysis, Team-BHP road trip data, and government fuel pricing tools
+- **Research Credibility**: All vehicle cost claims backed by verifiable sources with one-click access to original research publications
 
 ## 🏗️ System Architecture
 
@@ -65,6 +68,8 @@ A comprehensive web application that empowers Chennai commuters to make sustaina
 - **Performance Optimization**: DNS prefetch, preconnect, resource hints for critical third-party services
 - **Featured Snippet Optimization**: Chennai traffic Q&A content targeting Google featured snippets
 - **Internal Linking Strategy**: Contextual cross-page navigation with SEO-optimized anchor text
+- **Source Transparency**: Methodology page with clickable links to exact research papers, government data, and cost analysis tools
+- **Research Validation**: Direct access to CEEW studies, automotive forums, fuel pricing tools, and EV cost analysis for user verification
 
 ### Database Schema
 

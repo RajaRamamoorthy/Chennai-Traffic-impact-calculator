@@ -341,7 +341,7 @@ export default function FAQ() {
                     <AccordionTrigger>What data sources do you use?</AccordionTrigger>
                     <AccordionContent>
                       <p className="text-slate-600">
-                        We use Google Maps for route calculations and distance data, standardized vehicle emission factors from automotive research, Chennai-specific traffic congestion patterns, and public transport cost data. Our methodology page provides detailed information about all data sources and calculations.
+                        We use Google Maps for route calculations and distance data, standardized vehicle emission factors from automotive research, Chennai-specific traffic congestion patterns, and public transport cost data. Our methodology page provides detailed information about all data sources and calculations with <strong>clickable links to exact research sources</strong> - including CEEW studies, 1charging.com EV analysis, Team-BHP road trip data, and government fuel pricing tools for complete verification.
                       </p>
                     </AccordionContent>
                   </AccordionItem>

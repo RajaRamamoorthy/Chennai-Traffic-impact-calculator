@@ -5,6 +5,22 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.2] - 2025-07-17
+
+### Enhanced
+- **Methodology Page Source Transparency**: Converted all research sources to precise clickable hyperlinks
+  - **Specific Source URLs**: All vehicle cost data now links to exact research pages (CEEW study, 1charging.com analysis, Team-BHP data)
+  - **Enhanced Credibility**: Direct access to original research papers, fuel calculators, and automotive cost analysis
+  - **Professional Validation**: V3Cars fuel calculator, MyPetrolPrice tools, car ownership cost analysis with specific URLs
+  - **Complete Diesel Coverage**: Updated with current Chennai diesel prices (₹92.48/L) and comprehensive efficiency validation
+  - **User Verification**: One-click access to verify all vehicle cost calculations against original sources
+  - **Research Transparency**: Eliminated generic domain links in favor of exact study URLs for maximum credibility
+
+### Technical Details
+- Updated methodology page with specific research paper URLs and cost analysis tools
+- Enhanced source validation with direct links to automotive forums, government data, and research publications
+- Improved user trust through transparent access to all calculation sources
+
 ## [1.6.1] - 2025-07-17
 
 ### Enhanced

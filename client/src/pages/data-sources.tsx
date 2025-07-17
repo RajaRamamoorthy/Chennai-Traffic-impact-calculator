@@ -57,6 +57,8 @@ export default function DataSources() {
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
             Our calculations are based on reliable, up-to-date data sources 
             specific to Chennai's transportation infrastructure and traffic patterns.
+            <strong> All vehicle cost data includes clickable links to exact research sources</strong> - 
+            CEEW studies, 1charging.com analysis, Team-BHP road trip data, and fuel calculators for complete transparency.
             Results are displayed with context-sensitive messaging that adapts to 
             your transport efficiency level and prioritizes financial impact.
           </p>
