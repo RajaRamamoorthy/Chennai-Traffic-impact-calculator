@@ -157,6 +157,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 17, 2025: **METHODOLOGY PAGE SOURCE LINK ENHANCEMENT COMPLETED** - Converted all plain text research sources to precise clickable hyperlinks
+  - **Specific Source URLs**: All vehicle cost data now links to exact research pages instead of main domains
+  - **Enhanced Credibility**: CEEW study links to specific cost-of-ownership publication, 1charging.com links to exact Nexon EV analysis
+  - **Research Transparency**: Team-BHP road trip data, V3Cars fuel calculator, MyPetrolPrice calculator - all with direct links
+  - **User Verification**: Users can now verify all cost calculations with one-click access to original sources
+  - **Complete Diesel Coverage**: Updated with current Chennai diesel prices (₹92.48/L) and comprehensive efficiency data
+  - **Professional Validation**: All automotive cost claims now backed by clickable source verification
 - July 17, 2025: **HYBRID RESULTS LAYOUT OPTIMIZATION COMPLETED** - Implemented balanced approach for improved user experience while preserving architectural decisions
   - **Traffic Impact Score**: Moved to first position with medium prominence to address user expectations and reduce confusion
   - **Financial-First Maintained**: Monthly Transport Cost retained as primary large display following established financial-first architectural approach

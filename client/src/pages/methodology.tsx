@@ -630,16 +630,16 @@ export default function Methodology() {
                   <h4 className="font-semibold text-amber-800 mb-2">Third-Party Research Verification</h4>
                   <div className="text-sm text-amber-700 space-y-2">
                     <div>
-                      <strong><a href="https://www.ceew.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">CEEW Study</a>:</strong> EV two-wheeler cost ₹1.48/km vs petrol ₹2.46/km 
+                      <strong><a href="https://www.ceew.in/publications/cost-of-ownership-for-road-transport-sector-for-different-vehicle-segments-fuels-and-powertrains" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">CEEW Study</a>:</strong> EV two-wheeler cost ₹1.48/km vs petrol ₹2.46/km 
                       <span className="text-xs">(Council on Energy, Environment and Water)</span>
                     </div>
                     <div>
                       <strong>Real-world Data:</strong> Tata Nexon EV home charging ~₹0.42/km, real-world ₹1.5-2.9/km
-                      <span className="text-xs">(<a href="https://1charging.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">1charging.com</a>, <a href="https://timesofindia.indiatimes.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">The Times of India</a>)</span>
+                      <span className="text-xs">(<a href="https://1charging.com/ev-charging-cost-in-india-what-is-nexon-ev-charging-cost/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">1charging.com EV Cost Analysis</a>, <a href="https://www.team-bhp.com/news/900-km-roadtrip-tata-nexon-ev-running-cost-rs-2-km" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">Team-BHP Road Trip Data</a>)</span>
                     </div>
                     <div>
                       <strong>Market Research:</strong> Petrol car costs ₹6-10/km, diesel cars ₹4-6/km with Chennai traffic and AC usage
-                      <span className="text-xs">(<a href="https://en.wikipedia.org/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">Wikipedia</a>, <a href="https://www.mypetrolprice.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">MyPetrolPrice</a>, Automotive publications)</span>
+                      <span className="text-xs">(<a href="https://www.v3cars.com/fuel-cost-calculator" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">V3Cars Fuel Calculator</a>, <a href="https://www.mypetrolprice.com/Fuel-Price-Calculator" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">MyPetrolPrice Calculator</a>, <a href="https://www.mycarhelpline.com/index.php?option=com_easyblog&view=entry&id=496&Itemid=91" target="_blank" rel="noopener noreferrer" className="underline hover:text-amber-900">Car Ownership Cost Analysis</a>)</span>
                     </div>
                   </div>
                 </div>
@@ -656,7 +656,7 @@ export default function Methodology() {
                       <li>• <a href="https://www.tnerc.tn.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">TNERC</a> (Tamil Nadu Electricity Regulatory Commission)</li>
                       <li>• <a href="https://www.tangedco.gov.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">TANGEDCO</a> (Tamil Nadu Generation and Distribution Corporation)</li>
                       <li>• <a href="https://www.goodreturns.in/fuel-price.html" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">Government fuel pricing websites</a></li>
-                      <li>• <a href="https://www.ceew.in/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">CEEW research studies</a></li>
+                      <li>• <a href="https://www.ceew.in/publications/cost-of-ownership-for-road-transport-sector-for-different-vehicle-segments-fuels-and-powertrains" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">CEEW research studies</a></li>
                     </ul>
                   </div>
 
@@ -675,7 +675,7 @@ export default function Methodology() {
                     <ul className="text-xs text-slate-600 space-y-1">
                       <li>• <a href="https://www.goodreturns.in/fuel-price.html" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">GoodReturns daily fuel prices</a></li>
                       <li>• <a href="https://www.mypetrolprice.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">MyPetrolPrice regional data</a></li>
-                      <li>• <a href="https://1charging.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">1charging.com EV cost analysis</a></li>
+                      <li>• <a href="https://1charging.com/ev-charging-cost-in-india-what-is-nexon-ev-charging-cost/" target="_blank" rel="noopener noreferrer" className="underline hover:text-slate-800">1charging.com EV cost analysis</a></li>
                       <li>• Real-user reported costs</li>
                     </ul>
                   </div>
