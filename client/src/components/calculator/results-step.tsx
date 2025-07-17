@@ -431,7 +431,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                 {results.transportMode === 'walking' ? 'Walking is' : 'Cycling is'} completely free
               </div>
               <div className="text-lg text-slate-600 mb-4">
-                Zero transport costs • Zero emissions • Maximum health benefits
+                Save money, stay healthy, and help the environment all at once!
               </div>
               <div className="bg-white/50 rounded-lg p-4 text-sm text-slate-600">
                 You're saving ₹1,500/month compared to a gym membership while staying fit!
