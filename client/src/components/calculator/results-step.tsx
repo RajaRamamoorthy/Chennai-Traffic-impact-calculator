@@ -420,7 +420,22 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
 
         {/* NEW: Universal Comparisons Section */}
-        {results.monthlyCost > 50 ? (
+        {results.transportMode === 'walking' || results.transportMode === 'cycling' ? (
+          <Card className="mb-8">
+            <CardContent className="p-6 text-center">
+              <div className="text-green-600 mb-4">
+                <span className="text-4xl">{results.transportMode === 'walking' ? '🚶‍♂️' : '🚴‍♂️'}</span>
+              </div>
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                Excellent choice! {results.transportMode === 'walking' ? 'Walking is' : 'Cycling is'} the best option
+              </h3>
+              <div className="text-slate-700">
+                <p className="mb-2">Zero transport costs, zero emissions, maximum health benefits!</p>
+                <p className="text-sm text-slate-600">Plus you're getting free exercise worth ₹1,500/month gym membership</p>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
           <Card className="mb-8">
             <CardContent className="p-6">
               <h3 className="text-xl font-semibold text-slate-900 mb-6">
@@ -492,21 +507,6 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
             </div>
           </CardContent>
         </Card>
-        ) : (
-          <Card className="mb-8">
-            <CardContent className="p-6 text-center">
-              <div className="text-green-600 mb-4">
-                <span className="text-4xl">🚶‍♂️</span>
-              </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                Excellent choice! Walking is completely free
-              </h3>
-              <div className="text-slate-700">
-                <p className="mb-2">Zero transport costs, zero emissions, maximum health benefits!</p>
-                <p className="text-sm text-slate-600">Plus you're getting free exercise worth ₹1,500/month gym membership</p>
-              </div>
-            </CardContent>
-          </Card>
         )}
 
         {/* Traffic Impact Score - Secondary Display */}
