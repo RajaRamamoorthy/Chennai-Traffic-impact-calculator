@@ -15,17 +15,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **Screenshot Optimization**: Removed confidence badge from sharing screenshots for cleaner presentation
   - **Context-Sensitive Preservation**: Maintained dynamic theming and messaging system throughout reorganization
 
+- **Financial Insights Dashboard Enhancement**: Improved user understanding and data presentation
+  - **Context Explainer Tooltips**: Added informative tooltips for each financial metric explaining calculation methodology
+  - **Data Clarity**: Enhanced descriptions for Total Monthly Cost, Potential Savings, Cost per km, and Top Transport Mode
+  - **Proper Capitalization**: Fixed "Top Transport Mode" display to show "Car" instead of "car" for better readability
+  - **Interactive Help**: Hover-based tooltip system provides contextual explanations without cluttering the interface
+  - **Chennai-Specific Context**: Tooltips explain calculations in context of Chennai commuter data and behavior patterns
+
 ### User Experience
 - **Reduced User Confusion**: Users now immediately see their impact score without searching
 - **Balanced Approach**: Respects financial-first architecture while improving score visibility
 - **Consistent Theming**: All visual elements maintain context-sensitive colors and messaging
 - **Improved Flow**: Results display follows natural user expectation patterns
+- **Enhanced Understanding**: Financial metrics now include clear explanations of calculation methodology
+- **Professional Presentation**: Proper capitalization and formatting for all displayed values
 
 ### Technical Details
 - Updated ResultsStep component layout with proper visual hierarchy
 - Maintained all existing context-sensitive features during reorganization
 - Preserved screenshot functionality with optimized content display
 - Comprehensive testing across different transport modes and scenarios
+- Added hover-based tooltip system for financial insights with z-index optimization
+- Implemented proper text capitalization for transport mode display
 
 ## [1.6.0] - 2025-07-16
 
