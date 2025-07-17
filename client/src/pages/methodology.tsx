@@ -327,16 +327,29 @@ export default function Methodology() {
                   Monthly Cost Calculation
                 </h3>
                 <p className="text-slate-600 mb-4">
-                  Your monthly transport cost is calculated using real Chennai fuel prices and vehicle efficiency data:
+                  Your monthly transport cost is calculated using pre-determined cost per kilometer for each vehicle type:
                 </p>
                 <div className="bg-slate-100 p-4 rounded-lg font-mono text-sm mb-4">
                   <div>totalKm = distanceKm × 2 × monthlyTrips</div>
                   <div className="mt-2">monthlyCost = (totalKm × fuelCostPerKm) ÷ occupancy</div>
                 </div>
-                <p className="text-slate-600 text-sm">
-                  Where <strong>fuelCostPerKm</strong> includes fuel consumption and maintenance costs 
-                  specific to Chennai conditions, and <strong>occupancy</strong> divides cost among passengers.
+                <p className="text-slate-600 text-sm mb-4">
+                  Where <strong>fuelCostPerKm</strong> includes fuel consumption, maintenance costs, 
+                  and operational expenses specific to Chennai conditions, and <strong>occupancy</strong> divides cost among passengers.
                 </p>
+                <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+                  <h4 className="font-semibold text-blue-800 mb-2">Fuel Type Approach</h4>
+                  <p className="text-sm text-blue-700 mb-2">
+                    Instead of separately tracking petrol, diesel, and CNG, we use <strong>averaged cost per kilometer</strong> 
+                    for each vehicle category based on the most common fuel type and real Chennai market conditions:
+                  </p>
+                  <ul className="text-xs text-blue-600 space-y-1">
+                    <li>• <strong>Cars:</strong> Primarily petrol-based calculations (₹6.50-12.00/km)</li>
+                    <li>• <strong>Two-wheelers:</strong> Petrol consumption rates (₹2.00-2.80/km)</li>
+                    <li>• <strong>Auto Rickshaw:</strong> CNG-based rates (₹12.00/km)</li>
+                    <li>• <strong>Electric vehicles:</strong> Electricity costs (₹0.80-2.80/km)</li>
+                  </ul>
+                </div>
               </CardContent>
             </Card>
 
@@ -362,6 +375,113 @@ export default function Methodology() {
               </CardContent>
             </Card>
           </div>
+
+          <Card className="mb-8">
+            <CardContent className="p-8">
+              <h3 className="text-xl font-semibold text-slate-900 mb-4">
+                Detailed Fuel Cost Breakdown
+              </h3>
+              <p className="text-slate-600 mb-6">
+                Here are the exact cost per kilometer values used for each vehicle type in our Chennai calculations:
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-3">Cars (Petrol-based)</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>Hatchback (Swift, Baleno)</span>
+                      <span className="font-mono text-green-600">₹6.50/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Compact Sedan (Dzire, Amaze)</span>
+                      <span className="font-mono text-green-600">₹7.20/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Sedan (City, Verna)</span>
+                      <span className="font-mono text-yellow-600">₹8.50/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Compact SUV (Brezza, Venue)</span>
+                      <span className="font-mono text-yellow-600">₹8.80/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Mid-size SUV (Creta, Seltos)</span>
+                      <span className="font-mono text-orange-600">₹9.20/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>MUV/MPV (Ertiga, Innova)</span>
+                      <span className="font-mono text-orange-600">₹9.50/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Premium Sedan (Camry, Accord)</span>
+                      <span className="font-mono text-red-600">₹10.20/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Luxury SUV (XUV700, Fortuner)</span>
+                      <span className="font-mono text-red-600">₹12.00/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Electric Car (Nexon EV, Tiago EV)</span>
+                      <span className="font-mono text-blue-600">₹2.80/km</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-semibold text-slate-900 mb-3">Two-Wheelers & Others</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span>Commuter Bike (Splendor, HF Deluxe)</span>
+                      <span className="font-mono text-green-600">₹2.00/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Scooter 100-125cc (Activa, Jupiter)</span>
+                      <span className="font-mono text-green-600">₹2.10/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Sports Bike (Pulsar 150, FZ-S)</span>
+                      <span className="font-mono text-green-600">₹2.30/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Premium Scooter (Aerox 155)</span>
+                      <span className="font-mono text-yellow-600">₹2.40/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Mid-capacity Bike (Dominar 250)</span>
+                      <span className="font-mono text-yellow-600">₹2.60/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>High-capacity Bike (Duke 390)</span>
+                      <span className="font-mono text-orange-600">₹2.80/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Electric Two-wheeler (Ather 450X)</span>
+                      <span className="font-mono text-blue-600">₹0.80/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Auto Rickshaw (CNG)</span>
+                      <span className="font-mono text-red-600">₹12.00/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Chennai Metro</span>
+                      <span className="font-mono text-green-600">₹2.50/km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>MTC Bus</span>
+                      <span className="font-mono text-green-600">₹1.50/km</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-slate-100 p-4 rounded-lg text-sm">
+                <strong>Note:</strong> These values include fuel consumption, vehicle maintenance, 
+                insurance, and operational costs specific to Chennai traffic conditions. Electric vehicle 
+                costs include electricity charges and lower maintenance expenses.
+              </div>
+            </CardContent>
+          </Card>
 
           <Card className="mb-8">
             <CardContent className="p-8">
