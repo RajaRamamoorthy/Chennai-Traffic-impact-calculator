@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Share, RotateCcw, Lightbulb, Users, Clock, DollarSign } from "lucide-react";
+import { Share, RotateCcw, Clock } from "lucide-react";
 import { CalculationResult } from "@/types/calculator";
 import { api } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
@@ -19,91 +19,135 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
   const [isSharing, setIsSharing] = useState(false);
   const { toast } = useToast();
   const scoreCardRef = useRef<HTMLDivElement>(null);
-  const [timing, setTiming] = useState<string>('');
-  const [frequency, setFrequency] = useState<string>('');
 
-  // Dynamic messaging based on transport mode and score
-  const getMessagingContext = () => {
-    const transportMode = results.transportMode || 'car'; // Default to car if not provided
-    const score = results.score;
+  // Calculate comparison values for universal comparisons
+  const calculateComparisons = () => {
+    const monthlyCost = results.monthlyCost;
+    const annualCost = monthlyCost * 12;
+    const dailyCost = Math.round(monthlyCost / 22); // Assuming 22 working days
     
-    // Determine efficiency level
-    const isEfficient = (transportMode === 'metro' || transportMode === 'bus') && score <= 30;
-    const isZeroCost = transportMode === 'walking' || transportMode === 'cycling';
-    const isHighWaste = (transportMode === 'car' || transportMode === 'taxi') && score >= 60;
-    const isMixedEfficiency = score > 30 && score < 60;
+    // Chennai average costs (approximate)
+    const activaEmi = 3500; // Approximate EMI for Honda Activa
+    const mobileDataCost = 299; // Popular unlimited plan
+    const movieTicket = 200; // Average multiplex ticket
+    const ottMonthly = 149; // Basic streaming plan
+    const mealCost = 120; // Decent meal at local restaurant
+    const electricityUnit = 6; // Approximate cost per unit
+    const gymMonthly = 1500; // Local gym membership
     
-    // Calculate potential car cost for comparison (estimate)
-    const potentialCarCost = results.monthlyCost * 2.5; // Conservative estimate
-    const actualSavings = potentialCarCost - results.monthlyCost;
+    // Calculate actual savings compared to Chennai average
+    const chennaiAverageCommute = 2500; // Average monthly commute cost
+    const savingsVsAverage = chennaiAverageCommute - monthlyCost;
     
     return {
-      transportMode,
-      score,
-      isEfficient,
-      isZeroCost,
-      isHighWaste,
-      isMixedEfficiency,
-      potentialCarCost,
-      actualSavings: Math.max(0, actualSavings),
-      maxSavings: Math.max(...results.alternatives.map(alt => alt.costSavings))
+      monthlyCost,
+      annualCost,
+      dailyCost,
+      activaPercentage: Math.round((monthlyCost / activaEmi) * 100),
+      mobileDataMonths: Math.round(monthlyCost / mobileDataCost),
+      movieTickets: Math.round(monthlyCost / movieTicket),
+      ottMonths: Math.round(monthlyCost / ottMonthly),
+      meals: Math.round(monthlyCost / mealCost),
+      electricityUnits: Math.round(monthlyCost / electricityUnit),
+      gymMonths: Math.round(monthlyCost / gymMonthly),
+      savingsVsAverage: Math.max(0, savingsVsAverage),
+      isAboveAverage: monthlyCost > chennaiAverageCommute
     };
   };
 
-  const context = getMessagingContext();
+  const comparisons = calculateComparisons();
 
-  const getDynamicHeadline = () => {
-    if (context.isZeroCost) {
-      return `Zero transport costs! You're saving ₹${formatNumber(context.actualSavings)}/month vs driving`;
-    }
-    if (context.isEfficient) {
-      return `You're saving ₹${formatNumber(context.actualSavings)}/month with smart transport choices!`;
-    }
-    if (context.isHighWaste) {
-      return `Your commute costs ₹${formatNumber(results.monthlyCost)}/month extra`;
-    }
-    return `You could save an additional ₹${formatNumber(context.maxSavings)}/month`;
-  };
-
-  const getDynamicSubtitle = () => {
-    if (context.isZeroCost || context.isEfficient) {
-      return "Keep up the great work! You're making financially smart choices.";
-    }
-    if (context.isHighWaste) {
-      return `That's ₹${formatNumber(results.monthlyCost * 12)} wasted annually on inefficient commuting`;
-    }
-    return "Small changes could unlock significant monthly savings";
-  };
-
-  const getDynamicTheme = () => {
-    if (context.isZeroCost || context.isEfficient) {
+  // Score-based messaging as per requirements
+  const getScoreBasedMessaging = () => {
+    const score = results.score;
+    const monthlyCost = results.monthlyCost;
+    const annualCost = monthlyCost * 12;
+    const dailyCost = Math.round(monthlyCost / 22);
+    const potentialSavings = Math.max(...results.alternatives.map(alt => alt.costSavings));
+    
+    if (score <= 30) {
+      // EXCELLENT SCORE
       return {
+        hero: "You've mastered the Chennai commute! 🎯",
+        moneyLine: `Spending only ₹${formatNumber(monthlyCost)}/month`,
+        context: comparisons.savingsVsAverage > 0 
+          ? `That's ₹${formatNumber(comparisons.savingsVsAverage)} less than most commuters`
+          : "Among Chennai's most efficient commuters",
+        shareHook: "Share your commute hack",
+        shareText: `My Chennai commute costs just ₹${formatNumber(monthlyCost)}/month ✨\nBelow city average! Calculate yours:`,
+        theme: "green"
+      };
+    } else if (score <= 50) {
+      // GOOD SCORE
+      return {
+        hero: `Smart commuting, but ₹${formatNumber(potentialSavings)} is hiding! 👀`,
+        moneyLine: `Currently spending ₹${formatNumber(monthlyCost)}/month`,
+        context: "Better than 60% of Chennai, but could save more",
+        shareHook: "Compare with friends",
+        shareText: `Interesting - my Chennai commute: ₹${formatNumber(monthlyCost)}/month\nRight at city average. Check yours:`,
+        theme: "blue"
+      };
+    } else if (score <= 70) {
+      // MODERATE SCORE
+      return {
+        hero: `Your commute's secret cost: ₹${formatNumber(monthlyCost)}/month 💸`,
+        moneyLine: `That's ₹${formatNumber(annualCost)} per year on just getting to work`,
+        context: "Higher than 70% of Chennai commuters",
+        shareHook: "This surprised me...",
+        shareText: `Just calculated my Chennai commute cost: ₹${formatNumber(monthlyCost)}/month! 😮\nThat's more than I realized. What's yours?`,
+        theme: "orange"
+      };
+    } else {
+      // HIGH SCORE
+      return {
+        hero: `Whoa! ₹${formatNumber(monthlyCost)}/month on commuting? 🚨`,
+        moneyLine: `That's ₹${formatNumber(dailyCost)} every single working day`,
+        context: "Among Chennai's costliest 20% commutes",
+        shareHook: "Check if yours is similar",
+        shareText: `Just calculated my Chennai commute cost: ₹${formatNumber(monthlyCost)}/month! 😮\nThat's more than I realized. What's yours?`,
+        theme: "red"
+      };
+    }
+  };
+
+  const messaging = getScoreBasedMessaging();
+
+  // Theme configuration based on score
+  const getThemeConfig = () => {
+    const themeMap = {
+      green: {
         primary: "text-green-600",
         bg: "bg-green-50",
         border: "border-green-200",
         gradient: "from-green-50 to-emerald-50",
         borderColor: "border-green-200"
-      };
-    }
-    if (context.isHighWaste) {
-      return {
+      },
+      blue: {
+        primary: "text-blue-600",
+        bg: "bg-blue-50",
+        border: "border-blue-200",
+        gradient: "from-blue-50 to-indigo-50",
+        borderColor: "border-blue-200"
+      },
+      orange: {
+        primary: "text-orange-600",
+        bg: "bg-orange-50",
+        border: "border-orange-200",
+        gradient: "from-orange-50 to-yellow-50",
+        borderColor: "border-orange-200"
+      },
+      red: {
         primary: "text-red-600",
         bg: "bg-red-50",
         border: "border-red-200",
         gradient: "from-red-50 to-orange-50",
         borderColor: "border-red-200"
-      };
-    }
-    return {
-      primary: "text-orange-600",
-      bg: "bg-orange-50",
-      border: "border-orange-200",
-      gradient: "from-orange-50 to-yellow-50",
-      borderColor: "border-orange-200"
+      }
     };
+    return themeMap[messaging.theme as keyof typeof themeMap];
   };
 
-  const theme = getDynamicTheme();
+  const theme = getThemeConfig();
 
   const getScoreColor = (score: number) => {
     if (score <= 30) return "text-green-600 bg-green-50";
@@ -134,8 +178,8 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
     try {
       const shareUrl = 'https://chennaitrafficcalc.in?utm_source=share';
-      const shareText = `I calculated my traffic impact score: ${results.score}/100. See how your commute affects Chennai traffic!`;
-      const fullShareText = `${shareText}\n\nCalculate yours at: ${shareUrl}`;
+      const shareText = messaging.shareText;
+      const fullShareText = `${shareText} ${shareUrl}`;
 
       // Step 1: Copy text to clipboard first
       let textCopied = false;
@@ -323,9 +367,9 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </div>
 
         <div className="text-center mb-8">
-          <h2 className={`text-3xl font-bold ${theme.primary} mb-3`}>{getDynamicHeadline()}</h2>
-          <p className="text-lg text-slate-700 mb-2">{getDynamicSubtitle()}</p>
-          <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
+          <h2 className={`text-3xl font-bold ${theme.primary} mb-3`}>{messaging.hero}</h2>
+          <p className="text-lg text-slate-700">{messaging.moneyLine}</p>
+          <p className="text-sm text-slate-600 mt-2">{messaging.context}</p>
         </div>
 
         {/* Score and Cost Display for Screenshot */}
@@ -335,15 +379,13 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           </div>
           <div className="border-t pt-6">
             <div className={`text-8xl font-bold ${theme.primary} mb-4`}>
-              {context.isZeroCost ? '₹0' : `₹${formatNumber(results.monthlyCost)}`}
+              ₹{formatNumber(results.monthlyCost)}
             </div>
             <div className={`text-2xl mb-4 font-semibold ${theme.primary}`}>Monthly Transport Cost</div>
             <div className="text-base text-slate-600 mb-6 max-w-lg mx-auto leading-relaxed">
-              {context.isZeroCost ? 
-                `You're saving money by walking/cycling! Car users spend ₹${formatNumber(context.potentialCarCost)}/month on the same route.` :
-                context.isEfficient ? 
-                `Smart choice! You're spending significantly less than car users (₹${formatNumber(context.potentialCarCost)}/month) on the same route.` :
-                `You're spending ${context.isHighWaste ? 'too much' : 'considerable amounts'} on transport. This comes from fuel consumption, maintenance, and time lost in traffic.`
+              {comparisons.annualCost > 0 ? 
+                `That's ₹${formatNumber(comparisons.annualCost)} per year • ₹${formatNumber(comparisons.dailyCost)} per working day` :
+                'Your sustainable transport choice saves money!'
               }
             </div>
           </div>
@@ -352,25 +394,108 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
 
       {/* Visible responsive content */}
       <div>
-        {/* Website URL header for screenshot */}
-        <div className={`text-center mb-6 py-4 bg-gradient-to-r ${theme.gradient} border-b-2 ${theme.borderColor}`}>
-          <div className={`text-xl font-bold ${theme.primary}`}>ChennaiTrafficCalc.in</div>
-          <div className="text-sm text-slate-600">Calculate Your Chennai Commute Costs</div>
-        </div>
-
+        {/* Hero Section with Score-Based Messaging */}
         <div className="text-center mb-8">
-          <h2 className={`text-3xl font-bold ${theme.primary} mb-3`}>{getDynamicHeadline()}</h2>
-          <p className="text-lg text-slate-700 mb-2">{getDynamicSubtitle()}</p>
-          <p className="text-sm text-slate-600">Based on your commute pattern in Chennai</p>
+          <h1 className={`text-4xl font-bold ${theme.primary} mb-4`}>{messaging.hero}</h1>
+          <p className={`text-2xl font-medium ${theme.primary} mb-2`}>{messaging.moneyLine}</p>
+          <p className="text-lg text-slate-600">{messaging.context}</p>
         </div>
 
-        {/* Traffic Impact Score - First Display */}
+        {/* Primary Money Display - Large and Prominent */}
+        <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
+          <CardContent className="p-8 text-center">
+            <div className={`text-7xl font-bold ${theme.primary} mb-4`}>
+              ₹{formatNumber(results.monthlyCost)}
+            </div>
+            <div className="text-2xl font-medium text-slate-700 mb-2">
+              Your commute costs this much monthly
+            </div>
+            <div className="text-lg text-slate-600">
+              {comparisons.annualCost > 0 ? 
+                `That's ₹${formatNumber(comparisons.annualCost)} per year • ₹${formatNumber(comparisons.dailyCost)} every working day` :
+                'Your sustainable transport choice saves money!'
+              }
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* NEW: Universal Comparisons Section */}
+        <Card className="mb-8">
+          <CardContent className="p-6">
+            <h3 className="text-xl font-semibold text-slate-900 mb-6">
+              Your ₹{formatNumber(results.monthlyCost)} monthly commute equals:
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {comparisons.activaPercentage > 0 && (
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
+                  <span className="text-2xl">🛵</span>
+                  <div>
+                    <div className="font-semibold text-slate-900">{comparisons.activaPercentage}% of a new Activa's EMI</div>
+                    <div className="text-sm text-slate-600">₹{3500}/month reference</div>
+                  </div>
+                </div>
+              )}
+              
+              {comparisons.mobileDataMonths > 0 && (
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
+                  <span className="text-2xl">📱</span>
+                  <div>
+                    <div className="font-semibold text-slate-900">{comparisons.mobileDataMonths} months of unlimited mobile data</div>
+                    <div className="text-sm text-slate-600">₹299/month plans</div>
+                  </div>
+                </div>
+              )}
+              
+              {comparisons.movieTickets > 0 && (
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
+                  <span className="text-2xl">🎬</span>
+                  <div>
+                    <div className="font-semibold text-slate-900">
+                      {comparisons.movieTickets} movie tickets 
+                      {comparisons.ottMonths > 0 && ` or ${comparisons.ottMonths} months of streaming`}
+                    </div>
+                    <div className="text-sm text-slate-600">Weekend multiplex prices</div>
+                  </div>
+                </div>
+              )}
+              
+              {comparisons.meals > 0 && (
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
+                  <span className="text-2xl">🍛</span>
+                  <div>
+                    <div className="font-semibold text-slate-900">{comparisons.meals} decent meals</div>
+                    <div className="text-sm text-slate-600">At local restaurants</div>
+                  </div>
+                </div>
+              )}
+              
+              {comparisons.electricityUnits > 0 && (
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
+                  <span className="text-2xl">⚡</span>
+                  <div>
+                    <div className="font-semibold text-slate-900">{comparisons.electricityUnits} units of electricity</div>
+                    <div className="text-sm text-slate-600">Average household usage</div>
+                  </div>
+                </div>
+              )}
+              
+              {comparisons.gymMonths > 0 && (
+                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
+                  <span className="text-2xl">🏃</span>
+                  <div>
+                    <div className="font-semibold text-slate-900">{comparisons.gymMonths} month{comparisons.gymMonths > 1 ? 's' : ''} at a local gym</div>
+                    <div className="text-sm text-slate-600">Basic membership</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Traffic Impact Score - Secondary Display */}
         <Card className={`mb-8 ${getScoreColor(results.score)}`}>
           <CardContent className="p-6 text-center">
-            <h3 className="font-semibold text-slate-900 mb-4 flex items-center justify-center">
-              <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-              Traffic Impact Score
-            </h3>
+            <h3 className="font-semibold text-slate-900 mb-4">Traffic Impact Score</h3>
             <div className="mb-4">
               <div className="text-5xl font-bold mb-2">{results.score}/100</div>
               <div className="text-base mb-3 text-slate-700">{getScoreLabel(results.score)}</div>
@@ -381,47 +506,24 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
           </CardContent>
         </Card>
 
-        {/* Monthly Cost Display - Primary Focus (Financial-First) */}
-        <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
-          <CardContent className="p-8 text-center">
+        {/* Time Framing with Impact */}
+        <Card className="mb-8">
+          <CardContent className="p-6 text-center">
             <div className="mb-4">
-              <div className={`text-6xl font-bold ${theme.primary} mb-2`}>
-                {context.isZeroCost ? '₹0' : `₹${formatNumber(results.monthlyCost)}`}
-              </div>
-              <div className={`text-lg ${theme.primary} mb-2`}>
-                {context.isZeroCost ? 'Monthly Transport Cost' : 
-                 context.isEfficient ? 'Monthly Transport Cost' :
-                 'Monthly Transport Cost'}
-              </div>
-              <div className="text-sm text-slate-600 mb-4 max-w-md mx-auto">
-                {context.isZeroCost ? 
-                  `You're saving money by walking/cycling! Car users spend ₹${formatNumber(context.potentialCarCost)}/month on the same route.` :
-                  context.isEfficient ? 
-                  `Smart choice! You're spending significantly less than car users (₹${formatNumber(context.potentialCarCost)}/month) on the same route.` :
-                  `You're spending ${context.isHighWaste ? 'too much' : 'considerable amounts'} on transport. This comes from fuel consumption, maintenance, and time lost in traffic.`
-                }
+              <div className={`text-4xl font-bold ${theme.primary} mb-2`}>⏰ {results.monthlyTimeHours} hours/month</div>
+              <div className="text-lg text-slate-700 mb-2">Time spent commuting</div>
+              <div className="text-sm text-slate-600">
+                <div className="mb-2">
+                  That's {Math.round(results.monthlyTimeHours / 2)} movies worth of time monthly
+                </div>
+                <div className="font-semibold">
+                  Annual commute time: {(results.monthlyTimeHours * 12 / 24).toFixed(1)} complete days
+                </div>
+                <div className="text-xs mt-2">Chennai average: ~45 hours/month</div>
               </div>
             </div>
           </CardContent>
         </Card>
-
-      {/* Time Wasted Display - Secondary Focus */}
-      <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
-        <CardContent className="p-6 text-center">
-          <div className="mb-4">
-            <div className={`text-4xl font-bold ${theme.primary} mb-2`}>{results.monthlyTimeHours} hours/month</div>
-            <div className={`text-lg ${theme.primary} mb-2`}>
-              {context.isZeroCost || context.isEfficient ? 'Monthly Commute Time' : 'Time Wasted in Traffic'}
-            </div>
-            <div className="text-sm text-slate-600 mb-2">
-              {context.isZeroCost || context.isEfficient ? 
-                `You're making efficient use of your ${(results.monthlyTimeHours * 12 / 24).toFixed(1)} days annually for commuting` :
-                <>That's <span className={`font-bold ${theme.primary}`}>{(results.monthlyTimeHours * 12 / 24).toFixed(1)} days</span> lost annually to inefficient commuting</>
-              }
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Environmental Impact - Supporting Metric */}
       <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
@@ -506,24 +608,59 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
       </div>
 
-        {/* Alternatives Section */}
+        {/* Contextual Nuggets Section */}
+        <Card className="mb-8">
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold text-slate-900 mb-4">Did you know?</h3>
+            <div className="space-y-3">
+              {/* Peak hour insight */}
+              {results.breakdown.timingMultiplier && results.breakdown.timingMultiplier > 1 && (
+                <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
+                  <span className="text-xl">💡</span>
+                  <div>
+                    <div className="font-medium text-slate-900">Peak hour adds ~40% to commute costs</div>
+                    <div className="text-sm text-slate-600">Your current timing increases costs significantly</div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Short distance car usage */}
+              {results.transportMode === 'car' && results.distanceKm && results.distanceKm < 5 && (
+                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                  <span className="text-xl">🚲</span>
+                  <div>
+                    <div className="font-medium text-slate-900">Fun fact: 65% choose two-wheelers for &lt;5km in Chennai</div>
+                    <div className="text-sm text-slate-600">Your short distance is perfect for alternatives</div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Solo vs shared costs */}
+              {results.breakdown.occupancy === 1 && (results.transportMode === 'car' || results.transportMode === 'taxi') && (
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                  <span className="text-xl">🚗</span>
+                  <div>
+                    <div className="font-medium text-slate-900">
+                      Solo vs Shared: ₹{formatNumber(results.monthlyCost)} vs ₹{formatNumber(Math.round(results.monthlyCost / 2))}
+                    </div>
+                    <div className="text-sm text-slate-600">Sharing your ride could cut costs in half</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Alternatives Section - Simplified */}
         {results.alternatives.length > 0 && (
-          <Card className={`mb-8 ${theme.border}`}>
+          <Card className="mb-8">
             <CardContent className="p-6">
               <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                {context.isZeroCost || context.isEfficient ? (
-                  <><Clock className={`inline w-5 h-5 ${theme.primary} mr-2`} />
-                  How to optimize your current smart choices</>
-                ) : (
-                  <><DollarSign className={`inline w-5 h-5 ${theme.primary} mr-2`} />
-                  Why You're Losing Money</>
-                )}
+                Better Options Available 📊
               </h3>
               <p className="text-sm text-slate-600 mb-6">
-                {context.isZeroCost ? 
-                  "You're already at zero cost! Here are route optimizations to save time:" :
-                  context.isEfficient ? 
-                  "Great job choosing efficient transport! Here are ways to optimize further:" :
+                {results.score <= 30 ? 
+                  "You're already efficient! Here are other good options:" : 
                   `Here's how to save ₹${formatNumber(Math.max(...results.alternatives.map(alt => alt.costSavings)))}/month with better transport choices:`
                 }
               </p>
@@ -609,23 +746,44 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
       )}
 
-      {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-        <Button onClick={handleShare} disabled={isSharing} className="px-8 py-3">
-          {isSharing ? (
-            <>
-              <div className="mr-2 w-4 h-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-              Sharing...
-            </>
-          ) : (
-            <>
-              <Share className="mr-2 w-4 h-4" />
-              Share Results
-            </>
-          )}
+      {/* Balanced Share Buttons */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <Button 
+          onClick={handleShare} 
+          className={`w-full ${theme.primary.replace('text-', 'bg-').replace('600', '600')} text-white hover:${theme.primary.replace('text-', 'bg-').replace('600', '700')}`}
+          disabled={isSharing}
+        >
+          <span className="mr-2">🔍</span>
+          {isSharing ? 'Preparing...' : messaging.shareHook}
         </Button>
-        <Button variant="outline" onClick={onRestart} className="px-8 py-3">
-          <RotateCcw className="mr-2 w-4 h-4" />
+        <Button 
+          onClick={handleShare}
+          variant="outline"
+          className="w-full"
+          disabled={isSharing}
+        >
+          <span className="mr-2">👥</span>
+          Compare with friends
+        </Button>
+        <Button 
+          onClick={handleShare}
+          variant="outline"
+          className="w-full"
+          disabled={isSharing}
+        >
+          <span className="mr-2">📢</span>
+          Spread the word
+        </Button>
+      </div>
+      
+      {/* Calculate Again Button */}
+      <div className="mb-8">
+        <Button 
+          onClick={onRestart}
+          variant="outline"
+          className="w-full"
+        >
+          <RotateCcw className="mr-2 h-4 w-4" />
           Calculate Again
         </Button>
       </div>
