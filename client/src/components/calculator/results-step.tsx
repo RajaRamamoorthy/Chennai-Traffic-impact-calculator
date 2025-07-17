@@ -402,40 +402,45 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </div>
 
         {/* Primary Money Display - Large and Prominent */}
-        <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
-          <CardContent className="p-8 text-center">
-            <div className={`text-7xl font-bold ${theme.primary} mb-4`}>
-              ₹{formatNumber(results.monthlyCost)}
-            </div>
-            <div className="text-2xl font-medium text-slate-700 mb-2">
-              Your commute costs this much monthly
-            </div>
-            <div className="text-lg text-slate-600">
-              {comparisons.annualCost > 0 ? 
-                `That's ₹${formatNumber(comparisons.annualCost)} per year • ₹${formatNumber(comparisons.dailyCost)} every working day` :
-                'Your sustainable transport choice saves money!'
-              }
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* NEW: Universal Comparisons Section */}
         {results.transportMode === 'walking' || results.transportMode === 'cycling' ? (
-          <Card className="mb-8">
-            <CardContent className="p-6 text-center">
-              <div className="text-green-600 mb-4">
-                <span className="text-4xl">{results.transportMode === 'walking' ? '🚶‍♂️' : '🚴‍♂️'}</span>
+          <Card className="mb-8 bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+            <CardContent className="p-8 text-center">
+              <div className="text-6xl mb-4">{results.transportMode === 'walking' ? '🚶‍♂️' : '🚴‍♂️'}</div>
+              <div className="text-5xl font-bold text-green-700 mb-4">
+                Excellent choice!
               </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-4">
-                Excellent choice! {results.transportMode === 'walking' ? 'Walking is' : 'Cycling is'} the best option
-              </h3>
-              <div className="text-slate-700">
-                <p className="mb-2">Zero transport costs, zero emissions, maximum health benefits!</p>
-                <p className="text-sm text-slate-600">Plus you're getting free exercise worth ₹1,500/month gym membership</p>
+              <div className="text-2xl font-medium text-slate-700 mb-2">
+                {results.transportMode === 'walking' ? 'Walking is' : 'Cycling is'} completely free
+              </div>
+              <div className="text-lg text-slate-600 mb-4">
+                Zero transport costs • Zero emissions • Maximum health benefits
+              </div>
+              <div className="bg-white/50 rounded-lg p-4 text-sm text-slate-600">
+                You're saving ₹1,500/month compared to a gym membership while staying fit!
               </div>
             </CardContent>
           </Card>
         ) : (
+          <Card className={`mb-8 ${theme.border} ${theme.bg}`}>
+            <CardContent className="p-8 text-center">
+              <div className={`text-7xl font-bold ${theme.primary} mb-4`}>
+                ₹{formatNumber(results.monthlyCost)}
+              </div>
+              <div className="text-2xl font-medium text-slate-700 mb-2">
+                Your commute costs this much monthly
+              </div>
+              <div className="text-lg text-slate-600">
+                {comparisons.annualCost > 0 ? 
+                  `That's ₹${formatNumber(comparisons.annualCost)} per year • ₹${formatNumber(comparisons.dailyCost)} every working day` :
+                  'Your sustainable transport choice saves money!'
+                }
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* NEW: Universal Comparisons Section */}
+        {results.transportMode !== 'walking' && results.transportMode !== 'cycling' && (
           <Card className="mb-8">
             <CardContent className="p-6">
               <h3 className="text-xl font-semibold text-slate-900 mb-6">
