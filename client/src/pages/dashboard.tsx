@@ -348,7 +348,7 @@ export default function Dashboard() {
                             <div className="relative group">
                               <div className="w-3 h-3 rounded-full bg-green-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
                               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                                Sum of all monthly transport costs from Chennai commuter submissions
+                                Combined monthly transport expenses of all Chennai commuters using our calculator
                               </div>
                             </div>
                           </div>
@@ -364,7 +364,7 @@ export default function Dashboard() {
                             <div className="relative group">
                               <div className="w-3 h-3 rounded-full bg-blue-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
                               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                                Estimated savings if users adopted suggested alternatives from calculator
+                                Money Chennai commuters could save by adopting recommended transport alternatives
                               </div>
                             </div>
                           </div>
@@ -380,7 +380,7 @@ export default function Dashboard() {
                             <div className="relative group">
                               <div className="w-3 h-3 rounded-full bg-purple-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
                               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                                Average cost per kilometer across all Chennai commute calculations
+                                Average transport cost per kilometer calculated from all Chennai commute data
                               </div>
                             </div>
                           </div>
@@ -392,11 +392,11 @@ export default function Dashboard() {
                         <div className="p-3 bg-orange-50 rounded-lg">
                           <div className="flex items-center gap-2 mb-1">
                             <Calendar className="w-4 h-4 text-orange-600" />
-                            <span className="text-sm font-medium text-orange-800">Top Transport Mode</span>
+                            <span className="text-sm font-medium text-orange-800">Most Expensive Mode</span>
                             <div className="relative group">
                               <div className="w-3 h-3 rounded-full bg-orange-600 text-white text-xs flex items-center justify-center cursor-help">?</div>
                               <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                                Most used transport mode by Chennai commuters with highest average cost
+                                Transport mode with highest average monthly cost among Chennai calculator users
                               </div>
                             </div>
                           </div>
@@ -404,7 +404,7 @@ export default function Dashboard() {
                             {(financialData?.avgCostByTransportMode?.[0]?.mode || 'N/A').charAt(0).toUpperCase() + (financialData?.avgCostByTransportMode?.[0]?.mode || 'N/A').slice(1).toLowerCase()}
                           </div>
                           <div className="text-xs text-orange-700">
-                            ₹{formatNumber(Math.round(financialData?.avgCostByTransportMode?.[0]?.avgCost || 0))} avg
+                            ₹{formatNumber(Math.round(financialData?.avgCostByTransportMode?.[0]?.avgCost || 0))} monthly average
                           </div>
                         </div>
                       </>
