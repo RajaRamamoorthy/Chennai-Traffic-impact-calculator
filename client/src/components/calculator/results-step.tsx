@@ -636,50 +636,58 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         </Card>
       </div>
 
-        {/* Contextual Nuggets Section - Not shown for walkers/cyclists */}
-        {results.transportMode !== 'walking' && results.transportMode !== 'cycling' && (
-          <Card className="mb-8">
-            <CardContent className="p-6">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">Did you know?</h3>
-              <div className="space-y-3">
-                {/* Peak hour insight */}
-                {results.breakdown.timingMultiplier && results.breakdown.timingMultiplier > 1 && (
-                  <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
-                    <span className="text-xl">💡</span>
-                    <div>
-                      <div className="font-medium text-slate-900">Peak hour adds ~40% to commute costs</div>
-                      <div className="text-sm text-slate-600">Your current timing increases costs significantly</div>
-                    </div>
-                  </div>
-                )}
-                
-                {/* Short distance car usage */}
-                {results.transportMode === 'car' && results.distanceKm && results.distanceKm < 5 && (
-                  <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                    <span className="text-xl">🚲</span>
-                    <div>
-                      <div className="font-medium text-slate-900">Fun fact: 65% choose two-wheelers for &lt;5km in Chennai</div>
-                      <div className="text-sm text-slate-600">Your short distance is perfect for alternatives</div>
-                    </div>
-                  </div>
-                )}
-                
-                {/* Solo vs shared costs */}
-                {results.breakdown.occupancy === 1 && (results.transportMode === 'car' || results.transportMode === 'taxi') && (
-                  <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                    <span className="text-xl">🚗</span>
-                    <div>
-                      <div className="font-medium text-slate-900">
-                        Solo vs Shared: ₹{formatNumber(results.monthlyCost)} vs ₹{formatNumber(Math.round(results.monthlyCost / 2))}
+        {/* Contextual Nuggets Section - Only show if there's content */}
+        {(() => {
+          // Check if any nugget content will be displayed
+          const hasPeakHourInsight = results.breakdown.timingMultiplier && results.breakdown.timingMultiplier > 1;
+          const hasShortDistanceInsight = results.transportMode === 'car' && results.distanceKm && results.distanceKm < 5;
+          const hasSharingInsight = results.breakdown.occupancy === 1 && (results.transportMode === 'car' || results.transportMode === 'taxi');
+          const hasAnyContent = hasPeakHourInsight || hasShortDistanceInsight || hasSharingInsight;
+          
+          return results.transportMode !== 'walking' && results.transportMode !== 'cycling' && hasAnyContent && (
+            <Card className="mb-8">
+              <CardContent className="p-6">
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">Did you know?</h3>
+                <div className="space-y-3">
+                  {/* Peak hour insight */}
+                  {hasPeakHourInsight && (
+                    <div className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg">
+                      <span className="text-xl">💡</span>
+                      <div>
+                        <div className="font-medium text-slate-900">Peak hour adds ~40% to commute costs</div>
+                        <div className="text-sm text-slate-600">Your current timing increases costs significantly</div>
                       </div>
-                      <div className="text-sm text-slate-600">Sharing your ride could cut costs in half</div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                  )}
+                  
+                  {/* Short distance car usage */}
+                  {hasShortDistanceInsight && (
+                    <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                      <span className="text-xl">🚲</span>
+                      <div>
+                        <div className="font-medium text-slate-900">Fun fact: 65% choose two-wheelers for &lt;5km in Chennai</div>
+                        <div className="text-sm text-slate-600">Your short distance is perfect for alternatives</div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Solo vs shared costs */}
+                  {hasSharingInsight && (
+                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                      <span className="text-xl">🚗</span>
+                      <div>
+                        <div className="font-medium text-slate-900">
+                          Solo vs Shared: ₹{formatNumber(results.monthlyCost)} vs ₹{formatNumber(Math.round(results.monthlyCost / 2))}
+                        </div>
+                        <div className="text-sm text-slate-600">Sharing your ride could cut costs in half</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          );
+        })()}
 
         {/* Alternatives Section - Simplified */}
         {results.alternatives.length > 0 && (
