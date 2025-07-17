@@ -331,10 +331,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
         {/* Score and Cost Display for Screenshot */}
         <div className={`p-8 text-center rounded-lg border-2 ${theme.border} ${theme.bg}`}>
           <div className="mb-6">
-            <div className="text-4xl font-bold text-slate-700 mb-2">Impact Score: {results.score}/100</div>
-            <div className={`inline-block px-4 py-2 rounded-full text-base font-medium ${getConfidenceBadge(results.confidence.level)} mb-6`}>
-              Confidence {results.confidence.level}: {results.confidence.description}
-            </div>
+            <div className="text-4xl font-bold text-slate-700 mb-4">Impact Score: {results.score}/100</div>
           </div>
           <div className="border-t pt-6">
             <div className={`text-8xl font-bold ${theme.primary} mb-4`}>
