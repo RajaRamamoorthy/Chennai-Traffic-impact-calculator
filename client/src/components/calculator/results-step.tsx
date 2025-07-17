@@ -90,7 +90,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
     } else if (score <= 70) {
       // MODERATE SCORE
       return {
-        hero: `Your commute's secret cost: ₹${formatNumber(monthlyCost)}/month 💸`,
+        hero: `Your real commute cost: ₹${formatNumber(monthlyCost)}/month 💸`,
         moneyLine: `That's ₹${formatNumber(annualCost)} per year on just getting to work`,
         context: "Higher than 70% of Chennai commuters",
         shareHook: "This surprised me...",
@@ -445,7 +445,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                 ₹{formatNumber(results.monthlyCost)}
               </div>
               <div className="text-2xl font-medium text-slate-700 mb-2">
-                Your commute costs this much monthly
+                Your monthly commute cost
               </div>
               <div className="text-lg text-slate-600">
                 {comparisons.annualCost > 0 ? 
@@ -502,7 +502,7 @@ export function ResultsStep({ results, onRestart }: ResultsStepProps) {
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-lg">
                   <span className="text-2xl">🍛</span>
                   <div>
-                    <div className="font-semibold text-slate-900">{comparisons.meals} decent meals</div>
+                    <div className="font-semibold text-slate-900">{comparisons.meals} restaurant meals</div>
                     <div className="text-sm text-slate-600">At local restaurants</div>
                   </div>
                 </div>
