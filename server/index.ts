@@ -9,6 +9,15 @@ const app = express();
 // Configure trust proxy for rate limiting in hosted environments
 app.set('trust proxy', 1);
 
+// HTTPS redirect middleware (before other middleware)
+app.use((req, res, next) => {
+  // Check if request is not HTTPS in production
+  if (req.header('x-forwarded-proto') !== 'https' && process.env.NODE_ENV === 'production') {
+    return res.redirect(301, `https://${req.hostname}${req.url}`);
+  }
+  next();
+});
+
 // Security headers with Helmet
 app.use(helmet({
   contentSecurityPolicy: {
