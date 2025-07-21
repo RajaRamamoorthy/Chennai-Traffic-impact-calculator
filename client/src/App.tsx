@@ -25,7 +25,7 @@ const AboutMe = lazy(() => import("@/pages/about-me"));
 const PrivacyPolicy = lazy(() => import("@/pages/privacy-policy"));
 const TermsConditions = lazy(() => import("@/pages/terms-conditions"));
 const FAQ = lazy(() => import("@/pages/faq"));
-const AdminDashboard = lazy(() => import("@/pages/admin-dashboard").then(module => ({ default: module.default })));
+const AdminDashboard = lazy(() => import("@/pages/admin-dashboard"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 function App() {
