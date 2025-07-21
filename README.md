@@ -587,6 +587,15 @@ Use the admin API key to access analytics endpoints and monitor system health.
 
 ## Recent Changes
 
+- July 21, 2025: **SEARCH CONSOLE OPTIMIZATION AND PERFORMANCE ENHANCEMENT** - Comprehensive fixes for Google Search Console errors and mobile performance improvements
+  - **Duplicate Content Resolution**: Fixed calculator pages with query parameters being indexed by adding noindex meta tags
+  - **Dataset Schema Compliance**: Added required 'license' field to Dataset structured data for Search Console compliance
+  - **Mobile INP Performance**: Optimized Interaction to Next Paint (INP) scores through instant scrolling, lazy loading, and React.memo optimization
+  - **Dashboard SEO Enhancement**: Added substantial static content and FAQ section to improve search engine indexing and crawling
+  - **Component Performance**: Implemented React.memo for TransportationStep and RouteStep components to reduce re-renders
+  - **Lazy Loading**: Added Suspense wrapper for ResultsStep component to reduce initial bundle size
+  - **Testing Verification**: Comprehensive end-to-end testing confirmed all fixes work without breaking existing functionality
+
 - July 10, 2025: **POTENTIAL SAVINGS ANALYTICS** - Added comprehensive potential savings calculations and API endpoints
   - New `/api/stats/potential-savings` endpoint calculates what users could save if they adopted suggested alternatives
   - Homepage now displays both current impact metrics and potential savings projections

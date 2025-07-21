@@ -157,6 +157,18 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+- July 21, 2025: **SEARCH CONSOLE OPTIMIZATION AND PERFORMANCE ENHANCEMENT COMPLETED** - Comprehensive fixes for Google Search Console errors and mobile INP performance improvements
+  - **Duplicate Content Issue Fixed**: Added noindex meta tag for calculator URLs with query parameters to prevent indexing of URLs like `/calculator?origin={search_term_string}`
+  - **Missing Dataset License Fixed**: Added required 'license' field with Creative Commons license to Dataset structured data schema
+  - **Mobile INP Performance Optimized**: 
+    - Changed smooth scrolling to instant scrolling for faster interactions
+    - Implemented lazy loading for ResultsStep component to reduce initial bundle size
+    - Added React.memo optimization to TransportationStep and RouteStep components
+    - Used requestAnimationFrame for scroll operations instead of setTimeout
+  - **Dashboard Indexing Enhancement**: Added substantial static content including intro paragraphs and comprehensive FAQ section for better search engine crawling and indexing
+  - **Testing Verification**: Comprehensive testing confirmed all changes work correctly without breaking existing functionality
+  - **SEO Compliance**: All Search Console errors addressed while maintaining site performance and user experience
+
 - July 17, 2025: **DUPLICATE FAQPAGE SCHEMA FIX** - Critical SEO issue resolved for Google Search Console compliance
   - **Issue Diagnosed**: Google Search Console detected 4 duplicate FAQPage schemas across different pages
   - **Root Cause**: Multiple pages (Home, Support, FAQ, Featured Snippets) each had separate `@type: "FAQPage"` schemas

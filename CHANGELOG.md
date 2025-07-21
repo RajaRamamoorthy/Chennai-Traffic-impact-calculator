@@ -5,6 +5,32 @@ All notable changes to the Chennai Traffic Impact Calculator project will be doc
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.5] - 2025-07-21
+
+### Fixed
+- **Search Console Compliance**: Resolved all Google Search Console errors for better search engine indexing
+  - **Duplicate Content Issue**: Added noindex meta tag for calculator URLs with query parameters (e.g., `/calculator?origin={search_term_string}`)
+  - **Missing Dataset License**: Added required 'license' field with Creative Commons license to Dataset structured data schema
+  - **Dashboard Indexing**: Enhanced dashboard page with substantial static content including intro paragraphs and comprehensive FAQ section
+
+### Performance
+- **Mobile INP Optimization**: Significant improvements to Interaction to Next Paint (INP) scores for mobile users
+  - **Instant Scrolling**: Changed smooth scrolling to instant for faster user interactions
+  - **Lazy Loading**: Implemented lazy loading for ResultsStep component to reduce initial bundle size
+  - **Component Optimization**: Added React.memo to TransportationStep and RouteStep components to prevent unnecessary re-renders
+  - **Better Animation**: Used requestAnimationFrame instead of setTimeout for scroll operations
+
+### Enhanced
+- **Dashboard SEO**: Added substantial static content for better search engine crawling
+  - **Detailed Introduction**: Added comprehensive paragraphs explaining dashboard features and purpose
+  - **FAQ Section**: Added 5 relevant Q&As covering dashboard functionality, data sources, and financial insights
+  - **Better Content Structure**: Improved information hierarchy for search engines and users
+
+### Validated
+- **Comprehensive Testing**: End-to-end testing confirmed all changes work correctly without breaking existing functionality
+- **Search Console Readiness**: All identified issues addressed for improved search engine compliance
+- **Performance Verification**: Mobile performance improvements validated through testing
+
 ## [1.6.4] - 2025-07-17
 
 ### Enhanced
