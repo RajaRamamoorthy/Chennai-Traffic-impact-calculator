@@ -65,7 +65,7 @@ const getTransportModes = (t: any) => [
   }
 ];
 
-export function TransportationStep({
+function TransportationStepBase({
   selectedMode,
   onModeSelect,
   vehicleTypeId,
@@ -279,3 +279,5 @@ export function TransportationStep({
     </div>
   );
 }
+
+export const TransportationStep = React.memo(TransportationStepBase);

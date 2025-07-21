@@ -19,6 +19,7 @@ export default function DataSources() {
     },
     "datePublished": "2025-07-10",
     "keywords": "Chennai traffic data, emission database, Google Maps API, traffic authority data",
+    "license": "https://creativecommons.org/licenses/by/4.0/",
     "breadcrumb": {
       "@type": "BreadcrumbList",
       "itemListElement": [

@@ -21,7 +21,7 @@ interface RouteStepProps {
   isLoading: boolean;
 }
 
-export function RouteStep({
+function RouteStepBase({
   origin,
   onOriginChange,
   destination,
@@ -276,3 +276,5 @@ export function RouteStep({
     </Card>
   );
 }
+
+export const RouteStep = React.memo(RouteStepBase);

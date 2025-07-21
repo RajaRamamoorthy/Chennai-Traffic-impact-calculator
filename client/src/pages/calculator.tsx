@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLocation } from "wouter";
 import { StepIndicator } from "@/components/calculator/step-indicator";
 import { TransportationStep } from "@/components/calculator/transportation-step";
 import { RouteStep } from "@/components/calculator/route-step";
-import { ResultsStep } from "@/components/calculator/results-step";
 import { Card } from "@/components/ui/card";
 import { calculatorFormSchema, type CalculatorFormData } from "@/lib/validation";
 import { SEO } from "@/components/seo";
@@ -16,6 +16,9 @@ import { CalculationResult } from "@/types/calculator";
 import { useToast } from "@/hooks/use-toast";
 import { analytics } from "@/lib/analytics";
 
+// Lazy load ResultsStep for better performance
+const ResultsStep = lazy(() => import("@/components/calculator/results-step").then(module => ({ default: module.ResultsStep })));
+
 const TOTAL_STEPS = 3;
 
 export default function Calculator() {
@@ -24,6 +27,8 @@ export default function Calculator() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const cardRef = useRef<HTMLDivElement>(null);
+  const [location] = useLocation();
+  const hasQueryParams = location.includes('?');
 
   const calculatorPageSchema = {
     "@context": "https://schema.org",
@@ -80,7 +85,7 @@ export default function Calculator() {
   const scrollToTop = () => {
     if (cardRef.current) {
       cardRef.current.scrollIntoView({ 
-        behavior: 'smooth', 
+        behavior: 'instant', 
         block: 'start' 
       });
     }
@@ -89,8 +94,10 @@ export default function Calculator() {
   const nextStep = () => {
     if (currentStep < TOTAL_STEPS) {
       setCurrentStep(currentStep + 1);
-      // Scroll to top of card after state update
-      setTimeout(scrollToTop, 100);
+      // Use requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
+        scrollToTop();
+      });
     }
   };
 
@@ -155,8 +162,10 @@ export default function Calculator() {
     setResults(null);
     reset();
     
-    // Scroll to top after restart
-    setTimeout(scrollToTop, 100);
+    // Use requestAnimationFrame for better performance
+    requestAnimationFrame(() => {
+      scrollToTop();
+    });
     
     toast({
       title: "Calculator reset",
@@ -175,6 +184,7 @@ export default function Calculator() {
         keywords="Chennai traffic calculator, Chennai traffic live, Chennai congestion score, Chennai jam tracker, Chennai route planner, Chennai commute calculator, Chennai traffic analysis, Kathipara flyover traffic, OMR traffic status, Chennai delay calculator"
         canonical="https://chennaitrafficcalc.in/calculator"
         structuredData={calculatorPageSchema}
+        noindex={hasQueryParams}
       />
       <div className="min-h-screen bg-slate-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
@@ -214,10 +224,17 @@ export default function Calculator() {
           )}
 
           {currentStep === 3 && results && (
-            <ResultsStep 
-              results={results}
-              onRestart={handleRestart}
-            />
+            <Suspense fallback={
+              <div className="p-8 text-center">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                <p className="mt-4 text-gray-600">Loading results...</p>
+              </div>
+            }>
+              <ResultsStep 
+                results={results}
+                onRestart={handleRestart}
+              />
+            </Suspense>
           )}
         </Card>
 
