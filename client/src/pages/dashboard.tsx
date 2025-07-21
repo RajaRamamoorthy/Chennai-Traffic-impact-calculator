@@ -68,43 +68,6 @@ export default function Dashboard() {
   const [refreshTime, setRefreshTime] = useState<Date>(new Date());
   const [trafficMode, setTrafficMode] = useState<'calculator' | 'holistic'>('calculator');
 
-  const dashboardSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Chennai Traffic Dashboard - Real-Time Traffic & Financial Insights",
-    "description": "Live Chennai traffic dashboard with real-time congestion data, commute financial insights, weather impact analysis, and traffic chokepoint monitoring for optimal route planning.",
-    "url": "https://chennaitrafficcalc.in/dashboard",
-    "mainEntity": {
-      "@type": "Dataset",
-      "name": "Chennai Traffic Real-Time Data",
-      "description": "Live traffic congestion data, commute costs, and weather impacts for Chennai roads including OMR, GST Road, Anna Salai, and major flyovers.",
-      "spatialCoverage": {
-        "@type": "Place",
-        "name": "Chennai, Tamil Nadu, India"
-      },
-      "temporalCoverage": "2024/..",
-      "keywords": ["Chennai traffic", "real-time traffic data", "commute costs", "weather impact", "traffic congestion"],
-      "license": "https://chennaitrafficcalc.in/terms-conditions"
-    },
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://chennaitrafficcalc.in"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Dashboard",
-          "item": "https://chennaitrafficcalc.in/dashboard"
-        }
-      ]
-    }
-  };
-
   // Fetch commute insights from existing database
   const { data: commuteData, isLoading: commuteLoading } = useQuery<CommuteInsights>({
     queryKey: ['/api/dashboard/commute-insights'],
@@ -162,6 +125,67 @@ export default function Dashboard() {
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
+
+  const dashboardSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Chennai Live Traffic Dashboard - Real-Time Road Conditions | Traffic Impact Calculator",
+    "description": "Intelligent Chennai traffic monitoring dashboard with weather impact analysis, real-time road conditions, contextual commute recommendations, financial insights, and smart weather-traffic integration. Advanced analytics for Chennai commuters with cost savings.",
+    "keywords": "Chennai traffic weather impact, intelligent weather traffic analysis, Chennai weather commute impact, weather-aware traffic planning, Chennai traffic dashboard, live traffic Chennai weather, Chennai weather traffic delays, contextual traffic recommendations, Chennai traffic monitoring weather, weather traffic intelligence, Chennai weather-based traffic advice, real-time weather traffic analysis, Chennai financial insights, Chennai commute cost, Chennai transport cost analysis, Chennai cost savings, Chennai monthly commute cost, Chennai financial dashboard, Chennai commute budget optimization",
+    "about": {
+      "@type": "Thing",
+      "name": "Chennai Traffic Monitoring System",
+      "description": "Intelligent weather-aware traffic monitoring system for Chennai providing live updates on road conditions, weather impact analysis, contextual commute recommendations, and smart traffic insights across major routes including Anna Salai, OMR, GST Road, and key junctions."
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://chennaitrafficcalc.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Chennai Traffic Dashboard",
+          "item": "https://chennaitrafficcalc.in/dashboard"
+        }
+      ]
+    },
+    "mainEntity": {
+      "@type": "SoftwareApplication",
+      "name": "Chennai Traffic Dashboard",
+      "description": "Intelligent Chennai traffic monitoring dashboard with weather impact analysis, real-time road conditions, contextual recommendations, and smart weather-traffic integration",
+      "applicationCategory": "Traffic Monitoring Application",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "INR"
+      },
+      "featureList": [
+        "Intelligent weather impact analysis",
+        "Real-time Chennai traffic monitoring",
+        "Contextual commute recommendations",
+        "Weather-aware traffic planning",
+        "Live road condition updates",
+        "Traffic chokepoint analysis",
+        "Commute pattern insights", 
+        "Chennai weather integration",
+        "Dual-mode traffic analysis",
+        "Major road segment monitoring",
+        "Junction traffic analysis",
+        "Smart weather-traffic insights",
+        "Monthly commute cost analysis",
+        "Financial insights and cost savings",
+        "Transport cost per kilometer calculation",
+        "Money-saving route alternatives",
+        "Real-time financial dashboard",
+        "Chennai commute budget optimization"
+      ]
+    },
     "geo": {
       "@type": "Place",
       "name": "Chennai",

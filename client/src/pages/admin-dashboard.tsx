@@ -76,7 +76,7 @@ interface DailyTrend {
   avgScore: number;
 }
 
-export default function AdminDashboard() {
+export function AdminDashboard() {
   const [adminKey, setAdminKey] = useState(localStorage.getItem('admin-key') || '');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 

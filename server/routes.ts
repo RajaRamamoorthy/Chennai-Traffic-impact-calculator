@@ -1115,35 +1115,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Robots.txt endpoint
-  app.get("/robots.txt", (req, res) => {
-    const robotsTxt = `# Robots.txt for Chennai Traffic Impact Calculator
-# Allow all crawlers
-
-User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /admin/
-
-# Sitemap location
-Sitemap: https://chennaitrafficcalc.in/sitemap.xml
-
-# Crawl-delay for respectful crawling
-Crawl-delay: 1
-
-# Specific rules for major search engines
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 0
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 0`;
-
-    res.header("Content-Type", "text/plain");
-    res.send(robotsTxt);
-  });
-
   // Sitemap generation endpoint
   app.get("/sitemap.xml", (req, res) => {
     const baseUrl = "https://chennaitrafficcalc.in";

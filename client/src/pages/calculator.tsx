@@ -8,7 +8,6 @@ import { ResultsStep } from "@/components/calculator/results-step";
 import { Card } from "@/components/ui/card";
 import { calculatorFormSchema, type CalculatorFormData } from "@/lib/validation";
 import { SEO } from "@/components/seo";
-import { DynamicCanonical } from "@/components/seo/dynamic-canonical";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { InternalLinks } from "@/components/layout/internal-links";
 
@@ -177,7 +176,6 @@ export default function Calculator() {
         canonical="https://chennaitrafficcalc.in/calculator"
         structuredData={calculatorPageSchema}
       />
-      <DynamicCanonical canonicalUrl="https://chennaitrafficcalc.in/calculator" />
       <div className="min-h-screen bg-slate-50 py-8">
       <div className="max-w-4xl mx-auto px-4">
         <Breadcrumb 
