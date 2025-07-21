@@ -348,7 +348,7 @@ export default function Dashboard() {
                   <h3 className="text-lg font-medium text-gray-900">Roads to Avoid</h3>
                   {trafficLoading ? (
                     Array.from({ length: 3 }).map((_, i) => (
-                      <Skeleton key={i} className="h-12 w-full" />
+                      <Skeleton key={i} className="h-6 w-full" />
                     ))
                   ) : (
                     trafficData?.worstRoads?.map((road, index) => (
