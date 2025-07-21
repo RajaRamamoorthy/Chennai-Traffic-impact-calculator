@@ -221,6 +221,10 @@ export default function Dashboard() {
                 <p className="mt-2 text-gray-600">
                   Real-time Chennai traffic monitoring with live road conditions, traffic jams on Anna Salai, OMR, GST Road, and key junctions like Kathipara. Get instant traffic updates and weather for better commute planning.
                 </p>
+                <div className="mt-4 prose prose-sm text-gray-600 max-w-none">
+                  <p>The Chennai Traffic Dashboard provides comprehensive insights into the city's traffic patterns, helping commuters make informed decisions about their daily travel. This dashboard combines real-time traffic data from Google Maps with weather information to offer predictive insights about road conditions.</p>
+                  <p>Key features include monitoring of major Chennai roads like Anna Salai, OMR IT Corridor, GST Road, and critical junctions including Kathipara Flyover, Guindy, and T. Nagar. The dashboard also provides financial insights showing average commute costs across different transport modes and potential savings through alternative routes.</p>
+                </div>
               </div>
               <button
                 onClick={handleRefresh}
@@ -567,6 +571,37 @@ export default function Dashboard() {
               {/* Weather Impact on Traffic Overlay */}
               <div className="mt-6">
                 <WeatherImpactOverlay />
+              </div>
+            </div>
+          </div>
+
+          {/* Static FAQ Section for Better SEO */}
+          <div className="mt-12 bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Chennai Traffic Dashboard FAQs</h2>
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">What is the Chennai Traffic Dashboard?</h3>
+                <p className="text-gray-600">The Chennai Traffic Dashboard is a real-time monitoring system that provides live traffic updates across major roads in Chennai including Anna Salai, OMR, GST Road, and key junctions. It combines traffic data with weather information to help commuters make informed travel decisions and save time and money on their daily commute.</p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">How often is the traffic data updated?</h3>
+                <p className="text-gray-600">Traffic data is automatically refreshed every 5 minutes using Google Maps API to ensure you have the most current information about road conditions. Weather data is updated every 30 minutes from OpenWeatherMap. You can also manually refresh the data using the refresh button at the top of the dashboard.</p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">What roads does the dashboard monitor?</h3>
+                <p className="text-gray-600">The dashboard monitors major Chennai arterial roads including Anna Salai (Mount Road), Old Mahabalipuram Road (OMR), Grand Southern Trunk Road (GST Road), East Coast Road (ECR), and critical junctions like Kathipara Flyover, Guindy, T. Nagar, and Tambaram. Both calculator-specific routes and city-wide traffic patterns are tracked.</p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">How are financial insights calculated?</h3>
+                <p className="text-gray-600">Financial insights are derived from actual calculator submissions by Chennai commuters. The dashboard aggregates data on monthly commute costs across different transport modes (car, bike, bus, metro, auto), calculates average cost per kilometer, and identifies potential savings through alternative routes or transport options.</p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">What is the weather impact analysis?</h3>
+                <p className="text-gray-600">Weather impact analysis correlates current Chennai weather conditions with typical traffic patterns. During monsoon rains, fog, or extreme heat, the dashboard provides contextual recommendations for safer commute timing and route selection based on visibility, road conditions, and historical traffic data during similar weather events.</p>
               </div>
             </div>
           </div>
